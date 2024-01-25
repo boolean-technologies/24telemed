@@ -5,7 +5,7 @@
   "scripts": {
     "start:doctor": "nx serve doctor-app",
     "start:personnel": "nx serve personnel-app",
-    "start:personnel-mobile": "nx serve personnel-mobile"
+    "start:personnel-mobile": "nx start personnel-mobile"
   },
   "private": true,
   "dependencies": {
