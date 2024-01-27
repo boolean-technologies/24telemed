@@ -5,12 +5,13 @@
   "scripts": {
     "start:doctor": "nx serve doctor-app",
     "start:personnel": "nx serve personnel-app",
-    "start:personnel-mobile": "nx start personnel-mobile"
+    "start:mobile": "nx start personnel-mobile"
   },
   "private": true,
   "dependencies": {
     "@expo/metro-config": "~0.10.7",
     "@swc/helpers": "~0.5.2",
+    "@videosdk.live/react-sdk": "^0.1.83",
     "expo": "49.0.16",
     "expo-splash-screen": "~0.20.5",
     "expo-status-bar": "~1.6.0",
@@ -21,11 +22,15 @@
     "react-native-svg": "13.9.0",
     "react-native-svg-transformer": "1.0.0",
     "react-native-web": "~0.19.9",
+    "react-player": "^2.14.1",
     "react-router-dom": "6.11.2",
+    "react-use-websocket": "^4.5.0",
     "styled-components": "5.3.6",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.14.5",
+    "@babel/preset-react": "^7.14.5",
     "@config-plugins/detox": "~6.0.0",
     "@expo/cli": "~0.10.13",
     "@nx/detox": "17.2.8",
@@ -81,6 +86,7 @@
     "ts-node": "10.9.1",
     "typescript": "~5.2.2",
     "vite": "^5.0.0",
+    "vite-plugin-dts": "~2.3.0",
     "vitest": "~0.34.6"
   }
 }
