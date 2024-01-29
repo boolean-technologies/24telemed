@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     "rest_framework",
     "drf_yasg",
     "channels",
+    "call_log",
+    "users",
 ]
 
 MIDDLEWARE = [
@@ -157,3 +159,5 @@ SWAGGER_SETTINGS = {
     'TAGS_SORTER': 'alpha',
     'DEFAULT_MODEL_RENDERING': 'example',
 }
+
+AUTH_USER_MODEL = 'users.User'
