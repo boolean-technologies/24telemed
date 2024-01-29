@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from rest_framework import viewsets
+from .models import CallLog
+from .serializers import CallLogSerializer
 
-# Create your views here.
+class CallLogViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = CallLog.objects.all()
+    serializer_class = CallLogSerializer
