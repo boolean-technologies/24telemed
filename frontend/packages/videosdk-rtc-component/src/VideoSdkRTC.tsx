@@ -6,14 +6,14 @@ import { MeetingContainer } from "./meeting/MeetingContainer";
 import { LeaveScreen } from "./components/screens/LeaveScreen";
 import { JoiningScreen } from "./components/screens/JoiningScreen";
 
-function App() {
+function VideoSdkRTC() {
   const [token, setToken] = useState("");
   const [meetingId, setMeetingId] = useState("");
   const [participantName, setParticipantName] = useState("");
   const [micOn, setMicOn] = useState(true);
   const [webcamOn, setWebcamOn] = useState(true);
-  const [selectedMic, setSelectedMic] = useState({ id: null });
-  const [selectedWebcam, setSelectedWebcam] = useState({ id: null });
+  const [selectedMic, setSelectedMic] = useState< { id: string  ; label: string }>({ id: "", label: "" });
+  const [selectedWebcam, setSelectedWebcam] = useState<{ id: string; label: string }>({ id: "", label: "" });
   const [selectWebcamDeviceId, setSelectWebcamDeviceId] = useState(
     selectedWebcam.id
   );
@@ -102,4 +102,4 @@ function App() {
   );
 }
 
-export default App;
+export default VideoSdkRTC;
