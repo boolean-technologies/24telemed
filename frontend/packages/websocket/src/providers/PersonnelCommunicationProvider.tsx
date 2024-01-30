@@ -4,7 +4,7 @@ import {
   CallMessage,
   usePersonnelWebSocket,
 } from '../hooks';
-import { CallLog } from '../hooks/useWebsocket';
+import { CallLog } from '../hooks/useCallSocket';
 
 export interface PersonnelWebSocketContextType {
   isOpen: boolean;
