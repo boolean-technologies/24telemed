@@ -1,7 +1,7 @@
 import * as React from "react";
 type SvgComponentProps = {
   fillcolor: string;
-};
+} & React.SVGProps<SVGSVGElement>;
 const SvgComponent = (props : SvgComponentProps) => (
   <svg
     width={24}

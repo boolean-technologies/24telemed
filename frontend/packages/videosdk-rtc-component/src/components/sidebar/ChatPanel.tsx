@@ -10,6 +10,10 @@ type ChatMessageProps = {
   text: string;
   timestamp: string;
 };
+
+type ChatMessagesProps = {
+  listHeight: number;
+};
 const ChatMessage = ({ senderId, senderName, text, timestamp }: ChatMessageProps) => {
   const mMeeting = useMeeting();
   const localParticipantId = mMeeting?.localParticipant?.id;
@@ -45,7 +49,7 @@ const ChatMessage = ({ senderId, senderName, text, timestamp }: ChatMessageProps
   );
 };
 
-const ChatInput = ({ inputHeight }) => {
+const ChatInput = ({ inputHeight }: { inputHeight: number }) => {
   const [message, setMessage] = useState("");
   const { publish } = usePubSub("CHAT");
   const input = useRef<HTMLInputElement>(null);
@@ -108,7 +112,7 @@ const ChatInput = ({ inputHeight }) => {
   );
 };
 
-const ChatMessages = ({ listHeight }) => {
+const ChatMessages = ({ listHeight }: ChatMessagesProps) => {
   const listRef = useRef<HTMLDivElement>(null);
   const { messages } = usePubSub("CHAT");
 
@@ -154,7 +158,7 @@ const ChatMessages = ({ listHeight }) => {
   );
 };
 
-export function ChatPanel({ panelHeight }) {
+export function ChatPanel({ panelHeight }: { panelHeight: number }) {
   const inputHeight = 72;
   const listHeight = panelHeight - inputHeight;
 

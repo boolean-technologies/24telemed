@@ -2,7 +2,7 @@ import React from "react";
 
 type MicOnIconProps = {
   fillcolor?: string;
-};
+} & React.SVGProps<SVGSVGElement>;
 function MicOnIcon(props : MicOnIconProps) {
   return (
     <svg

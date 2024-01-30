@@ -2,7 +2,7 @@ import * as React from "react";
 
 type VideoCamOnIconProps = {
   fillcolor: string;
-};
+} & React.SVGProps<SVGSVGElement>;
 const VideoCamOnIcon = (props : VideoCamOnIconProps) => (
   <svg
     width={18}

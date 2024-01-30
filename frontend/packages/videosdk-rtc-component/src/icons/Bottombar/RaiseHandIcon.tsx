@@ -2,7 +2,7 @@ import * as React from "react";
 
 type RaiseHandIconProps = {
   fillcolor: string;
-};
+} & React.SVGProps<SVGSVGElement>;
 const RaiseHandIcon = (props: RaiseHandIconProps) => (
   <svg
     width={24}

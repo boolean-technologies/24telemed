@@ -2,7 +2,7 @@ import React from "react";
 
 type EndIconProps = {
   fillcolor: string;
-};
+} & React.SVGProps<SVGSVGElement>;
 function EndIcon(props: EndIconProps) {
   return (
     <svg

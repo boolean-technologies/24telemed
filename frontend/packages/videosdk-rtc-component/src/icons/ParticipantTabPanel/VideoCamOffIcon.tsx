@@ -1,7 +1,7 @@
 import * as React from "react";
 type VideoCamOffIconProps = {
   fillcolor: string;
-};
+} & React.SVGProps<SVGSVGElement>;
 const VideoCamOffIcon = (props : VideoCamOffIconProps) => (
   <svg
     width={18}

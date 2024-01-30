@@ -4,7 +4,7 @@ type NetworkIconProps = {
   color2: string;
   color3: string;
   color4: string;
-};
+} & React.SVGProps<SVGSVGElement>;
 function NetworkIcon(props : NetworkIconProps) {
   return (
     <svg

@@ -1,7 +1,7 @@
 import React from "react";
 type MicOffIconProps = {
   fillcolor: string;
-};
+} & React.SVGProps<SVGSVGElement>;
 function MicOffIcon(props : MicOffIconProps) {
   return (
     <svg

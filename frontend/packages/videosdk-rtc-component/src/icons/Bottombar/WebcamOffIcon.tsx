@@ -1,7 +1,7 @@
 import * as React from "react";
 type WebcamOffIconProps = {
   fillcolor: string;
-};
+} & React.SVGProps<SVGSVGElement>;
 const WebcamOffIcon = (props : WebcamOffIconProps) => (
   <svg
     width={24}

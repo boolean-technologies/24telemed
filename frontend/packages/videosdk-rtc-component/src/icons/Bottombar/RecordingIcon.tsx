@@ -2,7 +2,7 @@ import React from "react";
 
 type RecordingIconProps = {
   fillcolor: string;
-};
+} & React.SVGProps<SVGSVGElement>;
 function RecordingIcon(props : RecordingIconProps) {
   return (
     <svg

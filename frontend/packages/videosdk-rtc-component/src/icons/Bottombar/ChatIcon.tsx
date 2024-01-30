@@ -1,7 +1,7 @@
 import * as React from "react";
 type ChatIconProps = {
   fillcolor: string;
-};
+} & React.SVGProps<SVGSVGElement>;
 
 const ChatIcon = (props : ChatIconProps) => (
   <svg

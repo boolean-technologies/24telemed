@@ -1,7 +1,7 @@
 import * as React from "react";
 type MicOffSmallIconProps = {
   fillcolor: string;
-};
+} & React.SVGProps<SVGSVGElement>;
 const MicOffSmallIcon = (props : MicOffSmallIconProps) => (
   <svg
     width={20}

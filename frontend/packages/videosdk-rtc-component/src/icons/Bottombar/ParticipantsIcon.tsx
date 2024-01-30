@@ -1,7 +1,7 @@
 import * as React from "react";
 type ParticipantsIconProps = {
   fillcolor: string;
-};
+} & React.SVGProps<SVGSVGElement>;
 const ParticipantsIcon = (props : ParticipantsIconProps) => (
   <svg
     width={24}

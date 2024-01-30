@@ -12,25 +12,7 @@ import NetworkIcon from "../icons/NetworkIcon";
 import SpeakerIcon from "../icons/SpeakerIcon";
 import { getQualityScore, nameTructed } from "../utils/common";
 import * as ReactDOM from "react-dom";
-
-type ShareStats = {
-  bitrate: number;
-  rtt: number;
-  network: string;
-  codec: string;
-  jitter: number;
-  limitation: any;
-  totalPackets: number;
-  packetsLost: number;
-  concealmentEvents: number;
-  insertedSamplesForDecelaration: number;
-  removedSamplesForAccelaration: number;
-  size: any;
-  currentSpatialLayer: number;
-  currentTemporalLayer: number;
-  preferredSpatialLayer: number;
-  preferredTemporalLayer: number;
-};
+import type { AudioStats, VideoStats, ShareStats } from "../types";
 
 type CornerDisplayNameProps = {
   participantId: string;
@@ -94,15 +76,15 @@ export const CornerDisplayName = ({
     getShareStats,
   } = useParticipant(participantId);
 
-  const statsIntervalIdRef = useRef();
+  const statsIntervalIdRef = useRef< ReturnType<typeof setInterval> | null>( null);
   const [score, setScore] = useState({});
-  const [audioStats, setAudioStats] = useState({});
-  const [videoStats, setVideoStats] = useState({});
+  const [audioStats, setAudioStats] = useState< AudioStats[]>([]);
+  const [videoStats, setVideoStats] = useState < ShareStats[] | VideoStats[] | AudioStats[]>([]);
 
   const updateStats = async () => {
-    let stats:ShareStats[] = [];
-    let audioStats:[] = [];
-    let videoStats:[] = [];
+    let stats:ShareStats[] | VideoStats[] | AudioStats[] = [];
+    let audioStats: ShareStats[] | VideoStats[] | AudioStats[] = [];
+    let videoStats: ShareStats[] | VideoStats[] | AudioStats[] = [];
     if (isPresenting) {
       stats = await getShareStats();
     } else if (webcamStream) {

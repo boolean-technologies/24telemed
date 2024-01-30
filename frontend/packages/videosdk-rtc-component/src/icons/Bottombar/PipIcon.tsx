@@ -1,7 +1,7 @@
 import * as React from "react";
 type PipIconProps = {
   fillcolor: string;
-};
+} & React.SVGProps<SVGSVGElement>;
 const PipIcon = (props : PipIconProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
