@@ -1,6 +1,6 @@
 import { ReactNode, createContext, useContext, useMemo } from 'react';
 import { DoctorCallEventType, useDoctorWebSocket } from '../hooks';
-import { CallLog } from '../hooks/useWebsocket';
+import { CallLog } from '../hooks/useCallSocket';
 
 export interface DoctorWebSocketContextType {
   isOpen: boolean;
