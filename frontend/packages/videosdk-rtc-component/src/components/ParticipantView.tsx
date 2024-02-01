@@ -1,5 +1,5 @@
 import { Popover, Transition } from "@headlessui/react";
-import { XIcon } from "@heroicons/react/outline";
+
 import { useParticipant } from "@videosdk.live/react-sdk";
 import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import ReactPlayer from "react-player";
@@ -354,10 +354,10 @@ export const CornerDisplayName = ({
                                   close();
                                 }}
                               >
-                                <XIcon
+                                {/* <XIcon
                                   className="text-white"
                                   style={{ height: 16, width: 16 }}
-                                />
+                                /> */}
                               </button>
                             </div>
                             <div className="flex">

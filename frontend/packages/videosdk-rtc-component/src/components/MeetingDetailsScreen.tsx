@@ -1,4 +1,4 @@
-import { CheckIcon, ClipboardIcon } from "@heroicons/react/outline";
+// import { CheckIcon, } from "@heroicons/react/outline";
 import React, { useState } from "react";
 
 
@@ -46,9 +46,9 @@ export function MeetingDetailsScreen({
             }}
           >
             {isCopied ? (
-              <CheckIcon className="h-5 w-5 text-green-400" />
+              null
             ) : (
-              <ClipboardIcon className="h-5 w-5 text-white" />
+              <div> </div>
             )}
           </button>
         </div>

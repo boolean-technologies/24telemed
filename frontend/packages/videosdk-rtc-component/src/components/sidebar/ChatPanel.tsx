@@ -1,4 +1,4 @@
-import { PaperAirplaneIcon } from "@heroicons/react/solid";
+// import { PaperAirplaneIcon } from "@heroicons/react/solid";
 import { useMeeting, usePubSub } from "@videosdk.live/react-sdk";
 import React, { useEffect, useRef, useState } from "react";
 import { formatAMPM, json_verify, nameTructed } from "../../utils/helper";
@@ -76,11 +76,11 @@ const ChatInput = ({ inputHeight }: { inputHeight: number }) => {
               }
             }}
           >
-            <PaperAirplaneIcon
+            {/* <PaperAirplaneIcon
               className={`w-6 h-6 ${
                 message.length < 2 ? "text-gray-500 " : "text-white"
               }`}
-            />
+            /> */}
           </button>
         </span>
         <input

@@ -305,12 +305,12 @@ export function BottomBar({
                               getMics(mMeeting.getMics);
                             }}
                           >
-                            <ChevronDownIcon
+                            {/* <ChevronDownIcon
                               className="h-4 w-4"
                               style={{
                                 color: mMeeting.localMicOn ? "white" : "black",
                               }}
-                            />
+                            /> */}
                           </button>
                         </div>
                       </Popover.Button>
@@ -459,12 +459,12 @@ export function BottomBar({
                               getWebcams(mMeeting?.getWebcams);
                             }}
                           >
-                            <ChevronDownIcon
+                            {/* <ChevronDownIcon
                               className="h-4 w-4"
                               style={{
                                 color: localWebcamOn ? "white" : "black",
                               }}
-                            />
+                            /> */}
                           </button>
                         </div>
                       </Popover.Button>
@@ -693,11 +693,11 @@ export function BottomBar({
               }, 3000);
             }}
           >
-            {isCopied ? (
+            {/* {isCopied ? (
               <CheckIcon className="h-5 w-5 text-green-400" />
             ) : (
               <ClipboardIcon className="h-5 w-5 text-white" />
-            )}
+            )} */}
           </button>
         </div>
       </div>
@@ -751,7 +751,7 @@ export function BottomBar({
       <MicBTN />
       <WebCamBTN />
       <RecordingBTN />
-      <OutlinedButton Icon={DotsHorizontalIcon} onClick={handleClickFAB} />
+      {/* <OutlinedButton Icon={DotsHorizontalIcon} onClick={handleClickFAB} /> */}
       <Transition appear show={Boolean(open)} as={Fragment}>
         <Dialog
           as="div"

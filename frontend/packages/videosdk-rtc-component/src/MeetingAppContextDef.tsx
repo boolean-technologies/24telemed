@@ -1,6 +1,27 @@
 import React, { useContext, createContext, useState, useEffect, useRef } from "react";
+type MeetingAppContextType = {
+  raisedHandsParticipants: any[];
+  sideBarMode: string | null;
+  pipMode: boolean;
+  setRaisedHandsParticipants: (participants: any[]) => void;
+  setSideBarMode: (mode: string | null) => void;
+  setPipMode: (pipMode: boolean) => void;
+  useRaisedHandParticipants: () => {
+    participantRaisedHand: (participantId: string) => void;
+  };
+};
 
-export const MeetingAppContext = createContext({});
+export const MeetingAppContext = createContext < MeetingAppContextType > ({
+  raisedHandsParticipants: [],
+  sideBarMode: null,
+  pipMode: false,
+  setRaisedHandsParticipants: () => {},
+  setSideBarMode: () => {},
+  setPipMode: () => {},
+  useRaisedHandParticipants: () => ({
+    participantRaisedHand: () => {},
+  }),
+});
 
 export const useMeetingAppContext = () => useContext(MeetingAppContext);
 type MeeetingAppProviderProps = {
@@ -42,7 +63,7 @@ export const MeetingAppProvider = ({ children }: MeeetingAppProviderProps) => {
       const now = new Date().getTime();
 
       const persisted = raisedHandsParticipants.filter(({ raisedHandOn }) => {
-        return parseInt(raisedHandOn) + 15000 > parseInt(now);
+        return parseInt(raisedHandOn) + 15000 > now;
       });
 
       if (raisedHandsParticipants.length !== persisted.length) {
