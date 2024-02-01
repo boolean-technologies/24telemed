@@ -1,11 +1,13 @@
 import { ReactNode, createContext, useContext, useMemo } from 'react';
 import { DoctorCallEventType, useDoctorWebSocket } from '../hooks';
-import { CallLog } from '../hooks/useCallSocket';
+import { WebSocketMessage } from '../hooks/useCallSocket';
 
 export interface DoctorWebSocketContextType {
   isOpen: boolean;
   callStatus: DoctorCallEventType | undefined;
-  callLog: CallLog | undefined;
+  hasIncomingCall: boolean;
+  isOngoingCall: boolean;
+  message: WebSocketMessage<DoctorCallEventType> | null,
   endCall: () => void;
   declineCall: (note?: string) => void;
   answerCall: () => void;
@@ -14,24 +16,31 @@ export interface DoctorWebSocketContextType {
 const DoctorWebSocketContext = createContext<DoctorWebSocketContextType>({
   isOpen: false,
   callStatus: undefined,
-  callLog: undefined,
+  hasIncomingCall: false,
+  isOngoingCall: false,
   endCall: () => {},
   declineCall: () => {},
   answerCall: () => {},
+  message: null,
 });
 
-export const useDoctorCommunication = () =>
-  useContext(DoctorWebSocketContext);
+export const useDoctorCommunication = () => useContext(DoctorWebSocketContext);
 
 interface DoctorWebSocketProviderProps {
   children: ReactNode;
+  userId: string;
 }
 
 export function DoctorCommunicationProvider({
   children,
+  userId,
 }: DoctorWebSocketProviderProps) {
-  const value = useDoctorWebSocket();
-  const memoisedValue = useMemo(() => value, [value]);
+  const value = useDoctorWebSocket(userId, 'doctor');
+  const hasIncomingCall = value.callStatus === DoctorCallEventType.INCOMING;
+  const memoisedValue = useMemo(
+    () => ({ ...value, hasIncomingCall }),
+    [value, hasIncomingCall]
+  );
   return (
     <DoctorWebSocketContext.Provider value={memoisedValue}>
       {children}

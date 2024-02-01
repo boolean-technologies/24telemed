@@ -1,31 +1,33 @@
-import { useCallback, useState } from 'react';
-import { MessageType, WebSocketMessage, useCallSocket } from './useCallSocket';
+import { useCallback, useEffect, useState } from 'react';
+import { MessageType, UserType, WebSocketMessage, useCallSocket } from './useCallSocket';
 
 export enum DoctorCallEventType {
-  INCOMING = 'incoming',
+  INCOMING = 'NOTIFY_DOCTOR_CLIENT_INCOMING_CALL',
   ENDED = 'ended',
   ANSWERED = 'answered',
   DECLINED = 'declined',
 }
 
-export function useDoctorWebSocket() {
+export function useDoctorWebSocket(userId: string, type: UserType) {
   const [callStatus, setCallStatus] = useState<DoctorCallEventType>();
+  const [currentMessage, setCurrentMessage] = useState<WebSocketMessage<DoctorCallEventType>>();
 
   // Function to handle incoming messages
   const handleMessageReceived = useCallback(
     (message: WebSocketMessage<DoctorCallEventType>) => {
-      if (message.name === DoctorCallEventType.INCOMING) {
+      if (message.type === DoctorCallEventType.INCOMING) {
         setCallStatus(DoctorCallEventType.INCOMING);
+        setCurrentMessage(message);
       }
     },
-    [setCallStatus]
+    [setCallStatus, setCurrentMessage]
   );
 
   const {
     isOpen,
     sendMessage,
-    currentCallLog: callLog,
-  } = useCallSocket<DoctorCallEventType>(handleMessageReceived);
+    message
+  } = useCallSocket<DoctorCallEventType>(handleMessageReceived, userId, type);
 
   // Function to send messages
   const declineCall = useCallback(
@@ -46,10 +48,19 @@ export function useDoctorWebSocket() {
     sendMessage(MessageType.END_CALL);
   }, [sendMessage, setCallStatus]);
 
+  const isOngoingCall = callStatus === DoctorCallEventType.ANSWERED;
+
+  // useEffect(() => {
+  //   if (callStatus === DoctorCallEventType.ANSWERED || currentMessage?.type === DoctorCallEventType.INCOMING){
+  //     sendMessage(MessageType.DECLINE_CALL, { note: "Busy on another call" })
+  //   }
+  // }, [callStatus, currentMessage, sendMessage])
+
   return {
     isOpen,
     callStatus,
-    callLog,
+    message,
+    isOngoingCall,
     declineCall,
     answerCall,
     endCall,

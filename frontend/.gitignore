@@ -55,4 +55,6 @@ npm-debug.*
 web-build/
 cache/
 
+*.pyc
+
 apps/personnel-mobile-e2e/artifacts

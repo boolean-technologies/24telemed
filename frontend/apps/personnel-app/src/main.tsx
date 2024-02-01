@@ -11,7 +11,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <StrictMode>
     <BrowserRouter>
-      <PersonnelCommunicationProvider>
+      <PersonnelCommunicationProvider userId="446175d1-f2a4-4513-851e-e63fde4ca906">
         <App />
       </PersonnelCommunicationProvider>
     </BrowserRouter>
