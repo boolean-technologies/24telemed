@@ -44,14 +44,14 @@ export function MeetingContainer({
 
   const bottomBarHeight = 60;
 
-  const [containerHeight, setContainerHeight] = useState(0);
-  const [containerWidth, setContainerWidth] = useState(0);
+  const [containerHeight, setContainerHeight] = useState<number>(0);
+  const [containerWidth, setContainerWidth] = useState<number>(0);
   const [localParticipantAllowedJoin, setLocalParticipantAllowedJoin] =
     useState(null);
   const [meetingErrorVisible, setMeetingErrorVisible] = useState(false);
-  const [meetingError, setMeetingError] = useState(false);
+  const [meetingError, setMeetingError] = useState({ code: 0, message: "" });
 
-  const mMeetingRef = useRef();
+  const mMeetingRef = useRef<   ReturnType<typeof useMeeting> | null>(null);
   const containerRef = createRef<HTMLDivElement>();
   const containerHeightRef = useRef<number>();
   const containerWidthRef = useRef<number>();
@@ -126,7 +126,7 @@ export function MeetingContainer({
     participant && participant.setQuality("high");
   }
 
-  function onEntryResponded(participantId, name) {
+  function onEntryResponded(participantId: string, name: string) {
     // console.log(" onEntryResponded", participantId, name);
     if (mMeetingRef.current?.localParticipant?.id === participantId) {
       if (name === "allowed") {
@@ -143,28 +143,33 @@ export function MeetingContainer({
   async function onMeetingJoined() {
     // console.log("onMeetingJoined");
     const { changeWebcam, changeMic, muteMic, disableWebcam } =
-      mMeetingRef.current;
+      mMeetingRef.current || {};
 
     if (webcamEnabled && selectedWebcam.id) {
-      await new Promise((resolve) => {
+      await new Promise<void>((resolve) => {
         let track;
-        disableWebcam();
+        if (disableWebcam) {
+          disableWebcam();
+        }
         setTimeout(async () => {
-          track = await getVideoTrack({
-            webcamId: selectedWebcam.id,
-            encoderConfig: "h540p_w960p",
-          });
-          changeWebcam(track);
+          track = await getVideoTrack(selectedWebcam.id, "h540p_w960p");
+          if (changeWebcam && track) { // Add null check for track
+            changeWebcam(track);
+          }
           resolve();
         }, 500);
       });
     }
 
     if (micEnabled && selectedMic.id) {
-      await new Promise((resolve) => {
-        muteMic();
+      await new Promise<void>((resolve) => {
+        if (muteMic) {
+          muteMic();
+        }
         setTimeout(() => {
-          changeMic(selectedMic.id);
+          if (changeMic) { // Add null check for changeMic
+            changeMic(selectedMic.id);
+          }
           resolve();
         }, 500);
       });
@@ -175,7 +180,7 @@ export function MeetingContainer({
     onMeetingLeave();
   }
 
-  const _handleOnError = (data) => {
+  const _handleOnError = (data: any) => {
     const { code, message } = data;
 
     const joiningErrCodes = [
@@ -307,6 +312,7 @@ export function MeetingContainer({
             <></>
           )
         ) : (
+          // @ts-ignore
           !mMeeting.isMeetingJoined && <WaitingToJoinScreen />
         )}
         <ConfirmBox

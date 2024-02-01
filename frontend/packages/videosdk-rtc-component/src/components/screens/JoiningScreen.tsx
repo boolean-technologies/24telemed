@@ -257,7 +257,7 @@ type Device = {
   };
 
   useEffect(() => {
-    audioTrackRef.current = audioTrack || undefined;
+    audioTrackRef.current = audioTrack !== undefined ? audioTrack : null;
 
     startMuteListener();
 
@@ -283,7 +283,7 @@ type Device = {
 
       if (videoPlayerRef.current) {
         videoPlayerRef.current.srcObject = videoSrcObject;
-        if (videoPlayerRef.current.pause && !isPlaying) {
+        if (videoPlayerRef.current.paused && !isPlaying) {
           try {
             videoPlayerRef.current.play();
           } catch (err) {
@@ -325,14 +325,16 @@ type Device = {
   };
   const ButtonWithTooltip = ({ onClick, onState, OnIcon, OffIcon, mic }: ButtonWithTooltipProps) => {
     const [tooltipShow, setTooltipShow] = useState(false);
-    const btnRef = useRef();
-    const tooltipRef = useRef();
+    const btnRef = useRef<HTMLButtonElement>(null); // Add type annotation to btnRef
+    const tooltipRef = useRef<HTMLDivElement>(null); // Add type annotation to tooltipRef
 
     const openTooltip = () => {
-      createPopper(btnRef.current, tooltipRef.current, {
-        placement: "top",
-      });
-      setTooltipShow(true);
+      if (btnRef.current && tooltipRef.current) { // Check if btnRef.current and tooltipRef.current are not undefined
+        createPopper(btnRef.current, tooltipRef.current, {
+          placement: "top",
+        });
+        setTooltipShow(true);
+      }
     };
     const closeTooltip = () => {
       setTooltipShow(false);
@@ -417,7 +419,7 @@ type Device = {
                           open={settingDialogueOpen}
                           onClose={handleClose}
                           popupVideoPlayerRef={popupVideoPlayerRef}
-                          popupAudioPlayerRef={popupAudioPlayerRef}
+                          // popupAudioPlayerRef={popupAudioPlayerRef}
                           changeWebcam={changeWebcam}
                           changeMic={changeMic}
                           setting={setting}

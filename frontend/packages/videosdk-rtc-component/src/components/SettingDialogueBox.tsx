@@ -17,8 +17,8 @@ type SettingDialogueBoxProps = {
   setSelectedWebcam: (s: any) => void;
   changeWebcam: (s: string) => void;
   changeMic: (s: string) => void;
-  videoTrack: MediaStreamTrack || null
-  audioTrack: MediaStreamTrack || null
+  videoTrack: MediaStreamTrack | null;
+  audioTrack: MediaStreamTrack | null
 };
 const AudioAnalyser = ({ audioTrack }: { audioTrack: MediaStreamTrack }) => {
   const audioTrackRef = useRef();
@@ -348,7 +348,7 @@ export default function SettingDialogueBox({
                                     style={{ paddingTop: "56.25%" }}
                                   >
                                     <div className="md:absolute top-0 bottom-0 left-0 right-0 flex items-start flex-col rounded-sm overflow-hidden">
-                                      <AudioAnalyser audioTrack={audioTrack} />
+                                      {audioTrack && <AudioAnalyser audioTrack={audioTrack} />}
                                     </div>
                                   </div>
                                 </div>
