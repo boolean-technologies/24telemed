@@ -17,8 +17,8 @@ type SettingDialogueBoxProps = {
   setSelectedWebcam: (s: any) => void;
   changeWebcam: (s: string) => void;
   changeMic: (s: string) => void;
-  videoTrack: MediaStreamTrack;
-  audioTrack: MediaStreamTrack;
+  videoTrack: MediaStreamTrack || null
+  audioTrack: MediaStreamTrack || null
 };
 const AudioAnalyser = ({ audioTrack }: { audioTrack: MediaStreamTrack }) => {
   const audioTrackRef = useRef();
