@@ -36,7 +36,7 @@ export function useCallSocket<EventType = undefined>(
     },
   });
 
-  const currentCallLog = lastJsonMessage.data;
+  const currentCallLog = lastJsonMessage?.data;
 
   const sendMessage = useCallback(
     <OthersType = undefined>(type: MessageType, others?: OthersType) => {

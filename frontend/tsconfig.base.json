@@ -15,7 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@frontend/videosdk-rtc-component": [
+      "@local/videosdk-rtc-component": [
         "packages/videosdk-rtc-component/src/index.ts"
       ],
       "@local/websocket": ["packages/websocket/src/index.ts"]

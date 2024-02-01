@@ -1,6 +1,9 @@
+type TokenType = string;
+
 const API_BASE_URL = "https://api.videosdk.live";
-const VIDEOSDK_TOKEN = process.env.REACT_APP_VIDEOSDK_TOKEN;
-const API_AUTH_URL = process.env.REACT_APP_AUTH_URL;
+const VIDEOSDK_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlrZXkiOiI1YWE3YmRjYS1iZjk4LTQ0YmItOGVhOC1iMDVkODU3MTg4MGEiLCJwZXJtaXNzaW9ucyI6WyJhbGxvd19qb2luIl0sImlhdCI6MTcwNjYxNDkzNCwiZXhwIjoxNzA2NzAxMzM0fQ.1dHFXCqbcsvCmMUgbmqwNow9udyUKxKOq1-zYNVzsWI";
+
+const API_AUTH_URL = ""
 
 export const getToken = async () => {
   if (VIDEOSDK_TOKEN && API_AUTH_URL) {
@@ -20,7 +23,8 @@ export const getToken = async () => {
   }
 };
 
-export const createMeeting = async ({ token }) => {
+
+export const createMeeting = async ({ token }: { token: TokenType }) => {
   const url = `${API_BASE_URL}/v2/rooms`;
   const options = {
     method: "POST",
