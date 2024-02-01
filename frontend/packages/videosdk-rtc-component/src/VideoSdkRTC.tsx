@@ -1,3 +1,4 @@
+import './index.css';
 import { MeetingProvider } from "@videosdk.live/react-sdk";
 import { useEffect } from "react";
 import { useState } from "react";

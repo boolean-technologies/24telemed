@@ -1,6 +1,6 @@
 import { Dialog, Popover } from "@headlessui/react";
 import { Transition } from "@headlessui/react";
-// import { ChevronDownIcon, XIcon } from "@heroicons/react/outline";
+import { ChevronDownIcon, XIcon } from "@heroicons/react/outline";
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import useWindowSize from "../hooks/useWindowSize";
 import ConfirmBox from "./ConfirmBox";
@@ -209,7 +209,7 @@ export default function SettingDialogueBox({
                           }}
                           className="focus-visible:border-none"
                         >
-                          {/* <XIcon className="h-6 w-6 text-white" /> */}
+                          <XIcon className="h-6 w-6 text-white" />
                         </button>
                       </div>
                     </div>
@@ -259,12 +259,12 @@ export default function SettingDialogueBox({
                                               {selectedMicLabel
                                                 ? selectedMicLabel
                                                 : "Select"}
-                                              {/* <ChevronDownIcon
+                                              <ChevronDownIcon
                                                 className="h-4 w-4"
                                                 style={{
                                                   color: "white",
                                                 }}
-                                              /> */}
+                                              />
                                             </button>
                                           </Popover.Button>
                                           <Transition
@@ -377,12 +377,7 @@ export default function SettingDialogueBox({
                                               {selectedWebcamLabel
                                                 ? selectedWebcamLabel
                                                 : "Select"}
-                                              <ChevronDownIcon
-                                                className="h-4 w-4"
-                                                style={{
-                                                  color: "white",
-                                                }}
-                                              />
+                                              
                                             </button>
                                           </Popover.Button>
                                           <Transition

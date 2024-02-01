@@ -283,7 +283,7 @@ export function BottomBar({
           onClick={() => {
             mMeeting.toggleMic();
           }}
-          bgColor={localMicOn ? "bg-gray-750" : "bg-white"}
+          bgColor={localMicOn ? "bg-gray-700" : "bg-white"}
           borderColor={localMicOn && "#ffffff33"}
           isFocused={localMicOn}
           focusIconColor={localMicOn && "white"}
@@ -305,12 +305,12 @@ export function BottomBar({
                               getMics(mMeeting.getMics);
                             }}
                           >
-                            {/* <ChevronDownIcon
+                            <ChevronDownIcon
                               className="h-4 w-4"
                               style={{
                                 color: mMeeting.localMicOn ? "white" : "black",
                               }}
-                            /> */}
+                            />
                           </button>
                         </div>
                       </Popover.Button>
@@ -337,13 +337,13 @@ export function BottomBar({
                                     <div
                                       className={`px-3 py-1 my-1 pl-6 text-white text-left ${
                                         deviceId === selectMicDeviceId &&
-                                        "bg-gray-150"
+                                        "bg-gray-100"
                                       }`}
                                     >
                                       <button
                                         className={`flex flex-1 w-full ${
                                           deviceId === selectMicDeviceId &&
-                                          "bg-gray-150"
+                                          "bg-gray-100"
                                         }`}
                                         key={`mics_${deviceId}`}
                                         onClick={() => {
@@ -459,12 +459,12 @@ export function BottomBar({
                               getWebcams(mMeeting?.getWebcams);
                             }}
                           >
-                            {/* <ChevronDownIcon
+                            <ChevronDownIcon
                               className="h-4 w-4"
                               style={{
                                 color: localWebcamOn ? "white" : "black",
                               }}
-                            /> */}
+                            />
                           </button>
                         </div>
                       </Popover.Button>
@@ -491,13 +491,13 @@ export function BottomBar({
                                     <div
                                       className={`px-3 py-1 my-1 pl-6 text-white text-left ${
                                         deviceId === selectWebcamDeviceId &&
-                                        "bg-gray-150"
+                                        "bg-gray-100"
                                       }`}
                                     >
                                       <button
                                         className={`flex flex-1 w-full ${
                                           deviceId === selectWebcamDeviceId &&
-                                          "bg-gray-150"
+                                          "bg-gray-100"
                                         }`}
                                         key={`output_webcams_${deviceId}`}
                                         onClick={async () => {
@@ -693,11 +693,11 @@ export function BottomBar({
               }, 3000);
             }}
           >
-            {/* {isCopied ? (
+            {isCopied ? (
               <CheckIcon className="h-5 w-5 text-green-400" />
             ) : (
               <ClipboardIcon className="h-5 w-5 text-white" />
-            )} */}
+            )}
           </button>
         </div>
       </div>
@@ -751,7 +751,7 @@ export function BottomBar({
       <MicBTN />
       <WebCamBTN />
       <RecordingBTN />
-      {/* <OutlinedButton Icon={DotsHorizontalIcon} onClick={handleClickFAB} /> */}
+      <OutlinedButton Icon={DotsHorizontalIcon} onClick={handleClickFAB} />
       <Transition appear show={Boolean(open)} as={Fragment}>
         <Dialog
           as="div"

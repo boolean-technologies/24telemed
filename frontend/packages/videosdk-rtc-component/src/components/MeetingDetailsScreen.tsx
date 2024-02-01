@@ -1,4 +1,4 @@
-// import { CheckIcon, } from "@heroicons/react/outline";
+import { CheckIcon, ClipboardIcon } from "@heroicons/react/outline";
 import React, { useState } from "react";
 
 
@@ -46,9 +46,9 @@ export function MeetingDetailsScreen({
             }}
           >
             {isCopied ? (
-              null
+              <CheckIcon className="h-5 w-5 text-green-400" />
             ) : (
-              <div> </div>
+              <ClipboardIcon className="h-5 w-5 text-white" />
             )}
           </button>
         </div>
@@ -60,7 +60,7 @@ export function MeetingDetailsScreen({
               setMeetingId(e.target.value);
             }}
             placeholder={"Enter meeting Id"}
-            className="px-4 py-3 bg-gray-650 rounded-xl text-white w-full text-center"
+            className="px-4 py-3 bg-gray-600 rounded-xl text-white w-full text-center"
           />
           {meetingIdError && (
             <p className="text-xs text-red-600">{`Please enter valid meetingId`}</p>
@@ -74,7 +74,7 @@ export function MeetingDetailsScreen({
             value={participantName}
             onChange={(e) => setParticipantName(e.target.value)}
             placeholder="Enter your name"
-            className="px-4 py-3 mt-5 bg-gray-650 rounded-xl text-white w-full text-center"
+            className="px-4 py-3 mt-5 bg-gray-600 rounded-xl text-white w-full text-center"
           />
 
           {/* <p className="text-xs text-white mt-1 text-center">
@@ -83,7 +83,7 @@ export function MeetingDetailsScreen({
           <button
             disabled={participantName.length < 3}
             className={`w-full ${
-              participantName.length < 3 ? "bg-gray-650" : "bg-purple-350"
+              participantName.length < 3 ? "bg-gray-600" : "bg-purple-300"
             }  text-white px-2 py-3 rounded-xl mt-5`}
             onClick={(e) => {
               if (iscreateMeetingClicked) {
@@ -108,7 +108,7 @@ export function MeetingDetailsScreen({
         <div className="w-full md:mt-0 mt-4 flex flex-col">
           <div className="flex items-center justify-center flex-col w-full ">
             <button
-              className="w-full bg-purple-350 text-white px-2 py-3 rounded-xl"
+              className="w-full bg-purple-300 text-white px-2 py-3 rounded-xl"
               onClick={async (e) => {
                 const meetingId = await _handleOnCreateMeeting();
                 setMeetingId(meetingId);
@@ -118,7 +118,7 @@ export function MeetingDetailsScreen({
               Create a meeting
             </button>
             <button
-              className="w-full bg-gray-650 text-white px-2 py-3 rounded-xl mt-5"
+              className="w-full bg-gray-600 text-white px-2 py-3 rounded-xl mt-5"
               onClick={(e) => {
                 setIsJoinMeetingClicked(true);
               }}

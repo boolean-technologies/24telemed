@@ -3,7 +3,7 @@ import * as ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import  {VideoSDKRTCComponent}  from '@local/videosdk-rtc-component';
 import App from './app/app';
-import '../src/index.css'
+// import '../src/index.css'
 import { PersonnelCommunicationProvider } from '@local/websocket';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -12,9 +12,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <StrictMode>
-    <BrowserRouter>
-      <PersonnelCommunicationProvider>
-      <ToastContainer
+    <ToastContainer
       toastClassName={() =>
         "relative flex py-4 px-3 rounded overflow-hidden cursor-pointer bg-white shadow-lg"
       }
@@ -31,6 +29,9 @@ root.render(
       pauseOnHover
       theme="light"
     />
+    <BrowserRouter>
+      <PersonnelCommunicationProvider>
+      
         
         <VideoSDKRTCComponent/>
           

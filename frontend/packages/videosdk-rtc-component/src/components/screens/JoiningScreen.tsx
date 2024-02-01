@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { MeetingDetailsScreen } from "../MeetingDetailsScreen";
 import { createMeeting, getToken, validateMeeting } from "../../api";
-// import { CheckCircleIcon } from "@heroicons/react/outline";
+import { CheckCircleIcon } from "@heroicons/react/outline";
 import SettingDialogueBox from "../SettingDialogueBox";
 import ConfirmBox from "../ConfirmBox";
 import { Constants } from "@videosdk.live/react-sdk";
@@ -460,7 +460,7 @@ type Device = {
                       >
                         <div className="flex flex-row items-center justify-center m-1">
                           <button className="text-white">
-                            {/* <CheckCircleIcon className="h-5 w-5" /> */}
+                            <CheckCircleIcon className="h-5 w-5" />
                           </button>
                           <p className="text-base text-white ml-1">
                             Check your audio and video
