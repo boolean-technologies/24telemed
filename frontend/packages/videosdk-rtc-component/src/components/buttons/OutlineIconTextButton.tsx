@@ -158,7 +158,7 @@ const OutlineIconTextButton = ({
                         preserveAspectRatio:
                           lottieOption.rendererSettings.preserveAspectRatio,
                       }}
-                      isClickToPauseDisabled
+                      // isClickToPauseDisabled
                     />
                   </div>
                 </div>

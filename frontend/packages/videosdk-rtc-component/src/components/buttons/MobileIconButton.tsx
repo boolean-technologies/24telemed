@@ -131,7 +131,7 @@ export const MobileIconButton = ({
                         preserveAspectRatio:
                           lottieOption.rendererSettings.preserveAspectRatio,
                       }}
-                      isClickToPauseDisabled
+                      // isClickToPauseDisabled
                     />
                   </div>
                 </div>

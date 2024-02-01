@@ -51,22 +51,22 @@ export function JoiningScreen({
     mics: [],
   });
 
-  const [videoTrack, setVideoTrack] = useState(null);
+  const [videoTrack, setVideoTrack] = useState<MediaStreamTrack | null>(null);
 
   const [dlgMuted, setDlgMuted] = useState(false);
   const [dlgDevices, setDlgDevices] = useState(false);
 
   const videoPlayerRef = useRef<HTMLVideoElement>(null);
-  const popupVideoPlayerRef = useRef();
-  const popupAudioPlayerRef = useRef();
+  const popupVideoPlayerRef = useRef <HTMLVideoElement > (null);
+  const popupAudioPlayerRef = useRef<HTMLAudioElement>(null);
 
-  const videoTrackRef = useRef();
-  const audioTrackRef = useRef();
-  const audioAnalyserIntervalRef = useRef();
+  const videoTrackRef = useRef <MediaStreamTrack | null>(null);
+  const audioTrackRef = useRef <MediaStreamTrack | null>(null);
+  const audioAnalyserIntervalRef = useRef <ReturnType<typeof setInterval> | null>(null);
 
   const [settingDialogueOpen, setSettingDialogueOpen] = useState(false);
 
-  const [audioTrack, setAudioTrack] = useState(null);
+  const [audioTrack, setAudioTrack] = useState <MediaStreamTrack | null>(null);
 
   const handleClickOpen = () => {
     setSettingDialogueOpen(true);
@@ -161,7 +161,9 @@ const changeMic = async (deviceId: string) => {
     const audioTracks = stream.getAudioTracks();
 
     const audioTrack = audioTracks.length ? audioTracks[0] : null;
-    clearInterval(audioAnalyserIntervalRef.current);
+    if (audioAnalyserIntervalRef.current) {
+      clearInterval(audioAnalyserIntervalRef.current);
+    }
 
     setAudioTrack(audioTrack);
   };
@@ -224,8 +226,11 @@ const changeMic = async (deviceId: string) => {
       });
     }
   }
-
-  const getDevices = async ({ micEnabled, webcamEnabled }) => {
+type Device = {
+  micEnabled: boolean;
+  webcamEnabled: boolean;
+};
+  const getDevices = async ({ micEnabled, webcamEnabled }: Device) => {
     try {
       const devices = await navigator.mediaDevices.enumerateDevices();
 
@@ -267,7 +272,7 @@ const changeMic = async (deviceId: string) => {
     videoTrackRef.current = videoTrack;
 
     var isPlaying =
-      videoPlayerRef.current.currentTime > 0 &&
+      videoPlayerRef.current && videoPlayerRef.current.currentTime > 0 &&
       !videoPlayerRef.current.paused &&
       !videoPlayerRef.current.ended &&
       videoPlayerRef.current.readyState >
@@ -311,7 +316,14 @@ const changeMic = async (deviceId: string) => {
     getDevices({ micEnabled, webcamEnabled });
   }, []);
 
-  const ButtonWithTooltip = ({ onClick, onState, OnIcon, OffIcon, mic }) => {
+  type ButtonWithTooltipProps = {
+    onClick: () => void;
+    onState: boolean;
+    OnIcon: any;
+    OffIcon: any;
+    mic: boolean;
+  };
+  const ButtonWithTooltip = ({ onClick, onState, OnIcon, OffIcon, mic }: ButtonWithTooltipProps) => {
     const [tooltipShow, setTooltipShow] = useState(false);
     const btnRef = useRef();
     const tooltipRef = useRef();
