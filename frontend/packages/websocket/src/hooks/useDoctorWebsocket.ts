@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { MessageType, WebSocketMessage, useCallSocket } from './useWebsocket';
+import { MessageType, WebSocketMessage, useCallSocket } from './useCallSocket';
 
 export enum DoctorCallEventType {
   INCOMING = 'incoming',
@@ -18,7 +18,7 @@ export function useDoctorWebSocket() {
         setCallStatus(DoctorCallEventType.INCOMING);
       }
     },
-    []
+    [setCallStatus]
   );
 
   const {
@@ -33,18 +33,18 @@ export function useDoctorWebSocket() {
       setCallStatus(DoctorCallEventType.DECLINED);
       sendMessage(MessageType.DECLINE_CALL, { note });
     },
-    [sendMessage]
+    [sendMessage, setCallStatus]
   );
 
   const answerCall = useCallback(() => {
     setCallStatus(DoctorCallEventType.ANSWERED);
     sendMessage(MessageType.ANSWER_CALL);
-  }, [sendMessage]);
+  }, [sendMessage, setCallStatus]);
 
   const endCall = useCallback(() => {
     setCallStatus(DoctorCallEventType.ENDED);
     sendMessage(MessageType.END_CALL);
-  }, [sendMessage]);
+  }, [sendMessage, setCallStatus]);
 
   return {
     isOpen,

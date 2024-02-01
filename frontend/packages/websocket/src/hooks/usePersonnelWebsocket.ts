@@ -3,7 +3,7 @@ import {
   type WebSocketMessage,
   useCallSocket,
   MessageType,
-} from './useWebsocket';
+} from './useCallSocket';
 
 export enum PersonnelCallEventType {
   CALLING = 'calling',
@@ -56,7 +56,7 @@ export function usePersonnelWebSocket() {
       setCallStatus(PersonnelCallEventType.ENDED);
       sendMessage(MessageType.END_CALL);
     },
-    [sendMessage]
+    [sendMessage, setCallStatus]
   );
 
   return {
