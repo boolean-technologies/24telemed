@@ -3,8 +3,8 @@ import {
   PersonnelCallEventType,
   CallMessage,
   usePersonnelWebSocket,
+  WebSocketMessage,
 } from '../hooks';
-import { CallLog, WebSocketMessage } from '../hooks/useCallSocket';
 
 export interface PersonnelWebSocketContextType {
   isOpen: boolean;
