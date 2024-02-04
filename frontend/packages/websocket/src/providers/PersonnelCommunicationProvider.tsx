@@ -3,23 +3,25 @@ import {
   PersonnelCallEventType,
   CallMessage,
   usePersonnelWebSocket,
+  WebSocketMessage,
 } from '../hooks';
-import { CallLog } from '../hooks/useCallSocket';
 
 export interface PersonnelWebSocketContextType {
   isOpen: boolean;
+  isOngoingCall: boolean;
   callStatus: PersonnelCallEventType | undefined;
-  callLog: CallLog | undefined;
   callDoctor: (callData: CallMessage) => void;
   endCall: () => void;
+  message: WebSocketMessage<PersonnelCallEventType> | null
 }
 
 const PersonnelWebSocketContext = createContext<PersonnelWebSocketContextType>({
   isOpen: false,
+  isOngoingCall: false,
   callStatus: undefined,
-  callLog: undefined,
   callDoctor: (callData: CallMessage) => {},
   endCall: () => {},
+  message: null,
 });
 
 export const usePersonnelCommunication = () =>
@@ -27,12 +29,14 @@ export const usePersonnelCommunication = () =>
 
 interface PersonnelWebSocketProviderProps {
   children: ReactNode;
+  userId: string;
 }
 
 export function PersonnelCommunicationProvider({
   children,
+  userId,
 }: PersonnelWebSocketProviderProps) {
-  const value = usePersonnelWebSocket();
+  const value = usePersonnelWebSocket(userId, "health-care-assistant");
   const memoisedValue = useMemo(() => value, [value]);
   return (
     <PersonnelWebSocketContext.Provider value={memoisedValue}>

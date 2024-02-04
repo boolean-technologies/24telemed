@@ -3,15 +3,16 @@ import {
   type WebSocketMessage,
   useCallSocket,
   MessageType,
+  UserType,
 } from './useCallSocket';
 
 export enum PersonnelCallEventType {
-  CALLING = 'calling',
-  BUSY = 'busy',
+  CALLING = 'CALLING-DOCTOR',
+  BUSY = 'NOTIFY_PERSONNEL_CLIENT_DOCTOR_IS_BUSY',
   FAILED = 'failed',
-  DECLINED = 'declined',
-  ENDED = 'ended',
-  ANSWERED = 'answered',
+  DECLINED = 'NOTIFY_PERSONNEL_CLIENT_DOCTOR_DECLINED_CALL',
+  ENDED = 'NOTIFY_PERSONNEL_CLIENT_DOCTOR_ENDED_CALL',
+  ANSWERED = 'NOTIFY_PERSONNEL_CLIENT_DOCTOR_ANSWERED_CALL',
 };
 
 export type CallMessage = {
@@ -20,33 +21,39 @@ export type CallMessage = {
   priority: number;
 };
 
-export function usePersonnelWebSocket() {
+export function usePersonnelWebSocket(userId: string, type: UserType) {
   const [callStatus, setCallStatus] = useState<PersonnelCallEventType>();
   // Function to handle incoming messages
   const handleMessageReceived = useCallback(
     (message: WebSocketMessage<PersonnelCallEventType>) => {
-      switch (message.name) {
+      switch (message.type) {
         case PersonnelCallEventType.BUSY:
           setCallStatus(PersonnelCallEventType.BUSY);
+          break;
         case PersonnelCallEventType.DECLINED:
           setCallStatus(PersonnelCallEventType.DECLINED);
+          break;
         case PersonnelCallEventType.FAILED:
           setCallStatus(PersonnelCallEventType.FAILED);
+          break;
         case PersonnelCallEventType.ENDED:
           setCallStatus(PersonnelCallEventType.ENDED);
+          break;
         case PersonnelCallEventType.ANSWERED:
           setCallStatus(PersonnelCallEventType.ANSWERED);
+          break;
       }
+      console.log("Message: ", message)
     },
     [setCallStatus]
   );
 
-  const { isOpen, sendMessage, currentCallLog: callLog } = useCallSocket(handleMessageReceived);
+  const { isOpen, sendMessage, message } = useCallSocket(handleMessageReceived, userId, type);
 
   const callDoctor = useCallback(
     (callData: CallMessage) => {
       setCallStatus(PersonnelCallEventType.CALLING);
-      sendMessage<CallMessage>(MessageType.CALL_DOCTOR, callData)
+      sendMessage<{ data: CallMessage }>(MessageType.CALL_DOCTOR, { data: callData })
     },
     [sendMessage, setCallStatus]
   );
@@ -59,10 +66,13 @@ export function usePersonnelWebSocket() {
     [sendMessage, setCallStatus]
   );
 
+  const isOngoingCall = callStatus === PersonnelCallEventType.ANSWERED;
+
   return {
     isOpen,
     callStatus,
-    callLog,
+    message,
+    isOngoingCall,
     callDoctor,
     endCall,
   };

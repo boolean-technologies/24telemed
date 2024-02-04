@@ -10,36 +10,43 @@ export type CallLog = {
 };
 
 export type WebSocketMessage<EventType> = {
-  name: EventType;
+  type: EventType;
   data: CallLog | undefined;
 };
 
 export enum MessageType {
-  END_CALL = 'END-CALL',
-  DECLINE_CALL = 'DECLINE-CALL',
-  ANSWER_CALL = 'ANSWER-CALL',
-  CALL_DOCTOR = 'CALL-DOCTOR',
+  END_CALL = 'NOTIFY-SERVER-END-CALL',
+  DECLINE_CALL = 'NOTIFY-SERVER-DECLINE-CALL',
+  ANSWER_CALL = 'NOTIFY-SERVER-ANSWER-CALL',
+  CALL_DOCTOR = 'NOTIFY-SERVER-CALL-A-DOCTOR',
+  DOCTOR_BUSY = 'NOTIFY-SERVER-DOCTOR-IS-BUSY'
 }
 
+export type UserType = "doctor" | "health-care-assistant";
+
 // TODO: Move this to env later
-const WEBSOCKET_URL = 'wss://api.ourwebsocket.com/websocket';
+const WEBSOCKET_URL = 'ws://localhost:8000/video_call/';
 
 export function useCallSocket<EventType = undefined>(
-  handleMessageReceived: (message: WebSocketMessage<EventType>) => void
+  handleMessageReceived: (message: WebSocketMessage<EventType>) => void,
+  userId: string,
+  type: UserType,
 ) {
   const { sendJsonMessage, readyState, lastJsonMessage } =
     useWebSocket<WebSocketMessage<EventType> | null>(WEBSOCKET_URL, {
+      queryParams: { userId, type },
       onMessage: (event: WebSocketEventMap['message']) => {
         const message: WebSocketMessage<EventType> = JSON.parse(event.data);
         handleMessageReceived(message);
       },
+      shouldReconnect: (_) => true
     });
 
   const currentCallLog = lastJsonMessage?.data;
 
   const sendMessage = useCallback(
     <OthersType = undefined>(type: MessageType, others?: OthersType) => {
-      sendJsonMessage({ callLog: currentCallLog, type, ...others });
+      sendJsonMessage({ data: currentCallLog, type, ...others });
     },
     [currentCallLog]
   );
@@ -47,7 +54,7 @@ export function useCallSocket<EventType = undefined>(
   return {
     isOpen: readyState === 1,
     isConnecting: readyState === 0,
-    currentCallLog,
+    message: lastJsonMessage,
     sendMessage,
   };
 }

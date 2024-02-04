@@ -1,31 +1,40 @@
-import { useCallback, useState } from 'react';
-import { MessageType, WebSocketMessage, useCallSocket } from './useCallSocket';
+import { useCallback, useEffect, useState } from 'react';
+import { MessageType, UserType, WebSocketMessage, useCallSocket } from './useCallSocket';
 
 export enum DoctorCallEventType {
-  INCOMING = 'incoming',
+  INCOMING = 'NOTIFY_DOCTOR_CLIENT_INCOMING_CALL',
   ENDED = 'ended',
   ANSWERED = 'answered',
   DECLINED = 'declined',
 }
 
-export function useDoctorWebSocket() {
+export function useDoctorWebSocket(userId: string, type: UserType) {
   const [callStatus, setCallStatus] = useState<DoctorCallEventType>();
+  const [isBusy, setIsBusy] = useState<boolean>(false);
+  const [currentMessage, setCurrentMessage] = useState<WebSocketMessage<DoctorCallEventType> | null>();
 
   // Function to handle incoming messages
   const handleMessageReceived = useCallback(
     (message: WebSocketMessage<DoctorCallEventType>) => {
-      if (message.name === DoctorCallEventType.INCOMING) {
-        setCallStatus(DoctorCallEventType.INCOMING);
+      if (message.type === DoctorCallEventType.INCOMING) {
+        if (callStatus === DoctorCallEventType.ANSWERED){
+          setIsBusy(true);
+        } else {
+          setCallStatus(DoctorCallEventType.INCOMING);
+          setCurrentMessage(message);
+        }
       }
+      console.log(message);
+      
     },
-    [setCallStatus]
+    [setCallStatus, setCurrentMessage, setIsBusy]
   );
 
   const {
     isOpen,
     sendMessage,
-    currentCallLog: callLog,
-  } = useCallSocket<DoctorCallEventType>(handleMessageReceived);
+    message
+  } = useCallSocket<DoctorCallEventType>(handleMessageReceived, userId, type);
 
   // Function to send messages
   const declineCall = useCallback(
@@ -46,10 +55,20 @@ export function useDoctorWebSocket() {
     sendMessage(MessageType.END_CALL);
   }, [sendMessage, setCallStatus]);
 
+  useEffect(() => {
+    if (isBusy) {
+      sendMessage(MessageType.DOCTOR_BUSY);
+      setIsBusy(false);
+    }
+  }, [isBusy])
+
+  const isOngoingCall = callStatus === DoctorCallEventType.ANSWERED;
+
   return {
     isOpen,
     callStatus,
-    callLog,
+    message: currentMessage || message,
+    isOngoingCall,
     declineCall,
     answerCall,
     endCall,

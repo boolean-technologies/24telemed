@@ -10,7 +10,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <StrictMode>
     <BrowserRouter>
-      <DoctorCommunicationProvider>
+      <DoctorCommunicationProvider userId="80ca8080-1b9e-4b77-9051-13e2302c2b90">
         <App />
       </DoctorCommunicationProvider>
     </BrowserRouter>

@@ -1,7 +1,6 @@
 import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-import  {VideoSDKRTCComponent}  from '@local/videosdk-rtc-component';
 import App from './app/app';
 // import '../src/index.css'
 import { PersonnelCommunicationProvider } from '@local/websocket';
@@ -30,13 +29,8 @@ root.render(
       theme="light"
     />
     <BrowserRouter>
-      <PersonnelCommunicationProvider>
-      
-        
-        <VideoSDKRTCComponent/>
-          
-        
-      
+      <PersonnelCommunicationProvider userId="446175d1-f2a4-4513-851e-e63fde4ca906">
+        <App />
       </PersonnelCommunicationProvider>
     </BrowserRouter>
   </StrictMode>
