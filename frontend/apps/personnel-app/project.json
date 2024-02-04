@@ -9,7 +9,8 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/apps/personnel-app"
+        "outputPath": "dist/apps/personnel-app",
+        "postcssConfig": "apps/personnel-app/postcss.config.js"
       },
       "configurations": {
         "development": {
