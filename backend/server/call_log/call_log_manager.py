@@ -1,4 +1,5 @@
-import json
+import os
+import requests
 from django.forms.models import model_to_dict
 from django.core.serializers import serialize
 from asgiref.sync import sync_to_async
@@ -38,6 +39,7 @@ class CallLogManager():
     
     async def setUpModel(self, data: Union[CallLogDataType, None]):
         try:
+            self.serializedData = data 
             def getCallLog():
                 return CallLog.objects.get(id=data["id"]) if data else None
             self.call_log = await sync_to_async(getCallLog)()
@@ -46,6 +48,7 @@ class CallLogManager():
             
     def setCallLog(self, call_log: CallLog):
         self.call_log = call_log
+        self.serializedData = self.toDict() 
     
     def toDict(self) -> CallLogDataType:
         data = CallLogSerializer(self.call_log, many=False).data
@@ -96,3 +99,12 @@ class CallLogManager():
 
     async def setToDeclined(self):
         await sync_to_async(self.call_log.setToDeclined)()
+        
+    
+    async def setUpVideoSDKMeeting(self) -> bool:
+        url = "https://api.videosdk.live/v2/rooms"
+        token = os.getenv('VIDEO_SDK_TOKEN')
+        headers = {'Authorization' : token,'Content-Type' : 'application/json'}
+        response = requests.request("POST", url, json = { "customRoomId" : str(self.serializedData["id"]) }, headers = headers)
+        print(response.json())
+        return response.status_code == 200

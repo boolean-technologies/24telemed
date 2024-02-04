@@ -10,17 +10,24 @@ export enum DoctorCallEventType {
 
 export function useDoctorWebSocket(userId: string, type: UserType) {
   const [callStatus, setCallStatus] = useState<DoctorCallEventType>();
-  const [currentMessage, setCurrentMessage] = useState<WebSocketMessage<DoctorCallEventType>>();
+  const [isBusy, setIsBusy] = useState<boolean>(false);
+  const [currentMessage, setCurrentMessage] = useState<WebSocketMessage<DoctorCallEventType> | null>();
 
   // Function to handle incoming messages
   const handleMessageReceived = useCallback(
     (message: WebSocketMessage<DoctorCallEventType>) => {
       if (message.type === DoctorCallEventType.INCOMING) {
-        setCallStatus(DoctorCallEventType.INCOMING);
-        setCurrentMessage(message);
+        if (callStatus === DoctorCallEventType.ANSWERED){
+          setIsBusy(true);
+        } else {
+          setCallStatus(DoctorCallEventType.INCOMING);
+          setCurrentMessage(message);
+        }
       }
+      console.log(message);
+      
     },
-    [setCallStatus, setCurrentMessage]
+    [setCallStatus, setCurrentMessage, setIsBusy]
   );
 
   const {
@@ -48,18 +55,19 @@ export function useDoctorWebSocket(userId: string, type: UserType) {
     sendMessage(MessageType.END_CALL);
   }, [sendMessage, setCallStatus]);
 
-  const isOngoingCall = callStatus === DoctorCallEventType.ANSWERED;
+  useEffect(() => {
+    if (isBusy) {
+      sendMessage(MessageType.DOCTOR_BUSY);
+      setIsBusy(false);
+    }
+  }, [isBusy])
 
-  // useEffect(() => {
-  //   if (callStatus === DoctorCallEventType.ANSWERED || currentMessage?.type === DoctorCallEventType.INCOMING){
-  //     sendMessage(MessageType.DECLINE_CALL, { note: "Busy on another call" })
-  //   }
-  // }, [callStatus, currentMessage, sendMessage])
+  const isOngoingCall = callStatus === DoctorCallEventType.ANSWERED;
 
   return {
     isOpen,
     callStatus,
-    message,
+    message: currentMessage || message,
     isOngoingCall,
     declineCall,
     answerCall,

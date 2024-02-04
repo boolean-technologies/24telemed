@@ -19,6 +19,7 @@ export enum MessageType {
   DECLINE_CALL = 'NOTIFY-SERVER-DECLINE-CALL',
   ANSWER_CALL = 'NOTIFY-SERVER-ANSWER-CALL',
   CALL_DOCTOR = 'NOTIFY-SERVER-CALL-A-DOCTOR',
+  DOCTOR_BUSY = 'NOTIFY-SERVER-DOCTOR-IS-BUSY'
 }
 
 export type UserType = "doctor" | "health-care-assistant";
