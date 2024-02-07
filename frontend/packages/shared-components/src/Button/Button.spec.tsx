@@ -3,10 +3,6 @@ import Button from './Button';
 import { render, screen, fireEvent } from "@testing-library/react";
 import { vi, Mock } from "vitest";
 
-
-
-// this is Button.spec.tsx
-
 describe('Button', () => {
   
   it('renders a button', () => {
