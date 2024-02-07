@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom/extend-expect'
 import Button from './Button';
-import { render, screen, fireEvent } from "@testing-library/react";
-import { vi, Mock } from "vitest";
+import { render, screen} from "@testing-library/react";
+
 
 describe('Button', () => {
   
