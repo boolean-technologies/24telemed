@@ -1,1 +1,3 @@
-export * from './lib/shared-components';
+import Button from "./Button/Button";
+
+export { Button }
