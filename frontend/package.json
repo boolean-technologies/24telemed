@@ -49,6 +49,7 @@
     "@nx/js": "17.2.8",
     "@nx/react": "17.2.8",
     "@nx/react-native": "^17.2.8",
+    "@nx/storybook": "^18.0.2",
     "@nx/vite": "17.2.8",
     "@nx/workspace": "17.2.8",
     "@swc-node/register": "~1.6.7",
@@ -100,8 +101,7 @@
     "vite-plugin-dts": "~2.3.0",
     "vitest": "~0.34.6"
   },
-
   "resolutions": {
     "string-width": "4.2.3"
- }
+  }
 }
