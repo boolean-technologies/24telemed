@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom/extend-expect'
-import Button from './Button';
+import { Button } from './Button';
 import { render, screen} from "@testing-library/react";
 
 

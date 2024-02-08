@@ -35,7 +35,7 @@ const StyledButton = styled.button<ButtonProps>`
     
 `;
 
-const Button = (props: ButtonProps) => {
+export function Button(props: ButtonProps) {
   return (
     <StyledButton {...props} onClick={props.onClick}>
       {props.label}
@@ -43,4 +43,4 @@ const Button = (props: ButtonProps) => {
   );
 };
 
-export default Button;
+
