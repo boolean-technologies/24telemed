@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "rest_framework_simplejwt",
     "drf_yasg",
     "corsheaders",
     "channels",
@@ -161,7 +162,7 @@ SWAGGER_SETTINGS = {
             'in': 'header'
         }
     },
-    'DOC_EXPANSION': 'none',
+    'DOC_EXPANSION': 'list',
     'OPERATIONS_SORTER': 'alpha',
     'TAGS_SORTER': 'alpha',
     'DEFAULT_MODEL_RENDERING': 'example',
