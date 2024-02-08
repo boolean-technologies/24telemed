@@ -58,3 +58,6 @@ cache/
 *.pyc
 
 apps/personnel-mobile-e2e/artifacts
+
+
+storybook-static
