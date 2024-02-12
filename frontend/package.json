@@ -6,7 +6,7 @@
     "start:doctor": "nx serve doctor-app",
     "start:personnel": "nx serve personnel-app",
     "start:mobile": "nx start personnel-mobile",
-    "start:storybook": "nx run shared-components:storybook"
+    "start:storybook": " npx nx run shared-components:storybook"
   },
   "private": true,
   "dependencies": {
