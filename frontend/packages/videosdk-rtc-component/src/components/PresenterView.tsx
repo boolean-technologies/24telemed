@@ -148,9 +148,7 @@ export function PresenterView({ height }: { height: number }) {
             
             />
           </>
-        ) : (
-          <></>
-        )}
+        ) : null}
       </div>
     </div>
   );

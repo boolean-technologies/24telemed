@@ -32,7 +32,7 @@ import useMediaStream from "../../hooks/useMediaStream";
 
 type BottomBarProps = {
   bottomBarHeight: number;
-  setIsMeetingLeft: (isMeetingLeft: boolean) => void;
+  setIsMeetingLeft?: (isMeetingLeft: boolean) => void;
   selectWebcamDeviceId: string;
   setSelectWebcamDeviceId: (deviceId: string) => void;
   selectMicDeviceId: string;
@@ -611,14 +611,14 @@ export function BottomBar({
         bgColor="bg-red-150"
         onClick={() => {
           leave();
-          setIsMeetingLeft(true);
+          setIsMeetingLeft?.(true);
         }}
         tooltip="Leave Meeting"
       />
     );
   };
 
-  const ChatBTN = ({ isMobile, isTab }) => {
+  const ChatBTN = ({ isMobile, isTab }: { isMobile: boolean, isTab: boolean }) => {
     return isMobile || isTab ? (
       <MobileIconButton
         tooltipTitle={"Chat"}
@@ -645,7 +645,7 @@ export function BottomBar({
     );
   };
 
-  const ParticipantsBTN = ({ isMobile, isTab }) => {
+  const ParticipantsBTN = ({ isMobile, isTab }: { isMobile: boolean, isTab: boolean }) => {
     const { participants } = useMeeting();
     return isMobile || isTab ? (
       <MobileIconButton

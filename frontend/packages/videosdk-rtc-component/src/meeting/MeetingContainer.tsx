@@ -16,7 +16,7 @@ import useMediaStream from "../hooks/useMediaStream";
 
 type MeetingContainerProps = {
   onMeetingLeave: () => void;
-  setIsMeetingLeft: (isMeetingLeft: boolean) => void;
+  setIsMeetingLeft?: (isMeetingLeft: boolean) => void;
   selectedMic: { id: string; label: string };
   selectedWebcam: { id: string; label: string };
   selectWebcamDeviceId: string;
@@ -47,11 +47,11 @@ export function MeetingContainer({
   const [containerHeight, setContainerHeight] = useState<number>(0);
   const [containerWidth, setContainerWidth] = useState<number>(0);
   const [localParticipantAllowedJoin, setLocalParticipantAllowedJoin] =
-    useState(null);
+    useState<boolean | null>(null);
   const [meetingErrorVisible, setMeetingErrorVisible] = useState(false);
   const [meetingError, setMeetingError] = useState({ code: 0, message: "" });
 
-  const mMeetingRef = useRef<   ReturnType<typeof useMeeting> | null>(null);
+  const mMeetingRef = useRef<ReturnType<typeof useMeeting> | null>(null);
   const containerRef = createRef<HTMLDivElement>();
   const containerHeightRef = useRef<number>();
   const containerWidthRef = useRef<number>();
@@ -93,7 +93,7 @@ export function MeetingContainer({
   const { participantRaisedHand } = useRaisedHandParticipants();
 
   const _handleMeetingLeft = () => {
-    setIsMeetingLeft(true);
+    setIsMeetingLeft?.(true);
   };
 
   const _handleOnRecordingStateChanged = ({ status }: { status: string }) => {
@@ -126,10 +126,9 @@ export function MeetingContainer({
     participant && participant.setQuality("high");
   }
 
-  function onEntryResponded(participantId: string, name: string) {
-    // console.log(" onEntryResponded", participantId, name);
+  function onEntryResponded(participantId: string, decision: string) {
     if (mMeetingRef.current?.localParticipant?.id === participantId) {
-      if (name === "allowed") {
+      if (decision === "allowed") {
         setLocalParticipantAllowedJoin(true);
       } else {
         setLocalParticipantAllowedJoin(false);
@@ -205,6 +204,7 @@ export function MeetingContainer({
 
   const mMeeting = useMeeting({
     onParticipantJoined,
+    // @ts-ignore -> For some reason, the SDK type is wrong here
     onEntryResponded,
     onMeetingJoined,
     onMeetingLeft,
@@ -215,7 +215,11 @@ export function MeetingContainer({
   const isPresenting = mMeeting.presenterId ? true : false;
 
   useEffect(() => {
-    mMeetingRef.current = mMeeting;
+    if (mMeetingRef.current && !mMeeting) {
+      mMeetingRef.current.leave();
+    } else {
+      mMeetingRef.current = mMeeting;
+    }
   }, [mMeeting]);
 
   usePubSub("RAISE_HAND", {
@@ -295,7 +299,7 @@ export function MeetingContainer({
 
                 <SidebarConatiner
                   height={containerHeight - bottomBarHeight}
-                  sideBarContainerWidth={sideBarContainerWidth}
+                  sideBarContainerWidth={sideBarContainerWidth.toString()}
                 />
               </div>
 

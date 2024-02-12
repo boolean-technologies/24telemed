@@ -1,6 +1,6 @@
 import * as React from "react";
 type SpeakerIconProps = {
-  fillcolor: string;
+  fillcolor?: string;
 } & React.SVGProps<SVGSVGElement>;
 const SpeakerIcon = (props : SpeakerIconProps) => (
   <svg

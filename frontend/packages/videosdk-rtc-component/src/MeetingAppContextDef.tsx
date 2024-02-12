@@ -4,7 +4,7 @@ type MeetingAppContextType = {
   sideBarMode: string | null;
   pipMode: boolean;
   setRaisedHandsParticipants: (participants: any[]) => void;
-  setSideBarMode: (mode: string | null) => void;
+  setSideBarMode: React.Dispatch<React.SetStateAction<null>>;
   setPipMode: (pipMode: boolean) => void;
   useRaisedHandParticipants: () => {
     participantRaisedHand: (participantId: string) => void;
@@ -27,8 +27,14 @@ export const useMeetingAppContext = () => useContext(MeetingAppContext);
 type MeeetingAppProviderProps = {
   children: React.ReactNode;
 };
+
+type RaiseHandParticipantType = {
+  participantId: string;
+  raisedHandOn: number;
+}
+
 export const MeetingAppProvider = ({ children }: MeeetingAppProviderProps) => {
-  const [raisedHandsParticipants, setRaisedHandsParticipants] = useState([]);
+  const [raisedHandsParticipants, setRaisedHandsParticipants] = useState<RaiseHandParticipantType[]>([]);
   const [sideBarMode, setSideBarMode] = useState(null);
   const [pipMode, setPipMode] = useState(false);
 

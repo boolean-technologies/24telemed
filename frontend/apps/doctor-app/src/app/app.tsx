@@ -1,8 +1,13 @@
-import { useDoctorCommunication } from '@local/websocket';
+import { DoctorCallEventType, useDoctorCommunication } from '@local/websocket';
+import { VideoCallSDK } from '@local/videosdk-rtc-component';
 
 function App() {
   const { isOpen, callStatus, hasIncomingCall, message, declineCall, answerCall } =
     useDoctorCommunication();
+    if (callStatus !== DoctorCallEventType.ANSWERED) {
+      return <VideoCallSDK participantName="Doctor" meetingId="u9fr-y2uj-7opc" setIsMeetingLeft={(x) => console.log("Doctor Left: ", x)}  />
+    }
+
   return (
     <div>
       Doctor App

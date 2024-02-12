@@ -1,1 +1,1 @@
-export {default as VideoSDKRTCComponent} from './VideoSdkRTC';
+export { default as VideoCallSDK } from './VideoSdkRTC';

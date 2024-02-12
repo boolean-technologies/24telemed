@@ -1,7 +1,11 @@
-import { usePersonnelCommunication } from '@local/websocket';
+import { PersonnelCallEventType, usePersonnelCommunication } from '@local/websocket';
+import { VideoCallSDK } from '@local/videosdk-rtc-component';
 
 function App() {
   const comms = usePersonnelCommunication();
+  if (comms.callStatus !== PersonnelCallEventType.ANSWERED) {
+    return <VideoCallSDK participantName="Personnel" meetingId="u9fr-y2uj-7opc" setIsMeetingLeft={(x: boolean) => console.log("Personnel Left: ", x)} />
+  }
   return (
     <div>
       Personnel App

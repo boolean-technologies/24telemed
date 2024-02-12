@@ -1,6 +1,7 @@
 import * as React from "react";
 type ScreenShareIconProps = {
   fillcolor: string;
+  style?: React.CSSProperties;
 } & React.SVGProps<SVGSVGElement>;
 const ScreenShareIcon = (props : ScreenShareIconProps) => (
   <svg
