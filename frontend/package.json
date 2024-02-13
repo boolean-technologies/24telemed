@@ -6,13 +6,15 @@
     "start:doctor": "nx serve doctor-app",
     "start:personnel": "nx serve personnel-app",
     "start:mobile": "nx start personnel-mobile",
-    "start:storybook": " npx nx run shared-components:storybook"
+    "start:storybook": " npx nx run shared-components:storybook",
+    "start:test": "npx nx run shared-components:test"
   },
   "private": true,
   "dependencies": {
     "@expo/metro-config": "~0.10.7",
     "@headlessui/react": "^1.7.18",
     "@heroicons/react": "^1.0.6",
+    "@hookform/resolvers": "^3.3.4",
     "@popperjs/core": "^2.11.8",
     "@swc/helpers": "~0.5.2",
     "@videosdk.live/react-sdk": "^0.1.83",
@@ -24,6 +26,8 @@
     "postcss-loader": "^7.3.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.50.1",
+    "react-icons": "^5.0.1",
     "react-is": "18.2.0",
     "react-native": "0.72.6",
     "react-native-svg": "13.9.0",
@@ -35,7 +39,8 @@
     "react-toastify": "^9.1.3",
     "react-use-websocket": "^4.5.0",
     "styled-components": "5.3.6",
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "yup": "^1.3.3"
   },
   "devDependencies": {
     "@babel/core": "^7.14.5",

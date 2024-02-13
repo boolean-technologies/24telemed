@@ -1,0 +1,26 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Input > matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-jSUZER jOkPEt"
+  >
+    <label
+      class="sc-gswNZR oFCHO"
+    >
+      Field Label
+    </label>
+    <div
+      class="sc-dkrFOg OaQBh"
+    >
+      <input
+        class="sc-bcXHqe fVFQcv"
+        name="input"
+        placeholder="Type here..."
+        type="text"
+        value=""
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;
