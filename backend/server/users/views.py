@@ -5,6 +5,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .models import PatientRecord, MedicalRecord
 from .serializers import UserSerializer, PatientRecordSerializer, MedicalRecordSerializer
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -13,7 +15,23 @@ class UserViewSet(viewsets.ModelViewSet):
 class PatientRecordViewSet(viewsets.ModelViewSet):
     queryset = PatientRecord.objects.all()
     serializer_class = PatientRecordSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(
+        method='get',
+        operation_description="Patient search operation",
+        manual_parameters=[
+            openapi.Parameter(
+                'first_name', openapi.IN_QUERY, description="First name",
+                type=openapi.TYPE_STRING),
+            openapi.Parameter(
+                'last_name', openapi.IN_QUERY, description="Last name",
+                type=openapi.TYPE_STRING),
+            openapi.Parameter(
+                'phone_number', openapi.IN_QUERY, description="Phone number",
+                type=openapi.TYPE_STRING),
+        ]
+    )
 
     @action(detail=False, methods=['get'])
     def search(self, request):
