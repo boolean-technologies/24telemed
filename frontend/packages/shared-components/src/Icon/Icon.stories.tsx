@@ -1,9 +1,7 @@
 import type { Meta } from "@storybook/react";
 import styled from "styled-components";
-import { EyeIcon } from "./Icons/EyeIcon";
-import { StarIcon } from "./Icons/StarIcon";
-import { AttachmentIcon } from "./Icons/AttachmentIcon";
-import {HelperIcon} from './Icons/HelperIcon';
+import { EyeIcon, StarIcon, AttachmentIcon, HelperIcon, ErrorIcon, CancelIcon } from "../Icon";
+
 function Layout() {
   return (
     <div>
@@ -12,6 +10,8 @@ function Layout() {
         <StarIcon />
         <AttachmentIcon />
         <HelperIcon />
+        <ErrorIcon />
+        <CancelIcon />
       </Row>
     </div>
   );
