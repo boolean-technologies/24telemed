@@ -36,9 +36,6 @@ export const colorVariants: Array<PaletteVariants> = [
   "notification",
   "common.black",
   "common.white",
-  "common.transparent",
-  "common.helper",
-  
 ];
 
 export const defaultTheme: Theme = {
@@ -77,7 +74,6 @@ export const defaultTheme: Theme = {
       black: "#000000",
       white: "#FFFFFF",
       transparent: "transparent",
-      helper: "#9747FF",
     },
     background: {
       main: "#F7F8F8",
@@ -123,7 +119,6 @@ export const defaultTheme: Theme = {
       black: "#FFFFFF",
       white: "#2F4D52",
       transparent: "#2F4D52",
-      helper: "#9747FF",
     },
     background: {
       main: "#2F4D52",
