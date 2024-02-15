@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { EyeIcon } from "./Icons/EyeIcon";
 import { StarIcon } from "./Icons/StarIcon";
 import { AttachmentIcon } from "./Icons/AttachmentIcon";
-
+import {HelperIcon} from './Icons/HelperIcon';
 function Layout() {
   return (
     <div>
@@ -11,6 +11,7 @@ function Layout() {
         <EyeIcon />
         <StarIcon />
         <AttachmentIcon />
+        <HelperIcon />
       </Row>
     </div>
   );

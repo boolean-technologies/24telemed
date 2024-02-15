@@ -1,157 +1,115 @@
 import type { Meta, StoryObj, StoryFn } from '@storybook/react';
-import { Input, InputProps } from './Input';
-import { ThemeProvider } from 'styled-components';
-import { theme } from '../config';
-import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { FormProvider } from 'react-hook-form';
-import { FaBeer } from 'react-icons/fa';
+import { TextInput as InputText, TextInputProps } from './TextInput';
+import { StarIcon, NigeriaFlagIcon } from '../Icon';
+import { PasswordInput, PasswordInputProps } from './PasswordInput';
+import { FileInput } from './FileInput';
+import { NumberInput } from './NumberInput';
 
-type Story = StoryObj<typeof Input>;
-
-type FormDataType = {
-  input: string;
-};
-
-const Template: StoryFn<InputProps> = (args) => {
-  const schema = yup.object().shape({
-    input: yup.string().required(),
-  });
-
-  const method = useForm<FormDataType>({
-    resolver: yupResolver(schema),
-    defaultValues: {
-      input: '',
-    },
-  });
-
-  console.log(method.watch('input'));
-
-  return <Input {...args} control={method.control} value= {method.watch('input')} />;
-};
-
-const meta: Meta<typeof Input> = {
-  component: Input,
+const meta: Meta = {
   title: 'Input',
-  decorators: [
-    (Story) => (
-      <ThemeProvider theme={theme}>
-        <Story />
-      </ThemeProvider>
-    ),
-  ],
-};
-
-export const Default = Template.bind({});
-Default.args = {
-  name: 'input',
-  label: 'Field Label',
-  placeholder: 'Type here...',
-  type: 'text',
+  component: InputText,
 };
 
 export default meta;
 
-export const InputTextWithoutLabel = Template.bind({});
+const Template: StoryFn<TextInputProps> = (args) => <InputText {...args} />;
 
-InputTextWithoutLabel.args = {
-  name: 'input',
-  placeholder: 'Type here...',
+export const Default = Template.bind({});
+
+Default.args = {
+  error: false,
+  value: '',
+  onChange: () => {},
   type: 'text',
-  value: '',
+  name: 'input',
 };
 
-export const InputTextwithRightIcon = Template.bind({});
+export const LabelledTextInput: StoryObj<TextInputProps> = Template.bind({});
 
-InputTextwithRightIcon.args = {
-  name: 'input',
-  label: 'Field Label',
-  placeholder: 'Type here...',
-  type: 'text',
-  value: '',
-  inputRightIcon: <FaBeer />,
+LabelledTextInput.args = {
+  ...Default.args,
+  label: 'Label',
 };
 
-export const InputTextwithLeftIcon = Template.bind({});
-InputTextwithLeftIcon.args = {
-  name: 'input',
-  label: 'Field Label',
-  placeholder: 'Type here...',
-  type: 'text',
-  value: '',
-  inputLeftIcon: <FaBeer />,
+export const HelperTextInput: StoryObj<TextInputProps> = Template.bind({});
+
+HelperTextInput.args = {
+  ...Default.args,
+  helperText: 'Helper Text',
 };
 
-export const InputTextWithHelperText = Template.bind({});
-InputTextWithHelperText.args = {
-  name: 'input',
-  label: 'Field Label',
-  placeholder: 'Type here...',
-  type: 'text',
-  value: '',
-  helperText: 'This is a helper text',
+export const ErrorTextInput: StoryObj<TextInputProps> = Template.bind({});
+
+ErrorTextInput.args = {
+  ...Default.args,
+  error: true,
+  errorText: 'Error Text',
 };
 
-export const InputTextWithError = Template.bind({});
+export const RightIconTextInput: StoryObj<TextInputProps> = Template.bind({});
 
-InputTextWithError.args = {
-  name: 'input',
-  label: 'Field Label',
-  placeholder: 'Type here...',
-  type: 'text',
-  value: '',
-  error: 'This is an error',
+RightIconTextInput.args = {
+  ...Default.args,
+  placeholder: 'placeholder',
+  rightIcon: <StarIcon />,
 };
 
-export const InputFileWithLabel = Template.bind({});
+export const LeftIconTextInput: StoryObj<TextInputProps> = Template.bind({});
 
-InputFileWithLabel.args = {
-  name: 'input',
-  label: 'Upload file',
-  type: 'file',
-  value: '',
-  placeholder: 'Add attachment...',
+LeftIconTextInput.args = {
+  ...Default.args,
+  placeholder: 'placeholder',
+  leftIcon: <StarIcon />,
 };
 
-export const InputFileWithHelperText = Template.bind({});
+const TemplatePassword: StoryFn<PasswordInputProps> = (args) => (
+  <PasswordInput {...args} />
+);
+export const PasswordInputStory = TemplatePassword.bind({});
 
-InputFileWithHelperText.args = {
-  name: 'input',
-  label: 'Upload file',
-  type: 'file',
+PasswordInputStory.args = {
+  error: false,
   value: '',
-  placeholder: 'Add attachment...',
-  helperText: 'This is a helper text',
+  onChange: () => {},
+  name: 'input',
 };
 
-export const InputFileWithError = Template.bind({});
 
-InputFileWithError.args = {
-  name: 'input',
-  label: 'Upload file',
-  type: 'file',
-  value: '',
-  placeholder: 'Add attachment...',
-  error: 'This is an error',
+const TemplateFile: StoryFn<React.ComponentProps<typeof FileInput>> = (
+  args
+) => <FileInput {...args} />;
+export const FileInputWithoutFile = TemplateFile.bind({});
+FileInputWithoutFile.args = {
+  onChange: (e) => console.log(e),
+  placeholder: 'Add an attachment',
+
 };
 
-export const InputFileWithValue = Template.bind({});
-
-InputFileWithValue.args = {
-  name: 'input',
-  label: 'Upload file',
-  type: 'file',
-  value: 'file.txt',
-  placeholder: 'Add attachment...',
+export const FileInputWithFile: StoryObj<
+  React.ComponentProps<typeof FileInput>
+> = TemplateFile.bind({});
+FileInputWithFile.args = {
+  ...FileInputWithoutFile.args,
+  value: new File([''], 'filename'),
 };
 
-export const PasswordInput = Template.bind({});
+const NumberInputTemplate: StoryFn<React.ComponentProps<typeof NumberInput>> = (
+  args
+) => <NumberInput {...args} />;
+export const NumberInputStory = NumberInputTemplate.bind({});
 
-PasswordInput.args = {
-  name: 'input',
-  label: 'Password',
-  type: 'password',
+NumberInputStory.args = {
+  error: false,
   value: '',
-  placeholder: 'Type here...',
+  onChange: () => {},
+  name: 'input',
+  label: 'Phone Number',
+};
+
+export const PhoneNumberInputWithFlag: StoryObj<
+  React.ComponentProps<typeof NumberInput>
+> = NumberInputTemplate.bind({});
+PhoneNumberInputWithFlag.args = {
+  ...NumberInputStory.args,
+  leftIcon: <NigeriaFlagIcon />,
 };

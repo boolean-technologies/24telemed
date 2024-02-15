@@ -1,1 +1,5 @@
-export * from './Input'
+export * from './BaseInput'
+export * from './TextInput'
+export * from './PasswordInput'
+export * from './FileInput'
+export * from './NumberInput'
