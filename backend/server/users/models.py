@@ -8,6 +8,10 @@ class User(AbstractUser):
     phone_number = models.CharField(max_length=15, blank=True, null=True)
     date_of_birth = models.DateField(null=True, blank=True)
 
+class Gender(models.TextChoices):
+    MALE = 'Male'
+    FEMALE = 'Female'
+
 class PatientRecord(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     phone_number = models.CharField(max_length=15, unique=True)
@@ -16,21 +20,10 @@ class PatientRecord(models.Model):
     last_name = models.CharField(max_length=255)
     age = models.IntegerField()
     date_of_birth = models.DateField()
-    GENDER_CHOICES = (
-        ('M', 'Male'),
-        ('F', 'Female'),
-        ('O', 'Other'),
-    )
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
+    gender = models.CharField(max_length=10, choices=Gender.choices)
     parent = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True)
     email = models.EmailField(blank=True)
     address = models.CharField(max_length=255, blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-class MedicalRecord(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    patient = models.OneToOneField(PatientRecord, on_delete=models.CASCADE, related_name='medical_history')
     medical_history = models.TextField(blank=True)
     allergies = models.TextField(blank=True)
     current_medications = models.TextField(blank=True)

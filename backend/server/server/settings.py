@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "channels",
     "call_log",
     "users",
+    'django_filters',
 ]
 
 MIDDLEWARE = [
