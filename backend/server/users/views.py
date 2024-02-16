@@ -23,7 +23,7 @@ class PatientRecordViewSet(viewsets.ModelViewSet):
 
     @swagger_auto_schema(
         method='get',
-        operation_description="Search patient by first name, last name, or phone number",
+        operation_description="Search patient by phone number",
     )
     @action(detail=False, methods=['get'])
     def search(self, request):
