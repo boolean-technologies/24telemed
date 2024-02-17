@@ -1,11 +1,7 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets
-from rest_framework.decorators import action
-from rest_framework.response import Response
 from .models import Drug, PrescribedDrug, MedicalEncounter
 from .serializers import DrugSerializer, PrescribedDrugSerializer, MedicalEncounterSerializer
-from drf_yasg.utils import swagger_auto_schema
-from rest_framework import mixins
 from utils.permission import DoctorPermission, PersonnelPermission
 
 class DrugViewSet(viewsets.ReadOnlyModelViewSet):
