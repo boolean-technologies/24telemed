@@ -1,10 +1,16 @@
 import * as ReactDOM from 'react-dom/client';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter } from 'react-router-dom';
-import App from './app/app';
-// import '../src/index.css'
+import { ThemeProvider } from "styled-components";
+import { CssBaseline, Fonts, createTheme } from "@local/shared-components";
 import { PersonnelCommunicationProvider } from '@local/websocket';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { VideoCallSDK } from '@local/videosdk-rtc-component';
+
+const theme = createTheme();
+const queryClient = new QueryClient();
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
@@ -27,10 +33,20 @@ root.render(
       pauseOnHover
       theme="light"
     />
-    <BrowserRouter>
-      <PersonnelCommunicationProvider userId="446175d1-f2a4-4513-851e-e63fde4ca906">
-        <App />
-      </PersonnelCommunicationProvider>
-    </BrowserRouter>
+    <ThemeProvider theme={theme}>
+      <QueryClientProvider client={queryClient}>
+        <Fonts />
+        <CssBaseline />
+        <BrowserRouter>
+          <PersonnelCommunicationProvider userId="446175d1-f2a4-4513-851e-e63fde4ca906">
+            <VideoCallSDK
+              participantName="Personnel"
+              meetingId="u9fr-y2uj-7opc"
+              setIsMeetingLeft={(x) => console.log('Doctor Left: ', x)}
+            />
+          </PersonnelCommunicationProvider>
+        </BrowserRouter>
+      </QueryClientProvider>
+    </ThemeProvider>
   </>
 );

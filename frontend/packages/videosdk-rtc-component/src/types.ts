@@ -49,5 +49,9 @@ export type ShareStats = {
         concealmentEvents: number;
         insertedSamplesForDecelaration: number;
         removedSamplesForAccelaration: number;
+        currentSpatialLayer?: number;
+        currentTemporalLayer?: number;
+        preferredSpatialLayer?: number;
+        preferredTemporalLayer?: number;
         size: any;
       }

@@ -32,6 +32,7 @@ export interface FlexProps
   marginBottom?: SpacingVariants;
   className?: string;
   fullWidth?: boolean;
+  fullHeight?: boolean;
 }
 
 const responsiveProps = createResponsiveProps<FlexResponsivePropsBase>(
@@ -66,6 +67,11 @@ export const Flex: FC<FlexProps> = styled.div<FlexProps>`
     fullWidth &&
     css`
       width: 100%;
+    `};
+  ${({ fullHeight }) =>
+    fullHeight &&
+    css`
+      height: 100%;
     `};
 
   ${responsiveProps}

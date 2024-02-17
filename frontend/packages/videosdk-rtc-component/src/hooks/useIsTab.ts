@@ -1,12 +1,8 @@
-import { useMediaQuery } from "react-responsive";
+import { useBreakpoints } from "@local/shared-components";
 
 const useIsTab = () => {
-  const isTablet = useMediaQuery({
-    minWidth: 768,
-    maxWidth: 1223, // 991,
-  });
-
-  return isTablet;
+  const { isMd } = useBreakpoints();
+  return isMd;
 };
 
 export default useIsTab;

@@ -1,6 +1,7 @@
 import React from "react";
 import { useMeetingAppContext } from "../MeetingAppContextDef";
 import { ParticipantView } from "./ParticipantView";
+import { useBreakpoints } from "@local/shared-components";
 
 type ParticipantGridProps = {
   participantIds: string[];
@@ -15,10 +16,7 @@ const MemoizedParticipant = React.memo(
 
 function ParticipantGrid({ participantIds, isPresenting }: ParticipantGridProps) {
   const { sideBarMode } = useMeetingAppContext();
-  const isMobile = window.matchMedia(
-    "only screen and (max-width: 768px)"
-  ).matches;
-
+  const { isMobile } = useBreakpoints();
   const perRow =
     isMobile || isPresenting
       ? participantIds.length < 4
@@ -42,11 +40,11 @@ function ParticipantGrid({ participantIds, isPresenting }: ParticipantGridProps)
     <div
       className={`flex flex-col md:flex-row flex-grow m-3 items-center justify-center ${
         participantIds.length < 2 && !sideBarMode && !isPresenting
-          ? "md:px-16 md:py-2"
+          ? "md:px-2 md:py-2"
           : participantIds.length < 3 && !sideBarMode && !isPresenting
-          ? "md:px-16 md:py-8"
+          ? "md:px-8 md:py-8"
           : participantIds.length < 4 && !sideBarMode && !isPresenting
-          ? "md:px-16 md:py-4"
+          ? "md:px-4 md:py-4"
           : participantIds.length > 4 && !sideBarMode && !isPresenting
           ? "md:px-14"
           : "md:px-0"

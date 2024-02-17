@@ -28,6 +28,8 @@ import { Dialog, Popover, Transition } from "@headlessui/react";
 import { createPopper } from "@popperjs/core";
 import { useMeetingAppContext } from "../../MeetingAppContextDef";
 import useMediaStream from "../../hooks/useMediaStream";
+import { useGetWebcams } from "../../hooks/useGetWebcams";
+import { useGetMics } from "../../hooks/useGetMics";
 
 
 type BottomBarProps = {
@@ -252,15 +254,10 @@ export function BottomBar({
 
   const MicBTN = () => {
     const mMeeting = useMeeting();
-    const [mics, setMics] = useState([]);
     const localMicOn = mMeeting?.localMicOn;
     const changeMic = mMeeting?.changeMic;
 
-    const getMics = async (mGetMics: () => Promise<any>) => {
-      const mics = await mGetMics();
-
-      mics && mics?.length && setMics(mics);
-    };
+    const { data: mics } = useGetMics();
 
     const [tooltipShow, setTooltipShow] = useState(false);
     const btnRef = useRef<HTMLDivElement>(null);
@@ -287,8 +284,8 @@ export function BottomBar({
           borderColor={localMicOn && "#ffffff33"}
           isFocused={localMicOn}
           focusIconColor={localMicOn && "white"}
-          tooltip={"Toggle Mic"}
-          renderRightComponent={() => {
+          tooltip="Toggle Mic"
+          renderRightComponent={(mics?.length || 0) > 1 ? () => {
             return (
               <>
                 <Popover className="relative">
@@ -300,18 +297,12 @@ export function BottomBar({
                           onMouseEnter={openTooltip}
                           onMouseLeave={closeTooltip}
                         >
-                          <button
-                            onClick={(e) => {
-                              getMics(mMeeting.getMics);
-                            }}
-                          >
-                            <ChevronDownIcon
+                          <ChevronDownIcon
                               className="h-4 w-4"
                               style={{
                                 color: mMeeting.localMicOn ? "white" : "black",
                               }}
                             />
-                          </button>
                         </div>
                       </Popover.Button>
                       <Transition
@@ -333,7 +324,7 @@ export function BottomBar({
                                   </p>
                                 </div>
                                 <div className="flex flex-col">
-                                  {mics.map(({ deviceId, label }, index) => (
+                                  {(mics || []).map(({ deviceId, label }, index) => (
                                     <div
                                       className={`px-3 py-1 my-1 pl-6 text-white text-left ${
                                         deviceId === selectMicDeviceId &&
@@ -380,7 +371,7 @@ export function BottomBar({
                 </div>
               </>
             );
-          }}
+          } : undefined}
         />
       </>
     );
@@ -390,24 +381,12 @@ export function BottomBar({
     const mMeeting = useMeeting();
     const { selectWebcamDeviceId } = useMeetingAppContext();
 
-    const [webcams, setWebcams] = useState<MediaDeviceInfo[]>([]);
+    const { data: webcams } = useGetWebcams();
     const { getVideoTrack } = useMediaStream();
 
     const localWebcamOn = mMeeting?.localWebcamOn;
     const disableWebcam = mMeeting?.disableWebcam;
     const changeWebcam = mMeeting?.changeWebcam;
-
-    const getWebcams = async () => {
-      const devices = await navigator.mediaDevices.enumerateDevices();
-      const webcams = devices.filter(
-        (d) =>
-          d.kind === "videoinput" &&
-          d.deviceId !== "default" &&
-          d.deviceId !== "communications"
-      );
-
-      webcams && webcams?.length && setWebcams(webcams);
-    };
 
     const [tooltipShow, setTooltipShow] = useState(false);
     const btnRef = useRef();
@@ -442,7 +421,7 @@ export function BottomBar({
           isFocused={localWebcamOn}
           focusIconColor={localWebcamOn && "white"}
           tooltip={"Toggle Webcam"}
-          renderRightComponent={() => {
+          renderRightComponent={(webcams?.length || 0) > 1 ? () => {
             return (
               <>
                 <Popover className="relative">
@@ -454,18 +433,12 @@ export function BottomBar({
                           onMouseEnter={openTooltip}
                           onMouseLeave={closeTooltip}
                         >
-                          <button
-                            onClick={(e) => {
-                              getWebcams(mMeeting?.getWebcams);
+                          <ChevronDownIcon
+                            className="h-4 w-4"
+                            style={{
+                              color: localWebcamOn ? "white" : "black",
                             }}
-                          >
-                            <ChevronDownIcon
-                              className="h-4 w-4"
-                              style={{
-                                color: localWebcamOn ? "white" : "black",
-                              }}
-                            />
-                          </button>
+                          />
                         </div>
                       </Popover.Button>
                       <Transition
@@ -478,7 +451,7 @@ export function BottomBar({
                         leaveTo="opacity-0 translate-y-1"
                       >
                         <Popover.Panel className="absolute left-1/2 bottom-full z-10 mt-3 w-72 -translate-x-1/2 transform px-4 sm:px-0 pb-4">
-                          <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                          <div className="overflow-hidden rounded-lg bg-gray shadow-lg ring-1 ring-black ring-opacity-5">
                             <div className={" bg-gray-750 py-1"}>
                               <div>
                                 <div className="flex items-center p-3 pb-0">
@@ -487,7 +460,7 @@ export function BottomBar({
                                   </p>
                                 </div>
                                 <div className="flex flex-col">
-                                  {webcams.map(({ deviceId, label }, index) => (
+                                  {(webcams || []).map(({ deviceId, label }, index) => (
                                     <div
                                       className={`px-3 py-1 my-1 pl-6 text-white text-left ${
                                         deviceId === selectWebcamDeviceId &&
@@ -542,7 +515,7 @@ export function BottomBar({
                 </div>
               </>
             );
-          }}
+          } : undefined}
         />
       </>
     );

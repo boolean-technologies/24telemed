@@ -1,7 +1,7 @@
-import { useMediaQuery } from "react-responsive";
+import { useBreakpoints } from "@local/shared-components";
 
 const useIsMobile = (maxWidth?: number) => {
-  const isMobile = useMediaQuery({ maxWidth: maxWidth || 767 });
+  const { isMobile } = useBreakpoints();
   return isMobile;
 };
 

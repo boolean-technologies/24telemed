@@ -1,6 +1,7 @@
 import Lottie from "lottie-react";
 import { useEffect, useRef, useState } from "react";
 import { createPopper } from "@popperjs/core";
+import { Typography } from "@local/shared-components";
 
 type OutlinedButtonProps = {
   bgColor?: string;
@@ -228,9 +229,9 @@ export const OutlinedButton = ({
                 ))}
             </div>
             {buttonText ? (
-              <p className="text-sm text-white font-semibold mr-2 text-center">
+              <Typography color="common.white" variant="bodySm" align="center" weight="bold">
                 {buttonText}
-              </p>
+              </Typography>
             ) : null}
           </button>
           {typeof renderRightComponent === "function" && renderRightComponent()}
@@ -244,7 +245,7 @@ export const OutlinedButton = ({
         ref={tooltipRef}
       >
         <div className={"rounded-md p-1.5 bg-black "}>
-          <p className="text-base text-white ">{tooltip || ""}</p>
+          <Typography color="common.white" variant="bodySm">{tooltip}</Typography>
         </div>
       </div>
     </>

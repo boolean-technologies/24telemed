@@ -7,7 +7,12 @@ export const json_verify = (s: string) => {
   }
 };
 
-export function getQualityScore(stats) {
+export function getQualityScore(stats: {
+  packetsLost: number;
+  totalPackets: number;
+  rtt: number;
+  jitter: number;
+}) {
   const packetLossPercent = stats.packetsLost / stats.totalPackets || 0;
   const jitter = stats.jitter;
   const rtt = stats.rtt;
@@ -18,13 +23,13 @@ export function getQualityScore(stats) {
   return score / 10;
 }
 
-export function formatAMPM(date) {
+export function formatAMPM(date: Date) {
   var hours = date.getHours();
   var minutes = date.getMinutes();
   var ampm = hours >= 12 ? "pm" : "am";
   hours = hours % 12;
   hours = hours ? hours : 12; // the hour '0' should be '12'
-  minutes = minutes < 10 ? "0" + minutes : minutes;
+  minutes = minutes < 10 ? 0 + minutes : minutes;
   var strTime = hours + ":" + minutes + " " + ampm;
   return strTime;
 }
@@ -35,7 +40,7 @@ export const trimSnackBarText = (text = "") => {
   return text.length > maxLength ? `${text.substr(0, maxLength - 5)}...` : text;
 };
 
-export const nameTructed = (name, tructedLength) => {
+export const nameTructed = (name: string, tructedLength: number) => {
   if (name?.length > tructedLength) {
     if (tructedLength === 15) {
       return `${name.substr(0, 12)}...`;
@@ -52,8 +57,8 @@ export const sideBarModes = {
   CHAT: "CHAT",
 };
 
-export function debounce(func, wait, immediate) {
-  var timeout;
+export function debounce(func: (args: any) => void, wait: number, immediate: boolean) {
+  var timeout: NodeJS.Timeout | null;
 
   return function executedFunction() {
     var context = this;
@@ -66,7 +71,7 @@ export function debounce(func, wait, immediate) {
 
     var callNow = immediate && !timeout;
 
-    clearTimeout(timeout);
+    clearTimeout(timeout as NodeJS.Timeout);
 
     timeout = setTimeout(later, wait);
 

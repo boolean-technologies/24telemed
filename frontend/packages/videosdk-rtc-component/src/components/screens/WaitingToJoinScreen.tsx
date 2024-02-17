@@ -1,13 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
-import animationData from "../../static/animations/join_meeting.json";
-import Lottie from "lottie-react";
-import useIsTab from "../../hooks/useIsTab";
-import useIsMobile from "../../hooks/useIsMobile";
+import { useEffect, useRef, useState } from 'react';
+import animationData from '../../static/animations/loading.json';
+import Lottie from 'lottie-react';
+import useIsTab from '../../hooks/useIsTab';
+import useIsMobile from '../../hooks/useIsMobile';
+import { Flex, Typography } from '@local/shared-components';
+import styled from 'styled-components';
 
 const WaitingToJoinScreen = () => {
   const waitingMessages = [
-    { index: 0, text: "Creating a room for you..." },
-    { index: 1, text: "Almost there..." },
+    { index: 0, text: 'Connecting to doctor now...' },
+    { index: 1, text: 'Almost there...' },
   ];
   const [message, setMessage] = useState(waitingMessages[0]);
 
@@ -35,22 +37,13 @@ const WaitingToJoinScreen = () => {
     autoplay: true,
     animationData: animationData,
     rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
+      preserveAspectRatio: 'xMidYMid slice',
     },
   };
 
   return (
-    <div
-      className="bg-gray-800"
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        height: "100vh",
-        // backgroundColor: theme.palette.darkTheme.main,
-      }}
-    >
-      <div className="flex flex-col">
+    <StyledRoot fullWidth align="center" justify="center">
+      <Flex direction="column">
         <div
           style={{
             height: isTab ? 200 : isMobile ? 200 : 250,
@@ -65,15 +58,24 @@ const WaitingToJoinScreen = () => {
               preserveAspectRatio:
                 animationDefaultOptions.rendererSettings.preserveAspectRatio,
             }}
-            style={{ height: "100%", width: "100%" }}
+            style={{ height: '100%', width: '100%' }}
           />
         </div>
-        <h1 className="text-white text-center font-bold mt-1 text-xl">
+        <Typography
+          color="common.white"
+          align="center"
+          variant="bodyLg"
+          weight="bold"
+        >
           {message.text}
-        </h1>
-      </div>
-    </div>
+        </Typography>
+      </Flex>
+    </StyledRoot>
   );
 };
 
 export default WaitingToJoinScreen;
+
+const StyledRoot: typeof Flex = styled(Flex)`
+  height: 100vh;
+`;

@@ -13,6 +13,8 @@ import { useMediaQuery } from "react-responsive";
 import { toast } from "react-toastify";
 import { useMeetingAppContext } from "../MeetingAppContextDef";
 import useMediaStream from "../hooks/useMediaStream";
+import styled from "styled-components";
+import { Flex } from "@local/shared-components";
 
 type MeetingContainerProps = {
   onMeetingLeave: () => void;
@@ -282,12 +284,12 @@ export function MeetingContainer({
   });
 
   return (
-    <div className="fixed inset-0">
-      <div ref={containerRef} className="h-full flex flex-col bg-gray-800">
+    <StyledRoot>
+      <div ref={containerRef} className="h-full flex flex-col">
         {typeof localParticipantAllowedJoin === "boolean" ? (
           localParticipantAllowedJoin ? (
             <>
-              <div className={` flex flex-1 flex-row bg-gray-800 `}>
+              <div className={` flex flex-1 flex-row `}>
                 <div className={`flex flex-1 `}>
                   {isPresenting ? (
                     <PresenterView height={containerHeight - bottomBarHeight} />
@@ -329,6 +331,15 @@ export function MeetingContainer({
           subTitle={meetingError.message}
         />
       </div>
-    </div>
+    </StyledRoot>
   );
 }
+
+const StyledRoot = styled.div`
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: ${({ theme }) => theme.palette.common.black};
+`;

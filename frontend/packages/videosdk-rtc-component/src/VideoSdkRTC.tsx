@@ -4,6 +4,7 @@ import { MeetingProvider } from "@videosdk.live/react-sdk";
 import { useState } from "react";
 import { MeetingAppProvider } from "./MeetingAppContextDef";
 import { MeetingContainer } from "./meeting/MeetingContainer";
+import { useBreakpoints } from "@local/shared-components";
 
 type VideoCallSDKProps = {
   meetingId: string;
@@ -20,9 +21,7 @@ export function VideoCallSDK({ meetingId, participantName, setIsMeetingLeft }: V
 
   const [selectMicDeviceId, setSelectMicDeviceId] = useState(selectedMic.id);
 
-  const isMobile = window.matchMedia(
-    "only screen and (max-width: 768px)"
-  ).matches;
+  const { isMobile } = useBreakpoints();
 
   const handleLeaveMeeting = () => {
     setWebcamOn(false);

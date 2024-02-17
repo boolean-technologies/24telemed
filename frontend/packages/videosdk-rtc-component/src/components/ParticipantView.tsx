@@ -13,6 +13,9 @@ import SpeakerIcon from "../icons/SpeakerIcon";
 import { getQualityScore, nameTructed } from "../utils/common";
 import * as ReactDOM from "react-dom";
 import type { AudioStats, VideoStats, ShareStats } from "../types";
+import styled from "styled-components";
+import { Flex, Typography } from "@local/shared-components";
+import MicOnIcon from "../icons/Bottombar/MicOnIcon";
 
 type CornerDisplayNameProps = {
   participantId: string;
@@ -43,7 +46,10 @@ export const CornerDisplayName = ({
   const [statsBoxHeightRef, setStatsBoxHeightRef] = useState<any>(null);
   const [statsBoxWidthRef, setStatsBoxWidthRef] = useState<any>(null);
 
-  const [coords, setCoords] = useState({}); // takes current button coordinates
+  const [coords, setCoords] = useState<{
+    top: number;
+    left: number;
+  }>({}); // takes current button coordinates
 
   const statsBoxHeight = useMemo(
     () => statsBoxHeightRef?.offsetHeight,
@@ -77,7 +83,7 @@ export const CornerDisplayName = ({
   } = useParticipant(participantId);
 
   const statsIntervalIdRef = useRef< ReturnType<typeof setInterval> | null>( null);
-  const [score, setScore] = useState({});
+  const [score, setScore] = useState<number>(0);
   const [audioStats, setAudioStats] = useState< AudioStats[]>([]);
   const [videoStats, setVideoStats] = useState < ShareStats[] | VideoStats[] | AudioStats[]>([]);
 
@@ -123,11 +129,11 @@ export const CornerDisplayName = ({
       label: "Jitter",
       audio:
         audioStats && audioStats[0]?.jitter
-          ? `${parseFloat(audioStats[0]?.jitter).toFixed(2)} ms`
+          ? `${parseFloat(String(audioStats[0]?.jitter || 0)).toFixed(2)} ms`
           : "-",
       video:
         videoStats && videoStats[0]?.jitter
-          ? `${parseFloat(videoStats[0]?.jitter).toFixed(2)} ms`
+          ? `${parseFloat(String(videoStats[0]?.jitter || 0)).toFixed(2)} ms`
           : "-",
     },
     {
@@ -135,14 +141,14 @@ export const CornerDisplayName = ({
       audio: audioStats
         ? audioStats[0]?.packetsLost
           ? `${parseFloat(
-              (audioStats[0]?.packetsLost * 100) / audioStats[0]?.totalPackets
+              String((audioStats[0]?.packetsLost * 100) / audioStats[0]?.totalPackets)
             ).toFixed(2)}%`
           : "-"
         : "-",
       video: videoStats
         ? videoStats[0]?.packetsLost
           ? `${parseFloat(
-              (videoStats[0]?.packetsLost * 100) / videoStats[0]?.totalPackets
+              String((videoStats[0]?.packetsLost * 100) / videoStats[0]?.totalPackets)
             ).toFixed(2)}%`
           : "-"
         : "-",
@@ -151,11 +157,11 @@ export const CornerDisplayName = ({
       label: "Bitrate",
       audio:
         audioStats && audioStats[0]?.bitrate
-          ? `${parseFloat(audioStats[0]?.bitrate).toFixed(2)} kb/s`
+          ? `${parseFloat(String(audioStats[0]?.bitrate)).toFixed(2)} kb/s`
           : "-",
       video:
         videoStats && videoStats[0]?.bitrate
-          ? `${parseFloat(videoStats[0]?.bitrate).toFixed(2)} kb/s`
+          ? `${parseFloat(String(videoStats[0]?.bitrate)).toFixed(2)} kb/s`
           : "-",
     },
     {
@@ -231,21 +237,13 @@ export const CornerDisplayName = ({
 
   return (
     <>
-      <div
-        className="absolute bottom-2 left-2 rounded-md flex items-center justify-center p-2"
-        style={{
-          backgroundColor: "#00000066",
-          transition: "all 200ms",
-          transitionTimingFunction: "linear",
-          transform: `scale(${show ? 1 : 0})`,
-        }}
-      >
+      <StyledNameHolder gap="xs" show={show}>
         {!micOn && !isPresenting ? (
           <MicOffSmallIcon fillcolor="white" />
-        ) : micOn && isActiveSpeaker ? (
-          <SpeakerIcon />
+        ) : micOn ? (
+          isActiveSpeaker ? <SpeakerIcon /> : <MicOnIcon fillcolor="white" />
         ) : null}
-        <p className="text-sm text-white ml-0.5">
+        <Typography variant="bodySm" color="common.white" weight="bold">
           {isPresenting
             ? isLocal
               ? `You are presenting`
@@ -253,8 +251,8 @@ export const CornerDisplayName = ({
             : isLocal
             ? "You"
             : nameTructed(displayName, 26)}
-        </p>
-      </div>
+        </Typography>
+      </StyledNameHolder>
 
       {(webcamStream || micStream || screenShareStream) && (
         <div>
@@ -279,7 +277,7 @@ export const CornerDisplayName = ({
                     }}
                     onClick={(e) => {
                       e.stopPropagation();
-                      const rect = e.target.getBoundingClientRect();
+                      const rect = (e.target as HTMLButtonElement).getBoundingClientRect();
                       setCoords({
                         left: Math.round(rect.x + rect.width / 2),
                         top: Math.round(rect.y + window.scrollY),
@@ -421,7 +419,11 @@ export const CornerDisplayName = ({
   );
 };
 
-export function ParticipantView({ participantId }) {
+type ParticipantViewProps = {
+  participantId: string;
+};
+
+export function ParticipantView({ participantId }: ParticipantViewProps) {
   const {
     displayName,
     webcamStream,
@@ -433,7 +435,7 @@ export function ParticipantView({ participantId }) {
     isActiveSpeaker,
   } = useParticipant(participantId);
 
-  const micRef = useRef(null);
+  const micRef = useRef<HTMLAudioElement>(null);
   const [mouseOver, setMouseOver] = useState(false);
 
   useEffect(() => {
@@ -459,20 +461,20 @@ export function ParticipantView({ participantId }) {
       return mediaStream;
     }
   }, [webcamStream, webcamOn]);
-  return mode === "CONFERENCE" ? (
-    <div
+  return mode === 'CONFERENCE' ? (
+    <StyledRoot
       onMouseEnter={() => {
         setMouseOver(true);
       }}
       onMouseLeave={() => {
         setMouseOver(false);
       }}
-      className={`h-full w-full  bg-gray-750 relative overflow-hidden rounded-lg video-cover`}
+      // className={`rounded-lg video-cover`}
     >
       <audio ref={micRef} autoPlay muted={isLocal} />
       {webcamOn ? (
         <ReactPlayer
-          //
+          className="react-player"
           playsinline // very very imp prop
           playIcon={<></>}
           //
@@ -484,22 +486,20 @@ export function ParticipantView({ participantId }) {
           //
           url={webcamMediaStream}
           //
-          height={"100%"}
-          width={"100%"}
+          height="100%"
+          width="100%"
           onError={(err) => {
-            console.log(err, "participant video error");
+            console.log(err, 'participant video error');
           }}
         />
       ) : (
-        <div className="h-full w-full flex items-center justify-center">
-          <div
-            className={`z-10 flex items-center justify-center rounded-full bg-gray-800 2xl:h-[92px] h-[52px] 2xl:w-[92px] w-[52px]`}
-          >
-            <p className="text-2xl text-white">
+        <Flex align="center" justify="center" fullHeight fullWidth>
+          <StyledInitialBox align="center" justify="center">
+            <Typography variant="h3" color="common.white">
               {String(displayName).charAt(0).toUpperCase()}
-            </p>
-          </div>
-        </div>
+            </Typography>
+          </StyledInitialBox>
+        </Flex>
       )}
       <CornerDisplayName
         {...{
@@ -513,6 +513,41 @@ export function ParticipantView({ participantId }) {
           isActiveSpeaker,
         }}
       />
-    </div>
+    </StyledRoot>
   ) : null;
 }
+
+
+const StyledRoot = styled.div`
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  background: rgba(255,255,255,0.1);
+  border-radius: 16px;
+
+  .react-player > video {
+    object-fit: cover;
+  }
+`;
+
+const StyledNameHolder = styled(Flex)<{
+  show: boolean;
+}>`
+  position: absolute;
+  background-color: #00000066;
+  transition: all 200ms;
+  transition-timing-function: linear;
+  transform: scale(${({ show }) => show ? 1 : 0});
+  bottom: 16px;
+  left: 16px;
+  padding: 8px 12px;
+  border-radius: 4px;
+`;
+
+const StyledInitialBox = styled(Flex)`
+  width: 120px;
+  height: 120px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 100%;
+`;
