@@ -15,9 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@local/shared-components": [
-        "packages/shared-components/src/index.ts"
-      ],
+      "@local/api-generated": ["packages/api-generated/src/index.ts"],
+      "@local/shared-components": ["packages/shared-components/src/index.ts"],
       "@local/videosdk-rtc-component": [
         "packages/videosdk-rtc-component/src/index.ts"
       ],
