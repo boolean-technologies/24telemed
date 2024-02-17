@@ -1,7 +1,5 @@
 import os
 import requests
-from django.forms.models import model_to_dict
-from django.core.serializers import serialize
 from asgiref.sync import sync_to_async
 from typing import Literal, TypedDict, Optional, Union, Dict, Any
 from .models import CallLog, CallStatus

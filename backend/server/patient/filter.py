@@ -1,10 +1,8 @@
-import django_filters
 from django_filters import rest_framework as filters
-from .models import PatientRecord
-from django.db.models import Q
+from .models import Patient
 
 class PatientFilter(filters.FilterSet):
 
     class Meta:
-        model = PatientRecord
+        model = Patient
         fields = ['phone_number']

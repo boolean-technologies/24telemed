@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     "channels",
     "call_log",
     "users",
+    "patient",
+    "medication",
     'django_filters',
 ]
 
@@ -151,6 +153,11 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
     ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    'DEFAULT_PAGINATION_CLASS': 'utils.pagination.CustomPagination',
+    'PAGE_SIZE': 20, 
+    'PAGE_SIZE_QUERY_PARAM': 'size',
+    'MAX_PAGE_SIZE': 100,
 }
 
 
