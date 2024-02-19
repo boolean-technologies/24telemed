@@ -20,6 +20,7 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import routers, permissions
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from baton.autodiscover import admin 
 
 
 schema_view = get_schema_view(
@@ -64,4 +65,5 @@ urlpatterns = [
     
     path('patients/', include('patient.urls')),
     path('medical-encounters/', include('medication.urls')),
+    path('baton/', include('baton.urls')),
 ]
