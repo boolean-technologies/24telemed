@@ -225,6 +225,15 @@ export const defaultTheme: Theme = {
       letterSpacing: "-0.02em",
       textTransform: "uppercase",
     },
+    primaryButton: {
+      fontFamily: fontFamily,
+      fontWeight: 700,
+      fontSize: "1rem",
+      lineHeight: 1.5,
+      height: "3.5rem",
+      letterSpacing: "-0.02em",
+      textTransform: "uppercase",
+    },
     navigationButton: {
       fontFamily: fontFamily,
       fontWeight: 700,
@@ -324,5 +333,28 @@ export const defaultTheme: Theme = {
     toaster: 1600,
     selectPopper: 1700,
     tooltip: 1800,
+  },
+  button: {
+    primary: {
+      backgroundColor: "#2F4D52",
+      color: "#FFFFFF",
+      hoverBackgroundColor: "#829497",
+      disabledBackgroundColor: "#D5DBDC",
+      disabledColor: "#FFFFFF",
+    },
+    secondary: {
+      backgroundColor: "#FFFFFF",
+      color: "#2F4D52",
+      hoverBackgroundColor: "#EFF5F6",
+      disabledBackgroundColor: "#F7F8F8",
+      disabledColor: "#EAEDEE",
+    },
+    tertiary: {
+      backgroundColor: "transparent",
+      color: "#2F4D52",
+      hoverBackgroundColor: "#EFF5F6",
+      disabledBackgroundColor: "transparent",
+      disabledColor: "#EAEDEE",
+    },
   },
 };

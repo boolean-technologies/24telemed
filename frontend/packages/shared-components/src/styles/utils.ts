@@ -11,6 +11,7 @@ import {
   Theme,
   ThemeBreakpoints,
   TypographyVariants,
+  NewButtonVariant
 } from "./theme.types";
 
 export function createUp(value: number): MediaWrapperFunction {
@@ -112,5 +113,17 @@ export function makeVariant({
     theme.breakpoints.sm.down(css`
       font-size: ${typography.fontSizeSm};
     `)}
+  `;
+}
+
+export const MakeButtonVariant = (theme: Theme, variant: 'primary') => {
+  const button = theme.button[variant];
+  return css`
+    background-color: ${button.backgroundColor};
+    color: ${button.color};
+    &:hover {
+      background-color: ${button.hoverBackgroundColor};
+    }
+
   `;
 }

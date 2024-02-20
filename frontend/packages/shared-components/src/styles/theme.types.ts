@@ -105,6 +105,7 @@ export interface TypographyTheme {
   button: ButtonVariant;
   navigationButton: ButtonVariant;
   link: TypographyLink;
+  primaryButton: ButtonVariant;
 }
 
 export type TypographyVariants =
@@ -229,6 +230,30 @@ export interface Theme {
   opacity: Opacity;
   transitions: Transitions;
   zIndex: ZIndex;
+  button: {
+    primary: {
+      backgroundColor: string;
+      color: string;
+      hoverBackgroundColor: string;
+      disabledBackgroundColor: string;
+      disabledColor: string;
+    };
+    secondary: {
+      backgroundColor: string;
+      color: string;
+      hoverBackgroundColor: string;
+      disabledBackgroundColor: string;
+      disabledColor: string;
+    };
+    tertiary: {
+      backgroundColor: string;
+      color: string;
+      hoverBackgroundColor: string;
+      disabledBackgroundColor: string;
+      disabledColor: string;
+    };
+  };
+
 }
 
 export type PaletteVariants = RecursiveKeyOf<Palettes>;
@@ -240,3 +265,6 @@ type ThemedCssFunctionReturn = ReturnType<ThemedCssFunction<Theme>>;
 export type MediaWrapperFunction = (
   cssResult: ThemedCssFunctionReturn,
 ) => ThemedCssFunctionReturn;
+
+
+export type NewButtonVariant = "primary" | "secondary" | "tertiary";
