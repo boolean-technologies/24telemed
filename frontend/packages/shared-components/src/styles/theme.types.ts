@@ -105,7 +105,6 @@ export interface TypographyTheme {
   button: ButtonVariant;
   navigationButton: ButtonVariant;
   link: TypographyLink;
-  primaryButton: ButtonVariant;
 }
 
 export type TypographyVariants =
@@ -237,6 +236,10 @@ export interface Theme {
       hoverBackgroundColor: string;
       disabledBackgroundColor: string;
       disabledColor: string;
+      hoverColor: string;
+      focusBackgroundColor: string;
+      pressedBackgroundColor: string;
+      
     };
     secondary: {
       backgroundColor: string;
@@ -244,6 +247,9 @@ export interface Theme {
       hoverBackgroundColor: string;
       disabledBackgroundColor: string;
       disabledColor: string;
+      hoverColor: string;
+      focusBackgroundColor: string;
+      pressedBackgroundColor: string;
     };
     tertiary: {
       backgroundColor: string;
@@ -251,6 +257,9 @@ export interface Theme {
       hoverBackgroundColor: string;
       disabledBackgroundColor: string;
       disabledColor: string;
+      hoverColor: string;
+      focusBackgroundColor: string;
+      pressedBackgroundColor: string;
     };
   };
 

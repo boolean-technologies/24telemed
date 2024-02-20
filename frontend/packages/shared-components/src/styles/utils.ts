@@ -1,6 +1,6 @@
-import { get } from "lodash-es";
-import { css } from "styled-components";
-import invariant from "tiny-invariant";
+import { get } from 'lodash-es';
+import { css } from 'styled-components';
+import invariant from 'tiny-invariant';
 
 import {
   Breakpoints,
@@ -11,8 +11,8 @@ import {
   Theme,
   ThemeBreakpoints,
   TypographyVariants,
-  NewButtonVariant
-} from "./theme.types";
+  NewButtonVariant,
+} from './theme.types';
 
 export function createUp(value: number): MediaWrapperFunction {
   return (cssResult) => css`
@@ -31,7 +31,7 @@ export function createDown(value: number): MediaWrapperFunction {
 }
 
 export function createThemeBreakpoints(
-  breakpoints: Breakpoints,
+  breakpoints: Breakpoints
 ): ThemeBreakpoints {
   const entries = Object.entries(breakpoints) as Array<
     [keyof Breakpoints, number]
@@ -58,7 +58,7 @@ export function getTextColor({
 }) {
   invariant(
     !(color && colorOn),
-    "Typography: Can't use both color and colorOn props at the same time",
+    "Typography: Can't use both color and colorOn props at the same time"
   );
   if (colorOn) return get(theme.onPalette, colorOn);
   return color ? get(theme.palette, color) : theme.typography.defaultColor;
@@ -67,7 +67,7 @@ export function getTextColor({
 export function makeTransition(
   property: string,
   duration: DurationVariants,
-  easing: EasingVariants,
+  easing: EasingVariants
 ) {
   return ({ theme }: { theme: Theme }) => css`
     transition: ${property} ${theme.transitions.duration[duration]}ms
@@ -82,13 +82,12 @@ export function isSafari() {
 
 export function addAlpha(color: string, opacity: number) {
   const _opacity = Math.round(Math.min(Math.max(opacity || 1, 0), 1) * 255);
-  return (color + _opacity.toString(16).padStart(2, "0")).toUpperCase();
+  return (color + _opacity.toString(16).padStart(2, '0')).toUpperCase();
 }
-
 
 export function makeVariant({
   theme,
-  variant = "bodyMd",
+  variant = 'bodyMd',
 }: {
   theme: Theme;
   variant?: TypographyVariants;
@@ -104,26 +103,55 @@ export function makeVariant({
     css`
       letter-spacing: ${typography.letterSpacing};
     `}
-    ${"textTransform" in typography &&
+    ${'textTransform' in typography &&
     css`
       text-transform: ${typography.textTransform};
     `}
 
-    ${"fontSizeSm" in typography &&
+    ${'fontSizeSm' in typography &&
     theme.breakpoints.sm.down(css`
       font-size: ${typography.fontSizeSm};
     `)}
   `;
 }
 
-export const MakeButtonVariant = (theme: Theme, variant: 'primary') => {
+export const MakeButtonVariant = ({
+  theme,
+  variant = 'primary',
+  disabled,
+  rightIcon,
+  leftIcon,
+}: {
+  theme: Theme;
+  variant: NewButtonVariant;
+  disabled: boolean;
+  rightIcon?: React.ReactNode;
+  leftIcon?: React.ReactNode;
+}) => {
   const button = theme.button[variant];
   return css`
     background-color: ${button.backgroundColor};
     color: ${button.color};
     &:hover {
       background-color: ${button.hoverBackgroundColor};
+      color: ${button.hoverColor};
     }
 
+    :focus {
+      outline: none;
+      background-color: ${button.pressedBackgroundColor};
+    }
+
+    ${disabled &&
+    css`
+      background-color: ${button.disabledBackgroundColor};
+      color: ${button.disabledColor};
+      cursor: not-allowed;
+
+      &:hover {
+        background-color: ${button.disabledBackgroundColor};
+        color: ${button.hoverColor};
+      }
+    `}
   `;
-}
+};
