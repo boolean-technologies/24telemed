@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { FC } from 'react';
-import { MakeButtonVariant } from '../styles';
+import { makeButtonVariant } from '../styles';
 import { ResponsivePropsBase } from '../styles/createResponsiveProps';
 import type { NewButtonVariant } from '../styles';
 
@@ -20,7 +20,7 @@ const StyledButton: FC<BaseButtonProps> = styled.button.attrs<BaseButtonProps>(
     leftIcon,
   })
 )`
-  ${MakeButtonVariant}
+  ${makeButtonVariant}
   padding-top: ${({ theme }) => ` ${theme.spacing.sm}`};
   padding-bottom: ${({ theme }) => ` ${theme.spacing.sm}`};
   padding-left: ${({ theme, leftIcon }) =>

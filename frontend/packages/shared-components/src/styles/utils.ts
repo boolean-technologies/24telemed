@@ -115,7 +115,7 @@ export function makeVariant({
   `;
 }
 
-export const MakeButtonVariant = ({
+export const makeButtonVariant = ({
   theme,
   variant = 'primary',
   disabled,
