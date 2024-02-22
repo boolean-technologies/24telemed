@@ -2,6 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import {NavigationBar, NavigationBarProps} from './NavigationBar';
 import { MemoryRouter } from "react-router";
+import { StarIcon } from '../Icon';
+
 
 type Story = StoryObj<typeof NavigationBar>;
 
@@ -13,12 +15,13 @@ const meta: Meta<typeof NavigationBar> = {
 
 export default meta;
 
-export const Primary: Story = {
+export const Default: Story = {
   args: {
     to: '/',
     label: 'Home',
     color: 'white',
     backgroundColor: 'blue',
+    topIcon: <StarIcon />,
   },
 };
 
