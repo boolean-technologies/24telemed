@@ -1,13 +1,13 @@
 import styled, { css } from 'styled-components';
 
 export interface BaseInputProps {
-  value: string;
+  value?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   error: boolean;
   rightIcon?: React.ReactNode;
   leftIcon?: React.ReactNode;
   name: string;
-  type: string;
+  type?: string;
   placeholder: string;
 }
 
@@ -47,13 +47,13 @@ const StyledInput = styled.input<
     theme.breakpoints.xs.down(css`
       font-size: ${({ theme }) => theme.typography.bodyMd.fontSize};
       width: 100%;
-      height: ${({ theme }) => theme.spacing.xs};
+      
     `)}
 
   ${({ theme }) =>
     theme.breakpoints.xs.up(css`
       width: 368px;
-      height: ${({ theme }) => theme.spacing.md};
+      
     `)}
 
   
@@ -71,8 +71,8 @@ const StyledInput = styled.input<
   }
   font-family: ${({ theme }) => theme.typography.bodyMd.fontFamily};
   &::-webkit-input-placeholder {
-    color: ${({ theme }) => theme.palette.primary1.main};
-    font-size: ${({ theme }) => theme.typography.bodyMd.fontSize};
+    color: ${({ theme }) => theme.palette.primary1.lighter};
+    font-size: ${({ theme }) => theme.typography.bodySm.fontSize};
     font-family: ${({ theme }) => theme.typography.bodyMd.fontFamily};
   }
 `;
