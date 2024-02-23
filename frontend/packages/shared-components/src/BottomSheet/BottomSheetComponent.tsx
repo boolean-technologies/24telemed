@@ -34,7 +34,6 @@ const Container = styled.div`
   box-shadow: ${({ theme }) => theme.shadows.md};
   padding: ${({ theme }) => theme.spacing.xl};
   box-sizing: border-box;
-  /* border radius for the top only */
 
   border-radius: ${({ theme }) => theme.radius.card} ${({ theme }) => theme.radius.card} 0 0;
   border: ${({ theme }) => theme.border.primary.light};
@@ -67,5 +66,8 @@ const CancelIconContainer = styled.div`
   right: ${({ theme }) => theme.spacing.sm};
   top: ${({ theme }) => theme.spacing.sm};
   cursor: pointer;
+  :hover {
+    transform: scale(1.1);
+  }
   
 `;
