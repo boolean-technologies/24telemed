@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { BottomSheetCancel } from '../Icon';
+import { BottomSheetCancelIcon} from '../Icon';
 import { Button } from '../Button';
 
 export interface BottomSheetComponentProps {
@@ -19,7 +19,7 @@ export function BottomSheetComponent({
         <Content>
           {title && <Title>{title}</Title>}
           <CancelIconContainer onClick={onClickCancel}>
-            <BottomSheetCancel />
+            <BottomSheetCancelIcon />
           </CancelIconContainer>
           {children}
         </Content>
@@ -34,7 +34,9 @@ const Container = styled.div`
   box-shadow: ${({ theme }) => theme.shadows.md};
   padding: ${({ theme }) => theme.spacing.xl};
   box-sizing: border-box;
-  border-radius: ${({ theme }) => theme.radius.card};
+  /* border radius for the top only */
+
+  border-radius: ${({ theme }) => theme.radius.card} ${({ theme }) => theme.radius.card} 0 0;
   border: ${({ theme }) => theme.border.primary.light};
   background-color: ${({ theme }) => theme.palette.common.white};
   
