@@ -1,13 +1,11 @@
-import { ByRoleOptions, mediaQueries, render, screen } from "../testUtils";
-import { get } from "lodash-es";
-import { colorVariants, defaultTheme } from "../styles";
-import {BottomSheetComponent, BottomSheetComponentProps} from './BottomSheetComponent'
+import { render, screen } from "../testUtils";
+import {BottomSheetComponent } from './BottomSheetComponent'
 
 describe("BottomSheet", () => {
   it("should render properly", () => {
-    const onClickCancel = jest.fn();
+    
     render(
-      <BottomSheetComponent onClickCancel={onClickCancel}>
+      <BottomSheetComponent onClickCancel={() => {}}>
         <div>BottomSheet Content</div>
       </BottomSheetComponent>
     );
@@ -15,5 +13,16 @@ describe("BottomSheet", () => {
     expect(el).toBeInTheDocument();
     expect(el).toMatchSnapshot();
   });
+
+  it("should render title properly", () => {
+    render(
+      <BottomSheetComponent onClickCancel={() => {}} title="BottomSheet Title">
+        <div>BottomSheet Content</div>
+      </BottomSheetComponent>
+    );
+    const el = screen.getByText("BottomSheet Title");
+    expect(el).toBeInTheDocument();
+    expect(el).toMatchSnapshot();
+  });
+
 });
-```
