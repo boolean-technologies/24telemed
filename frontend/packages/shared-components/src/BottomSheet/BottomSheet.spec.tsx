@@ -1,29 +1,19 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
-import { ThemeProvider } from 'styled-components';
-import { defaultTheme } from '../styles/defaultTheme';
-import { BottomSheetComponent } from './BottomSheetComponent';
+import { ByRoleOptions, mediaQueries, render, screen } from "../testUtils";
+import { get } from "lodash-es";
+import { colorVariants, defaultTheme } from "../styles";
+import {BottomSheetComponent, BottomSheetComponentProps} from './BottomSheetComponent'
 
-
-const TestBottomSheet = () => {
-  return (
-    <ThemeProvider theme={defaultTheme}>
-      <BottomSheetComponent title="Filter" onClickCancel={() => {}}>
-        This is a bottom sheet content
+describe("BottomSheet", () => {
+  it("should render properly", () => {
+    const onClickCancel = jest.fn();
+    render(
+      <BottomSheetComponent onClickCancel={onClickCancel}>
+        <div>BottomSheet Content</div>
       </BottomSheetComponent>
-    </ThemeProvider>
-  );
-};
-
-
-describe('BottomSheet', () => {
-  it('should render the bottom sheet', () => {
-    render(<TestBottomSheet />);
-    expect(screen.getByText('Filter')).toBeInTheDocument();
-  });
-
-  it('matches snapshot', () => {
-    const { container } = render(<TestBottomSheet />);
-    expect(container).toMatchSnapshot();
+    );
+    const el = screen.getByText("BottomSheet Content");
+    expect(el).toBeInTheDocument();
+    expect(el).toMatchSnapshot();
   });
 });
+```

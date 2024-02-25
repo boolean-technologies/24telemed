@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
 import { BottomSheetCancelIcon} from '../Icon';
-import { Button } from '../Button';
+import { Typography } from '../Typography';
+
 
 export interface BottomSheetComponentProps {
   children?: React.ReactNode;
@@ -17,7 +18,10 @@ export function BottomSheetComponent({
     <Container>
       <LabelAndCancelContainer>
         <Content>
-          {title && <Title>{title}</Title>}
+          {title && <Title>
+            <Typography variant="bodyMd">{title}</Typography>
+            
+            </Title>}
           <CancelIconContainer onClick={onClickCancel}>
             <BottomSheetCancelIcon />
           </CancelIconContainer>
@@ -52,8 +56,6 @@ const LabelAndCancelContainer = styled.div`
 `;
 
 const Title  = styled.div`
-  font-size: ${({ theme }) => theme.typography.bodyLg.fontSize};
-  color: ${({ theme }) => theme.palette.primary1.main};
   margin-bottom: ${({ theme }) => theme.spacing.sm};
   position: absolute;
   top: ${({ theme }) => theme.spacing.sm};
