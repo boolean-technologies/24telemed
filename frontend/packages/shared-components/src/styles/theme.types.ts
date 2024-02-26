@@ -229,6 +229,40 @@ export interface Theme {
   opacity: Opacity;
   transitions: Transitions;
   zIndex: ZIndex;
+  button: {
+    primary: {
+      backgroundColor: string;
+      color: string;
+      hoverBackgroundColor: string;
+      disabledBackgroundColor: string;
+      disabledColor: string;
+      hoverColor: string;
+      focusBackgroundColor: string;
+      pressedBackgroundColor: string;
+      
+    };
+    secondary: {
+      backgroundColor: string;
+      color: string;
+      hoverBackgroundColor: string;
+      disabledBackgroundColor: string;
+      disabledColor: string;
+      hoverColor: string;
+      focusBackgroundColor: string;
+      pressedBackgroundColor: string;
+    };
+    tertiary: {
+      backgroundColor: string;
+      color: string;
+      hoverBackgroundColor: string;
+      disabledBackgroundColor: string;
+      disabledColor: string;
+      hoverColor: string;
+      focusBackgroundColor: string;
+      pressedBackgroundColor: string;
+    };
+  };
+
 }
 
 export type PaletteVariants = RecursiveKeyOf<Palettes>;
@@ -240,3 +274,6 @@ type ThemedCssFunctionReturn = ReturnType<ThemedCssFunction<Theme>>;
 export type MediaWrapperFunction = (
   cssResult: ThemedCssFunctionReturn,
 ) => ThemedCssFunctionReturn;
+
+
+export type NewButtonVariant = "primary" | "secondary" | "tertiary";
