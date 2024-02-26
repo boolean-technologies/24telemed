@@ -3,7 +3,7 @@ import { BottomSheetComponent } from './BottomSheetComponent';
 import { Typography } from '../Typography/Typography';
 import { TextInput } from '../Input/TextInput';
 const meta: Meta<typeof BottomSheetComponent> = {
-  title: 'Design System/BottomSheet',
+  title: 'Components/BottomSheet',
   component: BottomSheetComponent,
   tags: ['autodocs'],
 };
