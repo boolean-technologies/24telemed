@@ -11,6 +11,8 @@ const mockProps = {
   onChange: vi.fn(),
   value: 'value',
   name: 'input',
+  type: 'text',
+  placeholder: 'placeholder',
 };
 
 const renderTextInput = (props = mockProps) => {
