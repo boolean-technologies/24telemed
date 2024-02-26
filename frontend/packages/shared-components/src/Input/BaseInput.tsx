@@ -7,8 +7,8 @@ export interface BaseInputProps {
   rightIcon?: React.ReactNode;
   leftIcon?: React.ReactNode;
   name: string;
-  type?: string;
-  placeholder?: string;
+  type: string;
+  placeholder: string;
 }
 
 export function BaseInput({
@@ -47,11 +47,13 @@ const StyledInput = styled.input<
     theme.breakpoints.xs.down(css`
       font-size: ${({ theme }) => theme.typography.bodyMd.fontSize};
       width: 100%;
+      height: ${({ theme }) => theme.spacing.xs};
     `)}
 
   ${({ theme }) =>
     theme.breakpoints.xs.up(css`
       width: 368px;
+      height: ${({ theme }) => theme.spacing.md};
     `)}
 
   

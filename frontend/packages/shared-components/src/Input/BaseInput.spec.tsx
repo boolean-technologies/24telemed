@@ -9,6 +9,8 @@ const mockProps = {
   value: 'value',
   onChange: vi.fn(),
   error: false,
+  type: 'text',
+  placeholder: 'placeholder',
 };
 
 const renderBaseInput = (props = mockProps) => {
