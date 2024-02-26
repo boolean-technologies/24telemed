@@ -4,7 +4,7 @@ import { Typography } from '../Typography/Typography';
 import { StarIcon } from '../Icon';
 
 const meta: Meta<typeof Button> = {
-  title: 'Design System/Button',
+  title: 'Components/Button',
   component: Button,
   tags: ['autodocs'],
 };
