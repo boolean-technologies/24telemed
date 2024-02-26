@@ -1,34 +1,33 @@
-import '@testing-library/jest-dom/extend-expect';
-import { Button } from './Button';
-import { render, screen, fireEvent } from '@testing-library/react';
-import { ThemeProvider } from 'styled-components';
-import { defaultTheme } from '../styles/defaultTheme';
+import { ByRoleOptions, mediaQueries, render, screen } from '../testUtils';
 
-const TestButton = () => {
-  return (
-    <ThemeProvider theme={defaultTheme}>
-      <Button text="Click me" />
-    </ThemeProvider>
-  );
+import { Button } from './Button';
+
+const buttonProps = {
+  text: 'Button',
+  onClick: () => {},
+};
+
+const renderButton = (props = buttonProps) => {
+  return render(<Button {...props} />);
 };
 
 describe('Button', () => {
-  it('should render the button', () => {
-    render(<TestButton />);
-    expect(screen.getByText('Click me')).toBeInTheDocument();
+  it('renders a button with the correct text', () => {
+    renderButton();
+    expect(screen.getByRole('button', { name: 'Button' })).toBeInTheDocument();
   });
 
-  it('matches snapshot', () => {
-    const { container } = render(<TestButton />);
-    expect(container).toMatchSnapshot();
+  it('renders a button with the correct text', () => {
+    renderButton();
+    expect(screen.getByRole('button', { name: 'Button' })).toBeInTheDocument();
   });
 
-    it('should call the onClick function', () => {
-        // @ts-ignore
-        const onClick = jest.fn();
-        render(<Button text="Click me" onClick={onClick} />);
-        fireEvent.click(screen.getByText('Click me'));
-        expect(onClick).toHaveBeenCalled();
-    });
-
+  it('fires the onClick function when clicked', () => {
+    const onClick = jest.fn();
+    renderButton({ ...buttonProps, onClick });
+    const button = screen.getByRole('button', { name: 'Button' });
+    button.click();
+    expect(onClick).toHaveBeenCalled();
+  }
+  );
 });

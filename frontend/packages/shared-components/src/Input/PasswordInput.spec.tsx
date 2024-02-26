@@ -1,24 +1,48 @@
-import userEvent from '@testing-library/user-event';
-import '@testing-library/jest-dom/extend-expect';
-import { render, screen } from '@testing-library/react';
+import {render, screen } from '../testUtils';
+import { vi } from 'vitest';
+import { fireEvent, cleanup } from '@testing-library/react'
 import {PasswordInput} from './PasswordInput';
-import { ThemeProvider } from 'styled-components';
-import { defaultTheme } from '../styles/defaultTheme';
+
+const mockProps = {
+  helperText: 'helper text',
+  error: true,
+  errorText: 'error text',
+  label: 'label',
+  onChange: vi.fn(),
+  value: 'value',
+  name: 'input',
+};
+
+const renderPasswordInput = (props = mockProps) => {
+  return render(<PasswordInput {...props} />);
+};
 
 describe('PasswordInput', () => {
-  it('should render', () => {
-    render(
-      <ThemeProvider theme={defaultTheme}>
-        <PasswordInput
-          value="value"
-          placeholder="placeholder"
-          onChange={() => {}}
-          error={false}
-          name="name"
-          type="text"
-        />
-      </ThemeProvider>
-    );
-    expect(screen.getByPlaceholderText('placeholder')).toBeInTheDocument();
+  afterEach(cleanup);
+  
+  it('renders a label with the correct text', () => {
+    renderPasswordInput();
+    expect(screen.getByText('label')).toBeInTheDocument();
   });
+
+  it('renders a helper text with the correct text', () => {
+    renderPasswordInput();
+    expect(screen.getByText('helper text')).toBeInTheDocument();
+  });
+
+  it('renders an error text with the correct text', () => {
+    renderPasswordInput();
+    expect(screen.getByText('error text')).toBeInTheDocument();
+  });
+
+  it('fires the onChange function when changed', () => {
+    const onChange = mockProps.onChange;
+    renderPasswordInput({ ...mockProps, onChange });
+    const input = screen.getByLabelText('input');
+    fireEvent.change(input, { target: { value: 'new value' } });
+    expect(onChange).toHaveBeenCalled();
+  });
+
 });
+
+
