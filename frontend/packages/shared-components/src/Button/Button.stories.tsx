@@ -1,78 +1,56 @@
-import type { Meta, StoryFn } from '@storybook/react';
-import { Button, BaseButtonProps } from './Button';
+import type { Meta, StoryObj } from '@storybook/react';
+import { Button } from './Button';
+import { Typography } from '../Typography/Typography';
 import { StarIcon } from '../Icon';
 
-export default {
-  title: 'Button',
+const meta: Meta<typeof Button> = {
+  title: 'Design System/Button',
   component: Button,
-} as Meta;
-
-const Template: StoryFn<BaseButtonProps> = (args) => <Button {...args} />;
-
-export const Primary = Template.bind({});
-
-Primary.args = {
-  text: 'Primary button',
-  variant: 'primary',
+  tags: ['autodocs'],
 };
 
-export const PrimaryDisabled = Template.bind({});
 
-PrimaryDisabled.args = {
-  text: 'Primary button',
-  variant: 'primary',
-  disabled: true,
+export default meta;
+
+type Story = StoryObj<typeof Button>;
+
+export const Primary: Story = {
+  args: {
+    text: 'Primary Button',
+    variant: 'primary',
+  },
 };
 
-export const PrimaryWithRightIcon = Template.bind({});
-
-PrimaryWithRightIcon.args = {
-  text: 'Primary button',
-  variant: 'primary',
-  rightIcon: <StarIcon />,
+export const Secondary: Story = {
+  args: {
+    text: 'Secondary Button',
+    variant: 'secondary',
+  },
 };
 
-export const PrimaryWithLeftIcon = Template.bind({});
-
-PrimaryWithLeftIcon.args = {
-  text: 'Primary button',
-  variant: 'primary',
-  leftIcon: <StarIcon />,
+export const Tertiary: Story = {
+  args: {
+    text: 'Tertiary Button',
+    variant: 'tertiary',
+  },
 };
 
-export const IconOnly = Template.bind({});
-
-IconOnly.args = {
-  text: '',
-  variant: 'primary',
-  rightIcon: <StarIcon />,
+export const Disabled: Story = {
+  args: {
+    text: 'Disabled Button',
+    disabled: true,
+  },
 };
-export const Secondary = Template.bind({});
-
-Secondary.args = {
-  text: 'Secondary button',
-  variant: 'secondary',
-};
-
-export const secondaryDisabled = Template.bind({});
-
-secondaryDisabled.args = {
-  text: 'Secondary button',
-  variant: 'secondary',
-  disabled: true,
+export const RightIcon: Story = {
+  args: {
+    text: 'Right Icon Button',
+    rightIcon: <StarIcon />,
+  },
 };
 
-export const Tertiary = Template.bind({});
-
-Tertiary.args = {
-  text: 'Tertiary button',
-  variant: 'tertiary',
-};
-
-export const TertiaryDisabled = Template.bind({});
-
-TertiaryDisabled.args = {
-  text: 'Tertiary button',
-  variant: 'tertiary',
-  disabled: true,
+export const LeftIcon: Story = {
+  args: {
+    text: 'Left Icon Button',
+    leftIcon: <StarIcon />,
+  },
 };
