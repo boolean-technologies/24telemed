@@ -1,10 +1,10 @@
-import { ByRoleOptions, mediaQueries, render, screen } from '../testUtils';
-
+import { render, screen } from '../testUtils';
+import { fireEvent, cleanup } from '@testing-library/react'
 import { Button } from './Button';
 
 const buttonProps = {
   text: 'Button',
-  onClick: () => {},
+  onClick: vi.fn(),
 };
 
 const renderButton = (props = buttonProps) => {
@@ -12,6 +12,7 @@ const renderButton = (props = buttonProps) => {
 };
 
 describe('Button', () => {
+  afterEach(cleanup);
   it('renders a button with the correct text', () => {
     renderButton();
     expect(screen.getByRole('button', { name: 'Button' })).toBeInTheDocument();
@@ -23,11 +24,10 @@ describe('Button', () => {
   });
 
   it('fires the onClick function when clicked', () => {
-    const onClick = jest.fn();
+    const onClick = buttonProps.onClick;
     renderButton({ ...buttonProps, onClick });
     const button = screen.getByRole('button', { name: 'Button' });
-    button.click();
+    fireEvent.click(button);
     expect(onClick).toHaveBeenCalled();
-  }
-  );
+  });
 });
