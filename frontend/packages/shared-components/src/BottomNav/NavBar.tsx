@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { ReactElement } from 'react';
 interface NavigationContainerProps {
-  children: ReactElement;
+  children: ReactElement[] | ReactElement;
 }
 export const StyledNavigationContainer = styled.div`
   display: flex;
