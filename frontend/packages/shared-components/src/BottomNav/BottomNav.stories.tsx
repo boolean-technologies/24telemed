@@ -9,7 +9,7 @@ type Story = StoryObj<typeof NavigationBar>;
 
 const meta: Meta<typeof NavigationBar> = {
   component: NavigationBar,
-  title: 'NavigationBar',
+  title: 'Components/NavigationBar',
   decorators: [(Story) => <MemoryRouter><Story /></MemoryRouter>],
 };
 
@@ -22,6 +22,19 @@ export const Default: Story = {
     color: 'white',
     backgroundColor: 'blue',
     topIcon: <StarIcon />,
+    active: false,
   },
 };
+
+export const Active: Story = {
+  args: {
+    to: '/',
+    label: 'Home',
+    color: 'white',
+    backgroundColor: 'blue',
+    topIcon: <StarIcon />,
+    active: true,
+  },
+};
+
 
