@@ -1,40 +1,54 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import {NavigationBar, NavigationBarProps} from './NavigationBar';
+import {NavLink } from './NavLink';
 import { MemoryRouter } from "react-router";
-import { StarIcon } from '../Icon';
+import { StarIcon,BlackStarIcon } from '../Icon';
+import { NavBar } from './NavBar';
 
+type Story = StoryObj<typeof NavBar>;
 
-type Story = StoryObj<typeof NavigationBar>;
-
-const meta: Meta<typeof NavigationBar> = {
-  component: NavigationBar,
-  title: 'Components/NavigationBar',
+const meta: Meta<typeof NavBar> = {
+  component: NavBar,
+  title: 'Components/BottomNav',
   decorators: [(Story) => <MemoryRouter><Story /></MemoryRouter>],
+  parameters: {
+    controls: { expanded: true },
+  },
+  tags: ['autodocs'],
 };
 
 export default meta;
 
-export const Default: Story = {
+export const NavBarStory: Story = {
   args: {
-    to: '/',
-    label: 'Home',
-    color: 'white',
-    backgroundColor: 'blue',
-    topIcon: <StarIcon />,
-    active: false,
+    children: (
+      <>
+      <NavLink
+        to="/"
+        label="Home"
+        color="black"
+        topIcon={<StarIcon />}
+        active={true}
+      />
+
+      <NavLink
+        to="/"
+        label="Recent"
+        color="black"
+        topIcon={<BlackStarIcon />}
+        active={false}
+      />
+
+      <NavLink
+        to="/"
+        label="Favorites"
+        color="black"
+        topIcon={<BlackStarIcon />}
+        active={false}
+      />
+      </>
+      
+    ),
   },
 };
-
-export const Active: Story = {
-  args: {
-    to: '/',
-    label: 'Home',
-    color: 'white',
-    backgroundColor: 'blue',
-    topIcon: <StarIcon />,
-    active: true,
-  },
-};
-
 

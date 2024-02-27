@@ -7,3 +7,4 @@ export * from "./Icons/CancelIcon";
 export * from "./Icons/NigeriaFlagIcon";
 export * from "./Icons/BottomSheetCancelIcon"
 export * from "./Icons/LogoutIcon"
+export * from "./Icons/BottomSheetCancelIcon"

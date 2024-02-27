@@ -6,23 +6,22 @@ export interface NavigationBarProps {
   to: string;
   label: string;
   color: string;
-  backgroundColor: string;
   topIcon: React.ReactNode;
   active: boolean;
 }
 
-export function NavigationBar({ ...props }: NavigationBarProps): JSX.Element {
+export function NavLink({ ...props }: NavigationBarProps): JSX.Element {
   return (
     <StyledLink {...props} to={props.to}>
       <LinkContainer active={props.active}>
-        <TopIconContainer>{props.topIcon}</TopIconContainer>
+        <IconContainer>{props.topIcon}</IconContainer>
         <Label active={props.active}>{props.label}</Label>
       </LinkContainer>
     </StyledLink>
   );
 }
 
-const TopIconContainer = styled.div`
+const IconContainer = styled.div`
   display: flex;
   align-items: center;
   width: fit-content;
@@ -30,14 +29,14 @@ const TopIconContainer = styled.div`
 
 const LinkContainer = styled.div<Pick<NavigationBarProps, 'active'>>`
   display: flex;
+  flex-direction: column;
   background-color: ${({ theme, active }) =>
     active ? theme.palette.primary1.main : 'transparent'};
-  width: 120px;
-  height: 60px;
-  border-radius: 20px;
+  width: 100px;
+  border-radius: 10px;
   align-items: center;
-  gap: ${({ theme }) => theme.spacing.sm};
-  padding: ${({ theme }) => theme.spacing.sm};
+  height: 60px;
+  padding: ${({ theme }) => theme.spacing.xs};
 `;
 
 const StyledLink = styled(Link)<NavigationBarProps>`
@@ -47,5 +46,8 @@ const StyledLink = styled(Link)<NavigationBarProps>`
 `;
 
 const Label = styled.div<Pick<NavigationBarProps, 'active'>>`
-  color: ${({ theme, active }) => active ? theme.palette.primary1.main : theme.palette.primary1.light};
+  color: ${({ theme, active }) =>
+    active ? theme.palette.common.white : theme.palette.primary1.main};
 `;
+
+

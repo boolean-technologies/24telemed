@@ -37,10 +37,10 @@ export const SvgIcon = styled.i<SvgIconProps>`
     `)}
 `;
 
-export function createSvgIcon(path: ReactElement, displayName: string) {
+export function createSvgIcon(path: ReactElement, displayName: string, color?: PaletteVariants) {
   function Component(props: SvgIconProps) {
     return (
-      <SvgIcon data-testid={`${displayName}Icon`} {...props}>
+      <SvgIcon data-testid={`${displayName}Icon`}  {...props} color={color}>
         {path}
       </SvgIcon>
     );
