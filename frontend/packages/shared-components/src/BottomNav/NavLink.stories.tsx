@@ -16,7 +16,7 @@ const meta: Meta<typeof NavLink> = {
 
 export default meta;
 
-export const NavLinkStory: Story = {
+export const ActiveNavLink: Story = {
   args: {
     to: "/",
     label: "Home",
@@ -25,3 +25,14 @@ export const NavLinkStory: Story = {
     active: true,
   },
 };
+
+export const InactiveNavLink: Story = {
+  args: {
+    to: "/",
+    label: "Home",
+    color: "black",
+    topIcon: <StarIcon />,
+    active: false,
+  },
+};
+
