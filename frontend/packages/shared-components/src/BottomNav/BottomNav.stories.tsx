@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import {NavLink } from './NavLink';
 import { MemoryRouter } from "react-router";
-import { StarIcon,BlackStarIcon } from '../Icon';
+import { StarIcon, BlackStarIcon } from '../Icon';
 import { NavBar } from './NavBar';
 
 type Story = StoryObj<typeof NavBar>;
