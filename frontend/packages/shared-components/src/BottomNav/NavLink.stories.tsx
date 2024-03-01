@@ -10,7 +10,6 @@ const meta: Meta<typeof NavLink> = {
   component: NavLink,
   title: 'Components/BottomNav/NavLink',
   decorators: [(Story) => <MemoryRouter><Story /></MemoryRouter>],
-  tags: ['autodocs'],
 };
 
 

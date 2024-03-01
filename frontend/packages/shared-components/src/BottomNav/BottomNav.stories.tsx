@@ -11,10 +11,6 @@ const meta: Meta<typeof NavBar> = {
   component: NavBar,
   title: 'Components/BottomNav',
   decorators: [(Story) => <MemoryRouter><Story /></MemoryRouter>],
-  parameters: {
-    controls: { expanded: true },
-  },
-  tags: ['autodocs'],
 };
 
 export default meta;
