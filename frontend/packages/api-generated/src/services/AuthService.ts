@@ -15,7 +15,7 @@ export class AuthService {
    * @returns TokenObtainPair
    * @throws ApiError
    */
-  public static authTokenCreate(
+  public static p(
     data: TokenObtainPair
   ): CancelablePromise<TokenObtainPair> {
     return __request(OpenAPI, {
