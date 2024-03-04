@@ -19,6 +19,7 @@ interface LoginData {
   username: string;
   password: string;
 }
+
 const schema = yup.object().shape({
   username: yup.string().required('Username is required').min(3),
   password: yup.string().required('Password is required').min(8),
@@ -38,10 +39,15 @@ export function LoginPage(): JSX.Element {
     },
   });
 
-  const onSubmit: SubmitHandler<LoginData> = (data) => {
-    login.mutate(data, {
-      onSuccess: () => {
-        toast.success('Login successful');
+  const onSubmit: SubmitHandler<LoginData> = (credentials) => {
+    login.mutate(credentials, {
+      onSuccess: (data) => {
+        // @ts-ignore
+        localStorage.setItem('token', data.access);
+        toast.success('Login successful', {
+          autoClose: 5000,
+          position: 'top-right',
+        });
       },
       onError: () => {
         toast.error("Login failed, please try again", {
