@@ -48,9 +48,18 @@ const StyledButton: FC<BaseButtonProps> = styled.button.attrs<BaseButtonProps>(
   cursor: pointer;
   font-family: ${({ theme }) => theme.typography.fontFamily};
   border: ${({ theme }) => theme.border.primary.light};
+  text-align: center;
   border-color: ${({ theme, variant }) => variant === 'tertiary' ? theme.border.primary.light : "transparent"};
   font-size: 14px;
   width: 100%;
+  ${({ theme }) =>
+    theme.breakpoints.xs.down(css`
+      font-size: ${({ theme }) => theme.typography.bodyMd.fontSize};
+      height: ${({ theme }) => theme.spacing.md};
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    `)}
 `;
 
 export function Button(props: BaseButtonProps) {
