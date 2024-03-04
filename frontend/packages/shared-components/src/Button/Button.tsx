@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 import { FC } from 'react';
 import { makeButtonVariant } from '../styles';
 import { ResponsivePropsBase } from '../styles/createResponsiveProps';
@@ -21,6 +21,7 @@ const StyledButton: FC<BaseButtonProps> = styled.button.attrs<BaseButtonProps>(
   })
 )`
   ${makeButtonVariant}
+  width: 100%;
   padding-top: ${({ theme }) => ` ${theme.spacing.sm}`};
   padding-bottom: ${({ theme }) => ` ${theme.spacing.sm}`};
   padding-left: ${({ theme, leftIcon }) =>
@@ -32,7 +33,16 @@ const StyledButton: FC<BaseButtonProps> = styled.button.attrs<BaseButtonProps>(
   cursor: pointer;
   font-family: ${({ theme }) => theme.typography.ontFamily};
   border: ${({ theme }) => theme.border.primary.light};
+  text-align: center;
   border-color: ${({ theme, variant }) => variant === 'tertiary' ? theme.border.primary.light : "transparent"};
+  ${({ theme }) =>
+    theme.breakpoints.xs.down(css`
+      font-size: ${({ theme }) => theme.typography.bodyMd.fontSize};
+      height: ${({ theme }) => theme.spacing.md};
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    `)}
 `;
 
 export function Button(props: BaseButtonProps) {
@@ -59,7 +69,7 @@ export function Button(props: BaseButtonProps) {
 
 const ButtonContainer = styled.div`
   position: relative;
-  width: fit-content;
+  width: 100%;
 `;
 
 const RightIconContainer = styled.div`

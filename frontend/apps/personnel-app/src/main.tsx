@@ -7,6 +7,7 @@ import { PersonnelCommunicationProvider } from '@local/websocket';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { VideoCallSDK } from '@local/videosdk-rtc-component';
+import { LoginPage } from './pages/login';
 
 const theme = createTheme();
 const queryClient = new QueryClient();
@@ -39,11 +40,7 @@ root.render(
         <CssBaseline />
         <BrowserRouter>
           <PersonnelCommunicationProvider userId="446175d1-f2a4-4513-851e-e63fde4ca906">
-            <VideoCallSDK
-              participantName="Personnel"
-              meetingId="u9fr-y2uj-7opc"
-              setIsMeetingLeft={(x) => console.log('Doctor Left: ', x)}
-            />
+            <LoginPage />
           </PersonnelCommunicationProvider>
         </BrowserRouter>
       </QueryClientProvider>

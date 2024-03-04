@@ -56,7 +56,7 @@ export const RightIconContainer = styled.div`
 
 export const InputContainer = styled.div`
   position: relative;
-  width: fit-content;
+  
   display: inline-block;
 `;
 
