@@ -8,3 +8,4 @@ export * from './Typography';
 export * from './Logo';
 export * from './Icon';
 export * from './Card';
+export * from './Logo';
