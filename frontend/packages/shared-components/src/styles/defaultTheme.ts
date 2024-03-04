@@ -74,6 +74,7 @@ export const defaultTheme: Theme = {
       black: "#000000",
       white: "#FFFFFF",
       transparent: "transparent",
+      warning: "#A28408",
     },
     background: {
       main: "#F7F8F8",
@@ -119,6 +120,7 @@ export const defaultTheme: Theme = {
       black: "#FFFFFF",
       white: "#2F4D52",
       transparent: "#2F4D52",
+      warning: "#A28408",
     },
     background: {
       main: "#2F4D52",

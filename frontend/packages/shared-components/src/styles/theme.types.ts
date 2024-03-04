@@ -33,6 +33,7 @@ export interface Palettes extends MainPalettes {
     black: string;
     white: string;
     transparent: string;
+    warning: string;
   };
   background: {
     main: string;

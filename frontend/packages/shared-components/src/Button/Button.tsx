@@ -3,21 +3,25 @@ import { FC } from 'react';
 import { makeButtonVariant } from '../styles';
 import { ResponsivePropsBase } from '../styles/createResponsiveProps';
 import type { NewButtonVariant } from '../styles';
-
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 export interface BaseButtonProps extends ResponsivePropsBase {
   text: string;
+  disabled?: boolean;
   variant?: NewButtonVariant;
   rightIcon?: React.ReactNode;
-  disabled?: boolean;
+  isSubmitting?: boolean;
   leftIcon?: React.ReactNode;
+  type?: 'button' | 'submit' | 'reset';
 }
 
 const StyledButton: FC<BaseButtonProps> = styled.button.attrs<BaseButtonProps>(
-  ({ variant = 'primary', disabled, rightIcon, leftIcon, text }) => ({
+  ({ variant = 'primary', isSubmitting, rightIcon, leftIcon, disabled, text, type}) => ({
     variant,
-    disabled,
+    isSubmitting,
     rightIcon,
     leftIcon,
+    type,
+    disabled,
   })
 )`
   ${makeButtonVariant}
@@ -50,11 +54,13 @@ export function Button(props: BaseButtonProps) {
     <ButtonContainer>
       <StyledButton
         {...props}
-        disabled={props.disabled}
+        disabled={props.isSubmitting }
         rightIcon={props.rightIcon}
         variant= {props.variant}
+        type={props.type}
       >
-        {props.text}
+        {props.isSubmitting ? <> <AiOutlineLoading3Quarters /> Please wait...</> : props.text}
+      
       </StyledButton>
       {props.rightIcon && (
         <RightIconContainer>{props.rightIcon}</RightIconContainer>
