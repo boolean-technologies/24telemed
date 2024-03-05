@@ -8,8 +8,8 @@ export const NigeriaFlagIcon = createSvgIcon(
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <g clip-path="url(#clip0_4859_20989)">
-      <g clip-path="url(#clip1_4859_20989)">
+    <g clipPath="url(#clip0_4859_20989)">
+      <g clipPath="url(#clip1_4859_20989)">
         <path
           d="M3.67498 5.88507C3.67569 4.65986 4.6695 3.6672 5.89471 3.66791L9.40513 3.66994L9.39547 20.3365L5.88506 20.3345C4.65985 20.3338 3.66719 19.34 3.6679 18.1147L3.67498 5.88507Z"
           fill="#249C29"
@@ -28,13 +28,13 @@ export const NigeriaFlagIcon = createSvgIcon(
         />
       </g>
     </g>
-    <g clip-path="url(#clip2_4859_20989)">
+    <g clipPath="url(#clip2_4859_20989)">
       <path
         d="M29 9.5L34 14.5L39 9.5"
         stroke="#777777"
-        stroke-width="1.75"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </g>
     <defs>

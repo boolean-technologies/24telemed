@@ -10,10 +10,10 @@ import styled, { css } from 'styled-components';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { useLogin } from '../../hooks/react-queries/useLogin';
 import { BG } from '../../assets';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { useLogin } from '../../hooks/react-queries';
 
 interface LoginData {
   username: string;

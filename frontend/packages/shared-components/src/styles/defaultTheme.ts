@@ -331,7 +331,7 @@ export const defaultTheme: Theme = {
     primary: {
       backgroundColor: "#2F4D52",
       color: "#FFFFFF",
-      hoverBackgroundColor: "#D5DBDC",
+      hoverBackgroundColor: "#829497",
       disabledBackgroundColor: "#D5DBDC",
       disabledColor: "#829497",
       hoverColor: "#FFFFFF",

@@ -31,21 +31,21 @@ exports[`BottomSheet > matches snapshot 1`] = `
               xmlns="http://www.w3.org/2000/svg"
             >
               <g
-                clip-path="url(#clip0_4862_2303)"
+                clipPath="url(#clip0_4862_2303)"
               >
                 <path
                   d="M18 6L6 18"
                   stroke="black"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="1.75"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="1.75"
                 />
                 <path
                   d="M6 6L18 18"
                   stroke="black"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="1.75"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="1.75"
                 />
               </g>
               <defs>
