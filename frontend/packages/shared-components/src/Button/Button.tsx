@@ -1,9 +1,12 @@
-import styled, {css} from 'styled-components';
+import styled, { css } from 'styled-components';
 import { FC } from 'react';
 import { makeButtonVariant } from '../styles';
 import { ResponsivePropsBase } from '../styles/createResponsiveProps';
 import type { NewButtonVariant } from '../styles';
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
+import { Flex } from '../Flex';
+import { Typography } from '../Typography';
+
 export interface BaseButtonProps extends ResponsivePropsBase {
   text: string;
   disabled?: boolean;
@@ -15,7 +18,15 @@ export interface BaseButtonProps extends ResponsivePropsBase {
 }
 
 const StyledButton: FC<BaseButtonProps> = styled.button.attrs<BaseButtonProps>(
-  ({ variant = 'primary', isSubmitting, rightIcon, leftIcon, disabled, text, type}) => ({
+  ({
+    variant = 'primary',
+    isSubmitting,
+    rightIcon,
+    leftIcon,
+    disabled,
+    text,
+    type,
+  }) => ({
     variant,
     isSubmitting,
     rightIcon,
@@ -38,7 +49,8 @@ const StyledButton: FC<BaseButtonProps> = styled.button.attrs<BaseButtonProps>(
   font-family: ${({ theme }) => theme.typography.ontFamily};
   border: ${({ theme }) => theme.border.primary.light};
   text-align: center;
-  border-color: ${({ theme, variant }) => variant === 'tertiary' ? theme.border.primary.light : "transparent"};
+  border-color: ${({ theme, variant }) =>
+    variant === 'tertiary' ? theme.border.primary.light : 'transparent'};
   ${({ theme }) =>
     theme.breakpoints.xs.down(css`
       font-size: ${({ theme }) => theme.typography.bodyMd.fontSize};
@@ -54,13 +66,23 @@ export function Button(props: BaseButtonProps) {
     <ButtonContainer>
       <StyledButton
         {...props}
-        disabled={props.isSubmitting }
+        disabled={props.isSubmitting}
         rightIcon={props.rightIcon}
-        variant= {props.variant}
+        variant={props.variant}
         type={props.type}
       >
-        {props.isSubmitting ? <> <AiOutlineLoading3Quarters /> Please wait...</> : props.text}
-      
+        {props.isSubmitting ? (
+          <Flex align="center" justify="center">
+            <AiOutlineLoading3Quarters
+              className="animate-spin"
+              size={20}
+            />
+            <Typography>Loading...</Typography>
+          </Flex>
+        ) : (
+          props.text
+        )}
+        
       </StyledButton>
       {props.rightIcon && (
         <RightIconContainer>{props.rightIcon}</RightIconContainer>
