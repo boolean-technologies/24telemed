@@ -29,7 +29,7 @@ const Row = styled.div`
 
 const Story: Meta<typeof Layout> = {
   component: Layout,
-  title: "Design System/Icons",
+  title: "Components/Icons",
 };
 export default Story;
 

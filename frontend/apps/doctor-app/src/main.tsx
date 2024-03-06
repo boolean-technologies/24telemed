@@ -6,7 +6,7 @@ import { CssBaseline, Fonts, createTheme } from "@local/shared-components";
 import { DoctorCommunicationProvider } from '@local/websocket';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { VideoCallSDK } from '@local/videosdk-rtc-component';
+import App from './app/app';
 
 const theme = createTheme();
 
@@ -40,11 +40,7 @@ root.render(
         <CssBaseline />
         <BrowserRouter>
         <DoctorCommunicationProvider userId="80ca8080-1b9e-4b77-9051-13e2302c2b90">
-          <VideoCallSDK
-            participantName="Doctor"
-            meetingId="u9fr-y2uj-7opc"
-            setIsMeetingLeft={(x) => console.log('Doctor Left: ', x)}
-          />
+          <App />
         </DoctorCommunicationProvider>
       </BrowserRouter>
       </QueryClientProvider>
