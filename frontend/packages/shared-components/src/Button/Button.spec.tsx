@@ -1,17 +1,33 @@
-import '@testing-library/jest-dom/extend-expect'
+import { render, screen } from '../testUtils';
+import { fireEvent, cleanup } from '@testing-library/react'
 import { Button } from './Button';
-import { render, screen} from "@testing-library/react";
 
+const buttonProps = {
+  text: 'Button',
+  onClick: vi.fn(),
+};
+
+const renderButton = (props = buttonProps) => {
+  return render(<Button {...props} />);
+};
 
 describe('Button', () => {
-  
-  it('renders a button', () => {
-    render(<Button label="Click me" color="white" backgroundColor="blue" hoverColor="lightblue" activeColor="darkblue" focusColor="lightblue" onClick={() => console.log('clicked')} />);
-    const button = screen.getByText('Click me');
-    expect(button).toBeInTheDocument();
+  afterEach(cleanup);
+  it('renders a button with the correct text', () => {
+    renderButton();
+    expect(screen.getByRole('button', { name: 'Button' })).toBeInTheDocument();
   });
-  it('matches snapshot', () => {
-    const { asFragment } = render(<Button label="Click me" color="white" backgroundColor="blue" hoverColor="lightblue" activeColor="darkblue" focusColor="lightblue" onClick={() => console.log('clicked')} />);
-    expect(asFragment()).toMatchSnapshot();
+
+  it('renders a button with the correct text', () => {
+    renderButton();
+    expect(screen.getByRole('button', { name: 'Button' })).toBeInTheDocument();
+  });
+
+  it('fires the onClick function when clicked', () => {
+    const onClick = buttonProps.onClick;
+    renderButton({ ...buttonProps, onClick });
+    const button = screen.getByRole('button', { name: 'Button' });
+    fireEvent.click(button);
+    expect(onClick).toHaveBeenCalled();
   });
 });

@@ -1,0 +1,1823 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Typography > should render align center properly 1`] = `
+.c0 {
+  color: #2F4D52;
+  text-align: center;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render align justify properly 1`] = `
+.c0 {
+  color: #2F4D52;
+  text-align: justify;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render align left properly 1`] = `
+.c0 {
+  color: #2F4D52;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render align right properly 1`] = `
+.c0 {
+  color: #2F4D52;
+  text-align: right;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render color common.black properly 1`] = `
+.c0 {
+  color: #000000;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+  color="common.black"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render color common.white properly 1`] = `
+.c0 {
+  color: #FFFFFF;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+  color="common.white"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render color error properly 1`] = `
+.c0 {
+  color: #FF6363;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+  color="error"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render color neutral.light properly 1`] = `
+.c0 {
+  color: #F2F4F5;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+  color="neutral.light"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render color neutral.lighter properly 1`] = `
+.c0 {
+  color: #FBFBFC;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+  color="neutral.lighter"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render color neutral.main properly 1`] = `
+.c0 {
+  color: #EAEDEE;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+  color="neutral.main"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render color notification properly 1`] = `
+.c0 {
+  color: #9DE6DA;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+  color="notification"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render color primary1.light properly 1`] = `
+.c0 {
+  color: #829497;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+  color="primary1.light"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render color primary1.lighter properly 1`] = `
+.c0 {
+  color: #D5DBDC;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+  color="primary1.lighter"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render color primary1.main properly 1`] = `
+.c0 {
+  color: #2F4D52;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+  color="primary1.main"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render color primary2.light properly 1`] = `
+.c0 {
+  color: #FFFBAC;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+  color="primary2.light"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render color primary2.lighter properly 1`] = `
+.c0 {
+  color: #FFFEE3;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+  color="primary2.lighter"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render color primary2.main properly 1`] = `
+.c0 {
+  color: #FFF875;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+  color="primary2.main"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render color secondary1.light properly 1`] = `
+.c0 {
+  color: #9DE6DA;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+  color="secondary1.light"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render color secondary1.lighter properly 1`] = `
+.c0 {
+  color: #DEF7F3;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+  color="secondary1.lighter"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render color secondary1.main properly 1`] = `
+.c0 {
+  color: #5CD6C2;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+  color="secondary1.main"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render color secondary2.light properly 1`] = `
+.c0 {
+  color: #F19991;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+  color="secondary2.light"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render color secondary2.lighter properly 1`] = `
+.c0 {
+  color: #FBE5E3;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+  color="secondary2.lighter"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render color secondary2.main properly 1`] = `
+.c0 {
+  color: #ED7F75;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+  color="secondary2.main"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render color secondary3.light properly 1`] = `
+.c0 {
+  color: #FFD0A7;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+  color="secondary3.light"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render color secondary3.lighter properly 1`] = `
+.c0 {
+  color: #FFEFE2;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+  color="secondary3.lighter"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render color secondary3.main properly 1`] = `
+.c0 {
+  color: #FFB06C;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+  color="secondary3.main"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render color success properly 1`] = `
+.c0 {
+  color: #6FCF97;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+  color="success"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render full width properly 1`] = `
+.c0 {
+  color: #2F4D52;
+  text-align: left;
+  width: 100%;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render heading h1 properly 1`] = `
+.c0 {
+  color: #2F4D52;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded Ex Cond","Helvetica","Arial",sans-serif;
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 0.96;
+  -webkit-letter-spacing: -0.02em;
+  -moz-letter-spacing: -0.02em;
+  -ms-letter-spacing: -0.02em;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+@media (max-width:899.95px) {
+  .c0 {
+    font-size: 3rem;
+  }
+}
+
+<h1
+  class="c0"
+>
+  Make a good move!
+</h1>
+`;
+
+exports[`Typography > should render heading h2 properly 1`] = `
+.c0 {
+  color: #2F4D52;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded Ex Cond","Helvetica","Arial",sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 0.96;
+  -webkit-letter-spacing: -0.02em;
+  -moz-letter-spacing: -0.02em;
+  -ms-letter-spacing: -0.02em;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+@media (max-width:899.95px) {
+  .c0 {
+    font-size: 2.25rem;
+  }
+}
+
+<h2
+  class="c0"
+>
+  Make a good move!
+</h2>
+`;
+
+exports[`Typography > should render heading h3 properly 1`] = `
+.c0 {
+  color: #2F4D52;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded Ex Cond","Helvetica","Arial",sans-serif;
+  font-size: 2.25rem;
+  font-weight: 700;
+  line-height: 0.96;
+  -webkit-letter-spacing: -0.02em;
+  -moz-letter-spacing: -0.02em;
+  -ms-letter-spacing: -0.02em;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+@media (max-width:899.95px) {
+  .c0 {
+    font-size: 2rem;
+  }
+}
+
+<h3
+  class="c0"
+>
+  Make a good move!
+</h3>
+`;
+
+exports[`Typography > should render heading h4 properly 1`] = `
+.c0 {
+  color: #2F4D52;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded Ex Cond","Helvetica","Arial",sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 0.96;
+  -webkit-letter-spacing: -0.02em;
+  -moz-letter-spacing: -0.02em;
+  -ms-letter-spacing: -0.02em;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+@media (max-width:899.95px) {
+  .c0 {
+    font-size: 1.75rem;
+  }
+}
+
+<h4
+  class="c0"
+>
+  Make a good move!
+</h4>
+`;
+
+exports[`Typography > should render heading h5 properly 1`] = `
+.c0 {
+  color: #2F4D52;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded Ex Cond","Helvetica","Arial",sans-serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 0.96;
+  -webkit-letter-spacing: -0.02em;
+  -moz-letter-spacing: -0.02em;
+  -ms-letter-spacing: -0.02em;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+@media (max-width:899.95px) {
+  .c0 {
+    font-size: 1.5rem;
+  }
+}
+
+<h5
+  class="c0"
+>
+  Make a good move!
+</h5>
+`;
+
+exports[`Typography > should render heading h6 properly 1`] = `
+.c0 {
+  color: #2F4D52;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded Ex Cond","Helvetica","Arial",sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 0.96;
+  -webkit-letter-spacing: -0.02em;
+  -moz-letter-spacing: -0.02em;
+  -ms-letter-spacing: -0.02em;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+@media (max-width:899.95px) {
+  .c0 {
+    font-size: 1.25rem;
+  }
+}
+
+<h6
+  class="c0"
+>
+  Make a good move!
+</h6>
+`;
+
+exports[`Typography > should render link properly 1`] = `
+.c0 {
+  color: #2F4D52;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render no wrap properly 1`] = `
+.c0 {
+  color: #2F4D52;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render on color common.black properly 1`] = `
+.c0 {
+  color: #FFFFFF;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render on color common.white properly 1`] = `
+.c0 {
+  color: #2F4D52;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render on color error properly 1`] = `
+.c0 {
+  color: #FFFFFF;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render on color neutral.light properly 1`] = `
+.c0 {
+  color: #2F4D52;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render on color neutral.lighter properly 1`] = `
+.c0 {
+  color: #2F4D52;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render on color neutral.main properly 1`] = `
+.c0 {
+  color: #2F4D52;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render on color notification properly 1`] = `
+.c0 {
+  color: #2F4D52;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render on color primary1.light properly 1`] = `
+.c0 {
+  color: #FFFFFF;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render on color primary1.lighter properly 1`] = `
+.c0 {
+  color: #2F4D52;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render on color primary1.main properly 1`] = `
+.c0 {
+  color: #FFFFFF;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render on color primary2.light properly 1`] = `
+.c0 {
+  color: #2F4D52;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render on color primary2.lighter properly 1`] = `
+.c0 {
+  color: #2F4D52;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render on color primary2.main properly 1`] = `
+.c0 {
+  color: #2F4D52;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render on color secondary1.light properly 1`] = `
+.c0 {
+  color: #2F4D52;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render on color secondary1.lighter properly 1`] = `
+.c0 {
+  color: #2F4D52;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render on color secondary1.main properly 1`] = `
+.c0 {
+  color: #2F4D52;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render on color secondary2.light properly 1`] = `
+.c0 {
+  color: #2F4D52;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render on color secondary2.lighter properly 1`] = `
+.c0 {
+  color: #2F4D52;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render on color secondary2.main properly 1`] = `
+.c0 {
+  color: #2F4D52;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render on color secondary3.light properly 1`] = `
+.c0 {
+  color: #2F4D52;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render on color secondary3.lighter properly 1`] = `
+.c0 {
+  color: #2F4D52;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render on color secondary3.main properly 1`] = `
+.c0 {
+  color: #2F4D52;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render on color success properly 1`] = `
+.c0 {
+  color: #FFFFFF;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render paragraph bodyLg properly 1`] = `
+.c0 {
+  color: #2F4D52;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render paragraph bodyMd properly 1`] = `
+.c0 {
+  color: #2F4D52;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render paragraph bodySm properly 1`] = `
+.c0 {
+  color: #2F4D52;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render paragraph bodyXs properly 1`] = `
+.c0 {
+  color: #2F4D52;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+>
+  Make a good move!
+</p>
+`;
+
+exports[`Typography > should render properly with default values 1`] = `
+.c0 {
+  color: #2F4D52;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+>
+  Make a good move!
+</p>
+`;

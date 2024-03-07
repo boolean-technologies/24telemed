@@ -1,44 +1,56 @@
-import { ButtonProps, Button } from './Button';
 import type { Meta, StoryObj } from '@storybook/react';
-
-type Story = StoryObj<typeof Button>;
+import { Button } from './Button';
+import { Typography } from '../Typography/Typography';
+import { StarIcon } from '../Icon';
 
 const meta: Meta<typeof Button> = {
-  component:Button,
+  title: 'Components/Button',
+  component: Button,
+  tags: ['autodocs'],
 };
+
 
 export default meta;
 
+type Story = StoryObj<typeof Button>;
+
 export const Primary: Story = {
   args: {
-    color: 'white',
-    onClick: () => console.log('clicked'),
-    label: 'Click me',
-    hoverColor: 'lightblue',
-    activeColor: 'darkblue',
-    focusColor: 'lightblue',
-    backgroundColor: 'blue',
+    text: 'Primary Button',
+    variant: 'primary',
   },
 };
+
 export const Secondary: Story = {
   args: {
-    color: 'white',
-    onClick: () => console.log('clicked'),
-    label: 'Click me',
-    hoverColor: 'lightgreen',
-    activeColor: 'darkgreen',
-    focusColor: 'lightgreen',
-    backgroundColor: 'green',
+    text: 'Secondary Button',
+    variant: 'secondary',
   },
 };
+
 export const Tertiary: Story = {
   args: {
-    color: 'white',
-    onClick: () => console.log('clicked'),
-    label: 'Click me',
-    hoverColor: 'lightgrey',
-    activeColor: 'darkgrey',
-    focusColor: 'lightgrey',
-    backgroundColor: 'grey',
+    text: 'Tertiary Button',
+    variant: 'tertiary',
+  },
+};
+
+export const Disabled: Story = {
+  args: {
+    text: 'Disabled Button',
+    disabled: true,
+  },
+};
+export const RightIcon: Story = {
+  args: {
+    text: 'Right Icon Button',
+    rightIcon: <StarIcon />,
+  },
+};
+
+export const LeftIcon: Story = {
+  args: {
+    text: 'Left Icon Button',
+    leftIcon: <StarIcon />,
   },
 };

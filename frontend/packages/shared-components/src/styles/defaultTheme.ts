@@ -74,6 +74,7 @@ export const defaultTheme: Theme = {
       black: "#000000",
       white: "#FFFFFF",
       transparent: "transparent",
+      warning: "#A28408",
     },
     background: {
       main: "#F7F8F8",
@@ -119,6 +120,7 @@ export const defaultTheme: Theme = {
       black: "#FFFFFF",
       white: "#2F4D52",
       transparent: "#2F4D52",
+      warning: "#A28408",
     },
     background: {
       main: "#2F4D52",
@@ -324,5 +326,37 @@ export const defaultTheme: Theme = {
     toaster: 1600,
     selectPopper: 1700,
     tooltip: 1800,
+  },
+  button: {
+    primary: {
+      backgroundColor: "#2F4D52",
+      color: "#FFFFFF",
+      hoverBackgroundColor: "#829497",
+      disabledBackgroundColor: "#D5DBDC",
+      disabledColor: "#829497",
+      hoverColor: "#FFFFFF",
+      focusBackgroundColor: "#2F4D52",
+      pressedBackgroundColor: "#829497",
+    },
+    secondary: {
+      backgroundColor: "#EAEDEE",
+      color: "#2F4D52",
+      hoverBackgroundColor: "#EFF5F6",
+      disabledBackgroundColor: "#D5DBDC",
+      disabledColor: "#829497",
+      hoverColor: "##FFFFFF",
+      focusBackgroundColor: "#EAEDEE",
+      pressedBackgroundColor: "#829497",
+    },
+    tertiary: {
+      backgroundColor: "transparent",
+      color: "#2F4D52",
+      hoverBackgroundColor: "#EFF5F6",
+      disabledBackgroundColor: "transparent",
+      disabledColor: "#829497",
+      hoverColor: "#2F4D52",
+      focusBackgroundColor: "transparent",
+      pressedBackgroundColor: "#D5DBDC",
+    },
   },
 };
