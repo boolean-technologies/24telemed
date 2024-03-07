@@ -12,21 +12,21 @@ describe('NavBar', () => {
           to="/"
           label="Home"
           color="black"
-          topIcon={<StarIcon />}
+          topIcon={(props) => <StarIcon {...props} />}
           active={false}
         />
         <NavLink
           to="/about"
           label="About"
           color="black"
-          topIcon={<StarIcon />}
+          topIcon={(props) => <StarIcon {...props} />}
           active={false}
         />
         <NavLink
           to="/contact"
           label="Contact"
           color="black"
-          topIcon={<StarIcon />}
+          topIcon={(props) => <StarIcon {...props} />}
           active={false}
         />
       </NavBar>

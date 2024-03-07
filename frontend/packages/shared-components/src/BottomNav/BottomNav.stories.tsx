@@ -23,7 +23,7 @@ export const NavBarStory: Story = {
         to="/"
         label="Home"
         color="black"
-        topIcon={<StarIcon />}
+        topIcon={(props) => <StarIcon {...props} />}
         active={true}
       />
 
@@ -31,7 +31,7 @@ export const NavBarStory: Story = {
         to="/"
         label="Recent"
         color="black"
-        topIcon={<BlackStarIcon />}
+        topIcon={(props) => <BlackStarIcon {...props} />}
         active={false}
       />
 
@@ -39,7 +39,7 @@ export const NavBarStory: Story = {
         to="/"
         label="Favorites"
         color="black"
-        topIcon={<BlackStarIcon />}
+        topIcon={(props) => <StarIcon {...props} />}
         active={false}
       />
       </>

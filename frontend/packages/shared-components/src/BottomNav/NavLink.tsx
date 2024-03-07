@@ -1,48 +1,49 @@
+import { SvgIconProps } from '../Icon/SvgIcon';
+import { Flex, FlexProps } from '../Flex';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import React from 'react';
 
 export interface NavigationBarProps {
   to: string;
   label: string;
   color: string;
-  topIcon: React.ReactNode;
   active: boolean;
+  topIcon: (props: SvgIconProps) => JSX.Element;
 }
-
-export function NavLink({ ...props }: NavigationBarProps): JSX.Element {
+export function NavLink({
+  topIcon: Icon,
+  ...props
+}: NavigationBarProps): JSX.Element {
   return (
-    <StyledLink {...props} to={props.to}>
-      <LinkContainer active={props.active}>
-        <IconContainer>{props.topIcon}</IconContainer>
+    <StyledLink to={props.to}>
+      <LinkContainer
+        active={props.active}
+        direction="column"
+        justify="center"
+        align="center"
+      >
+        <IconContainer justify="center" align="center">
+          <Icon color={props.active ? 'primary1.main' : 'common.white'} />
+        </IconContainer>
         <Label active={props.active}>{props.label}</Label>
       </LinkContainer>
     </StyledLink>
   );
 }
 
-const IconContainer = styled.div`
-  display: flex;
-  align-items: center;
-  width: fit-content;
-`;
-
-const LinkContainer = styled.div<Pick<NavigationBarProps, 'active'>>`
-  display: flex;
-  flex-direction: column;
+const LinkContainer = styled(Flex)<Pick<NavigationBarProps, 'active'>>`
   background-color: ${({ theme, active }) =>
     active ? theme.palette.primary1.main : 'transparent'};
   width: 100px;
   border-radius: 10px;
-  align-items: center;
-  height: 60px;
   padding: ${({ theme }) => theme.spacing.xs};
+  gap: ${({ theme }) => theme.spacing.xxs};
 `;
-
-const StyledLink = styled(Link)<NavigationBarProps>`
+const StyledLink = styled(Link)`
   text-decoration: none;
   cursor: pointer;
   font-family: ${({ theme }) => theme.typography.navigationButton.fontFamily};
+  gap: ${({ theme }) => theme.spacing.xxs};
 `;
 
 const Label = styled.div<Pick<NavigationBarProps, 'active'>>`
@@ -50,4 +51,6 @@ const Label = styled.div<Pick<NavigationBarProps, 'active'>>`
     active ? theme.palette.common.white : theme.palette.primary1.main};
 `;
 
-
+const IconContainer = styled(Flex)`
+  width: fit-content;
+`;

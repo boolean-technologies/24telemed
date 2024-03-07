@@ -20,7 +20,9 @@ export const ActiveNavLink: Story = {
     to: "/",
     label: "Home",
     color: "black",
-    topIcon: <StarIcon />,
+    topIcon(props) {
+      return <StarIcon {...props} />;
+    },
     active: true,
   },
 };
@@ -30,7 +32,9 @@ export const InactiveNavLink: Story = {
     to: "/",
     label: "Home",
     color: "black",
-    topIcon: <StarIcon />,
+    topIcon(props) {
+      return <StarIcon {...props} />;
+    },
     active: false,
   },
 };
