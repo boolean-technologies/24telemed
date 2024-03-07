@@ -4,7 +4,6 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-bottom: ${({ theme }) => theme.spacing.md};
 `;
 
 export const HelperText = styled.span`
@@ -56,7 +55,7 @@ export const RightIconContainer = styled.div`
 
 export const InputContainer = styled.div`
   position: relative;
-  width: fit-content;
+  
   display: inline-block;
 `;
 

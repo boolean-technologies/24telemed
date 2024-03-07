@@ -29,7 +29,9 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG')
 
 ALLOWED_HOSTS = []
-CORS_ALLOWED_ORIGINS = ['http://localhost:4201', 'http://localhost:4200', 'http://localhost:8000']
+# CORS_ALLOWED_ORIGINS = ['http://localhost:4201', 'http://localhost:4200', 'http://localhost:8000']
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 
 # Application definition

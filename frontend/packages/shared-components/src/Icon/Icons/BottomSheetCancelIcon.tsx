@@ -8,20 +8,20 @@ export const BottomSheetCancelIcon = createSvgIcon(
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <g clip-path="url(#clip0_4862_2303)">
+    <g clipPath="url(#clip0_4862_2303)">
       <path
         d="M18 6L6 18"
         stroke="black"
-        stroke-width="1.75"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M6 6L18 18"
         stroke="black"
-        stroke-width="1.75"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </g>
     <defs>

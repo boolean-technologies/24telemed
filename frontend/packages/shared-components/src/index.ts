@@ -5,3 +5,4 @@ export * from './Fonts';
 export * from './styles';
 export * from './CssBaseline';
 export * from './Typography';
+export * from './Logo';

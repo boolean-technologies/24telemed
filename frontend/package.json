@@ -6,8 +6,8 @@
     "start:doctor": "nx serve doctor-app",
     "start:personnel": "nx serve personnel-app",
     "start:mobile": "nx start personnel-mobile",
-    "start:storybook": " npx nx run shared-components:storybook",
-    "start:test": "npx nx run shared-components:test",
+    "start:storybook": "nx run shared-components:storybook",
+    "start:test": "nx run shared-components:test",
     "generate": "node ./packages/api-generated/src/script/generated.mjs"
   },
   "private": true,
@@ -47,6 +47,7 @@
     "styled-components": "5.3.6",
     "tiny-invariant": "^1.3.1",
     "tslib": "^2.3.0",
+    "yup": "^1.3.3",
     "zx": "^7.2.3"
   },
   "devDependencies": {
