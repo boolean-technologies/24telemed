@@ -15,6 +15,7 @@ export interface BaseButtonProps extends ResponsivePropsBase {
   isSubmitting?: boolean;
   leftIcon?: React.ReactNode;
   type?: 'button' | 'submit' | 'reset';
+  loadingText?: string;
 }
 
 const StyledButton: FC<BaseButtonProps> = styled.button.attrs<BaseButtonProps>(
@@ -77,7 +78,7 @@ export function Button(props: BaseButtonProps) {
               className="animate-spin"
               size={20}
             />
-            <Typography>Loading...</Typography>
+            <Typography>{props.loadingText || 'Loading'}</Typography>
           </Flex>
         ) : (
           props.text

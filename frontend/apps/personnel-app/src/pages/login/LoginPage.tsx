@@ -42,6 +42,7 @@ export function LoginPage(): JSX.Element {
   const onSubmit: SubmitHandler<LoginData> = (credentials) => {
     login.mutate(credentials, {
       onSuccess: (data) => {
+        // TODO: Remove ts-ignore when backend doc is updated
         // @ts-ignore
         localStorage.setItem('token', data.access);
         toast.success('Login successful', {
@@ -50,7 +51,7 @@ export function LoginPage(): JSX.Element {
         });
       },
       onError: () => {
-        toast.error("Login failed, please try again", {
+        toast.error('Login failed, please try again', {
           autoClose: 5000,
           position: 'top-right',
         });
@@ -58,7 +59,7 @@ export function LoginPage(): JSX.Element {
     });
   };
   return (
-    <PageContainer
+    <StyledRoot
       direction="column"
       gap="sm"
       fullHeight
@@ -67,7 +68,7 @@ export function LoginPage(): JSX.Element {
     >
       <Flex justify="space-between" fullWidth padding="sm">
         <Logo />
-        <Image src={BG} alt="Background" />
+        <HeaderImage src={BG} alt="header-image" />
       </Flex>
       <Flex direction="column" gap="xs" align="flex-start">
         <Typography variant="bodyLg" weight="bold">
@@ -77,54 +78,65 @@ export function LoginPage(): JSX.Element {
           Please enter your credentials to login
         </Typography>
       </Flex>
+      <Form
+        onSubmit={handleSubmit(onSubmit)}
+        fullWidth
+        gap="sm"
+        direction="column"
+      >
+        <Controller
+          name="username"
+          control={control}
+          render={({ field }) => (
+            <TextInput
+              {...field}
+              label="Username"
+              error={!!errors.username?.message}
+              errorText={errors.username?.message}
+              placeholder="Enter your username"
+              type="username"
+              name="username"
+            />
+          )}
+        />
 
-      <Controller
-        name="username"
-        control={control}
-        render={({ field }) => (
-          <TextInput
-            {...field}
-            label="Username"
-            error={!!errors.username?.message}
-            errorText={errors.username?.message}
-            placeholder="Enter your username"
-            type="username"
-          />
-        )}
-      />
+        <Controller
+          name="password"
+          control={control}
+          render={({ field }) => (
+            <PasswordInput
+              {...field}
+              label="Password"
+              error={!!errors.password?.message}
+              errorText={errors.password?.message}
+              placeholder="Enter your password"
+              type="password"
+              name="password"
+            />
+          )}
+        />
 
-      <Controller
-        name="password"
-        control={control}
-        render={({ field }) => (
-          <PasswordInput
-            {...field}
-            label="Password"
-            error={!!errors.password?.message}
-            errorText={errors.password?.message}
-            placeholder="Enter your password"
-            type="password"
-          />
-        )}
-      />
-
-      <Flex justify="flex-end" fullWidth>
-        <Typography variant="bodySm">Forgot Password?</Typography>
-        <Link to="/recover">
-          <Typography variant="bodySm" weight="regular" color="common.warning">
-            Recover
-          </Typography>
-        </Link>
-      </Flex>
-      <Button
-        variant="primary"
-        text="LOGIN"
-        type="submit"
-        onClick={handleSubmit(onSubmit)}
-        disabled={login.isPending}
-        isSubmitting={login.isPending}
-      />
-
+        <Flex justify="flex-end" fullWidth>
+          <Typography variant="bodySm">Forgot Password?</Typography>
+          <Link to="/recover">
+            <Typography
+              variant="bodySm"
+              weight="regular"
+              color="common.warning"
+            >
+              Recover
+            </Typography>
+          </Link>
+        </Flex>
+        <Button
+        loadingText='Logging in...'
+          variant="primary"
+          text="LOGIN"
+          type="submit"
+          disabled={login.isPending}
+          isSubmitting={login.isPending}
+        />
+      </Form>
       <Flex justify="flex-start" fullWidth>
         <Typography variant="bodySm">Don't have an account?</Typography>
         <Link to="/register">
@@ -133,11 +145,11 @@ export function LoginPage(): JSX.Element {
           </Typography>
         </Link>
       </Flex>
-    </PageContainer>
+    </StyledRoot>
   );
 }
 
-const PageContainer = styled(Flex)`
+const StyledRoot = styled(Flex)`
   background-color: ${({ theme }) => theme.palette.common.white};
   height: 100vh;
   margin: 0 auto;
@@ -153,8 +165,7 @@ const PageContainer = styled(Flex)`
       padding: 0 50px;
     `)}
 `;
-
-const Image = styled.img`
+const HeaderImage = styled.img`
   width: 300px;
   height: 200px;
 
@@ -174,3 +185,7 @@ const Image = styled.img`
       height: 150px;
     `)}
 `;
+
+const Form = styled(Flex).attrs(() => ({
+  as: 'form',
+}))``;
