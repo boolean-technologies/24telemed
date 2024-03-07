@@ -66,4 +66,5 @@ urlpatterns = [
     path('patients/', include('patient.urls')),
     path('medical-encounters/', include('medication.urls')),
     path('baton/', include('baton.urls')),
+    path('admin_tools_stats/', include('admin_tools_stats.urls')),
 ]

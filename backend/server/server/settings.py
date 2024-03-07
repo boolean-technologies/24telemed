@@ -35,6 +35,8 @@ CORS_ALLOWED_ORIGINS = ['http://localhost:4201', 'http://localhost:4200', 'http:
 # Application definition
 
 INSTALLED_APPS = [
+    'admin_tools_stats',
+    'django_nvd3',
     'baton',
     "daphne",
     "django.contrib.admin",
@@ -181,10 +183,11 @@ SWAGGER_SETTINGS = {
 AUTH_USER_MODEL = 'users.User'
 
 BATON = {
-    "SITE_TITLE": "Anambra State TeleHealth Communication System",
-    "SITE_HEADER": "Anambra State TeleHealth Communication System",
-    "INDEX_TITLE": "Anambra State TeleHealth Communication System",
+    "SITE_TITLE": "Anambra State TeleHealth Connect System",
+    "SITE_HEADER": "Anambra State TeleHealth Connect System",
+    "INDEX_TITLE": "Anambra State TeleHealth Connect System",
     "POWERED_BY": '<a href="https://www.theboolean.tech">The Bolean Tech </a>',
     "COPYRIGHT" : "copyright © 2023 The Boolean Tech",
+    "MENU_ALWAYS_COLLAPSED": True
 
 }
