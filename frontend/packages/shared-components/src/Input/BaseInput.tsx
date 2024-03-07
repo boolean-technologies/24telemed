@@ -3,12 +3,12 @@ import styled, { css } from 'styled-components';
 export interface BaseInputProps {
   value?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  error: boolean;
+  error?: boolean;
   rightIcon?: React.ReactNode;
   leftIcon?: React.ReactNode;
   name: string;
-  type: string;
-  placeholder: string;
+  type?: string;
+  placeholder?: string;
 }
 
 export function BaseInput({
