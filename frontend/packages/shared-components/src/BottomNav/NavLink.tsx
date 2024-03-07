@@ -21,6 +21,7 @@ export function NavLink({
         direction="column"
         justify="center"
         align="center"
+        gap="xxs"
       >
         <IconContainer justify="center" align="center">
           <Icon color={props.active ? 'primary1.main' : 'common.white'} />
@@ -37,7 +38,6 @@ const LinkContainer = styled(Flex)<Pick<NavigationBarProps, 'active'>>`
   width: 100px;
   border-radius: 10px;
   padding: ${({ theme }) => theme.spacing.xs};
-  gap: ${({ theme }) => theme.spacing.xxs};
 `;
 const StyledLink = styled(Link)`
   text-decoration: none;
