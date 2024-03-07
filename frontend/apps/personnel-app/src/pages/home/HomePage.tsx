@@ -3,7 +3,6 @@ import {
   Flex,
   Typography,
   FlexProps,
-  
 } from '@local/shared-components';
 import styled from 'styled-components';
 import Header from './Header';
