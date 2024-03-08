@@ -12,6 +12,8 @@ export type CallLog = {
   duration?: number | null;
   call_data?: any;
   priority?: CallLog.priority;
+  readonly created_at?: string;
+  readonly updated_at?: string;
   health_care_assistant: string;
   doctor: string;
 };

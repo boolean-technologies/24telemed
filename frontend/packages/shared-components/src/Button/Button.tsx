@@ -14,14 +14,13 @@ export interface BaseButtonProps extends ResponsivePropsBase {
   rightIcon?: React.ReactNode;
   isSubmitting?: boolean;
   leftIcon?: React.ReactNode;
-  type?: 'button' | 'submit' | 'reset';
-  loadingText?: string;
+  fullWidth?: boolean;
 }
 
 const StyledButton: FC<BaseButtonProps> = styled.button.attrs<BaseButtonProps>(
-  ({
-    variant = 'primary',
-    isSubmitting,
+  ({ variant = 'primary', disabled, rightIcon, leftIcon }) => ({
+    variant,
+    disabled,
     rightIcon,
     leftIcon,
     disabled,
@@ -47,24 +46,16 @@ const StyledButton: FC<BaseButtonProps> = styled.button.attrs<BaseButtonProps>(
   border-radius: 12px;
   border: none;
   cursor: pointer;
-  font-family: ${({ theme }) => theme.typography.ontFamily};
+  font-family: ${({ theme }) => theme.typography.fontFamily};
   border: ${({ theme }) => theme.border.primary.light};
-  text-align: center;
-  border-color: ${({ theme, variant }) =>
-    variant === 'tertiary' ? theme.border.primary.light : 'transparent'};
-  ${({ theme }) =>
-    theme.breakpoints.xs.down(css`
-      font-size: ${({ theme }) => theme.typography.bodyMd.fontSize};
-      height: ${({ theme }) => theme.spacing.md};
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    `)}
+  border-color: ${({ theme, variant }) => variant === 'tertiary' ? theme.border.primary.light : "transparent"};
+  font-size: 14px;
+  width: 100%;
 `;
 
 export function Button(props: BaseButtonProps) {
   return (
-    <ButtonContainer>
+    <ButtonContainer fullWidth={props.fullWidth}>
       <StyledButton
         {...props}
         disabled={props.isSubmitting}
@@ -96,9 +87,14 @@ export function Button(props: BaseButtonProps) {
   );
 }
 
-const ButtonContainer = styled.div`
+const ButtonContainer = styled.div<{ fullWidth?: boolean }>`
   position: relative;
-  width: 100%;
+  width: fit-content;
+  ${({ fullWidth }) =>
+  fullWidth &&
+  css`
+    width: 100%;
+  `};
 `;
 
 const RightIconContainer = styled.div`
