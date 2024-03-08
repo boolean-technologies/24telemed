@@ -1,6 +1,5 @@
 import * as ReactDOM from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import { CssBaseline, Fonts, createTheme } from '@local/shared-components';
 import { PersonnelCommunicationProvider } from '@local/websocket';
@@ -37,11 +36,9 @@ root.render(
       <QueryClientProvider client={queryClient}>
         <Fonts />
         <CssBaseline />
-        <BrowserRouter>
           <PersonnelCommunicationProvider userId="447c6f62-a20a-4153-8aef-ec33205cefe8">
             <App />
           </PersonnelCommunicationProvider>
-        </BrowserRouter>
       </QueryClientProvider>
     </ThemeProvider>
   </>
