@@ -111,13 +111,19 @@ export function PageLayout() {
             }}
           />
         </Header>
-        <StyledContainer fullHeight fullWidth padding="md" direction="column">
-          <Outlet />
-          <Footer style={{ textAlign: 'center' }}>
-            Anambra State Doctor Connect ©{new Date().getFullYear()} Created by
-            The Boolean Tech
+        <StyledInnerContainer  fullHeight fullWidth align="center" direction="column">
+          <StyledContainer fullHeight fullWidth padding="md" direction="column">
+            <Flex fullHeight fullWidth align="flex-start">
+              <Outlet />
+            </Flex>
+          </StyledContainer>
+          <Footer style={{ textAlign: 'center', width: "100%" }}>
+            <Typography align="center" variant="bodySm">
+              <strong>Anambra State Doctor Connect</strong> ©{new Date().getFullYear()} Created by
+              The Boolean Tech
+            </Typography>
           </Footer>
-        </StyledContainer>
+        </StyledInnerContainer>
       </Layout>
       <IncomingCall />
     </StyledRoot>
@@ -143,5 +149,12 @@ const StyledLogoutIconButton = styled.button`
 
 const StyledContainer = styled(Flex)`
   max-height: calc(100vh - 64px);
-  overflow: scroll;
+  max-width: 1200px;
+`;
+
+const StyledInnerContainer = styled(Flex)`
+  width: 100%;
+  height: calc(100vh - 64px);
+  overflow-y: scroll;
+  margin: auto;
 `;

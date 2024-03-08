@@ -41,14 +41,14 @@ export const colorVariants: Array<PaletteVariants> = [
 export const defaultTheme: Theme = {
   palette: {
     primary1: {
-      main: "#2F4D52",
-      light: "#829497",
-      lighter: "#D5DBDC",
+      main: "#000000",
+      light: "#505A5B",
+      lighter: "#A0A4A5",
     },
     primary2: {
-      main: "#FFF875",
-      light: "#FFFBAC",
-      lighter: "#FFFEE3",
+      main: "#FFDD00",
+      light: "#FFEC80",
+      lighter: "#FFF4B0",
     },
     secondary1: {
       main: "#5CD6C2",

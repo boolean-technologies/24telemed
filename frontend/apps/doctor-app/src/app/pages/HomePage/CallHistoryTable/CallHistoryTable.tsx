@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon';
 import { Table, type TableColumnsType } from 'antd';
 import { CallStatus } from './CallStatus';
-import { CallLog, FullCallLog, SearchPageParams, SearchResultType } from '@local/api-generated';
+import { FullCallLog, SearchPageParams, SearchResultType } from '@local/api-generated';
 import { PatientName } from './PatientName';
 import { Card } from '@local/shared-components';
 import styled from 'styled-components';
@@ -33,6 +33,18 @@ export function CallHistoryTable({ tableData, searchParams, onPageChange }: Call
       render: (value) => DateTime.fromISO(value).toFormat('hh:mm a'),
     },
     {
+      title: 'Duration',
+      dataIndex: 'created_at',
+      key: 'time',
+      render: (_, record) => {
+        const dateTime1 = DateTime.fromISO(record.start_time);
+        const dateTime2 = DateTime.fromISO(record.end_time || record.start_time);
+        const diff = dateTime2.diff(dateTime1, 'minutes');
+        const minutes = diff.minutes;
+        return `${Math.round(minutes)} min`;
+      },
+    },
+    {
       title: 'Status',
       dataIndex: 'status',
       key: 'status',
@@ -49,7 +61,8 @@ export function CallHistoryTable({ tableData, searchParams, onPageChange }: Call
           total: tableData?.count,
           pageSize: searchParams.size,
           current: searchParams.page,
-          onChange: onPageChange
+          onChange: onPageChange,
+          pageSizeOptions: [5, 10, 15, 25, 50],
         }}
         style={{ minHeight: 500 }}
       />

@@ -16,11 +16,15 @@ export function useIncomingCall() {
   const handleAnswerCall = () => {
     answerCall();
     updateData();
+    setDeclineNote(undefined);
+    setShowNoteInput(false);
   };
 
   const handleDeclineCall = () => {
     declineCall(declineNote);
     updateData();
+    setDeclineNote(undefined);
+    setShowNoteInput(false);
   };
 
   const audioRef = useRef<HTMLAudioElement | null>(null);

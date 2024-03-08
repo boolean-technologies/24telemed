@@ -9,7 +9,7 @@ import { SearchPageParams } from '@local/api-generated';
 export function HomePage() {
   const [searchParams, setSearchParams] = useState<SearchPageParams>({
     page: 1,
-    size: 10,
+    size: 5,
   });
   const { data } = useSearchCallLogs(searchParams);
 
