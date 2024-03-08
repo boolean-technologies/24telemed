@@ -6,7 +6,7 @@ import {
 } from '@ant-design/icons';
 import { Layout, Menu, Button } from 'antd';
 import styled, { useTheme } from 'styled-components';
-import { Flex, LogoutIcon, Theme, Typography } from '@local/shared-components';
+import { Flex, Logo, LogoutIcon, Theme, Typography } from '@local/shared-components';
 import { UserAvatar } from './UserAvatar';
 import { IncomingCall } from '../IncomingCall';
 import { Outlet } from 'react-router-dom';
@@ -35,7 +35,7 @@ export function PageLayout() {
       >
         <Flex gap="md" direction="column" align="center" fullHeight>
           <Flex gap="md" direction="column" align="center" fullHeight fullWidth>
-            <StyledLogoPlaceholder collapsed={collapsed} />
+            <Logo size={collapsed ? "sm" : "lg"} />
             {!collapsed && (
               <Typography variant="h3" align="center" weight="bold">
                 Anambra State Doctor Connect System
@@ -126,16 +126,6 @@ export function PageLayout() {
 
 const StyledRoot = styled(Layout)`
   height: 100vh;
-`;
-
-// TODO: Remove this and replace it usage with the actual logo component when it's been merged.
-const StyledLogoPlaceholder = styled.div<{ collapsed?: boolean }>`
-  width: ${({ collapsed }) => (collapsed ? '50px' : '100px')};
-  height: ${({ collapsed }) => (collapsed ? '50px' : '100px')};
-  min-height: ${({ collapsed }) => (collapsed ? '50px' : '100px')};
-  border-radius: 100%;
-  background: rgba(0, 0, 0, 0.1);
-  margin: 1em;
 `;
 
 const StyledAccountUser = styled(Flex)`
