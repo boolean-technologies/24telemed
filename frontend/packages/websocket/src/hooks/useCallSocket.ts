@@ -1,13 +1,8 @@
 import { useCallback } from 'react';
 import useWebSocket from 'react-use-websocket';
+import { CallLog } from "@local/api-generated";
 
-export type CallLog = {
-  id: string;
-  doctorId: string;
-  personnelId: string;
-  note: string;
-  status: 'Initiated' | 'In-Progress' | 'Completed';
-};
+
 
 export type WebSocketMessage<EventType> = {
   type: EventType;

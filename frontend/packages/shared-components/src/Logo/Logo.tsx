@@ -1,14 +1,15 @@
-import styled, { css } from "styled-components";
 import LogoPng from '../../assets/logo.png';
 
+type LogoProps = {
+  size?: 'sm' | 'lg' | 'md';
+};
 
-const StyledImage = styled.img`
-height: 100px;
-width:  100px;
-`
+export function Logo({ size = "lg" }: LogoProps) {
+  const width = {
+    sm: 40,
+    md: 60,
+    lg: 100,
+  }[size];
 
-export function Logo() {
-  return(
-    <StyledImage src={LogoPng}/>
-  )
+  return <img src={LogoPng} width={width} height={width} alt="Logo" />;
 }

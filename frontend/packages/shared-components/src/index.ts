@@ -6,3 +6,8 @@ export * from './styles';
 export * from './CssBaseline';
 export * from './Typography';
 export * from './Logo';
+export * from './Icon';
+export * from './Card';
+export * from './Logo';
+export * from './Icon';
+export * from './Card';

@@ -3,19 +3,84 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { Drug } from '../models/Drug';
+import type { FullCallLog } from '../models/FullCallLog';
 import type { MedicalEncounter } from '../models/MedicalEncounter';
 import type { PrescribedDrug } from '../models/PrescribedDrug';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
-export class MedicalEncountersService {
+export class DoctorsService {
+  /**
+   * @param status status
+   * @param callType call_type
+   * @param notesIcontains notes__icontains
+   * @param order Ordering
+   * @param page A page number within the paginated result set.
+   * @param size Number of results to return per page.
+   * @returns any
+   * @throws ApiError
+   */
+  public static doctorsCallLogsList(
+    status?:
+      | 'Initiated'
+      | 'In Progress'
+      | 'Completed'
+      | 'Declined'
+      | 'Failed'
+      | 'Busy',
+    callType?: 'Video' | 'Audio',
+    notesIcontains?: string,
+    order?:
+      | 'start_time'
+      | '-start_time'
+      | 'created_at'
+      | '-created_at'
+      | 'priority'
+      | '-priority',
+    page?: number,
+    size?: number
+  ): CancelablePromise<{
+    count: number;
+    next?: string | null;
+    previous?: string | null;
+    results: Array<FullCallLog>;
+  }> {
+    return __request(OpenAPI, {
+      method: 'GET',
+      url: '/doctors/call-logs/',
+      query: {
+        status: status,
+        call_type: callType,
+        notes__icontains: notesIcontains,
+        order: order,
+        page: page,
+        size: size,
+      },
+    });
+  }
+  /**
+   * @param id A UUID string identifying this call log.
+   * @returns FullCallLog
+   * @throws ApiError
+   */
+  public static doctorsCallLogsRead(
+    id: string
+  ): CancelablePromise<FullCallLog> {
+    return __request(OpenAPI, {
+      method: 'GET',
+      url: '/doctors/call-logs/{id}/',
+      path: {
+        id: id,
+      },
+    });
+  }
   /**
    * @param page A page number within the paginated result set.
    * @param size Number of results to return per page.
    * @returns any
    * @throws ApiError
    */
-  public static medicalEncountersDoctorMedicalEncountersList(
+  public static doctorsMedicalEncountersDoctorMedicalEncountersList(
     page?: number,
     size?: number
   ): CancelablePromise<{
@@ -26,7 +91,7 @@ export class MedicalEncountersService {
   }> {
     return __request(OpenAPI, {
       method: 'GET',
-      url: '/medical-encounters/doctor-medical-encounters/',
+      url: '/doctors/medical-encounters/doctor-medical-encounters/',
       query: {
         page: page,
         size: size,
@@ -38,12 +103,12 @@ export class MedicalEncountersService {
    * @returns MedicalEncounter
    * @throws ApiError
    */
-  public static medicalEncountersDoctorMedicalEncountersCreate(
+  public static doctorsMedicalEncountersDoctorMedicalEncountersCreate(
     data: MedicalEncounter
   ): CancelablePromise<MedicalEncounter> {
     return __request(OpenAPI, {
       method: 'POST',
-      url: '/medical-encounters/doctor-medical-encounters/',
+      url: '/doctors/medical-encounters/doctor-medical-encounters/',
       body: data,
     });
   }
@@ -52,12 +117,12 @@ export class MedicalEncountersService {
    * @returns MedicalEncounter
    * @throws ApiError
    */
-  public static medicalEncountersDoctorMedicalEncountersRead(
+  public static doctorsMedicalEncountersDoctorMedicalEncountersRead(
     id: string
   ): CancelablePromise<MedicalEncounter> {
     return __request(OpenAPI, {
       method: 'GET',
-      url: '/medical-encounters/doctor-medical-encounters/{id}/',
+      url: '/doctors/medical-encounters/doctor-medical-encounters/{id}/',
       path: {
         id: id,
       },
@@ -69,13 +134,13 @@ export class MedicalEncountersService {
    * @returns MedicalEncounter
    * @throws ApiError
    */
-  public static medicalEncountersDoctorMedicalEncountersUpdate(
+  public static doctorsMedicalEncountersDoctorMedicalEncountersUpdate(
     id: string,
     data: MedicalEncounter
   ): CancelablePromise<MedicalEncounter> {
     return __request(OpenAPI, {
       method: 'PUT',
-      url: '/medical-encounters/doctor-medical-encounters/{id}/',
+      url: '/doctors/medical-encounters/doctor-medical-encounters/{id}/',
       path: {
         id: id,
       },
@@ -88,13 +153,13 @@ export class MedicalEncountersService {
    * @returns MedicalEncounter
    * @throws ApiError
    */
-  public static medicalEncountersDoctorMedicalEncountersPartialUpdate(
+  public static doctorsMedicalEncountersDoctorMedicalEncountersPartialUpdate(
     id: string,
     data: MedicalEncounter
   ): CancelablePromise<MedicalEncounter> {
     return __request(OpenAPI, {
       method: 'PATCH',
-      url: '/medical-encounters/doctor-medical-encounters/{id}/',
+      url: '/doctors/medical-encounters/doctor-medical-encounters/{id}/',
       path: {
         id: id,
       },
@@ -106,12 +171,12 @@ export class MedicalEncountersService {
    * @returns void
    * @throws ApiError
    */
-  public static medicalEncountersDoctorMedicalEncountersDelete(
+  public static doctorsMedicalEncountersDoctorMedicalEncountersDelete(
     id: string
   ): CancelablePromise<void> {
     return __request(OpenAPI, {
       method: 'DELETE',
-      url: '/medical-encounters/doctor-medical-encounters/{id}/',
+      url: '/doctors/medical-encounters/doctor-medical-encounters/{id}/',
       path: {
         id: id,
       },
@@ -123,7 +188,7 @@ export class MedicalEncountersService {
    * @returns any
    * @throws ApiError
    */
-  public static medicalEncountersDoctorPrescribedDrugsList(
+  public static doctorsMedicalEncountersDoctorPrescribedDrugsList(
     page?: number,
     size?: number
   ): CancelablePromise<{
@@ -134,7 +199,7 @@ export class MedicalEncountersService {
   }> {
     return __request(OpenAPI, {
       method: 'GET',
-      url: '/medical-encounters/doctor-prescribed-drugs/',
+      url: '/doctors/medical-encounters/doctor-prescribed-drugs/',
       query: {
         page: page,
         size: size,
@@ -146,12 +211,12 @@ export class MedicalEncountersService {
    * @returns PrescribedDrug
    * @throws ApiError
    */
-  public static medicalEncountersDoctorPrescribedDrugsCreate(
+  public static doctorsMedicalEncountersDoctorPrescribedDrugsCreate(
     data: PrescribedDrug
   ): CancelablePromise<PrescribedDrug> {
     return __request(OpenAPI, {
       method: 'POST',
-      url: '/medical-encounters/doctor-prescribed-drugs/',
+      url: '/doctors/medical-encounters/doctor-prescribed-drugs/',
       body: data,
     });
   }
@@ -160,12 +225,12 @@ export class MedicalEncountersService {
    * @returns PrescribedDrug
    * @throws ApiError
    */
-  public static medicalEncountersDoctorPrescribedDrugsRead(
+  public static doctorsMedicalEncountersDoctorPrescribedDrugsRead(
     id: string
   ): CancelablePromise<PrescribedDrug> {
     return __request(OpenAPI, {
       method: 'GET',
-      url: '/medical-encounters/doctor-prescribed-drugs/{id}/',
+      url: '/doctors/medical-encounters/doctor-prescribed-drugs/{id}/',
       path: {
         id: id,
       },
@@ -177,13 +242,13 @@ export class MedicalEncountersService {
    * @returns PrescribedDrug
    * @throws ApiError
    */
-  public static medicalEncountersDoctorPrescribedDrugsUpdate(
+  public static doctorsMedicalEncountersDoctorPrescribedDrugsUpdate(
     id: string,
     data: PrescribedDrug
   ): CancelablePromise<PrescribedDrug> {
     return __request(OpenAPI, {
       method: 'PUT',
-      url: '/medical-encounters/doctor-prescribed-drugs/{id}/',
+      url: '/doctors/medical-encounters/doctor-prescribed-drugs/{id}/',
       path: {
         id: id,
       },
@@ -196,13 +261,13 @@ export class MedicalEncountersService {
    * @returns PrescribedDrug
    * @throws ApiError
    */
-  public static medicalEncountersDoctorPrescribedDrugsPartialUpdate(
+  public static doctorsMedicalEncountersDoctorPrescribedDrugsPartialUpdate(
     id: string,
     data: PrescribedDrug
   ): CancelablePromise<PrescribedDrug> {
     return __request(OpenAPI, {
       method: 'PATCH',
-      url: '/medical-encounters/doctor-prescribed-drugs/{id}/',
+      url: '/doctors/medical-encounters/doctor-prescribed-drugs/{id}/',
       path: {
         id: id,
       },
@@ -214,12 +279,12 @@ export class MedicalEncountersService {
    * @returns void
    * @throws ApiError
    */
-  public static medicalEncountersDoctorPrescribedDrugsDelete(
+  public static doctorsMedicalEncountersDoctorPrescribedDrugsDelete(
     id: string
   ): CancelablePromise<void> {
     return __request(OpenAPI, {
       method: 'DELETE',
-      url: '/medical-encounters/doctor-prescribed-drugs/{id}/',
+      url: '/doctors/medical-encounters/doctor-prescribed-drugs/{id}/',
       path: {
         id: id,
       },
@@ -231,7 +296,7 @@ export class MedicalEncountersService {
    * @returns any
    * @throws ApiError
    */
-  public static medicalEncountersDrugsList(
+  public static doctorsMedicalEncountersDrugsList(
     page?: number,
     size?: number
   ): CancelablePromise<{
@@ -242,7 +307,7 @@ export class MedicalEncountersService {
   }> {
     return __request(OpenAPI, {
       method: 'GET',
-      url: '/medical-encounters/drugs/',
+      url: '/doctors/medical-encounters/drugs/',
       query: {
         page: page,
         size: size,
@@ -254,12 +319,12 @@ export class MedicalEncountersService {
    * @returns Drug
    * @throws ApiError
    */
-  public static medicalEncountersDrugsRead(
+  public static doctorsMedicalEncountersDrugsRead(
     id: string
   ): CancelablePromise<Drug> {
     return __request(OpenAPI, {
       method: 'GET',
-      url: '/medical-encounters/drugs/{id}/',
+      url: '/doctors/medical-encounters/drugs/{id}/',
       path: {
         id: id,
       },
@@ -271,7 +336,7 @@ export class MedicalEncountersService {
    * @returns any
    * @throws ApiError
    */
-  public static medicalEncountersPersonnelMedicalEncountersList(
+  public static doctorsMedicalEncountersPersonnelMedicalEncountersList(
     page?: number,
     size?: number
   ): CancelablePromise<{
@@ -282,7 +347,7 @@ export class MedicalEncountersService {
   }> {
     return __request(OpenAPI, {
       method: 'GET',
-      url: '/medical-encounters/personnel-medical-encounters/',
+      url: '/doctors/medical-encounters/personnel-medical-encounters/',
       query: {
         page: page,
         size: size,
@@ -294,12 +359,12 @@ export class MedicalEncountersService {
    * @returns MedicalEncounter
    * @throws ApiError
    */
-  public static medicalEncountersPersonnelMedicalEncountersRead(
+  public static doctorsMedicalEncountersPersonnelMedicalEncountersRead(
     id: string
   ): CancelablePromise<MedicalEncounter> {
     return __request(OpenAPI, {
       method: 'GET',
-      url: '/medical-encounters/personnel-medical-encounters/{id}/',
+      url: '/doctors/medical-encounters/personnel-medical-encounters/{id}/',
       path: {
         id: id,
       },
