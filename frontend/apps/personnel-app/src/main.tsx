@@ -5,7 +5,7 @@ import { CssBaseline, Fonts, createTheme } from '@local/shared-components';
 import { PersonnelCommunicationProvider } from '@local/websocket';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import App from './app/app';
+import App from './App';
 
 const theme = createTheme();
 const queryClient = new QueryClient();
