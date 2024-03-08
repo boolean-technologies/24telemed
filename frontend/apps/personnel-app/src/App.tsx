@@ -1,6 +1,7 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Path } from './constants';
 import { LoginPage } from './pages/login';
+import TestApp from './app/TestApp';
 
 const routes = [
   {
@@ -9,7 +10,7 @@ const routes = [
   },
   {
     path: Path.home,
-    element: <div>App main route</div>,
+    element: <TestApp />,
   },
 ];
 

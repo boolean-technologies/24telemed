@@ -4,7 +4,7 @@ import {
 } from '@local/websocket';
 import { VideoCallSDK } from '@local/videosdk-rtc-component';
 
-function App() {
+function TestApp() {
   const comms = usePersonnelCommunication();
   if (comms.callStatus === PersonnelCallEventType.ANSWERED) {
     return (
@@ -36,7 +36,7 @@ function App() {
         <button
           onClick={() =>
             comms.callDoctor({
-              doctorId: "68e3e40a-cf27-4b2d-9d2a-8194730297d3",
+              doctorId: "bb8213f7-7dab-4d6c-a4ba-0c8e3bb4fdeb",
               note: 'Please I need help',
               priority: 4,
             })
@@ -50,4 +50,4 @@ function App() {
   );
 }
 
-export default App;
+export default TestApp;
