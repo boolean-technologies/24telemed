@@ -38,6 +38,8 @@ class CallLog(models.Model):
     duration = models.IntegerField(null=True, blank=True)
     call_data = models.JSONField(null=True, blank=True)
     priority = models.IntegerField(choices=CallPriority.choices, default=CallPriority.MEDIUM)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
         if self.end_time:

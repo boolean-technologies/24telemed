@@ -7,11 +7,18 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
+from django_filters.rest_framework import DjangoFilterBackend
+from .models import CallLog
+from .serializers import CallLogSerializer, FullCallLogSerializer
+from utils.permission import PersonnelPermission, DoctorPermission
+from .filters import CallLogFilter
 
 class CallLogViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = CallLog.objects.all()
     serializer_class = CallLogSerializer
-    # permission_classes = [PersonnelPermission, DoctorPermission]
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = CallLogFilter
+    permission_classes = [PersonnelPermission, DoctorPermission]
 
     @swagger_auto_schema(
         manual_parameters=[
@@ -32,3 +39,7 @@ class CallLogViewSet(viewsets.ReadOnlyModelViewSet):
 
         serializer = CallStatsSerializer(call_stats)
         return Response(serializer.data)
+
+class DoctorCallLogViewSet(CallLogViewSet):
+    serializer_class = FullCallLogSerializer
+    # permission_classes = [PersonnelPermission, DoctorPermission]

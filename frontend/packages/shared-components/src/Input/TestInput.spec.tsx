@@ -1,43 +1,50 @@
-import userEvent from '@testing-library/user-event';
-import '@testing-library/jest-dom/extend-expect';
-import { render, screen } from '@testing-library/react';
-import { TextInput } from './TextInput';
-import { ThemeProvider } from 'styled-components';
-import { defaultTheme } from '../styles/defaultTheme';
+import {render, screen } from '../testUtils';
+import { vi } from 'vitest';
+import {TextInput} from './TextInput';
+import { fireEvent, cleanup } from '@testing-library/react'
+
+const mockProps = {
+  helperText: 'helper text',
+  error: true,
+  errorText: 'error text',
+  label: 'label',
+  onChange: vi.fn(),
+  value: 'value',
+  name: 'input',
+  type: 'text',
+  placeholder: 'placeholder',
+};
+
+const renderTextInput = (props = mockProps) => {
+  return render(<TextInput {...props} />);
+};
 
 
 describe('TextInput', () => {
-  it('should render an helper text when provided', () => {
-    render(
-      <ThemeProvider theme={defaultTheme}>
-        <TextInput
-          value="value"
-          placeholder="placeholder"
-          onChange={() => {}}
-          error={false}
-          name="name"
-          type="text"
-          helperText="helper text"
-        />
-      </ThemeProvider>
-    );
-    expect(screen.getByText('helper text')).toBeInTheDocument();
-  })
+  afterEach(cleanup);
+  
+  it('renders a label with the correct text', () => {
+    renderTextInput();
+    expect(screen.getByText('label')).toBeInTheDocument();
+  });
 
-    it('should render an error text when provided', () => {
-        render(
-        <ThemeProvider theme={defaultTheme}>
-            <TextInput
-            value="value"
-            placeholder="placeholder"
-            onChange={() => {}}
-            error={true}
-            name="name"
-            type="text"
-            errorText="error text"
-            />
-        </ThemeProvider>
-        );
-        expect(screen.getByText('error text')).toBeInTheDocument();
-    })
+  it('renders a helper text with the correct text', () => {
+    renderTextInput();
+    expect(screen.getByText('helper text')).toBeInTheDocument();
+  });
+
+  it('renders an error text with the correct text', () => {
+    renderTextInput();
+    expect(screen.getByText('error text')).toBeInTheDocument();
+  });
+
+  it('fires the onChange function when changed', () => {
+    const onChange = mockProps.onChange;
+    renderTextInput({ ...mockProps, onChange });
+    const input = screen.getByLabelText('input');
+    fireEvent.change(input, { target: { value: 'new value' } });
+    expect(onChange).toHaveBeenCalled();
+  });
+
 });
+

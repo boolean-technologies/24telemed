@@ -4,9 +4,9 @@ import {
 } from '@local/websocket';
 import { VideoCallSDK } from '@local/videosdk-rtc-component';
 
-function App() {
+function TestApp() {
   const comms = usePersonnelCommunication();
-  if (comms.callStatus !== PersonnelCallEventType.ANSWERED) {
+  if (comms.callStatus === PersonnelCallEventType.ANSWERED) {
     return (
       <VideoCallSDK
         participantName="Personnel"
@@ -31,16 +31,17 @@ function App() {
       )}
       <br />
       {comms.isOngoingCall ? (
-        <button onClick={comms.endCall}>End Call</button>
+        <button onClick={comms.endCall} style={{ background: "red", padding: 12 }}>End Call</button>
       ) : (
         <button
           onClick={() =>
             comms.callDoctor({
-              doctorId: '80ca8080-1b9e-4b77-9051-13e2302c2b90',
+              doctorId: "bb8213f7-7dab-4d6c-a4ba-0c8e3bb4fdeb",
               note: 'Please I need help',
               priority: 4,
             })
           }
+          style={{ background: "green", padding: 12 }}
         >
           Call Doctor
         </button>
@@ -49,4 +50,4 @@ function App() {
   );
 }
 
-export default App;
+export default TestApp;

@@ -1,0 +1,103 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`BottomSheet > matches snapshot 1`] = `
+<div>
+  <div
+    class="sc-gswNZR bhtNKK"
+  >
+    <div
+      class="sc-hLBbgP kBCcYD"
+    >
+      <div
+        class="sc-dkrFOg btMqjT"
+      >
+        <div
+          class="sc-eDvSVe bXPsfw"
+        >
+          Filter
+        </div>
+        <div
+          class="sc-jSUZER iFgFoH"
+        >
+          <i
+            class="sc-bcXHqe bgEkPo"
+            data-testid="BottomSheetCancelIcon"
+          >
+            <svg
+              fill="none"
+              height="24"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g
+                clipPath="url(#clip0_4862_2303)"
+              >
+                <path
+                  d="M18 6L6 18"
+                  stroke="black"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="1.75"
+                />
+                <path
+                  d="M6 6L18 18"
+                  stroke="black"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="1.75"
+                />
+              </g>
+              <defs>
+                <clippath
+                  id="clip0_4862_2303"
+                >
+                  <rect
+                    fill="white"
+                    height="24"
+                    width="24"
+                  />
+                </clippath>
+              </defs>
+            </svg>
+          </i>
+        </div>
+        This is a bottom sheet content
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`BottomSheet > should render properly 1`] = `
+<div>
+  BottomSheet Content
+</div>
+`;
+
+exports[`BottomSheet > should render title properly 1`] = `
+.c0 {
+  color: #2F4D52;
+  text-align: left;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.c0 > a {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+<p
+  class="c0"
+>
+  BottomSheet Title
+</p>
+`;

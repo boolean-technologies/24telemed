@@ -10,7 +10,7 @@ import {
   HelperText,
   ErrorText,
 } from './Common';
-import { EyeIcon } from '../Icon';
+import { EyeIcon, HelperIcon,ErrorIcon } from '../Icon';
 
 export interface PasswordInputProps
   extends React.ComponentProps<typeof BaseInput> {
@@ -43,11 +43,14 @@ export function PasswordInput({
       </InputContainer>
       {helperText && (
         <TextContainer>
+          <HelperIcon />
           <HelperText>{helperText}</HelperText>
         </TextContainer>
       )}
       {error && errorText && (
         <TextContainer>
+          <ErrorIcon />
+          
           <ErrorText>{errorText}</ErrorText>
         </TextContainer>
       )}

@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { User } from '../models/User';
+import type { UserSearch } from '../models/UserSearch';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
@@ -41,6 +42,44 @@ export class UsersService {
       method: 'POST',
       url: '/users/',
       body: data,
+    });
+  }
+  /**
+   * @param page A page number within the paginated result set.
+   * @param size Number of results to return per page.
+   * @returns any
+   * @throws ApiError
+   */
+  public static usersDoctorsList(
+    page?: number,
+    size?: number
+  ): CancelablePromise<{
+    count: number;
+    next?: string | null;
+    previous?: string | null;
+    results: Array<UserSearch>;
+  }> {
+    return __request(OpenAPI, {
+      method: 'GET',
+      url: '/users/doctors/',
+      query: {
+        page: page,
+        size: size,
+      },
+    });
+  }
+  /**
+   * @param id A UUID string identifying this user.
+   * @returns UserSearch
+   * @throws ApiError
+   */
+  public static usersDoctorsRead(id: string): CancelablePromise<UserSearch> {
+    return __request(OpenAPI, {
+      method: 'GET',
+      url: '/users/doctors/{id}/',
+      path: {
+        id: id,
+      },
     });
   }
   /**

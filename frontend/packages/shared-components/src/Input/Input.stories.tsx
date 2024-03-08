@@ -6,7 +6,7 @@ import { FileInput } from './FileInput';
 import { NumberInput } from './NumberInput';
 
 const meta: Meta = {
-  title: 'Input',
+  title: 'Components/Input',
   component: InputText,
 };
 
