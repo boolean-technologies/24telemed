@@ -51,7 +51,7 @@ export function CallHistoryTable({ tableData, searchParams, onPageChange }: Call
           current: searchParams.page,
           onChange: onPageChange
         }}
-        // pagination={{ pageSize: searchParams.size, position: searchParams.page }}
+        style={{ minHeight: 500 }}
       />
     </StyledRoot>
   );
