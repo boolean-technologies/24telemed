@@ -20,14 +20,6 @@ class CallLogViewSet(viewsets.ReadOnlyModelViewSet):
     filterset_class = CallLogFilter
     permission_classes = [PersonnelPermission, DoctorPermission]
 
-    @swagger_auto_schema(
-        manual_parameters=[
-            openapi.Parameter('status', openapi.IN_QUERY, description="Status of the call", type=openapi.TYPE_STRING, enum=[status.value for status in CallStatus]),
-            openapi.Parameter('call_type', openapi.IN_QUERY, description="Type of call", type=openapi.TYPE_STRING, enum=[call_type.value for call_type in CallType]),
-            openapi.Parameter('order', openapi.IN_QUERY, description="Ordering of results", type=openapi.TYPE_STRING, enum=['start_time', 'priority']),
-            openapi.Parameter('notes__icontains', openapi.IN_QUERY, description="Filter by notes containing text", type=openapi.TYPE_STRING),
-        ]
-    )
     @action(detail=False, methods=['get'], serializer_class=CallStatsSerializer)
     def call_stats(self, request):
         status = request.query_params.get('status', None)
