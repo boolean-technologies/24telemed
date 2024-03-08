@@ -4,9 +4,14 @@ import {
   TextInput,
   Typography,
   FlexProps,
+  NavBar,
+  NavLink,
+  StarIcon,
+  Button,
 } from '@local/shared-components';
 import styled from 'styled-components';
 import Header from './Header';
+
 
 export function HomePage(): JSX.Element {
   return (
@@ -20,6 +25,13 @@ export function HomePage(): JSX.Element {
           name="search"
         />
       </Content>
+
+      <BottomNav>
+        <NavLink to="/home" label="Home" color='primary' topIcon={() => <StarIcon />} />
+        <NavLink to="/history" label="History" color='primary' topIcon={() => <StarIcon />} />
+        <NavLink to="/profile" label="Profile" color='primary' topIcon={() => <StarIcon />} />
+        <NavLink to="/logout" label="Logout" color='primary' topIcon={() => <StarIcon />} />
+      </BottomNav>
     </Root>
   );
 }
@@ -27,3 +39,9 @@ export function HomePage(): JSX.Element {
 const Content = styled(Flex)<FlexProps>``;
 
 const Root = styled(Flex)<FlexProps>``;
+
+const BottomNav = styled(NavBar)`
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+`;

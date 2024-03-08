@@ -1,13 +1,13 @@
 import { SvgIconProps } from '../Icon/SvgIcon';
-import { Flex, FlexProps } from '../Flex';
+import { Flex } from '../Flex';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { NavLink as RouterNavLink } from 'react-router-dom';
+
 
 export interface NavigationBarProps {
   to: string;
   label: string;
   color: string;
-  active: boolean;
   topIcon: (props: SvgIconProps) => JSX.Element;
 }
 export function NavLink({
@@ -17,38 +17,52 @@ export function NavLink({
   return (
     <StyledLink to={props.to}>
       <LinkContainer
-        active={props.active}
         direction="column"
         justify="center"
         align="center"
         gap="xxs"
       >
         <IconContainer justify="center" align="center">
-          <Icon color={props.active ? 'primary1.main' : 'common.white'} />
+          <Icon  />
         </IconContainer>
-        <Label active={props.active}>{props.label}</Label>
+        <Label>{props.label}</Label>
       </LinkContainer>
     </StyledLink>
   );
 }
 
-const LinkContainer = styled(Flex)<Pick<NavigationBarProps, 'active'>>`
-  background-color: ${({ theme, active }) =>
-    active ? theme.palette.primary1.main : 'transparent'};
-  width: 100px;
+const LinkContainer = styled(Flex)`
   border-radius: 10px;
   padding: ${({ theme }) => theme.spacing.xs};
 `;
-const StyledLink = styled(Link)`
+const StyledLink = styled(RouterNavLink)`
   text-decoration: none;
   cursor: pointer;
   font-family: ${({ theme }) => theme.typography.navigationButton.fontFamily};
   gap: ${({ theme }) => theme.spacing.xxs};
+  &.active {
+    background-color: ${({ theme }) => theme.palette.primary1.main};
+    color: ${({ theme }) => theme.palette.common.white};
+  }
+  border-radius: 10px;
 `;
 
-const Label = styled.div<Pick<NavigationBarProps, 'active'>>`
-  color: ${({ theme, active }) =>
-    active ? theme.palette.common.white : theme.palette.primary1.main};
+const Label = styled.div`
+  font-family: ${({ theme }) => theme.typography.navigationButton.fontFamily};
+  font-size: ${({ theme }) => theme.typography.navigationButton.fontSize};
+
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: ${({ theme }) => theme.typography.navigationButton.fontWeight};
+  line-height: 1.2;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  max-width: 100%;
+  padding: ${({ theme }) => theme.spacing.xxs};
+  text-align: center;
 `;
 
 const IconContainer = styled(Flex)`
