@@ -6,6 +6,12 @@ class CallLogSerializer(serializers.ModelSerializer):
         model = CallLog
         fields = '__all__'
 
+class CallStatsSerializer(serializers.Serializer):
+    total_call_time = serializers.IntegerField()
+    total_completed = serializers.IntegerField()
+    total_busy = serializers.IntegerField()
+    total_failed = serializers.IntegerField()
+    
 class FullCallLogSerializer(serializers.ModelSerializer):
     health_care_assistant = UserSearchSerializer()
     doctor = UserSearchSerializer()
