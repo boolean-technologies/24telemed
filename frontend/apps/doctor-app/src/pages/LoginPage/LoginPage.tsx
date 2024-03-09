@@ -1,26 +1,21 @@
+import { Layout } from 'antd';
 import { Card, Flex } from '@local/shared-components';
-import { Layout, Menu, theme } from 'antd';
 import styled from 'styled-components';
-import doctorImage from "../../../assets/doctor.png";
-import doctorsImage from "../../../assets/doctors.png";
+import doctorImage from '../../assets/doctor.png';
+import doctorsImage from '../../assets/doctors.png';
 import { LoginForm } from './LoginForm';
 
 export function LoginPage() {
   return (
     <StyledRoot>
-      <Flex
-        fullHeight
-        fullWidth
-        align="center"
-        justify="center"
-      >
+      <Flex fullHeight fullWidth align="center" justify="center">
         <StyledLoginBox>
           <StyledCard>
             <Flex gap="none" fullHeight align="stretch">
-                <StyledSideImage />
-                <Flex fullHeight fullWidth padding="md">
-                    <LoginForm />
-                </Flex>
+              <StyledSideImage />
+              <Flex fullHeight fullWidth padding="md">
+                <LoginForm />
+              </Flex>
             </Flex>
           </StyledCard>
         </StyledLoginBox>
@@ -49,23 +44,26 @@ const StyledCard = styled(Card)`
 `;
 
 const StyledSideImage = styled.div`
-    width: 100%;
-    height: 100%;
-    background-image: url("${doctorImage}");
-    min-height: 443px;
+  width: 100%;
+  height: 100%;
+  background-image: url('${doctorImage}');
+  min-height: 443px;
 `;
 
 const StyledBackgrounImage = styled.div`
-    background-image: url("${doctorsImage}");
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 0;
-    background-repeat: no-repeat;
+  background-image: url('${doctorsImage}');
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  background-repeat: no-repeat;
 `;
 
 const StyledBackgroundGradient = styled(StyledBackgrounImage)`
-    background: linear-gradient(transparent, ${({ theme }) => theme.palette.primary2.main});
-`
+  background: linear-gradient(
+    transparent,
+    ${({ theme }) => theme.palette.primary2.main}
+  );
+`;

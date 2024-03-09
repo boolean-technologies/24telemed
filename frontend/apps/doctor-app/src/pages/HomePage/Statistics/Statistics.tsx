@@ -2,8 +2,19 @@ import { FrownOutlined, FieldTimeOutlined, CustomerServiceOutlined, HourglassOut
 import { Statistic } from 'antd';
 import { Flex, Card } from '@local/shared-components';
 import styled from 'styled-components';
+import { CallStats } from '@local/api-generated';
+import { useGetCallLogStats } from '../../../api/callLogs';
+
+
 
 export function Statistics() {
+
+  const { data: stats } = useGetCallLogStats({
+    page: 1,
+    size: 10
+  });
+
+
   return (
     <Card>
     <Flex justify="space-between" direction="column" fullWidth>
@@ -11,7 +22,7 @@ export function Statistics() {
         <StyledStatCard align="center" justify="center">
           <Statistic
             title="Total Call Time"
-            value={11.28}
+            value={stats?.total_call_time || 0}
             precision={2}
             prefix={<FieldTimeOutlined />}
             suffix="hrs"
@@ -20,7 +31,7 @@ export function Statistics() {
         <StyledStatCard align="center" justify="center">
           <Statistic
             title="Total Completed"
-            value={254}
+            value={stats?.total_completed || 0}
             prefix={<CustomerServiceOutlined />}
           />
         </StyledStatCard>
@@ -29,14 +40,14 @@ export function Statistics() {
         <StyledStatCard align="center" justify="center">
           <Statistic
             title="Total Busy"
-            value={250}
+            value={stats?.total_busy || 0}
             prefix={<HourglassOutlined />}
           />
         </StyledStatCard>
         <StyledStatCard align="center" justify="center">
           <Statistic
             title="Total Failed"
-            value={23}
+            value={stats?.total_failed || 0}
             prefix={<FrownOutlined />}
           />
         </StyledStatCard>

@@ -1,7 +1,7 @@
 import { Button, Modal, Input, Skeleton } from 'antd';
 import styled, { keyframes } from 'styled-components';
 import { Flex, Typography } from '@local/shared-components';
-import callIcon from '../../../assets/incoming-call.png';
+import callIcon from '../../assets/incoming-call.png';
 import { UserAvatar } from '../PageLayout/UserAvatar';
 import { CallPriority } from './CallPriority';
 import { useIncomingCall } from './useIncomingCall';

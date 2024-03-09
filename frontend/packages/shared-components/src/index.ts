@@ -13,3 +13,4 @@ export * from './Icon';
 export * from './Card';
 export * from './AppAuth';
 export * from "./constants";
+export * from "./PageLoading";

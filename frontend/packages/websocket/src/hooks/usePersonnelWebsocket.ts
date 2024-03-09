@@ -43,7 +43,6 @@ export function usePersonnelWebSocket(userId: string, type: UserType) {
           setCallStatus(PersonnelCallEventType.ANSWERED);
           break;
       }
-      console.log("Message: ", message)
     },
     [setCallStatus]
   );

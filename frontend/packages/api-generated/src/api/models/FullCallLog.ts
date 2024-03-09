@@ -11,12 +11,15 @@ export type FullCallLog = {
   end_time?: string | null;
   status?: FullCallLog.status;
   call_type?: FullCallLog.call_type;
+  meeting_id?: string | null;
   notes?: string | null;
   duration?: number | null;
   call_data?: any;
   priority?: FullCallLog.priority;
   readonly created_at?: string;
   readonly updated_at?: string;
+  decline_note?: string | null;
+  patient?: string | null;
 };
 export namespace FullCallLog {
   export enum status {

@@ -17,8 +17,14 @@ class CallLogViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = CallLogSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = CallLogFilter
-    permission_classes = [PersonnelPermission, DoctorPermission]
+    # permission_classes = [PersonnelPermission, DoctorPermission]
 
+
+    @swagger_auto_schema(
+        method='get',
+        operation_description="Retrieve the call-log statistics",
+        responses={200: CallStatsSerializer}
+    )
     @action(detail=False, methods=['get'], serializer_class=CallStatsSerializer)
     def call_stats(self, request):
         filtered_calls = self.filter_queryset(self.get_queryset())
@@ -37,4 +43,4 @@ class CallLogViewSet(viewsets.ReadOnlyModelViewSet):
 
 class DoctorCallLogViewSet(CallLogViewSet):
     serializer_class = FullCallLogSerializer
-    permission_classes = [PersonnelPermission, DoctorPermission]
+    permission_classes = [DoctorPermission]

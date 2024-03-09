@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import userAvatar from '../../../assets/user-1.jpg';
+import userAvatar from '../../assets/user-1.jpg';
 
 type UserAvatarProps = {
     size?: "sm" | "md" | "lg"

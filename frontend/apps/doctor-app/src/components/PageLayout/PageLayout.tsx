@@ -73,9 +73,10 @@ export function PageLayout() {
               }}
             />
           </Flex>
-          <Link to={Path.profile} style={{ cursor: 'pointer' }}>
             {collapsed ? (
-              <UserAvatar />
+              <Link to={Path.profile} style={{ cursor: 'pointer' }}>
+                <UserAvatar />
+              </Link>
             ) : (
               <StyledAccountUser
                 padding="sm"
@@ -83,19 +84,22 @@ export function PageLayout() {
                 fullWidth
                 justify="space-between"
               >
+              <Link to={Path.profile} style={{ cursor: 'pointer' }}>
+                <Flex>
                 <UserAvatar />
                 <Flex direction="column" gap="none">
-                  <Typography weight="bold" color="common.white" noWrap>
+                  <Typography weight="bold" color="common.white">
                     {user?.first_name} {user?.last_name}
                   </Typography>
                   <Typography variant="bodyXs" color="common.white" noWrap>
-                    ID: @{user?.username}
+                    ID: #09876543
                   </Typography>
                 </Flex>
                 <LogoutButton />
+                </Flex>
+                </Link>
               </StyledAccountUser>
             )}
-          </Link>
         </Flex>
       </Sider>
       <Layout
@@ -130,16 +134,18 @@ export function PageLayout() {
           direction="column"
         >
           <StyledContainer fullHeight fullWidth padding="md" direction="column">
-            <Flex fullHeight fullWidth align="flex-start">
-              <Outlet />
+            <Flex fullHeight fullWidth align="flex-start" direction="column">
+              <div style={{ width: "100%" }}>
+                <Outlet />
+              </div>
+              <Footer style={{ textAlign: 'center', width: '100%', marginTop: 16 }}>
+                <Typography align="center" variant="bodySm">
+                  <strong>Anambra State Doctor Connect</strong> ©
+                  {new Date().getFullYear()} Created by The Boolean Tech
+                </Typography>
+              </Footer>
             </Flex>
           </StyledContainer>
-          <Footer style={{ textAlign: 'center', width: '100%' }}>
-            <Typography align="center" variant="bodySm">
-              <strong>Anambra State Doctor Connect</strong> ©
-              {new Date().getFullYear()} Created by The Boolean Tech
-            </Typography>
-          </Footer>
         </StyledInnerContainer>
       </Layout>
       <IncomingCall />

@@ -8,7 +8,7 @@ import {
   BookOutlined,
   CheckCircleOutlined,
 } from '@ant-design/icons';
-import userAvatar from '../../../assets/avatar.png';
+import userAvatar from '../../assets/avatar.png';
 import { useState } from 'react';
 import { NameForm } from './Forms/NameForm';
 import { UserNameForm } from './Forms/UserNameForm';

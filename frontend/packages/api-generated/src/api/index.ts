@@ -8,6 +8,7 @@ export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
 export { CallLog } from './models/CallLog';
+export type { CallStats } from './models/CallStats';
 export type { Drug } from './models/Drug';
 export { FullCallLog } from './models/FullCallLog';
 export type { MedicalEncounter } from './models/MedicalEncounter';

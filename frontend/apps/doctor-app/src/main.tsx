@@ -11,8 +11,9 @@ import { ToastContainer } from 'react-toastify';
 import { ConfigProvider, type ThemeConfig } from 'antd';
 
 import 'react-toastify/dist/ReactToastify.css';
-import App from './app/app';
 import { OpenAPI, TOKEN_KEY } from '@local/api-generated';
+import { RouterProvider } from 'react-router-dom';
+import { router } from './router';
 
 OpenAPI.TOKEN = localStorage.getItem(TOKEN_KEY) || "";
 
@@ -48,7 +49,7 @@ function Main() {
       <QueryClientProvider client={queryClient}>
         <Fonts />
         <CssBaseline />
-        <App />
+        <RouterProvider router={router} />
       </QueryClientProvider>
     </ConfigProvider>
   );

@@ -1,6 +1,6 @@
 import { Form, Input, Button, Checkbox, Alert } from 'antd';
+import { Link, useNavigate } from 'react-router-dom';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { Link, useNavigate } from 'react-router-dom'; // Assuming you're using react-router for navigation
 import { Flex, Typography } from '@local/shared-components';
 import { parseApiError, useLogin } from '@local/api-generated';
 import { Path } from '../../constants';

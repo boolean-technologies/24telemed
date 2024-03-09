@@ -1,12 +1,10 @@
 import { type RouteObject } from 'react-router-dom';
 import { Path } from './paths';
 import { AuthLayout } from './AuthLayout';
-import { CommsProvider, type CommsProviderProps } from './CommsLayout';
 
 export const creatRoutes = (
-  type: CommsProviderProps['type'],
+  routes: RouteObject[],
   loginPage: JSX.Element,
-  routes: RouteObject[]
 ) => {
   return [
     {
@@ -18,17 +16,7 @@ export const creatRoutes = (
           path: Path.login,
           element: loginPage,
         },
-        {
-          path: '/',
-          element: <CommsProvider type={type} />,
-          children: [
-            ...routes,
-            {
-              path: Path.meeting,
-              element: <div />,
-            },
-          ],
-        },
+        ...routes,
       ],
     },
   ];

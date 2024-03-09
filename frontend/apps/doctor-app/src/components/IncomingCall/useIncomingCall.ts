@@ -1,6 +1,6 @@
 import { useDoctorCommunication } from '@local/websocket';
 import { useEffect, useRef, useState } from 'react';
-import incomingCallRing from '../../../assets/icoming-call-ring.mp3';
+import incomingCallRing from '../../assets/icoming-call-ring.mp3';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { Path } from '../../constants';
