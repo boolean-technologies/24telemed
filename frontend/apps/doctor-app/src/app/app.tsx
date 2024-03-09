@@ -1,17 +1,18 @@
 import {
   Navigate,
+  type RouteObject,
   RouterProvider,
   createBrowserRouter,
 } from 'react-router-dom';
 import { PageLayout } from './components/PageLayout';
 import { HomePage } from './pages/HomePage';
-import { MeetingPage } from './pages/MeetingPage';
 import { Path } from './constants';
 import { ProfilePage } from './pages/ProfilePage';
+import { LoginPage } from './pages/LoginPage';
+import { creatRoutes } from '@local/shared-components';
 
-const routes = [
+const routes: RouteObject[] = [
   {
-    path: '/',
     element: <PageLayout />,
     children: [
       {
@@ -28,13 +29,11 @@ const routes = [
       },
     ],
   },
-  {
-    path: Path.meeting,
-    element: <div />,
-  },
 ];
 
-const router = createBrowserRouter(routes);
+const router = createBrowserRouter(
+  creatRoutes('doctor', <LoginPage />, routes)
+);
 
 function App() {
   return <RouterProvider router={router} />;

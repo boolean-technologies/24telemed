@@ -45,6 +45,26 @@ export class UsersService {
     });
   }
   /**
+   * Retrieve the current logged-in user's information
+   * @param page A page number within the paginated result set.
+   * @param size Number of results to return per page.
+   * @returns User
+   * @throws ApiError
+   */
+  public static usersCurrentUser(
+    page?: number,
+    size?: number
+  ): CancelablePromise<User> {
+    return __request(OpenAPI, {
+      method: 'GET',
+      url: '/users/current_user/',
+      query: {
+        page: page,
+        size: size,
+      },
+    });
+  }
+  /**
    * @param page A page number within the paginated result set.
    * @param size Number of results to return per page.
    * @returns any

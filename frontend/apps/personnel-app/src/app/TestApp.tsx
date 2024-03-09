@@ -36,7 +36,7 @@ function TestApp() {
         <button
           onClick={() =>
             comms.callDoctor({
-              doctorId: "bb8213f7-7dab-4d6c-a4ba-0c8e3bb4fdeb",
+              doctorId: "29cf7316-8b30-4493-92b4-fb4d8574e4e3",
               note: 'Please I need help',
               priority: 4,
             })

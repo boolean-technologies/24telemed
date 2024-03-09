@@ -13,7 +13,7 @@ import * as yup from 'yup';
 import { BG } from '../../assets';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { useLogin } from '../../hooks/react-queries';
+import { TokenRefresh, useLogin } from '@local/api-generated';
 
 interface LoginData {
   username: string;
@@ -42,9 +42,7 @@ export function LoginPage(): JSX.Element {
   const onSubmit: SubmitHandler<LoginData> = (credentials) => {
     login.mutate(credentials, {
       onSuccess: (data) => {
-        // TODO: Remove ts-ignore when backend doc is updated
-        // @ts-ignore
-        localStorage.setItem('token', data.access);
+        localStorage.setItem('token', (data as unknown as TokenRefresh).access || "");
         toast.success('Login successful', {
           autoClose: 5000,
           position: 'top-right',

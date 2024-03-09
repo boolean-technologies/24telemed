@@ -6,17 +6,25 @@ import {
 } from '@ant-design/icons';
 import { Layout, Menu, Button } from 'antd';
 import styled, { useTheme } from 'styled-components';
-import { Flex, Logo, LogoutIcon, Theme, Typography } from '@local/shared-components';
+import {
+  Flex,
+  Logo,
+  Theme,
+  Typography,
+} from '@local/shared-components';
 import { UserAvatar } from './UserAvatar';
 import { IncomingCall } from '../IncomingCall';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { Path } from '../../constants';
+import { LogoutButton } from '../LogoutButton';
+import { useCurrentUser } from '@local/api-generated';
 
 const { Header, Sider, Footer } = Layout;
 
 export function PageLayout() {
   const [collapsed, setCollapsed] = useState(false);
   const theme = useTheme() as Theme;
+  const { data: user } = useCurrentUser();
 
   const navigate = useNavigate();
 
@@ -38,7 +46,7 @@ export function PageLayout() {
       >
         <Flex gap="md" direction="column" align="center" fullHeight>
           <Flex gap="md" direction="column" align="center" fullHeight fullWidth>
-            <Logo size={collapsed ? "sm" : "lg"} />
+            <Logo size={collapsed ? 'sm' : 'lg'} />
             {!collapsed && (
               <Typography variant="h3" align="center" weight="bold">
                 Anambra State Doctor Connect System
@@ -65,30 +73,28 @@ export function PageLayout() {
               }}
             />
           </Flex>
-          <Link to={Path.profile} style={{ cursor: "pointer" }}>
-          {collapsed ? (
-            <UserAvatar />
-          ) : (
-            <StyledAccountUser
-              padding="sm"
-              gap="xs"
-              fullWidth
-              justify="space-between"
-            >
+          <Link to={Path.profile} style={{ cursor: 'pointer' }}>
+            {collapsed ? (
               <UserAvatar />
-              <Flex direction="column" gap="none">
-                <Typography weight="bold" color="common.white" noWrap>
-                  Tobi Shodimu
-                </Typography>
-                <Typography variant="bodyXs" color="common.white">
-                  Doctor #123
-                </Typography>
-              </Flex>
-              <StyledLogoutIconButton>
-                <LogoutIcon color="primary1.light" />
-              </StyledLogoutIconButton>
-            </StyledAccountUser>
-          )}
+            ) : (
+              <StyledAccountUser
+                padding="sm"
+                gap="xs"
+                fullWidth
+                justify="space-between"
+              >
+                <UserAvatar />
+                <Flex direction="column" gap="none">
+                  <Typography weight="bold" color="common.white" noWrap>
+                    {user?.first_name} {user?.last_name}
+                  </Typography>
+                  <Typography variant="bodyXs" color="common.white" noWrap>
+                    ID: @{user?.username}
+                  </Typography>
+                </Flex>
+                <LogoutButton />
+              </StyledAccountUser>
+            )}
           </Link>
         </Flex>
       </Sider>
@@ -117,16 +123,21 @@ export function PageLayout() {
             }}
           />
         </Header>
-        <StyledInnerContainer  fullHeight fullWidth align="center" direction="column">
+        <StyledInnerContainer
+          fullHeight
+          fullWidth
+          align="center"
+          direction="column"
+        >
           <StyledContainer fullHeight fullWidth padding="md" direction="column">
             <Flex fullHeight fullWidth align="flex-start">
               <Outlet />
             </Flex>
           </StyledContainer>
-          <Footer style={{ textAlign: 'center', width: "100%" }}>
+          <Footer style={{ textAlign: 'center', width: '100%' }}>
             <Typography align="center" variant="bodySm">
-              <strong>Anambra State Doctor Connect</strong> ©{new Date().getFullYear()} Created by
-              The Boolean Tech
+              <strong>Anambra State Doctor Connect</strong> ©
+              {new Date().getFullYear()} Created by The Boolean Tech
             </Typography>
           </Footer>
         </StyledInnerContainer>
@@ -145,13 +156,6 @@ const StyledAccountUser = styled(Flex)`
   border-radius: 8px;
   overflow: hidden;
 `;
-
-const StyledLogoutIconButton = styled.button`
-  background: transparent;
-  border: none;
-  cursor: pointer;
-`;
-
 
 const StyledContainer = styled(Flex)`
   max-height: calc(100vh - 64px);

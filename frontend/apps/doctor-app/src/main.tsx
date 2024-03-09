@@ -7,16 +7,24 @@ import {
   Theme,
   createTheme,
 } from '@local/shared-components';
-import { DoctorCommunicationProvider } from '@local/websocket';
 import { ToastContainer } from 'react-toastify';
 import { ConfigProvider, type ThemeConfig } from 'antd';
 
 import 'react-toastify/dist/ReactToastify.css';
 import App from './app/app';
+import { OpenAPI, TOKEN_KEY } from '@local/api-generated';
+
+OpenAPI.TOKEN = localStorage.getItem(TOKEN_KEY) || "";
 
 const theme = createTheme();
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 60,
+    },
+  },
+});
 
 function Main() {
   const theme = useTheme() as Theme;
@@ -27,12 +35,12 @@ function Main() {
     },
     components: {
       Input: {
-        controlHeight: 45
+        controlHeight: 45,
       },
       Button: {
-        controlHeight: 45
-      }
-    }
+        controlHeight: 45,
+      },
+    },
   };
 
   return (
@@ -40,9 +48,7 @@ function Main() {
       <QueryClientProvider client={queryClient}>
         <Fonts />
         <CssBaseline />
-        <DoctorCommunicationProvider userId="bb8213f7-7dab-4d6c-a4ba-0c8e3bb4fdeb">
-          <App />
-        </DoctorCommunicationProvider>
+        <App />
       </QueryClientProvider>
     </ConfigProvider>
   );
