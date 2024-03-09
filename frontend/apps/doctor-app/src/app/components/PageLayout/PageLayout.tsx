@@ -9,13 +9,16 @@ import styled, { useTheme } from 'styled-components';
 import { Flex, Logo, LogoutIcon, Theme, Typography } from '@local/shared-components';
 import { UserAvatar } from './UserAvatar';
 import { IncomingCall } from '../IncomingCall';
-import { Outlet } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { Path } from '../../constants';
 
 const { Header, Sider, Footer } = Layout;
 
 export function PageLayout() {
   const [collapsed, setCollapsed] = useState(false);
   const theme = useTheme() as Theme;
+
+  const navigate = useNavigate();
 
   return (
     <StyledRoot>
@@ -51,6 +54,7 @@ export function PageLayout() {
                   icon: <HomeFilled />,
                   label: collapsed ? null : 'Dashboard',
                   style: { height: 45 },
+                  onClick: () => navigate(Path.home),
                 },
               ]}
               style={{
@@ -61,6 +65,7 @@ export function PageLayout() {
               }}
             />
           </Flex>
+          <Link to={Path.profile} style={{ cursor: "pointer" }}>
           {collapsed ? (
             <UserAvatar />
           ) : (
@@ -84,6 +89,7 @@ export function PageLayout() {
               </StyledLogoutIconButton>
             </StyledAccountUser>
           )}
+          </Link>
         </Flex>
       </Sider>
       <Layout

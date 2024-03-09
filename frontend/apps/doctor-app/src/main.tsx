@@ -25,6 +25,14 @@ function Main() {
       colorPrimary: theme.palette.primary1.main,
       fontFamily: 'inherit',
     },
+    components: {
+      Input: {
+        controlHeight: 45
+      },
+      Button: {
+        controlHeight: 45
+      }
+    }
   };
 
   return (
