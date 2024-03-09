@@ -64,7 +64,6 @@ urlpatterns = [
     path('users/', include('users.urls')),
     
     path('patients/', include('patient.urls')),
-    path('medical-encounters/', include('medication.urls')),
     path('baton/', include('baton.urls')),
     path('admin_tools_stats/', include('admin_tools_stats.urls')),
     path('doctors/medical-encounters/', include('medication.urls')),
