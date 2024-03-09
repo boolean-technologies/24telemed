@@ -4,7 +4,6 @@ from django.utils import timezone
 from enum import Enum
 from users.models import User
 from patient.models import Patient
-from django.db.models import Sum
 
 class CallStatus(models.TextChoices):
     INITIATED = 'Initiated'
@@ -65,32 +64,3 @@ class CallLog(models.Model):
     def setToDeclined(self):
         self.status = CallStatus.DECLINED
         self.save()
-
-    @classmethod
-    def get_call_stats(cls, status=None, call_type=None, notes__icontains=None, order=None):
-        filtered_calls = cls.objects.all()
-        if status:
-            filtered_calls = filtered_calls.filter(status=status)
-        if call_type:
-            filtered_calls = filtered_calls.filter(call_type=call_type)
-        if notes__icontains:
-            filtered_calls = filtered_calls.filter(notes__icontains=notes__icontains)
-        if order:
-            if order == 'start_time':
-                filtered_calls = filtered_calls.order_by('start_time')
-            elif order == 'created_at':
-                filtered_calls = filtered_calls.order_by('created_at')
-            elif order == 'priority':
-                filtered_calls = filtered_calls.order_by('priority')
-
-        total_call_time = filtered_calls.aggregate(total_call_time=Sum('duration'))['total_call_time']
-        total_completed = filtered_calls.filter(status=CallStatus.COMPLETED).count()
-        total_busy = filtered_calls.filter(status=CallStatus.BUSY).count()
-        total_failed = filtered_calls.filter(status=CallStatus.FAILED).count()
-
-        return {
-            'total_call_time': total_call_time,
-            'total_completed': total_completed,
-            'total_busy': total_busy,
-            'total_failed': total_failed
-        }

@@ -15,7 +15,7 @@ export function Card({ title, subtitle, children, className }: CardProps) {
     <StyledRoot className={className} direction="column" padding="md">
       {(title || subtitle) && (
         <Flex direction="column" gap="none">
-          <Typography weight="bold" variant="bodyLg">{title}</Typography>
+          <Typography weight="bold" variant="h6">{title}</Typography>
           <Typography color="primary1.light">{subtitle}</Typography>
         </Flex>
       )}

@@ -27,10 +27,32 @@ class CallLogViewSet(viewsets.ReadOnlyModelViewSet):
         order = request.query_params.get('order', None)
         notes__icontains = request.query_params.get('notes__icontains', None)
 
-        call_stats = CallLog.get_call_stats(status=status, call_type=call_type, notes__icontains=notes__icontains, order=order)
+        filtered_calls = CallLog.objects.all()
+        if status:
+            filtered_calls = filtered_calls.filter(status=status)
+        if call_type:
+            filtered_calls = filtered_calls.filter(call_type=call_type)
+        if notes__icontains:
+            filtered_calls = filtered_calls.filter(notes__icontains=notes__icontains)
+        if order:
+            if order == 'start_time':
+                filtered_calls = filtered_calls.order_by('start_time')
+            elif order == 'created_at':
+                filtered_calls = filtered_calls.order_by('created_at')
+            elif order == 'priority':
+                filtered_calls = filtered_calls.order_by('priority')
 
-        serializer = CallStatsSerializer(call_stats)
-        return Response(serializer.data)
+        total_call_time = filtered_calls.aggregate(total_call_time=Sum('duration'))['total_call_time']
+        total_completed = filtered_calls.filter(status=CallStatus.COMPLETED).count()
+        total_busy = filtered_calls.filter(status=CallStatus.BUSY).count()
+        total_failed = filtered_calls.filter(status=CallStatus.FAILED).count()
+
+        return Response({
+            'total_call_time': total_call_time,
+            'total_completed': total_completed,
+            'total_busy': total_busy,
+            'total_failed': total_failed
+        })
 
 class DoctorCallLogViewSet(CallLogViewSet):
     serializer_class = FullCallLogSerializer
