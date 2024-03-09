@@ -24,6 +24,7 @@
     "antd": "^5.15.1",
     "antd-mobile": "^5.34.0",
     "date-fns": "^3.3.1",
+    "antd-mobile-icons": "^0.3.0",
     "expo": "49.0.16",
     "expo-splash-screen": "~0.20.5",
     "expo-status-bar": "~1.6.0",

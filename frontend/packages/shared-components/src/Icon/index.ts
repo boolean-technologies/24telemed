@@ -8,3 +8,5 @@ export * from "./Icons/NigeriaFlagIcon";
 export * from "./Icons/BottomSheetCancelIcon"
 export * from "./Icons/LogoutIcon"
 export * from "./Icons/BottomSheetCancelIcon"
+export * from './Icons/HistoryIcon'
+export * from "./Icons/ProfileIcon"

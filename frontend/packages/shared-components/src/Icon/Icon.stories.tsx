@@ -1,6 +1,16 @@
-import type { Meta } from "@storybook/react";
-import styled from "styled-components";
-import { EyeIcon, StarIcon, AttachmentIcon, HelperIcon, ErrorIcon, CancelIcon, LogoutIcon } from "../Icon";
+import type { Meta } from '@storybook/react';
+import styled from 'styled-components';
+import {
+  EyeIcon,
+  StarIcon,
+  AttachmentIcon,
+  HelperIcon,
+  ErrorIcon,
+  CancelIcon,
+  LogoutIcon,
+  HistoryIcon,
+  ProfileIcon,
+} from '../Icon';
 
 function Layout() {
   return (
@@ -13,6 +23,8 @@ function Layout() {
         <ErrorIcon />
         <CancelIcon />
         <LogoutIcon />
+        <HistoryIcon />
+        <ProfileIcon />
       </Row>
     </div>
   );
@@ -30,7 +42,7 @@ const Row = styled.div`
 
 const Story: Meta<typeof Layout> = {
   component: Layout,
-  title: "Components/Icons",
+  title: 'Components/Icons',
 };
 export default Story;
 

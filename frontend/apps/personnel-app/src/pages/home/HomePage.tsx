@@ -1,47 +1,81 @@
 import React from 'react';
 import {
   Flex,
-  TextInput,
   Typography,
   FlexProps,
-  NavBar,
-  NavLink,
-  StarIcon,
-  Button,
+  
 } from '@local/shared-components';
 import styled from 'styled-components';
 import Header from './Header';
+import { Form, Button, FormProps, Input } from 'antd';
 
+type FieldType = {
+  phoneNumber:string
+};
 
 export function HomePage(): JSX.Element {
   return (
-    <Root direction="column">
+    <Flex direction="column" >
       <Header />
+      <Flex direction="column" >
       <Content fullWidth padding="xl" direction="column">
         <Typography variant="bodyMd">Find patient's profile</Typography>
-        <TextInput
-          placeholder="Search for a patient"
-          onChange={() => {}}
-          name="search"
-        />
-      </Content>
 
-      <BottomNav>
-        <NavLink to="/home" label="Home" color='primary' topIcon={() => <StarIcon />} />
-        <NavLink to="/history" label="History" color='primary' topIcon={() => <StarIcon />} />
-        <NavLink to="/profile" label="Profile" color='primary' topIcon={() => <StarIcon />} />
-        <NavLink to="/logout" label="Logout" color='primary' topIcon={() => <StarIcon />} />
-      </BottomNav>
-    </Root>
+        <Form
+          layout="inline"
+          name="basic"
+          initialValues={{ remember: true }}
+          onFinish={(values: FieldType) => {
+            console.log(values);
+          }}
+          
+
+          style={{ maxWidth: "100%",
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'row'
+           }}
+        >
+          <Form.Item<FieldType>
+            name="phoneNumber"
+            rules={[{ required: true, message: 'Please input your username!' }]}
+            style={{ width: '80%' }}
+          >
+            
+            <Input placeholder="Search" />
+          </Form.Item>
+          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+            <StyledButton type="primary" htmlType="submit">
+              Search
+            </StyledButton>
+          </Form.Item>
+          
+        </Form>
+        
+        
+
+        
+        
+      </Content>
+      </Flex>
+    </Flex>
+    
+    
+    
   );
 }
 
 const Content = styled(Flex)<FlexProps>``;
 
-const Root = styled(Flex)<FlexProps>``;
 
-const BottomNav = styled(NavBar)`
-  position: fixed;
-  bottom: 0;
-  width: 100%;
+const StyledButton = styled(Button)`
+  background-color: #000000;
 `;
+
+const StyledForm = styled(Form)<FormProps>`
+  display: flex;
+  width: 100%;
+  
+  `;
