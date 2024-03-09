@@ -19,7 +19,7 @@ const GENERATED_CODE_FOLDER = path.resolve(
 );
 const PACKAGE_FOLDER = path.resolve(
   cwd,
-  './packages/api-generated/src'
+  './packages/api-generated/src/api'
 );
 
 const resp = await fetch(OPEN_API_URL);

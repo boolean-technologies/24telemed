@@ -1,15 +1,11 @@
 import * as ReactDOM from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import { CssBaseline, Fonts, createTheme } from '@local/shared-components';
 import { PersonnelCommunicationProvider } from '@local/websocket';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { VideoCallSDK } from '@local/videosdk-rtc-component';
-import { LoginPage } from './pages/login';
-import { RouterProvider } from 'react-router-dom';
-import router from './routes/router';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import App from './App';
 
 const theme = createTheme();
 const queryClient = new QueryClient();
@@ -40,9 +36,9 @@ root.render(
       <QueryClientProvider client={queryClient}>
         <Fonts />
         <CssBaseline />
-        <PersonnelCommunicationProvider userId="446175d1-f2a4-4513-851e-e63fde4ca906">
-          <RouterProvider router={router} />
-        </PersonnelCommunicationProvider>
+          <PersonnelCommunicationProvider userId="e92d1df8-2538-4d18-8b96-381e6ed3878f">
+            <App />
+          </PersonnelCommunicationProvider>
       </QueryClientProvider>
     </ThemeProvider>
   </>

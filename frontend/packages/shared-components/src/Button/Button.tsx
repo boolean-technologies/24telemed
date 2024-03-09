@@ -16,6 +16,7 @@ export interface BaseButtonProps extends ResponsivePropsBase {
   leftIcon?: React.ReactNode;
   type?: 'button' | 'submit' | 'reset';
   loadingText?: string;
+  fullWidth?: boolean;
 }
 
 const StyledButton: FC<BaseButtonProps> = styled.button.attrs<BaseButtonProps>(
@@ -60,11 +61,14 @@ const StyledButton: FC<BaseButtonProps> = styled.button.attrs<BaseButtonProps>(
       align-items: center;
       justify-content: center;
     `)}
+  border-color: ${({ theme, variant }) => variant === 'tertiary' ? theme.border.primary.light : "transparent"};
+  font-size: 14px;
+  width: 100%;
 `;
 
 export function Button(props: BaseButtonProps) {
   return (
-    <ButtonContainer>
+    <ButtonContainer fullWidth={props.fullWidth}>
       <StyledButton
         {...props}
         disabled={props.isSubmitting}

@@ -60,11 +60,13 @@ urlpatterns = [
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     re_path(r'^$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-    path('call-logs/', include('call_log.urls')),
+    path('call-logs/', include('call_log.urls.main')),
     path('users/', include('users.urls')),
     
     path('patients/', include('patient.urls')),
     path('medical-encounters/', include('medication.urls')),
     path('baton/', include('baton.urls')),
     path('admin_tools_stats/', include('admin_tools_stats.urls')),
+    path('doctors/medical-encounters/', include('medication.urls')),
+    path('doctors/call-logs/', include('call_log.urls.doctors')),
 ]
