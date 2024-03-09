@@ -2,6 +2,8 @@ import { useDoctorCommunication } from '@local/websocket';
 import { useEffect, useRef, useState } from 'react';
 import incomingCallRing from '../../../assets/icoming-call-ring.mp3';
 import { useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
+import { Path } from '../../constants';
 
 export function useIncomingCall() {
   const [showNoteInput, setShowNoteInput] = useState(false);
@@ -9,6 +11,7 @@ export function useIncomingCall() {
   const { hasIncomingCall, message, declineCall, answerCall } =
     useDoctorCommunication();
 
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const updateData = () => queryClient.invalidateQueries({ queryKey: ["callLogs"] });
@@ -18,6 +21,7 @@ export function useIncomingCall() {
     updateData();
     setDeclineNote(undefined);
     setShowNoteInput(false);
+    navigate(Path.meeting);
   };
 
   const handleDeclineCall = () => {
