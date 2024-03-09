@@ -8,7 +8,6 @@ from rest_framework.response import Response
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from django_filters.rest_framework import DjangoFilterBackend
-from .models import CallLog
 from .serializers import CallLogSerializer, FullCallLogSerializer
 from utils.permission import PersonnelPermission, DoctorPermission
 from .filters import CallLogFilter
@@ -22,25 +21,7 @@ class CallLogViewSet(viewsets.ReadOnlyModelViewSet):
 
     @action(detail=False, methods=['get'], serializer_class=CallStatsSerializer)
     def call_stats(self, request):
-        status = request.query_params.get('status', None)
-        call_type = request.query_params.get('call_type', None)
-        order = request.query_params.get('order', None)
-        notes__icontains = request.query_params.get('notes__icontains', None)
-
-        filtered_calls = CallLog.objects.all()
-        if status:
-            filtered_calls = filtered_calls.filter(status=status)
-        if call_type:
-            filtered_calls = filtered_calls.filter(call_type=call_type)
-        if notes__icontains:
-            filtered_calls = filtered_calls.filter(notes__icontains=notes__icontains)
-        if order:
-            if order == 'start_time':
-                filtered_calls = filtered_calls.order_by('start_time')
-            elif order == 'created_at':
-                filtered_calls = filtered_calls.order_by('created_at')
-            elif order == 'priority':
-                filtered_calls = filtered_calls.order_by('priority')
+        filtered_calls = self.filter_queryset(self.get_queryset())
 
         total_call_time = filtered_calls.aggregate(total_call_time=Sum('duration'))['total_call_time']
         total_completed = filtered_calls.filter(status=CallStatus.COMPLETED).count()
@@ -56,4 +37,4 @@ class CallLogViewSet(viewsets.ReadOnlyModelViewSet):
 
 class DoctorCallLogViewSet(CallLogViewSet):
     serializer_class = FullCallLogSerializer
-    # permission_classes = [PersonnelPermission, DoctorPermission]
+    permission_classes = [PersonnelPermission, DoctorPermission]

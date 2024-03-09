@@ -31,7 +31,7 @@ class CallLog(models.Model):
     start_time = models.DateTimeField(auto_now_add=True)
     end_time = models.DateTimeField(null=True, blank=True)
     status = models.CharField(max_length=20, choices=CallStatus.choices, default=CallStatus.INITIATED)
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    patient = models.ForeignKey(Patient, on_delete=models.SET_NULL, null=True)
     call_type = models.CharField(max_length=10, choices=CallType.choices, default=CallType.VIDEO)
     notes = models.TextField(null=True, blank=True)
     duration = models.IntegerField(null=True, blank=True)
