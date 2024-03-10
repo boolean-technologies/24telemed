@@ -10,6 +10,7 @@ import {
   LogoutIcon,
   HistoryIcon,
   ProfileIcon,
+  SearchIcon,
 } from '../Icon';
 
 function Layout() {
@@ -25,6 +26,7 @@ function Layout() {
         <LogoutIcon />
         <HistoryIcon />
         <ProfileIcon />
+        <SearchIcon />
       </Row>
     </div>
   );

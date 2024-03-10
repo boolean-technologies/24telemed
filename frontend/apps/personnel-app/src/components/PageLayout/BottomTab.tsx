@@ -63,4 +63,7 @@ const Bottom = styled.div`
   position: fixed;
   bottom: 0;
   width: 100%;
+  height: 60px;
+  background-color: white;
+  border-top: 1px solid #e8e8e8;
 `;
