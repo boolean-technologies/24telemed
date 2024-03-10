@@ -4,9 +4,9 @@ import { Path } from './paths';
 import { PageLoading } from '../PageLoading';
 
 export function AuthLayout() {
-  const { isPending } = useAuthWatcher([Path.login], Path.login, Path.home);
+  const { isLoading } = useAuthWatcher();
 
-  if (isPending) {
+  if (isLoading) {
     return <PageLoading />;
   }
 

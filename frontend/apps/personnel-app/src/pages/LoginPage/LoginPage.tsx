@@ -1,61 +1,32 @@
-import {
-  Flex,
-  PasswordInput,
-  TextInput,
-  Typography,
-  Button,
-  Logo,
-} from '@local/shared-components';
+import { Flex, Typography, Logo } from '@local/shared-components';
+import { Form, Input, Button, Checkbox, Space } from 'antd-mobile';
+import { EyeInvisibleOutline, EyeOutline } from 'antd-mobile-icons';
 import styled, { css } from 'styled-components';
-import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 import { BG } from '../../assets';
-import { Link } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { TokenRefresh, useLogin } from '@local/api-generated';
+import { Link, useNavigate } from 'react-router-dom';
+import { parseApiError, useLogin } from '@local/api-generated';
+import { Path } from '../../constants';
+import { useState } from 'react';
+import { Alert } from 'antd';
 
-interface LoginData {
+type FormFieldType = {
   username: string;
   password: string;
-}
-
-const schema = yup.object().shape({
-  username: yup.string().required('Username is required').min(3),
-  password: yup.string().required('Password is required').min(8),
-});
+};
 
 export function LoginPage(): JSX.Element {
   const login = useLogin();
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginData>({
-    resolver: yupResolver(schema),
-    defaultValues: {
-      username: '',
-      password: '',
-    },
-  });
+  const [visible, setVisible] = useState(false);
+  const navigate = useNavigate();
 
-  const onSubmit: SubmitHandler<LoginData> = (credentials) => {
-    login.mutate(credentials, {
-      onSuccess: (data) => {
-        localStorage.setItem('token', (data as unknown as TokenRefresh).access || "");
-        toast.success('Login successful', {
-          autoClose: 5000,
-          position: 'top-right',
-        });
-      },
-      onError: () => {
-        toast.error('Login failed, please try again', {
-          autoClose: 5000,
-          position: 'top-right',
-        });
-      },
+  const onFinish = (values: FormFieldType) => {
+    login.performLogin(values, () => {
+      navigate(Path.home);
     });
   };
+
+  const errorMessage = parseApiError(login?.error);
+
   return (
     <StyledRoot
       direction="column"
@@ -64,78 +35,103 @@ export function LoginPage(): JSX.Element {
       justify="center"
       align="flex-start"
     >
-      <Flex justify="space-between" fullWidth padding="sm">
-        <Logo />
-        <HeaderImage src={BG} alt="header-image" />
-      </Flex>
-      <Flex direction="column" gap="xs" align="flex-start">
-        <Typography variant="bodyLg" weight="bold">
-          Secure Login
-        </Typography>
-        <Typography variant="bodySm">
-          Please enter your credentials to login
-        </Typography>
-      </Flex>
-      <Form
-        onSubmit={handleSubmit(onSubmit)}
-        fullWidth
-        gap="sm"
+      <HeaderImage src={BG} alt="header-image" />
+      <Flex
         direction="column"
+        align="center"
+        justify="center"
+        fullHeight
+        fullWidth
+        style={{ maxWidth: 900, margin: 'auto' }}
       >
-        <Controller
-          name="username"
-          control={control}
-          render={({ field }) => (
-            <TextInput
-              {...field}
-              label="Username"
-              error={!!errors.username?.message}
-              errorText={errors.username?.message}
-              placeholder="Enter your username"
-              type="username"
-              name="username"
-            />
-          )}
-        />
-
-        <Controller
-          name="password"
-          control={control}
-          render={({ field }) => (
-            <PasswordInput
-              {...field}
-              label="Password"
-              error={!!errors.password?.message}
-              errorText={errors.password?.message}
-              placeholder="Enter your password"
-              type="password"
-              name="password"
-            />
-          )}
-        />
-
-        <Flex justify="flex-end" fullWidth>
-          <Typography variant="bodySm">Forgot Password?</Typography>
-          <Link to="/recover">
-            <Typography
-              variant="bodySm"
-              weight="regular"
-              color="common.warning"
-            >
-              Recover
+        <Flex direction="column" gap="xl" align="flex-start" fullWidth>
+          <Logo size="xl" />
+          <div>
+            <Typography variant="bodyXl" weight="bold">
+              Secure Login
             </Typography>
-          </Link>
+            <Typography>
+              Enter your username & password to login to your account.
+            </Typography>
+          </div>
         </Flex>
-        <Button
-        loadingText='Logging in...'
-          variant="primary"
-          text="LOGIN"
-          type="submit"
-          disabled={login.isPending}
-          isSubmitting={login.isPending}
-        />
-      </Form>
-      <Flex justify="flex-start" fullWidth>
+        <Form
+          name="login"
+          initialValues={{ remember: true }}
+          onFinish={onFinish}
+          style={{ width: '100%' }}
+        >
+          <Flex direction="column">
+          {errorMessage && (
+          <Flex padding="sm">
+            <Alert
+              message={errorMessage}
+              type="error"
+              style={{ width: "100%" }}
+            />
+          </Flex> 
+          )}
+            <Form.Item
+              name="username"
+              label="Username"
+              rules={[
+                { required: true, message: 'Please input your username!' },
+                {
+                  type: 'email',
+                  message: 'The input is not a valid username!',
+                },
+              ]}
+            >
+              <Input type="email" placeholder="Enter username" />
+            </Form.Item>
+
+            <Form.Item
+              name="password"
+              label="Password"
+              rules={[
+                { required: true, message: 'Please input your password!' },
+              ]}
+              extra={
+                <PasswordIconWrapper>
+                  {!visible ? (
+                    <EyeInvisibleOutline onClick={() => setVisible(true)} />
+                  ) : (
+                    <EyeOutline onClick={() => setVisible(false)} />
+                  )}
+                </PasswordIconWrapper>
+              }
+            >
+              <Input
+                type={visible ? 'text' : 'password'}
+                placeholder="Enter password"
+              />
+            </Form.Item>
+            <Flex justify="space-between" padding="sm">
+              <Form.Item name="remember" valuePropName="checked" noStyle>
+                <Checkbox>
+                  <Typography  variant="bodySm">Remember me</Typography>
+                </Checkbox>
+              </Form.Item>
+
+              <Link to="/forgot-password">
+                <Typography  variant="bodySm">Forgot password</Typography>
+              </Link>
+            </Flex>
+            <Space />
+            <Flex padding="sm">
+              <Button
+                block
+                type="submit"
+                loading={login.isPending}
+                color="primary"
+              >
+                Log in
+              </Button>
+            </Flex>
+          </Flex>
+        </Form>
+      </Flex>
+      <Flex fullWidth padding="md" align="center" justify="center">
         <Typography variant="bodySm">Don't have an account?</Typography>
         <Link to="/register">
           <Typography variant="bodySm" color="common.warning">
@@ -184,6 +180,11 @@ const HeaderImage = styled.img`
     `)}
 `;
 
-const Form = styled(Flex).attrs(() => ({
-  as: 'form',
-}))``;
+const PasswordIconWrapper = styled.div`
+  padding: 4px;
+  cursor: pointer;
+  svg {
+    display: block;
+    font-size: var(--adm-font-size-7);
+  }
+`;

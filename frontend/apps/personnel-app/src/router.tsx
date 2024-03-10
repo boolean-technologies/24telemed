@@ -10,6 +10,8 @@ import {
   import { MeetingPage } from './pages/MeetingPage';
 import { CommsLayout } from './components/CommsLayout';
 import { LoginPage } from './pages/LoginPage';
+import { CallHistoryPage } from './pages/CallHistoryPage';
+import { ProfilePage } from './pages/ProfilePage';
   
   const routes: RouteObject[] = [
     {
@@ -28,11 +30,19 @@ import { LoginPage } from './pages/LoginPage';
               path: Path.home,
               element: <HomePage />,
             },
+            {
+              path: Path.history,
+              element: <CallHistoryPage />,
+            },
+            {
+              path: Path.profile,
+              element: <ProfilePage />,
+            },
           ],
         },
         {
           path: Path.meeting,
-          element: <MeetingPage />,
+          element: <div />,
         },
       ],
     },

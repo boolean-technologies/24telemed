@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { AuthService, TokenObtainPair, TokenRefresh } from '../api';
+import { AuthService, OpenAPI, TokenObtainPair, TokenRefresh } from '../api';
 import { TOKEN_KEY } from '../../../shared-components/src/constants';
 
 type LoginType = {
@@ -18,10 +18,12 @@ export const useLogin = () => {
   ) => {
     login.mutate(values, {
       onSuccess: (data) => {
+        const token = (data as unknown as TokenRefresh).access || '';
         localStorage.setItem(
           TOKEN_KEY,
-          (data as unknown as TokenRefresh).access || ''
+          token
         );
+        OpenAPI.TOKEN = token;
         onSuccess(data as unknown as TokenRefresh);
       },
     });

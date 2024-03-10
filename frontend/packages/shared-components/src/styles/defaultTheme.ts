@@ -194,6 +194,12 @@ export const defaultTheme: Theme = {
       letterSpacing: "-0.02em",
       textTransform: "uppercase",
     },
+    bodyXl: {
+      fontFamily: fontFamily,
+      fontWeight: 400,
+      fontSize: "1.5rem",
+      lineHeight: 1.5,
+    },
     bodyLg: {
       fontFamily: fontFamily,
       fontWeight: 400,

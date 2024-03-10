@@ -37,7 +37,7 @@ const routes: RouteObject[] = [
       },
       {
         path: Path.meeting,
-        element: <MeetingPage />,
+        element: <div />,
       },
     ],
   },

@@ -49,6 +49,7 @@ const mapping: TypographyMapping = {
   h4: "h4",
   h5: "h5",
   h6: "h6",
+  bodyXl: "p",
   bodyLg: "p",
   bodyMd: "p",
   bodySm: "p",

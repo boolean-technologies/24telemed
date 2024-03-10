@@ -1,12 +1,13 @@
 import { Modal } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
-import { LogoutIcon } from '@local/shared-components';
-import { TOKEN_KEY } from '@local/api-generated';
+import { LogoutIcon, useLogout } from '@local/shared-components';
 
 const { confirm } = Modal;
 
 export function LogoutButton() {
+
+  const handleLogout = useLogout();
 
   const showConfirm = (e: Event) => {
     e.preventDefault();
@@ -19,10 +20,7 @@ export function LogoutButton() {
       okText: 'Log Out',
       okType: 'danger',
       cancelText: 'Cancel',
-      onOk() {
-        localStorage.removeItem(TOKEN_KEY);
-        window.location.assign("/")
-      },
+      onOk: () => handleLogout(),
     });
   };
 

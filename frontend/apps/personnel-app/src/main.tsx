@@ -14,8 +14,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { OpenAPI, TOKEN_KEY } from '@local/api-generated';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './router';
+import "./style.css";
 
-OpenAPI.TOKEN = localStorage.getItem(TOKEN_KEY) || "";
+OpenAPI.TOKEN = localStorage.getItem(TOKEN_KEY) || '';
 
 const theme = createTheme();
 
@@ -40,7 +41,7 @@ function Main() {
       },
       Button: {
         controlHeight: 45,
-        colorBgBase: "red"
+        colorBgBase: 'red',
       },
     },
   };
