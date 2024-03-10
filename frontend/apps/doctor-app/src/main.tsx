@@ -40,6 +40,7 @@ function Main() {
       },
       Button: {
         controlHeight: 45,
+        colorBgBase: "red"
       },
     },
   };

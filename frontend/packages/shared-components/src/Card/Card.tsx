@@ -27,7 +27,7 @@ export function Card({ title, subtitle, children, className }: CardProps) {
 const StyledRoot = styled(Flex)`
   width: 100%;
   box-sizing: border-box;
-  box-shadow: ${({ theme }) => theme.shadows.md};
+  box-shadow: ${({ theme }) => theme.shadows.sm};
   border-radius: ${({ theme }) => theme.radius.dropdown};
   background-color: ${({ theme }) => theme.palette.common.white};
 `;
