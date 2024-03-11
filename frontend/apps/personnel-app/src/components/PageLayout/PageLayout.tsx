@@ -4,6 +4,7 @@ import { useLocation, Outlet, useNavigate } from 'react-router-dom';
 import styled, { useTheme } from 'styled-components';
 import { Path } from '../../constants';
 import { IonIcon, Theme, Typography, useLogout } from '@local/shared-components';
+import { Layout } from 'antd';
 
 export function PageLayout() {
   const navigate = useNavigate();
@@ -48,9 +49,11 @@ export function PageLayout() {
     });
   };
 
+  const showHeader = currentTab?.path !== Path.home;
+
   return (
     <StyledRoot>
-      {currentTab?.path !== Path.home ? (
+      {showHeader ? (
         <StyledTop>
           <NavBar onBack={() => navigate(-1)} style={{ height: 60 }}>
             <Typography variant="h5" align="center">
@@ -59,7 +62,7 @@ export function PageLayout() {
           </NavBar>
         </StyledTop>
       ) : null}
-      <StyledContainer>
+      <StyledContainer style={{ top: showHeader ? 60 : 0 }}>
         <Outlet />
       </StyledContainer>
       <StyledBottom>
@@ -98,24 +101,41 @@ export function PageLayout() {
 }
 
 const StyledTop = styled.div`
-  flex: 0;
   border-bottom: solid 1px var(--adm-color-border);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  z-index: 1;
 `;
 
 const StyledBottom = styled.div`
   flex: 0;
   border-top: solid 1px var(--adm-color-border);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  z-index: 1;
 `;
 
 const StyledRoot = styled.div`
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  width: 100vw;
   height: 100vh;
-  display: flex;
-  flex-direction: column;
 `;
 
-const StyledContainer = styled.div`
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+const StyledContainer = styled(Layout)`
+  position: fixed;
+  bottom: 65px;
+  left: 0;
+  right: 0;
+  overflow: scroll;
+  z-index: 0;
 `;
