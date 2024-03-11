@@ -1,11 +1,9 @@
-import { InfiniteData, useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { InfiniteData, useInfiniteQuery } from '@tanstack/react-query';
 import {
   DoctorsService,
   ApiError,
   SearchResultType,
   FullCallLog,
-  UseQueryOptions,
-  CallStats,
 } from '@local/api-generated';
 
 type SearchType = {
