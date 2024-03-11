@@ -4,7 +4,6 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-bottom: ${({ theme }) => theme.spacing.md};
 `;
 
 export const HelperText = styled.span`
@@ -35,17 +34,16 @@ export const TextContainer = styled.div`
 `;
 
 export const Label = styled.label`
+font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
 font-family: ${({ theme }) => theme.typography.bodyXs.fontFamily};
   color: ${({ theme }) => theme.palette.primary1.main};
   ${({ theme }) =>
-    theme.breakpoints.xs.up(css`
+    theme.breakpoints.xs.down(css`
       font-size: ${({ theme }) => theme.typography.bodyXs.fontSize};
     `)}
 
-  ${({ theme }) =>
-    theme.breakpoints.sm.up(css`
-      font-size: ${({ theme }) => theme.typography.bodyMd.fontSize};
-    `)}
+    font-size: ${({ theme }) => theme.typography.bodySm.fontSize};
+    
 `;
 
 export const RightIconContainer = styled.div`
@@ -57,7 +55,7 @@ export const RightIconContainer = styled.div`
 
 export const InputContainer = styled.div`
   position: relative;
-  width: fit-content;
+  
   display: inline-block;
 `;
 

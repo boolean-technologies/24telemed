@@ -1,9 +1,46 @@
 from rest_framework import viewsets
-from .models import CallLog
-from .serializers import CallLogSerializer
+from .models import CallLog, CallStatus, CallType
+from .serializers import CallLogSerializer, CallStatsSerializer
 from utils.permission import PersonnelPermission, DoctorPermission
+from django.db.models import Sum
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
+from django_filters.rest_framework import DjangoFilterBackend
+from .serializers import CallLogSerializer, FullCallLogSerializer
+from utils.permission import PersonnelPermission, DoctorPermission
+from .filters import CallLogFilter
 
 class CallLogViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = CallLog.objects.all()
     serializer_class = CallLogSerializer
-    permission_classes = [PersonnelPermission, DoctorPermission]
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = CallLogFilter
+    # permission_classes = [PersonnelPermission, DoctorPermission]
+
+
+    @swagger_auto_schema(
+        method='get',
+        operation_description="Retrieve the call-log statistics",
+        responses={200: CallStatsSerializer}
+    )
+    @action(detail=False, methods=['get'], serializer_class=CallStatsSerializer)
+    def call_stats(self, request):
+        filtered_calls = self.filter_queryset(self.get_queryset())
+
+        total_call_time = filtered_calls.aggregate(total_call_time=Sum('duration'))['total_call_time']
+        total_completed = filtered_calls.filter(status=CallStatus.COMPLETED).count()
+        total_busy = filtered_calls.filter(status=CallStatus.BUSY).count()
+        total_failed = filtered_calls.filter(status=CallStatus.FAILED).count()
+
+        return Response({
+            'total_call_time': total_call_time,
+            'total_completed': total_completed,
+            'total_busy': total_busy,
+            'total_failed': total_failed
+        })
+
+class DoctorCallLogViewSet(CallLogViewSet):
+    serializer_class = FullCallLogSerializer
+    permission_classes = [DoctorPermission]

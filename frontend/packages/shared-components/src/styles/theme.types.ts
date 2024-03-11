@@ -33,6 +33,7 @@ export interface Palettes extends MainPalettes {
     black: string;
     white: string;
     transparent: string;
+    warning: string;
   };
   background: {
     main: string;
@@ -98,6 +99,7 @@ export interface TypographyTheme {
   h4: HeadingVariant;
   h5: HeadingVariant;
   h6: HeadingVariant;
+  bodyXl: TypographyVariant;
   bodyLg: TypographyVariant;
   bodyMd: TypographyVariant;
   bodySm: TypographyVariant;
@@ -115,6 +117,7 @@ export type TypographyVariants =
   | "h5"
   | "h6"
   | "bodyLg"
+  | "bodyXl"
   | "bodyMd"
   | "bodySm"
   | "bodyXs";
@@ -229,6 +232,40 @@ export interface Theme {
   opacity: Opacity;
   transitions: Transitions;
   zIndex: ZIndex;
+  button: {
+    primary: {
+      backgroundColor: string;
+      color: string;
+      hoverBackgroundColor: string;
+      disabledBackgroundColor: string;
+      disabledColor: string;
+      hoverColor: string;
+      focusBackgroundColor: string;
+      pressedBackgroundColor: string;
+      
+    };
+    secondary: {
+      backgroundColor: string;
+      color: string;
+      hoverBackgroundColor: string;
+      disabledBackgroundColor: string;
+      disabledColor: string;
+      hoverColor: string;
+      focusBackgroundColor: string;
+      pressedBackgroundColor: string;
+    };
+    tertiary: {
+      backgroundColor: string;
+      color: string;
+      hoverBackgroundColor: string;
+      disabledBackgroundColor: string;
+      disabledColor: string;
+      hoverColor: string;
+      focusBackgroundColor: string;
+      pressedBackgroundColor: string;
+    };
+  };
+
 }
 
 export type PaletteVariants = RecursiveKeyOf<Palettes>;
@@ -240,3 +277,6 @@ type ThemedCssFunctionReturn = ReturnType<ThemedCssFunction<Theme>>;
 export type MediaWrapperFunction = (
   cssResult: ThemedCssFunctionReturn,
 ) => ThemedCssFunctionReturn;
+
+
+export type NewButtonVariant = "primary" | "secondary" | "tertiary";

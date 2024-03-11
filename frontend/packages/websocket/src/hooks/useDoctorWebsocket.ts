@@ -11,7 +11,6 @@ export enum DoctorCallEventType {
 export function useDoctorWebSocket(userId: string, type: UserType) {
   const [callStatus, setCallStatus] = useState<DoctorCallEventType>();
   const [isBusy, setIsBusy] = useState<boolean>(false);
-  const [currentMessage, setCurrentMessage] = useState<WebSocketMessage<DoctorCallEventType> | null>();
 
   // Function to handle incoming messages
   const handleMessageReceived = useCallback(
@@ -21,13 +20,10 @@ export function useDoctorWebSocket(userId: string, type: UserType) {
           setIsBusy(true);
         } else {
           setCallStatus(DoctorCallEventType.INCOMING);
-          setCurrentMessage(message);
         }
       }
-      console.log(message);
-      
     },
-    [setCallStatus, setCurrentMessage, setIsBusy]
+    [setCallStatus, setIsBusy]
   );
 
   const {
@@ -67,7 +63,7 @@ export function useDoctorWebSocket(userId: string, type: UserType) {
   return {
     isOpen,
     callStatus,
-    message: currentMessage || message,
+    message,
     isOngoingCall,
     declineCall,
     answerCall,

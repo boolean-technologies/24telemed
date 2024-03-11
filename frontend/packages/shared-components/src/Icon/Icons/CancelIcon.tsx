@@ -9,20 +9,20 @@ export const CancelIcon = createSvgIcon(
     xmlns="http://www.w3.org/2000/svg"
   >
     <rect width="20" height="20" rx="10" fill="#1D1D1D" />
-    <g clip-path="url(#clip0_38_802)">
+    <g clipPath="url(#clip0_38_802)">
       <path
         d="M14 6L6 14"
         stroke="white"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M6 6L14 14"
         stroke="white"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </g>
     <defs>

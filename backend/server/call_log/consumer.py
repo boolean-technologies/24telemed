@@ -123,16 +123,14 @@ class CallLogWebSocketConsumer(AsyncWebsocketConsumer):
             # if call_log_manager:
             #     await call_log_manager.setToFailed()
             error_message = "An error occurred: {}".format(str(e))
-            print(error_message)
         
     async def handleDeclineCall(self, message: InMessageType):
-        # Process CallLogDataType data
         try:
             data = message["data"]
-            note = message["note"]
+            note = message.get("note", None)
             call_log_manager = CallLogManager()
             await call_log_manager.setUpModel(data)
-            await call_log_manager.setToDeclined()
+            await call_log_manager.setToDeclined(note)
             message = call_log_manager.composeMessage("NOTIFY_PERSONNEL_CLIENT_DOCTOR_DECLINED_CALL")
             connection = self.getConnectionByUserId(data["health_care_assistant"])
             await self.sendNotification(connection["channel_name"], { **message, "note": note })
@@ -150,8 +148,11 @@ class CallLogWebSocketConsumer(AsyncWebsocketConsumer):
             isRoomCreated = await call_log_manager.setUpVideoSDKMeeting()
             message = call_log_manager.composeMessage("NOTIFY_PERSONNEL_CLIENT_DOCTOR_ANSWERED_CALL")
             message["isRoomCreated"] = isRoomCreated
-            connection = self.getConnectionByUserId(data["health_care_assistant"])
-            await self.sendNotification(connection["channel_name"], message)
+            personnel_connection = self.getConnectionByUserId(data["health_care_assistant"])
+            print("self.channel_name", self.channel_name)
+            print("personnel_connection", personnel_connection["channel_name"])
+            await self.sendNotification(self.channel_name, message)
+            await self.sendNotification(personnel_connection["channel_name"], message)
         except Exception as e:
             error_message = "An error occurred: {}".format(str(e))
             print(error_message)

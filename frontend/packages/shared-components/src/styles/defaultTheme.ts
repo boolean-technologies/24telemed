@@ -41,14 +41,14 @@ export const colorVariants: Array<PaletteVariants> = [
 export const defaultTheme: Theme = {
   palette: {
     primary1: {
-      main: "#2F4D52",
-      light: "#829497",
-      lighter: "#D5DBDC",
+      main: "#000000",
+      light: "#505A5B",
+      lighter: "#A0A4A5",
     },
     primary2: {
-      main: "#FFF875",
-      light: "#FFFBAC",
-      lighter: "#FFFEE3",
+      main: "#FFDD00",
+      light: "#FFEC80",
+      lighter: "#FFF4B0",
     },
     secondary1: {
       main: "#5CD6C2",
@@ -74,6 +74,7 @@ export const defaultTheme: Theme = {
       black: "#000000",
       white: "#FFFFFF",
       transparent: "transparent",
+      warning: "#A28408",
     },
     background: {
       main: "#F7F8F8",
@@ -88,46 +89,47 @@ export const defaultTheme: Theme = {
     primary1: {
       main: "#FFFFFF",
       light: "#FFFFFF",
-      lighter: "#2F4D52",
+      lighter: "#000000",
     },
     primary2: {
-      main: "#2F4D52",
-      light: "#2F4D52",
-      lighter: "#2F4D52",
+      main: "#000000",
+      light: "#000000",
+      lighter: "#000000",
     },
     secondary1: {
-      main: "#2F4D52",
-      light: "#2F4D52",
-      lighter: "#2F4D52",
+      main: "#000000",
+      light: "#000000",
+      lighter: "#000000",
     },
     secondary2: {
-      main: "#2F4D52",
-      light: "#2F4D52",
-      lighter: "#2F4D52",
+      main: "#000000",
+      light: "#000000",
+      lighter: "#000000",
     },
     secondary3: {
-      main: "#2F4D52",
-      light: "#2F4D52",
-      lighter: "#2F4D52",
+      main: "#000000",
+      light: "#000000",
+      lighter: "#000000",
     },
     neutral: {
-      main: "#2F4D52",
-      light: "#2F4D52",
-      lighter: "#2F4D52",
+      main: "#000000",
+      light: "#000000",
+      lighter: "#000000",
     },
     common: {
       black: "#FFFFFF",
-      white: "#2F4D52",
-      transparent: "#2F4D52",
+      white: "#000000",
+      transparent: "#000000",
+      warning: "#A28408",
     },
     background: {
-      main: "#2F4D52",
-      secondary: "#2F4D52",
-      white: "#2F4D52",
+      main: "#000000",
+      secondary: "#000000",
+      white: "#000000",
     },
     error: "#FFFFFF",
     success: "#FFFFFF",
-    notification: "#2F4D52",
+    notification: "#000000",
   },
   breakpoints: createThemeBreakpoints(breakpoints),
   typography: {
@@ -137,7 +139,7 @@ export const defaultTheme: Theme = {
       regular: 400,
       bold: 700,
     },
-    defaultColor: "#2F4D52",
+    defaultColor: "#000000",
     h1: {
       fontFamily: fontFamilyHeading,
       fontWeight: 700,
@@ -191,6 +193,12 @@ export const defaultTheme: Theme = {
       lineHeight: 0.96,
       letterSpacing: "-0.02em",
       textTransform: "uppercase",
+    },
+    bodyXl: {
+      fontFamily: fontFamily,
+      fontWeight: 400,
+      fontSize: "1.5rem",
+      lineHeight: 1.5,
     },
     bodyLg: {
       fontFamily: fontFamily,
@@ -256,16 +264,16 @@ export const defaultTheme: Theme = {
   },
   border: {
     primary: {
-      main: "2px solid #2F4D52",
+      main: "2px solid #000000",
       light: "1px solid rgba(47, 77, 82, 0.20)",
     },
     secondary: {
-      main: "2px dashed #2F4D52",
+      main: "2px dashed #000000",
       light: "2px dashed rgba(47, 77, 82, 0.20)",
     },
     bold: {
-      main: "6px solid #2F4D52",
-      light: "5px solid #2F4D52",
+      main: "6px solid #000000",
+      light: "5px solid #000000",
     },
   },
   spacing: {
@@ -286,10 +294,10 @@ export const defaultTheme: Theme = {
     // I don't think with the current use we have it's working well
     none: "none",
     input: "0px 0px 10px 0px rgba(47,77,82,0.25)",
-    md: "8px 13px 30px 0px #2F4D521A",
-    lg: "3px 4px 15px 0px #2F4D5240",
-    xl: "8px 13px 30px 0px #2F4D5240",
-    inset: "3px 4px 10px 0px #2F4D5240 inset",
+    md: "8px 13px 30px 0px #0000001A",
+    lg: "3px 4px 15px 0px #00000040",
+    xl: "8px 13px 30px 0px #00000040",
+    inset: "3px 4px 10px 0px #00000040 inset",
   },
   icon: {
     fontSizes: {
@@ -324,5 +332,37 @@ export const defaultTheme: Theme = {
     toaster: 1600,
     selectPopper: 1700,
     tooltip: 1800,
+  },
+  button: {
+    primary: {
+      backgroundColor: "#000000",
+      color: "#FFFFFF",
+      hoverBackgroundColor: "#829497",
+      disabledBackgroundColor: "#D5DBDC",
+      disabledColor: "#829497",
+      hoverColor: "#FFFFFF",
+      focusBackgroundColor: "#000000",
+      pressedBackgroundColor: "#829497",
+    },
+    secondary: {
+      backgroundColor: "#EAEDEE",
+      color: "#000000",
+      hoverBackgroundColor: "#EFF5F6",
+      disabledBackgroundColor: "#D5DBDC",
+      disabledColor: "#829497",
+      hoverColor: "##FFFFFF",
+      focusBackgroundColor: "#EAEDEE",
+      pressedBackgroundColor: "#829497",
+    },
+    tertiary: {
+      backgroundColor: "transparent",
+      color: "#000000",
+      hoverBackgroundColor: "#EFF5F6",
+      disabledBackgroundColor: "transparent",
+      disabledColor: "#829497",
+      hoverColor: "#000000",
+      focusBackgroundColor: "transparent",
+      pressedBackgroundColor: "#D5DBDC",
+    },
   },
 };

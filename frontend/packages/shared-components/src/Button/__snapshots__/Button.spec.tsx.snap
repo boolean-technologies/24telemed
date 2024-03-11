@@ -1,13 +1,15 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`Button > matches snapshot 1`] = `
-<DocumentFragment>
-  <button
-    class="sc-bcXHqe fLEOWP"
-    color="white"
-    label="Click me"
+<div>
+  <div
+    class="sc-gswNZR HxLXF"
   >
-    Click me
-  </button>
-</DocumentFragment>
+    <button
+      class="sc-bcXHqe ePtrDr"
+    >
+      Click me
+    </button>
+  </div>
+</div>
 `;

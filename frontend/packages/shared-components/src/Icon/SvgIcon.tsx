@@ -27,6 +27,7 @@ export const SvgIcon = styled.i<SvgIconProps>`
   > svg {
     width: 1em;
     height: 1em;
+    fill: ${getTextColor};
   }
 
   ${({ hideDown, theme }: { hideDown?: BreakpointSizes; theme: Theme }) =>

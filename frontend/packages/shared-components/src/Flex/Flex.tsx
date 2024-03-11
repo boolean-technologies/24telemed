@@ -16,7 +16,7 @@ export type Justify =
   | "space-between"
   | "space-evenly";
 
-type Align = "flex-start" | "flex-end" | "center";
+type Align = "flex-start" | "flex-end" | "center" | "stretch";
 
 interface FlexResponsivePropsBase extends ResponsivePropsBase {
   direction?: "column" | "row";
@@ -33,6 +33,7 @@ export interface FlexProps
   className?: string;
   fullWidth?: boolean;
   fullHeight?: boolean;
+  flexWrap?: "nowrap" | "wrap" | "wrap-reverse";
 }
 
 const responsiveProps = createResponsiveProps<FlexResponsivePropsBase>(
@@ -73,6 +74,10 @@ export const Flex: FC<FlexProps> = styled.div<FlexProps>`
     css`
       height: 100%;
     `};
-
+    ${({ flexWrap }) =>
+    flexWrap &&
+    css`
+      flex-wrap: ${flexWrap};
+    `};
   ${responsiveProps}
 `;
