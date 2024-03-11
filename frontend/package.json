@@ -67,7 +67,7 @@
     "@nx/js": "18.0.2",
     "@nx/react": "17.2.8",
     "@nx/react-native": "^17.2.8",
-    "@nx/storybook": "^18.0.2",
+    "@nx/storybook": "^18.0.8",
     "@nx/vite": "17.2.8",
     "@nx/web": "18.0.2",
     "@nx/workspace": "17.2.8",

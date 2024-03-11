@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { AuthService, OpenAPI, TokenObtainPair, TokenRefresh } from '../api';
-import { TOKEN_KEY } from '../../../shared-components/src/constants';
+import { TOKEN_KEY } from '../constants';
 
 type LoginType = {
   username: string;

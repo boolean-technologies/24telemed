@@ -1,7 +1,6 @@
-import { useAuthWatcher } from '@local/api-generated';
 import { Outlet } from 'react-router-dom';
-import { Path } from './paths';
 import { PageLoading } from '../PageLoading';
+import { useAuthWatcher } from './useAuthWatcher';
 
 export function AuthLayout() {
   const { isLoading } = useAuthWatcher();
