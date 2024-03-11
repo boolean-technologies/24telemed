@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import {
   Flex,
   Typography,
@@ -11,10 +11,47 @@ import { Form, Button, FormProps, Input } from 'antd';
 import { useSearchPatients } from '../../hooks/react-queries';
 import RecentCalls from './RecentCalls';
 import AvailableDoctors from './AvailableDoctors';
+import BottomSheet from './BottomSheet';
+import { SpinLoading } from 'antd-mobile';
 
 type FieldType = {
   phoneNumber: string;
 };
+
+const doctors = [
+  {
+    id: '1',
+    name: 'Dr. Jane Smith',
+    speciality: 'Dermatologist',
+    location: 'New York, USA',
+    rating: 4.8,
+    totalRating: 120,
+  },
+  {
+    id: '2',
+    name: 'Dr. Mark Johnson',
+    speciality: 'Orthopedic Surgeon',
+    location: 'Los Angeles, USA',
+    rating: 4.7,
+    totalRating: 90,
+  },
+  {
+    id: '3',
+    name: 'Dr. Sarah Davis',
+    speciality: 'Pediatrician',
+    location: 'Chicago, USA',
+    rating: 4.9,
+    totalRating: 150,
+  },
+  {
+    id: '4',
+    name: 'Dr. Michael Brown',
+    speciality: 'Neurologist',
+    location: 'San Francisco, USA',
+    rating: 4.6,
+    totalRating: 80,
+  },
+]
 
 export function HomePage(): JSX.Element {
   const [phoneNumber, setPhoneNumber] = useState<string>('');
@@ -26,14 +63,18 @@ export function HomePage(): JSX.Element {
       retry: false,
     }
   );
+  const [bottomSheetVisible, setBottomSheetVisible] = useState<boolean>(false);
 
   const onFinish = useCallback(
     (values: FieldType) => {
       setPhoneNumber(values.phoneNumber);
       setEnableSearch(true);
+      setBottomSheetVisible(true);
     },
     [phoneNumber]
   );
+
+  console.log(data);
 
   return (
     <Root direction="column">
@@ -56,6 +97,7 @@ export function HomePage(): JSX.Element {
             }}
           >
             <Form.Item<FieldType>
+              
               name="phoneNumber"
               rules={[
                 { required: true, message: 'Please input the phone number!' },
@@ -78,11 +120,26 @@ export function HomePage(): JSX.Element {
               </StyledButton>
             </Form.Item>
           </Form>
-          <RecentCalls
-
-            
+          <RecentCalls />
+          <AvailableDoctors doctors={doctors} />
+          <BottomSheet
+            visible={bottomSheetVisible}
+            setVisible={setBottomSheetVisible}
+            content={
+              isLoading ? (
+                <SpinLoading
+                  style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                  }}
+                />
+              ) : (
+                <div>{data?.results}</div>
+              )
+            }
           />
-          <AvailableDoctors />
         </Content>
       </Flex>
     </Root>
@@ -99,8 +156,6 @@ const StyledButton = styled(Button)`
   align-items: center;
 `;
 
-
 const Root = styled(Flex)`
-padding-bottom: 60px;
-
+  padding-bottom: 60px;
 `;
