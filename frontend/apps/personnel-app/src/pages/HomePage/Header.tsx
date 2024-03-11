@@ -2,14 +2,18 @@ import { Flex, Typography } from '@local/shared-components'
 import React from 'react'
 import styled from 'styled-components'
 import { UserAvatar } from '../../assets'
+import { useCurrentUser } from '@local/api-generated'
 
 const Header = (): JSX.Element => {
+  const { data } = useCurrentUser();
+
+  const userName = data?.first_name || data?.last_name || data?.email;
+
   return (
     <StyledHeader fullWidth padding="xl" justify="space-between" >
-      <Flex direction='column' >
-        {/* TODO - replace with user's name */}
-        <Typography >Hi Jane Doe,</Typography>
-        <Typography variant="h5">Welcome to your assistant view </Typography>
+      <Flex direction='column' gap='xs'>
+        <Typography variant="bodyLg">Hi {userName},</Typography>
+        <Typography variant="h3">Welcome to your assistant view </Typography>
       </Flex>
       <UserImage src={UserAvatar} alt="User Avatar" />
     </StyledHeader>

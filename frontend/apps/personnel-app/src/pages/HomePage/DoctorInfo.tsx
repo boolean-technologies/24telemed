@@ -18,19 +18,18 @@ type Props = {
 };
 
 const DoctorInfoComponent = ({
-    id,
+  id,
   name,
   speciality,
   location,
   rating,
   totalRating,
-    avatar, 
+  avatar,
 }: Props) => {
   return (
     <DoctorInfo direction="row" justify="space-between">
       <Flex>
         <DoctorImage src={avatar} alt="doctor" />
-
         <Flex direction="column" gap="none">
           <Typography variant="bodyMd"> {name} </Typography>
           <Typography variant="bodyXs"> {speciality} </Typography>
