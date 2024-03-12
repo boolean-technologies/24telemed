@@ -1,49 +1,32 @@
-import { useState, useCallback } from 'react';
-import {
-  Flex,
-  Typography,
-  FlexProps,
-  SearchIcon,
-} from '@local/shared-components';
-import styled from 'styled-components';
+import { Flex, Typography, SearchIcon } from '@local/shared-components';
 import Header from './Header';
-import { Form, Button, Input } from 'antd';
+import { Form, Button, Input, InputRef } from 'antd';
 import { Popup, SpinLoading } from 'antd-mobile';
 import { useSearchPatients } from '../../api/patient';
 import PatientFound from './PatientFound';
-
+import { PatientNotFound } from './PatientNotFound';
+import { useRef } from 'react';
 
 type FieldType = {
   phoneNumber: string;
 };
 
-
 export function HomePage() {
-  const [phoneNumber, setPhoneNumber] = useState<string>('');
-  const [enableSearch, setEnableSearch] = useState<boolean>(false);
-  const { data, isLoading } = useSearchPatients(
-    { phoneNumber },
-    {
-      enabled: enableSearch,
-      retry: false,
-    }
-  );
-  const [bottomSheetVisible, setBottomSheetVisible] = useState<boolean>(false);
+  const searchPatient = useSearchPatients();
+  const onFinish = (values: FieldType) => {
+    searchPatient.mutate(values.phoneNumber);
+  };
 
-  const onFinish = useCallback(
-    (values: FieldType) => {
-      setPhoneNumber(values.phoneNumber);
-      setEnableSearch(true);
-      setBottomSheetVisible(true);
-    },
-    [phoneNumber]
-  );
+  const searchInput = useRef<InputRef>(null);
 
-  console.log(data);
+  const handleSearchAnother = () => {
+    searchPatient.reset();
+    searchInput.current?.focus();
+  };
 
   return (
     <>
-    <Header />
+      <Header />
       <Flex direction="column">
         <Flex fullWidth padding="xl" direction="column">
           <Typography variant="bodyLg" weight="bold">
@@ -78,19 +61,31 @@ export function HomePage() {
               ]}
               style={{ width: '100%' }}
             >
-              <Input placeholder="Enter patient's phone number" />
+              <Input
+                placeholder="Enter patient's phone number"
+                ref={searchInput}
+              />
             </Form.Item>
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-              <Button type="primary" htmlType="submit" icon={<SearchIcon />} />
+              <Button
+                type="primary"
+                loading={searchPatient.isPending}
+                htmlType="submit"
+                icon={<SearchIcon />}
+              />
             </Form.Item>
           </Form>
           <Popup
-            visible={bottomSheetVisible}
-            bodyStyle={{ maxHeight: '75vh', overflow: 'scroll', minHeight: '50vh' }}
-            onClose={() => setBottomSheetVisible(false)}
-            onMaskClick={() => setBottomSheetVisible(false)}
+            visible={!searchPatient.isIdle}
+            bodyStyle={{
+              maxHeight: '75vh',
+              overflow: 'scroll',
+              minHeight: 300,
+            }}
+            onClose={() => searchPatient.reset()}
+            onMaskClick={() => searchPatient.reset()}
           >
-            {isLoading ? (
+            {searchPatient.isPending ? (
               <SpinLoading
                 style={{
                   position: 'absolute',
@@ -99,22 +94,17 @@ export function HomePage() {
                   transform: 'translate(-50%, -50%)',
                 }}
               />
-            ) :  (
-              data && <PatientFound data={data} />
+            ) : searchPatient.data?.length ? (
+              <PatientFound data={searchPatient.data || []} />
+            ) : (
+              <PatientNotFound
+                phoneNumber={searchPatient.variables!}
+                onSearchAnother={handleSearchAnother}
+              />
             )}
-
           </Popup>
         </Flex>
       </Flex>
     </>
   );
 }
-
-
-const PatientContainer = styled(Flex)<FlexProps>`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
-`;

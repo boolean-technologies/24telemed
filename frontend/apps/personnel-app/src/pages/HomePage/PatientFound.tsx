@@ -1,37 +1,37 @@
-import { PatientSearch, SearchResultType } from '@local/api-generated';
+import { PatientSearch } from '@local/api-generated';
 import { Flex, FoundIcon, Typography } from '@local/shared-components';
-import React from 'react';
-import styled, {css} from 'styled-components';
+import { List } from 'antd-mobile';
+import { PatientFountItem } from './PatientFountItem';
 
 type Props = {
-  data: SearchResultType<PatientSearch>;
+  data: PatientSearch[];
 };
 
 const PatientFound = ({ data }: Props) => {
-  const totalPatients = data.results.length;
+  const totalPatients = data.length;
 
   return (
-    <Container direction="column" fullWidth padding="xl" justify= 'center'>
-      <Flex fullWidth direction="row" padding="xs">
-        <FoundIcon />
-        <Typography variant="bodyLg" weight="bold">
-          {totalPatients} patient(s) found
+    <Flex direction="column" fullWidth padding="xl" justify="center">
+      <Flex padding="xs" direction="column">
+        <Flex fullWidth direction="row">
+          <FoundIcon />
+          <Typography variant="bodyLg" weight="bold">
+            {totalPatients} patient(s) found
+          </Typography>
+        </Flex>
+        <Typography variant="bodyLg" >
+          Please click to confirm & access the patient profile.
         </Typography>
       </Flex>
-      <Flex fullWidth padding="none">
-        <Typography variant="bodySm" align='center'>
-          Redirecting to list of available doctors
-        </Typography>
-      </Flex>
-    </Container>
+      <List style={{ margin: 0 }}>
+        {data.map((patient) => (
+          <List.Item key={patient.id}>
+            <PatientFountItem patient={patient} />
+          </List.Item>
+        ))}
+      </List>
+    </Flex>
   );
 };
 
 export default PatientFound;
-
-const Container = styled(Flex)`
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-`;
