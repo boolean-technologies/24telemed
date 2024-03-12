@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon';
 import { flatMap, groupBy } from 'lodash-es';
 import { isToday, isYesterday, format } from 'date-fns';
-import { Card, Flex, Typography } from '@local/shared-components';
+import { Card, Flex, IonIcon, Typography } from '@local/shared-components';
 import { InfiniteScroll, List } from 'antd-mobile';
 import { CallHistoryItem } from './CallHistoryItem';
 import { useSearchCallLogs } from '../../api/callLogs';
@@ -33,21 +33,45 @@ export function CallHistoryPage() {
   };
 
   return (
-    <Flex direction="column" padding="md">
-      {Object.keys(groupedCalls).map((date: string) => (
-        <Flex direction="column">
-          <Typography weight="bold">{formatGroupDate(date)}</Typography>
-          <Card padding="none">
-            <List mode="card" style={{ margin: 0 }}>
-              {groupedCalls[date].map((callLog: FullCallLog) => (
-                <List.Item key={callLog.id}>
-                  <CallHistoryItem callLog={callLog} />
-                </List.Item>
-              ))}
-            </List>
+    <Flex direction="column" padding="md" fullHeight>
+      {groupedCalls.length ? (
+        Object.keys(groupedCalls).map((date: string) => (
+          <Flex direction="column">
+            <Typography weight="bold">{formatGroupDate(date)}</Typography>
+            <Card padding="none">
+              <List mode="card" style={{ margin: 0 }}>
+                {groupedCalls[date].map((callLog: FullCallLog) => (
+                  <List.Item key={callLog.id}>
+                    <CallHistoryItem callLog={callLog} />
+                  </List.Item>
+                ))}
+              </List>
+            </Card>
+          </Flex>
+        ))
+      ) : (
+        <Flex fullHeight fullWidth>
+          <Card fullHeight>
+            <Flex
+              direction="column"
+              align="center"
+              justify="center"
+              padding="xl"
+              fullHeight
+              fullWidth
+            >
+              <IonIcon name="list-circle" size={100} color="primary2.main" />
+              <Typography variant="h3" align="center">
+                No Call History
+              </Typography>
+              <Typography variant="bodyLg" align="center">
+                Your call log is currently empty. Make your first call today or
+                check back later to see your call history here.
+              </Typography>
+            </Flex>
           </Card>
         </Flex>
-      ))}
+      )}
       {hasNextPage && (
         <InfiniteScroll loadMore={handleLoadMore} hasMore>
           Loading...

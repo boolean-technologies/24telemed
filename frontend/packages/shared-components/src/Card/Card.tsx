@@ -10,11 +10,12 @@ type CardProps = {
   children: ReactNode;
   className?: string;
   padding?: SpacingVariants;
+  fullHeight?: boolean;
 };
 
-export function Card({ title, subtitle, children, className, padding = "md" }: CardProps) {
+export function Card({ title, subtitle, children, className, padding = "md", fullHeight }: CardProps) {
   return (
-    <StyledRoot className={className} direction="column" padding={padding}>
+    <StyledRoot className={className} direction="column" padding={padding} fullHeight={fullHeight}>
       {(title || subtitle) && (
         <Flex direction="column" gap="none">
           <Typography weight="bold" variant="h6">{title}</Typography>
