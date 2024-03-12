@@ -8,61 +8,20 @@ import {
 import styled from 'styled-components';
 import Header from './Header';
 import { Form, Button, Input } from 'antd';
-import AvailableDoctors from './AvailableDoctors';
 import { Popup, SpinLoading } from 'antd-mobile';
 import { useSearchPatients } from '../../api/patient';
+import PatientFound from './PatientFound';
+
 
 type FieldType = {
   phoneNumber: string;
 };
 
-const doctors = [
-  {
-    id: '1',
-    name: 'Dr. Jane Smith',
-    speciality: 'Dermatologist',
-    location: 'New York, USA',
-    rating: 4.8,
-    totalRating: 120,
-  },
-  {
-    id: '2',
-    name: 'Dr. Mark Johnson',
-    speciality: 'Orthopedic Surgeon',
-    location: 'Los Angeles, USA',
-    rating: 4.7,
-    totalRating: 90,
-  },
-  {
-    id: '3',
-    name: 'Dr. Sarah Davis',
-    speciality: 'Pediatrician',
-    location: 'Chicago, USA',
-    rating: 4.9,
-    totalRating: 150,
-  },
-  {
-    id: '4',
-    name: 'Dr. Michael Brown',
-    speciality: 'Neurologist',
-    location: 'San Francisco, USA',
-    rating: 4.6,
-    totalRating: 80,
-  },
-  {
-    id: '4',
-    name: 'Dr. Michael Brown',
-    speciality: 'Neurologist',
-    location: 'San Francisco, USA',
-    rating: 4.6,
-    totalRating: 80,
-  }
-];
 
 export function HomePage() {
   const [phoneNumber, setPhoneNumber] = useState<string>('');
   const [enableSearch, setEnableSearch] = useState<boolean>(false);
-  const { data, isLoading, isError, error } = useSearchPatients(
+  const { data, isLoading } = useSearchPatients(
     { phoneNumber },
     {
       enabled: enableSearch,
@@ -127,7 +86,7 @@ export function HomePage() {
           </Form>
           <Popup
             visible={bottomSheetVisible}
-            bodyStyle={{ maxHeight: '75vh', overflow: 'scroll' }}
+            bodyStyle={{ maxHeight: '75vh', overflow: 'scroll', minHeight: '50vh' }}
             onClose={() => setBottomSheetVisible(false)}
             onMaskClick={() => setBottomSheetVisible(false)}
           >
@@ -140,12 +99,22 @@ export function HomePage() {
                   transform: 'translate(-50%, -50%)',
                 }}
               />
-            ) : (
-              <AvailableDoctors doctors={doctors} />
+            ) :  (
+              data && <PatientFound data={data} />
             )}
+
           </Popup>
         </Flex>
       </Flex>
     </>
   );
 }
+
+
+const PatientContainer = styled(Flex)<FlexProps>`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+`;

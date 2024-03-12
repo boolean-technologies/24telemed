@@ -77,12 +77,12 @@ export function LoginPage(): JSX.Element {
               rules={[
                 { required: true, message: 'Please input your username!' },
                 {
-                  type: 'email',
+                  type: 'string',
                   message: 'The input is not a valid username!',
                 },
               ]}
             >
-              <Input type="email" placeholder="Enter username" />
+              <Input type="text" placeholder="Enter username" />
             </Form.Item>
 
             <Form.Item
