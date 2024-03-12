@@ -7,3 +7,13 @@ export * from "./Icons/CancelIcon";
 export * from "./Icons/NigeriaFlagIcon";
 export * from "./Icons/BottomSheetCancelIcon"
 export * from "./Icons/LogoutIcon"
+export * from "./Icons/BottomSheetCancelIcon"
+export * from './Icons/HistoryIcon'
+export * from "./Icons/ProfileIcon"
+export * from './Icons/SearchIcon'
+export * from './Icons/ArrowDown'
+export * from './Icons/ClockIcon'
+export * from './Icons/LocationIcon'
+export * from './Icons/SeeAllIcon'
+export * from './Icons/RatingStarIcon'
+export * from './Icons/FoundIcon'

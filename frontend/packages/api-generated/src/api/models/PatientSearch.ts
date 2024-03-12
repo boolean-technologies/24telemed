@@ -9,6 +9,7 @@ export type PatientSearch = {
   first_name: string;
   last_name: string;
   gender: PatientSearch.gender;
+  address?: string | null;
 };
 export namespace PatientSearch {
   export enum gender {

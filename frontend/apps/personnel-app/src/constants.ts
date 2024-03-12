@@ -4,5 +4,7 @@ export enum Path {
     meeting = "/meeting",
     history = "/history",
     profile = "/profile",
-    logout = "/logout"
+    logout = "/logout",
+    registerPatient = "/register-patient",
+    patient = "/patient"
 }

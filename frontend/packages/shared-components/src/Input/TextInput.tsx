@@ -16,7 +16,7 @@ export interface TextInputProps extends React.ComponentProps<typeof BaseInput> {
   rightIcon?: React.ReactNode;
   leftIcon?: React.ReactNode;
   helperText?: string;
-  error: boolean;
+  error?: boolean;
   errorText?: string;
   label?: string;
 }
