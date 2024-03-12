@@ -14,7 +14,7 @@ type FormFieldType = {
   password: string;
 };
 
-export function LoginPage(): JSX.Element {
+export function LoginPage() {
   const login = useLogin();
   const [visible, setVisible] = useState(false);
   const navigate = useNavigate();
@@ -40,11 +40,12 @@ export function LoginPage(): JSX.Element {
         direction="column"
         align="center"
         justify="center"
+        padding="md"
         fullHeight
         fullWidth
-        style={{ maxWidth: 900, margin: 'auto' }}
+        style={{ maxWidth: 860, margin: 'auto', zIndex: 1 }}
       >
-        <Flex direction="column" gap="xl" align="flex-start" fullWidth>
+        <Flex direction="column" smAlign="center" gap="xl" align="flex-start" fullWidth>
           <Logo size="xl" />
           <div>
             <Typography variant="bodyXl" weight="bold">
@@ -63,7 +64,7 @@ export function LoginPage(): JSX.Element {
         >
           <Flex direction="column">
           {errorMessage && (
-          <Flex padding="sm">
+          <Flex padding="sm" fullWidth>
             <Alert
               message={errorMessage}
               type="error"
@@ -146,38 +147,15 @@ export function LoginPage(): JSX.Element {
 const StyledRoot = styled(Flex)`
   background-color: ${({ theme }) => theme.palette.common.white};
   height: 100vh;
-  margin: 0 auto;
-  padding: 0 200px;
-  position: relative;
-  ${({ theme }) =>
-    theme.breakpoints.xs.down(css`
-      padding: 0 20px;
-    `)}
-
-  ${({ theme }) =>
-    theme.breakpoints.sm.down(css`
-      padding: 0 50px;
-    `)}
+  width: 100vw;
 `;
 const HeaderImage = styled.img`
   width: 300px;
   height: 200px;
-
-  border-radius: 8px;
   position: absolute;
   right: 0;
   top: 0;
-  ${({ theme }) =>
-    theme.breakpoints.xs.down(css`
-      right: -50px;
-      top: 50px;
-    `)}
-
-  ${({ theme }) =>
-    theme.breakpoints.sm.down(css`
-      width: 200px;
-      height: 150px;
-    `)}
+  z-index: 0;
 `;
 
 const PasswordIconWrapper = styled.div`
