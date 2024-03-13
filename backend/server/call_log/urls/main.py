@@ -1,7 +1,7 @@
 from rest_framework.routers import DefaultRouter
-from ..views import CallLogViewSet
+from ..views import PersonnelCallLogViewSet
 
 router = DefaultRouter()
-router.register(r'', CallLogViewSet, basename='calllog')
+router.register(r'', PersonnelCallLogViewSet, basename='calllog')
 
 urlpatterns = router.urls

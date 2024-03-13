@@ -12,14 +12,21 @@ from .serializers import CallLogSerializer, FullCallLogSerializer
 from utils.permission import PersonnelPermission, DoctorPermission
 from .filters import CallLogFilter
 
-class CallLogViewSet(viewsets.ReadOnlyModelViewSet):
+
+class DoctorCallLogViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = CallLog.objects.all()
-    serializer_class = CallLogSerializer
+    serializer_class = FullCallLogSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = CallLogFilter
-    # permission_classes = [PersonnelPermission, DoctorPermission]
-
-
+    permission_classes = [DoctorPermission]
+    
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_authenticated:
+            return CallLog.objects.filter(doctor=user)
+        else:
+            return CallLog.objects.none()
+    
     @swagger_auto_schema(
         method='get',
         operation_description="Retrieve the call-log statistics",
@@ -41,6 +48,15 @@ class CallLogViewSet(viewsets.ReadOnlyModelViewSet):
             'total_failed': total_failed
         })
 
-class DoctorCallLogViewSet(CallLogViewSet):
+class PersonnelCallLogViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = FullCallLogSerializer
-    permission_classes = [DoctorPermission]
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = CallLogFilter
+    permission_classes = [PersonnelPermission]
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_authenticated:
+            return CallLog.objects.filter(health_care_assistant=user)
+        else:
+            return CallLog.objects.none()

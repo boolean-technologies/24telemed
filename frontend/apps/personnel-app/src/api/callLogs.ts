@@ -1,9 +1,9 @@
 import { InfiniteData, useInfiniteQuery } from '@tanstack/react-query';
 import {
-  DoctorsService,
   ApiError,
   SearchResultType,
   FullCallLog,
+  CallLogsService,
 } from '@local/api-generated';
 
 type SearchType = {
@@ -33,7 +33,7 @@ export const useSearchCallLogs = (
 ) =>
 useInfiniteQuery<InfiniteData<SearchResultType<FullCallLog>, unknown>, ApiError>({
     queryKey: ['callLogs', params],
-    queryFn: ({ pageParam = 1 }) => DoctorsService.doctorsCallLogsList(
+    queryFn: ({ pageParam = 1 }) => CallLogsService.callLogsList(
       params.status,
       params.callType,
       params.notesIcontains,

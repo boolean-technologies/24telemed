@@ -1,18 +1,18 @@
 import { Tag, type TagProps } from 'antd';
-import { CallLog } from '@local/api-generated';
+import { FullCallLog } from '@local/api-generated';
 
 type CallStatusProps = {
-  status: CallLog.status;
+  status: FullCallLog.status;
 };
 
 export function CallStatus({ status }: CallStatusProps) {
-  const colorStatus: Record<CallLog.status, TagProps['color']> = {
-    [CallLog.status.INITIATED]: "blue",
-    [CallLog.status.BUSY]: "error",
-    [CallLog.status.DECLINED]: "error",
-    [CallLog.status.FAILED]: 'error',
-    [CallLog.status.IN_PROGRESS]: "orange",
-    [CallLog.status.COMPLETED]: "success",
+  const colorStatus: Record<FullCallLog.status, TagProps['color']> = {
+    [FullCallLog.status.INITIATED]: "blue",
+    [FullCallLog.status.BUSY]: "error",
+    [FullCallLog.status.DECLINED]: "error",
+    [FullCallLog.status.FAILED]: 'error',
+    [FullCallLog.status.IN_PROGRESS]: "orange",
+    [FullCallLog.status.COMPLETED]: "success",
   };
   return (
     <Tag color={colorStatus[status] || 'error'} style={{ fontWeight: 'bold' }}>
