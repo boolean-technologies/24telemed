@@ -9,4 +9,4 @@ class PatientSerializer(serializers.ModelSerializer):
 class PatientSearchSerializer(serializers.ModelSerializer):
     class Meta:
         model = Patient
-        fields = ['id', 'phone_number', 'photo', 'first_name', 'last_name', 'gender', 'address']
+        fields = ['id', 'patient_id', 'phone_number', 'photo', 'first_name', 'last_name', 'gender', 'address']

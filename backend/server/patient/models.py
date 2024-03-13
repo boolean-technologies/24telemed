@@ -1,5 +1,6 @@
 from django.db import models
 import uuid
+import random
 
 class Gender(models.TextChoices):
     MALE = 'Male'
@@ -7,6 +8,7 @@ class Gender(models.TextChoices):
 
 class Patient(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    patient_id = models.CharField(max_length=11, unique=True, editable=False)
     phone_number = models.CharField(max_length=15, unique=True)
     photo = models.ImageField(upload_to='patient_photos/', blank=True, null=True)
     first_name = models.CharField(max_length=255)
@@ -29,3 +31,11 @@ class Patient(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
+    def save(self, *args, **kwargs):
+        if not self.patient_id:
+            is_unique = False
+            while not is_unique:
+                potential_id = ''.join(random.choices('0123456789', k=11))
+                is_unique = not Patient.objects.filter(patient_id=potential_id).exists()
+            self.patient_id = potential_id
+        super().save(*args, **kwargs)
