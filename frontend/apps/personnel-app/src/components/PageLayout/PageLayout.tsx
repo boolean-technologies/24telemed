@@ -5,6 +5,7 @@ import styled, { useTheme } from 'styled-components';
 import { Path } from '../../constants';
 import { IonIcon, Theme, Typography, useLogout } from '@local/shared-components';
 import { Layout } from 'antd';
+import { PageHeader } from './PageHeader';
 
 export function PageLayout() {
   const navigate = useNavigate();
@@ -53,15 +54,7 @@ export function PageLayout() {
 
   return (
     <StyledRoot>
-      {showHeader ? (
-        <StyledTop>
-          <NavBar onBack={() => navigate(-1)} style={{ height: 60 }}>
-            <Typography variant="h5" align="center">
-              {currentTab?.title}
-            </Typography>
-          </NavBar>
-        </StyledTop>
-      ) : null}
+      {showHeader ? <PageHeader title={currentTab?.title || ""} /> : null}
       <StyledContainer style={{ top: showHeader ? 60 : 0 }}>
         <Outlet />
       </StyledContainer>
@@ -99,16 +92,6 @@ export function PageLayout() {
     </StyledRoot>
   );
 }
-
-const StyledTop = styled.div`
-  border-bottom: solid 1px var(--adm-color-border);
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background: #fff;
-  z-index: 1;
-`;
 
 const StyledBottom = styled.div`
   flex: 0;
