@@ -6,10 +6,12 @@ import {
   LocationIcon,
   SeeAllIcon,
   RatingStarIcon,
+  Card,
 } from '@local/shared-components';
 import styled from 'styled-components';
-import { Card } from 'antd';
+
 import DoctorInfoComponent from './DoctorInfo';
+
 
 type DoctorsType = {
   id: string;
