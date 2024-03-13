@@ -4,7 +4,7 @@ import { Card, Flex } from '@local/shared-components';
 import { FormHeader } from './FormHeader';
 import styled from 'styled-components';
 import { StepStateProps } from './FormHeader/StepState';
-import { Layout } from 'antd';
+import { Form, Layout } from 'antd';
 import { useFormWizardNavigation } from './useFormWizardNavigation';
 import { BioDataPage } from './FormPages/BioDataPage';
 import { MedicalDataPage } from './FormPages/MedicalDataPage';
@@ -44,16 +44,22 @@ export function PatientRegistionPage() {
     },
   ];
 
+  const onFinish = (data: any) => {
+    console.log(data);
+  };
+
   return (
     <Layout>
       <PageHeader title="New Patient" />
       <StyledRoot padding="md" direction="column">
         <FormHeader steps={steps} current={step} total={steps.length} />
         <Card fullHeight>
-          {step === 0 ? <BioDataPage /> : null}
-          {step === 1 ? <MedicalDataPage /> : null}
-          {step === 2 ? <ContactDataPage /> : null}
-          {step === 3 ? <PreviewPage /> : null}
+          <Form name="newPatient" layout="vertical" onFinish={onFinish}>
+            {step === 0 ? <BioDataPage /> : null}
+            {step === 1 ? <MedicalDataPage /> : null}
+            {step === 2 ? <ContactDataPage /> : null}
+            {step === 3 ? <PreviewPage /> : null}
+          </Form>
         </Card>
         <Flex fullWidth justify="space-between">
           {step === 0 ? <div /> : <Button onClick={goBack}>Previous</Button>}
@@ -80,4 +86,5 @@ const StyledRoot = styled(Flex)`
   top: 60px;
   width: 100vw;
   height: calc(100vh - 60px);
+  overflow: scroll;
 `;

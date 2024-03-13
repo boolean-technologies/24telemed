@@ -41,7 +41,7 @@ function Main() {
       },
       Button: {
         controlHeight: 45,
-        colorBgBase: 'red',
+        colorBgBase: theme.palette.error,
       },
       Tabs: {
         itemSelectedColor: theme.palette.primary2.main,
@@ -49,6 +49,12 @@ function Main() {
       Collapse: {
         contentBg: theme.palette.neutral.main,
       },
+      Select: {
+        controlHeight: 45,
+      },
+      DatePicker: {
+        controlHeight: 45,
+      }
     },
   };
 
