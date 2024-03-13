@@ -3,7 +3,7 @@ import { Flex, Typography } from '@local/shared-components';
 import { Card, Collapse, Divider, CollapseProps } from 'antd';
 import styled from 'styled-components';
 
-export type Props = {
+ type Props = {
   patient: Patient;
 };
 
@@ -18,13 +18,13 @@ const MedicalHistory = ({ patient }: Props) => {
     {
       key: '1',
       label: <Typography variant="bodyMd">Immunization Record</Typography>,
-      children: <Typography variant="bodyMd">{immunization_record}</Typography>,
+      children: <Typography variant="bodySm">{immunization_record}</Typography>,
     },
     {
       key: '2',
       label: <Typography variant="bodyMd">Family Medical History</Typography>,
       children: (
-        <Typography variant="bodyMd">{family_medical_history}</Typography>
+        <Typography variant="bodySm">{family_medical_history}</Typography>
       ),
     },
   ];

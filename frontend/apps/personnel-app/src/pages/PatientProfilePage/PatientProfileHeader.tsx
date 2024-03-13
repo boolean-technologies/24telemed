@@ -27,7 +27,7 @@ const PatientProfileHeader = ({ patient }: Props) => {
           </Typography>
         </Flex>
 
-        <Flex direction="row" gap="none">
+        <Flex direction="row" gap="md">
           <Typography variant="bodyMd" >
             {patient.phone_number}
           </Typography>
