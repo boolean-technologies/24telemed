@@ -25,9 +25,7 @@ const Tab = ({ patient }: Props) => {
       }}
       tabBarGutter={5}
     >
-      <TabPane tab="Medical History" key="1" style={{
-        
-      }}>
+      <TabPane tab="Medical History" key="1" >
         <MedicalHistory patient={patient} />
       </TabPane>
       <TabPane tab="Available Doctors" key="2">
