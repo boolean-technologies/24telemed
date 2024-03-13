@@ -1,15 +1,9 @@
 import React from 'react';
 import { DoctorAvatar } from '../../assets';
-import {
-  Flex,
-  Typography,
-  LocationIcon,
-  SeeAllIcon,
-  RatingStarIcon,
-} from '@local/shared-components';
-import styled from 'styled-components';
-import { Card } from 'antd';
+import { Flex, Typography, SeeAllIcon } from '@local/shared-components';
+
 import DoctorInfoComponent from './DoctorInfo';
+import { Card } from 'antd';
 
 type DoctorsType = {
   id: string;
@@ -57,7 +51,3 @@ const AvailableDoctors = ({ doctors }: Props) => {
 };
 
 export default AvailableDoctors;
-
-const SellAllContainer = styled(Flex)`
-  cursor: pointer;
-`;
