@@ -40,11 +40,11 @@ const routes: RouteObject[] = [
             path: Path.profile,
             element: <ProfilePage />,
           },
+          {
+            path: Path.patient + '/:patientId',
+            element: <PatientProfilePage />,
+          },
         ],
-      },
-      {
-        path: Path.patient + '/:patientId',
-        element: <PatientProfilePage />,
       },
       {
         path: Path.registerPatient,

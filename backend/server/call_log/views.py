@@ -13,6 +13,13 @@ from utils.permission import PersonnelPermission, DoctorPermission
 from .filters import CallLogFilter
 
 
+class CallLogViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = CallLog.objects.all()
+    serializer_class = CallLogSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = CallLogFilter
+    permission_classes = [DoctorPermission, PersonnelPermission]
+
 class DoctorCallLogViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = CallLog.objects.all()
     serializer_class = FullCallLogSerializer

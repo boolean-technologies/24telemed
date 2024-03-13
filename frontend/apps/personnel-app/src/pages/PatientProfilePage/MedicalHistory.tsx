@@ -1,9 +1,9 @@
 import { Patient } from '@local/api-generated';
 import { Flex, Typography } from '@local/shared-components';
-import { Card, Collapse, Divider, CollapseProps } from 'antd';
+import { Card, Collapse, Divider, CollapseProps, Space } from 'antd';
 import styled from 'styled-components';
 
- type Props = {
+type Props = {
   patient: Patient;
 };
 
@@ -56,8 +56,7 @@ const MedicalHistory = ({ patient }: Props) => {
           />
         </Flex>
       </Flex>
-      <Divider />
-      <Collapse items={items} />
+      <Collapse items={items} style={{ marginTop: 24 }} />
     </StyledCard>
   );
 };
@@ -70,9 +69,9 @@ const StyledCard = styled(Card)`
 
 const PatientValue = ({ label, value }: PatientValueProps) => (
   <Flex direction="column" gap="none">
-    <Typography variant="bodySm" weight="bold">
+    <Typography weight="bold">
       {label}:
     </Typography>
-    <Typography variant="bodySm">{value}</Typography>
+    <Typography>{value || "-"}</Typography>
   </Flex>
 );

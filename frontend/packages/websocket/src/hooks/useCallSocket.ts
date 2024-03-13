@@ -6,7 +6,7 @@ import { CallLog } from "@local/api-generated";
 
 export type WebSocketMessage<EventType> = {
   type: EventType;
-  data: CallLog | undefined;
+  data: CallLog | string[] | undefined;
 };
 
 export enum MessageType {

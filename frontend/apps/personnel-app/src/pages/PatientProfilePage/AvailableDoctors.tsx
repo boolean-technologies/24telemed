@@ -23,12 +23,7 @@ const AvailableDoctors = ({ doctors }: Props) => {
     <Flex direction="column" fullWidth fullHeight>
       <Flex direction="row" justify="space-between" gap="none">
         <Typography variant="bodyLg">Available Doctors</Typography>
-        <Flex direction="row" gap="sm">
-          <Typography variant="bodyXs" color="primary2.main">
-            See All
-          </Typography>
-          <SeeAllIcon />
-        </Flex>
+        
       </Flex>
       <Card>
         <Flex direction="column" gap="sm" fullWidth fullHeight>

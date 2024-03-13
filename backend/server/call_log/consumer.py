@@ -31,7 +31,6 @@ class InMessageType(TypedDict):
     isRoomCreated: Optional[bool]
 
 class CallLogWebSocketConsumer(AsyncWebsocketConsumer):
-    # connected_clients: List[ConnectedChannel] = []
     connected_clients: Dict[str, ConnectedChannel] = {}
     
 
@@ -55,7 +54,6 @@ class CallLogWebSocketConsumer(AsyncWebsocketConsumer):
             "channel_name": self.channel_name
         }
         self.userId = userId
-        # self.connected_clients.append(connection)
         self.connected_clients[userId] = connection
         print(self.connected_clients.keys())
         
@@ -72,7 +70,6 @@ class CallLogWebSocketConsumer(AsyncWebsocketConsumer):
             message: InMessageType = json.loads(text_data)
             messageName = message["type"]
 
-            # Define a dictionary mapping message names to their handlers
             message_handlers: Dict[InMessageNameType, Callable[[Union[CallADoctorType, CallLogDataType]], None]] = {
                 "NOTIFY-SERVER-CALL-A-DOCTOR": self.handleCallDoctor,
                 "NOTIFY-SERVER-DECLINE-CALL": self.handleDeclineCall,
@@ -81,7 +78,6 @@ class CallLogWebSocketConsumer(AsyncWebsocketConsumer):
                 "NOTIFY-SERVER-DOCTOR-IS-BUSY": self.handleDoctorIsBusy
             }
 
-            # Call the appropriate handler based on the message name
             if messageName in message_handlers:
                 handler = message_handlers[messageName]
                 await handler(message)
@@ -91,11 +87,18 @@ class CallLogWebSocketConsumer(AsyncWebsocketConsumer):
 
     # TODO: Modify this to send to only health care personnel
     async def sendConnectedClients(self):
+        connection_list = list(self.connected_clients.values())
+        doctor_ids = [client['user_id'] for client in connection_list if client['type'] == 'doctor']
         message: OutMessageType = {
-            'name': "NEW-CONNECTION",
-            'data': self.connected_clients,
+            'type': "AVAILABLE_DOCTORS",
+            'data': doctor_ids,
         }
-        await self.send(text_data=json.dumps(message))
+        
+        personnel_connections = [client['channel_name'] for client in connection_list if client['type'] == "health-care-assistant"]
+        
+        for channel_name in personnel_connections:
+            print("Send to health care:", message)
+            await self.sendNotification(channel_name, message)
         
     
     async def sendNotification(self, channel_name: str, message: OutMessageType):
@@ -182,6 +185,9 @@ class CallLogWebSocketConsumer(AsyncWebsocketConsumer):
             pass 
     
     # Handlers
+    async def AVAILABLE_DOCTORS(self, event):
+        await self.send(text_data=json.dumps(event))
+  
     async def NOTIFY_DOCTOR_CLIENT_INCOMING_CALL(self, event):
         await self.send(text_data=json.dumps(event))
     

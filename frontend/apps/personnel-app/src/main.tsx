@@ -45,6 +45,7 @@ function Main() {
       },
       Tabs: {
         itemSelectedColor: theme.palette.primary2.main,
+        titleFontSize: 18,
       },
       Collapse: {
         contentBg: theme.palette.neutral.main,
@@ -54,7 +55,7 @@ function Main() {
       },
       DatePicker: {
         controlHeight: 45,
-      }
+      },
     },
   };
 

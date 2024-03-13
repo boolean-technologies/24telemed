@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { CallLog } from '../models/CallLog';
 import type { FullCallLog } from '../models/FullCallLog';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -52,6 +53,68 @@ export class CallLogsService {
         order: order,
         page: page,
         size: size,
+      },
+    });
+  }
+  /**
+   * @param status status
+   * @param callType call_type
+   * @param notesIcontains notes__icontains
+   * @param order Ordering
+   * @param page A page number within the paginated result set.
+   * @param size Number of results to return per page.
+   * @returns any
+   * @throws ApiError
+   */
+  public static callLogsMainList(
+    status?:
+      | 'Initiated'
+      | 'In Progress'
+      | 'Completed'
+      | 'Declined'
+      | 'Failed'
+      | 'Busy',
+    callType?: 'Video' | 'Audio',
+    notesIcontains?: string,
+    order?:
+      | 'start_time'
+      | '-start_time'
+      | 'created_at'
+      | '-created_at'
+      | 'priority'
+      | '-priority',
+    page?: number,
+    size?: number
+  ): CancelablePromise<{
+    count: number;
+    next?: string | null;
+    previous?: string | null;
+    results: Array<CallLog>;
+  }> {
+    return __request(OpenAPI, {
+      method: 'GET',
+      url: '/call-logs/main/',
+      query: {
+        status: status,
+        call_type: callType,
+        notes__icontains: notesIcontains,
+        order: order,
+        page: page,
+        size: size,
+      },
+    });
+  }
+  /**
+   * @param id A UUID string identifying this call log.
+   * @returns CallLog
+   * @throws ApiError
+   */
+  public static callLogsMainRead(id: string): CancelablePromise<CallLog> {
+    return __request(OpenAPI, {
+      method: 'GET',
+      url: '/call-logs/main/{id}/',
+      path: {
+        id: id,
       },
     });
   }

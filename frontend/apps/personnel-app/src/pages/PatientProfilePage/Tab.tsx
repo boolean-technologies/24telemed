@@ -1,37 +1,45 @@
-import { Tabs } from 'antd';
-import TabPane from 'antd/es/tabs/TabPane';
-import styled from 'styled-components';
+import { Badge, Tabs } from 'antd';
 import MedicalHistory from './MedicalHistory';
 import { Patient } from '@local/api-generated';
 import AvailableDoctors from './AvailableDoctors';
 import { doctors } from '../../mockdata/availaibledoctors';
+import { usePersonnelCommunication } from '@local/websocket';
 
 export type Props = {
   patient: Patient;
 };
 
 const Tab = ({ patient }: Props) => {
+  const { availableDoctors } = usePersonnelCommunication();
   return (
     <Tabs
-      defaultActiveKey="1"
+      defaultActiveKey="medicalHistory"
       type="card"
-      centered
       tabBarStyle={{
-        color: 'black',
-        fontSize: '1.25rem',
-        lineHeight: '1.5',
-        width: '80vw',
-        
+        width: 'calc(100vw - 32px)',
       }}
-      tabBarGutter={5}
-    >
-      <TabPane tab="Medical History" key="1" >
-        <MedicalHistory patient={patient} />
-      </TabPane>
-      <TabPane tab="Available Doctors" key="2">
-        <AvailableDoctors doctors={doctors} />
-      </TabPane>
-    </Tabs>
+      tabBarGutter={8}
+      items={[
+        {
+          key: 'medicalHistory',
+          label: 'Medical History',
+          children: <MedicalHistory patient={patient} />,
+        },
+        {
+          key: 'availableDoctors',
+          label: (
+            <>
+              Available Doctors{' '}
+              <Badge
+                count={availableDoctors.length}
+                style={{ fontWeight: 'bold' }}
+              />
+            </>
+          ),
+          children: <AvailableDoctors doctors={doctors} />,
+        },
+      ]}
+    />
   );
 };
 export default Tab;

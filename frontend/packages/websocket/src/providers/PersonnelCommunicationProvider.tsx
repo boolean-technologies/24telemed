@@ -12,7 +12,8 @@ export interface PersonnelWebSocketContextType {
   callStatus: PersonnelCallEventType | undefined;
   callDoctor: (callData: CallMessage) => void;
   endCall: () => void;
-  message: WebSocketMessage<PersonnelCallEventType> | null
+  message: WebSocketMessage<PersonnelCallEventType> | null;
+  availableDoctors: string[];
 }
 
 const PersonnelWebSocketContext = createContext<PersonnelWebSocketContextType>({
@@ -22,6 +23,7 @@ const PersonnelWebSocketContext = createContext<PersonnelWebSocketContextType>({
   callDoctor: (callData: CallMessage) => {},
   endCall: () => {},
   message: null,
+  availableDoctors: [],
 });
 
 export const usePersonnelCommunication = () =>

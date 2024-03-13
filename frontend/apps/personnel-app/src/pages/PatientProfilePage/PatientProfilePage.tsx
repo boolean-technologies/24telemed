@@ -3,7 +3,6 @@ import { useGetPatient } from '../../api/patient';
 import {
   Flex,
   PageLoading,
-  Typography,
   FlexProps,
 } from '@local/shared-components';
 import styled from 'styled-components';
@@ -16,20 +15,19 @@ export function PatientProfilePage() {
   if (isLoading) return <PageLoading />;
 
   if (!patient) return null;
+  
   return (
-    <Root direction="column" gap="xl" fullHeight>
+    <Root direction="column" fullHeight fullWidth>
       <PatientProfileHeader patient={patient} />
-      <TabContainer padding="xl" align="center" justify="center">
+      <TabContainer align="center" justify="center">
         <Tab patient={patient} />
       </TabContainer>
     </Root>
   );
 }
 
-const TabContainer = styled(Flex)`
-`;
+const TabContainer = styled(Flex)``;
 
 const Root = styled(Flex)<FlexProps>`
   background-color: ${({ theme }) => theme.palette.common.white};
-  height: 100%;
 `;
