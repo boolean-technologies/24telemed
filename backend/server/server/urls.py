@@ -62,7 +62,8 @@ urlpatterns = [
     path('call-logs/', include('call_log.urls.main')),
     path('users/', include('users.urls')),
     
-    path('patients/', include('patient.urls')),
+    path('patients/', include('patient.urls.patient')),
     path('doctors/medical-encounters/', include('medication.urls')),
     path('doctors/call-logs/', include('call_log.urls.doctors')),
+    path('patient-access-logs/', include('patient.urls.access_log')),
 ]

@@ -1,6 +1,7 @@
 from django.db import models
 import uuid
 import random
+from users.models import User
 
 class Gender(models.TextChoices):
     MALE = 'Male'
@@ -39,3 +40,10 @@ class Patient(models.Model):
                 is_unique = not Patient.objects.filter(patient_id=potential_id).exists()
             self.patient_id = potential_id
         super().save(*args, **kwargs)
+
+    
+class PatientAccessLog(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
