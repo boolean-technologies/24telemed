@@ -33,5 +33,9 @@ class Patient(models.Model):
     
     def save(self, *args, **kwargs):
         if not self.patient_id:
-            self.patient_id = ''.join(random.choices('0123456789', k=11))
+            is_unique = False
+            while not is_unique:
+                potential_id = ''.join(random.choices('0123456789', k=11))
+                is_unique = not Patient.objects.filter(patient_id=potential_id).exists()
+            self.patient_id = potential_id
         super().save(*args, **kwargs)
