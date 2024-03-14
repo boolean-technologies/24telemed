@@ -63,7 +63,7 @@ class CallLogWebSocketConsumer(AsyncWebsocketConsumer):
             await self.sendConnectedClientsToCurrent()
 
     async def disconnect(self, close_code):
-        if self.userId:
+        if self.userId and self.userId in self.connected_clients:
             del self.connected_clients[self.userId]
         await self.sendConnectedClientsToPersonnels()
 
