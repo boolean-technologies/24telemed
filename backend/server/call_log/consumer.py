@@ -58,12 +58,14 @@ class CallLogWebSocketConsumer(AsyncWebsocketConsumer):
         print(self.connected_clients.keys())
         
         if connection["type"] == "doctor":
-            await self.sendConnectedClients()
+            await self.sendConnectedClientsToPersonnels()
+        else:
+            await self.sendConnectedClientsToCurrent()
 
     async def disconnect(self, close_code):
         if self.userId:
             del self.connected_clients[self.userId]
-        await self.sendConnectedClients()
+        await self.sendConnectedClientsToPersonnels()
 
     async def receive(self, text_data):
         try:
@@ -84,20 +86,23 @@ class CallLogWebSocketConsumer(AsyncWebsocketConsumer):
         except KeyError:
             pass
 
-
-    # TODO: Modify this to send to only health care personnel
-    async def sendConnectedClients(self):
+    def getAvailableDoctorsMessage(self):
         connection_list = list(self.connected_clients.values())
         doctor_ids = [client['user_id'] for client in connection_list if client['type'] == 'doctor']
         message: OutMessageType = {
             'type': "AVAILABLE_DOCTORS",
             'data': doctor_ids,
         }
-        
+        return (message, connection_list)
+
+    async def sendConnectedClientsToCurrent(self):
+        message, _ = self.getAvailableDoctorsMessage()
+        await self.sendNotification(self.channel_name, message)
+
+    async def sendConnectedClientsToPersonnels(self):
+        message, connection_list = self.getAvailableDoctorsMessage()
         personnel_connections = [client['channel_name'] for client in connection_list if client['type'] == "health-care-assistant"]
-        
         for channel_name in personnel_connections:
-            print("Send to health care:", message)
             await self.sendNotification(channel_name, message)
         
     

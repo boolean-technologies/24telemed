@@ -4,6 +4,6 @@ import { UsersService, ApiError, UserSearch } from '@local/api-generated';
 export const useGetPersonnel = (personnelId?: string) =>
   useQuery<UserSearch, ApiError>({
     queryKey: ['users', personnelId],
-    queryFn: () => UsersService.usersDoctorsRead(personnelId as string),
+    queryFn: () => UsersService.usersPersonnelsRead(personnelId as string),
     enabled: !!personnelId,
   });

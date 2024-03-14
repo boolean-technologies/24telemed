@@ -4,8 +4,8 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from drf_yasg.utils import swagger_auto_schema
 from .models import User
-from .serializers import UserSerializer, UserSearchSerializer
-from utils.permission import DoctorPermission
+from .serializers import UserSerializer, UserSearchSerializer, DoctorSerializer
+from utils.permission import DoctorPermission, PersonnelPermission
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -23,6 +23,11 @@ class UserViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 class DoctorUserViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = DoctorSerializer
+    permission_classes = [PersonnelPermission]
+
+class PersonnelUserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSearchSerializer
     permission_classes = [DoctorPermission]

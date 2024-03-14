@@ -36,7 +36,7 @@ const Tab = ({ patient }: Props) => {
               />
             </>
           ),
-          children: <AvailableDoctors doctors={doctors} />,
+          children: <AvailableDoctors  />,
         },
       ]}
     />

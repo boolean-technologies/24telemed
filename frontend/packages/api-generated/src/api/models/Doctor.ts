@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type UserSearch = {
+export type Doctor = {
   readonly id?: string;
   first_name?: string;
   last_name?: string;
@@ -11,4 +11,5 @@ export type UserSearch = {
    */
   username: string;
   readonly photo?: string | null;
+  specialty?: string | null;
 };
