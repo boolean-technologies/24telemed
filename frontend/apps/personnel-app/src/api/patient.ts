@@ -8,9 +8,10 @@ export const useSearchPatients = () =>
       PatientsService.patientsSearch(searchQuery),
   });
 
-  export const useGetPatient = (id: string) =>
+  export const useGetPatient = (id?: string) =>
   useQuery<Patient>({
     queryKey: ['patients', id],
-    queryFn: () => PatientsService.patientsRead(id),
+    queryFn: () => PatientsService.patientsRead(id as string),
+    enabled: !!id
   });
   
