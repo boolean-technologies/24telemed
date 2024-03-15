@@ -8,9 +8,13 @@ import {
 } from '@ant-design/icons';
 import { UserAvatar } from '../../../components/PageLayout/UserAvatar';
 import { useGetCurrentUser } from '../../../api/personnels';
+import { User } from '@local/api-generated';
 
-export function ProfilePreview() {
-  const { data: user } = useGetCurrentUser();
+type ProfilePreviewProps = {
+  user: User;
+};
+export function ProfilePreview({ user }: ProfilePreviewProps) {
+  
   
   const theme = useTheme() as Theme;
 
