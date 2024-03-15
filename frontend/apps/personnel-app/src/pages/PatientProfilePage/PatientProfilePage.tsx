@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetPatient } from '../../api/patient';
-import { Flex, PageLoading, FlexProps, Theme } from '@local/shared-components';
+import { Flex, PageLoading, Theme } from '@local/shared-components';
 import styled, { useTheme } from 'styled-components';
 import PatientProfileHeader from './PatientProfileHeader';
 import { Badge, Drawer, Tabs } from 'antd';

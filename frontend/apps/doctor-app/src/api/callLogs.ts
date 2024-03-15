@@ -51,7 +51,7 @@ export const useGetCallLogStats = (
   options?: UseQueryOptions<CallStats>
 ) =>
   useQuery<CallStats, ApiError>({
-    queryKey: ['callLogsStats', params],
+    queryKey: ['callLogs', 'stats', params],
     queryFn: () => DoctorsService.doctorsCallLogsCallStats(
       params.status,
       params.callType,

@@ -37,7 +37,8 @@ export function VideoCallSDK({ meetingId, participantName, setIsMeetingLeft }: V
   }, [isMobile]);
 
   return (
-    <MeetingAppProvider>
+    <div id="meeting">
+      <MeetingAppProvider>
       <MeetingProvider
         config={{
           meetingId,
@@ -64,6 +65,7 @@ export function VideoCallSDK({ meetingId, participantName, setIsMeetingLeft }: V
         />
       </MeetingProvider>
     </MeetingAppProvider>
+    </div>
   );
 }
 

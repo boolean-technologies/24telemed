@@ -29,6 +29,7 @@ export function PatientName({ data }: PatientNameProps) {
 const StyledIconWrapper = styled(Flex)`
     width: 40px;
     height: 40px;
+    min-width: 40px;
     border-radius: 100%;
     border: ${({ theme }) => theme.border.primary.main};
 `;

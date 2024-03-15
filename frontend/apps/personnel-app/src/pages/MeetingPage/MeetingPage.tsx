@@ -1,4 +1,4 @@
-import { useCurrentUser } from '@local/api-generated';
+import { CallLog, useCurrentUser } from '@local/api-generated';
 import { PageLoading } from '@local/shared-components';
 import { VideoCallSDK } from '@local/videosdk-rtc-component';
 import { usePersonnelCommunication } from '@local/websocket';
@@ -11,7 +11,7 @@ export function MeetingPage() {
 
   const { endCall, message } = usePersonnelCommunication();
 
-  const meetingId = message?.data?.meeting_id;
+  const meetingId = (message?.data as CallLog)?.meeting_id;
 
   const onCallEnded = () => {
     endCall();

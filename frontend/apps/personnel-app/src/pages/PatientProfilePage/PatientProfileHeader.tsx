@@ -10,8 +10,8 @@ type Props = {
 const PatientProfileHeader = ({ patient }: Props) => {
   const patientName = `${patient.first_name} ${patient.last_name}`;
   return (
-    <Flex fullWidth padding="xl" justify="space-between">
-      <Flex direction="row" gap="sm" align="center">
+    <Flex fullWidth padding="xl" justify="space-between"  xsDirection="column">
+      <Flex direction="row" gap="sm" align="center" xsDirection="column">
         <Image
           width={100}
           height={100}
@@ -21,11 +21,11 @@ const PatientProfileHeader = ({ patient }: Props) => {
         />
         <Flex direction="column" gap="xs">
           <Flex direction="row" gap="xs">
-            <Typography variant="bodyXl" weight="bold">
+            <Typography variant="bodyXl" weight="bold" xsAlign="center">
               {patientName} ({patient.age}yrs) ({patient.gender.charAt(0)})
             </Typography>
           </Flex>
-          <Flex direction="row" gap="xs">
+          <Flex direction="row" gap="xs" xsDirection="column">
             <Tag color="orange">
               Patient ID: <strong>{patient.phone_number}</strong>
             </Tag>
@@ -33,7 +33,7 @@ const PatientProfileHeader = ({ patient }: Props) => {
               Phone number: {patient.phone_number}
             </Typography>
           </Flex>
-          <Flex direction="row" gap="xs">
+          <Flex direction="row" gap="xs" xsDirection="column">
             <Typography variant="bodyMd">Last visit date:</Typography>
             <Tag>
               <IonIcon name="time" outlined /> 2 days ago

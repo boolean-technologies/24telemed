@@ -1,6 +1,5 @@
 import uuid
 from django.db import models
-from django.utils import timezone
 from enum import Enum
 from users.models import User
 from patient.models import Patient
@@ -60,7 +59,7 @@ class CallLog(models.Model):
         self.save()
 
     def setToCompleted(self):
-        self.status = CallStatus.IN_PROGRESS
+        self.status = CallStatus.COMPLETED
         self.save()
 
     def setToDeclined(self, note = None):

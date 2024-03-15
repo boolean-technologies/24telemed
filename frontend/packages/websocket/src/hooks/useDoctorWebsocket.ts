@@ -4,6 +4,7 @@ import { MessageType, UserType, WebSocketMessage, useCallSocket } from './useCal
 export enum DoctorCallEventType {
   INCOMING = 'NOTIFY_DOCTOR_CLIENT_INCOMING_CALL',
   ENDED = 'ended',
+  ENDED_REMOTELY = 'NOTIFY_PERSONNEL_CLIENT_DOCTOR_ENDED_CALL',
   ANSWERED = 'answered',
   DECLINED = 'declined',
 }
@@ -21,6 +22,8 @@ export function useDoctorWebSocket(userId: string, type: UserType) {
         } else {
           setCallStatus(DoctorCallEventType.INCOMING);
         }
+      } else if (message.type === DoctorCallEventType.ENDED_REMOTELY) {
+        setCallStatus(DoctorCallEventType.ENDED);
       }
     },
     [setCallStatus, setIsBusy]

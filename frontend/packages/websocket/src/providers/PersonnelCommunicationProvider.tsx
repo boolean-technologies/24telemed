@@ -11,7 +11,7 @@ export interface PersonnelWebSocketContextType {
   isOngoingCall: boolean;
   callStatus: PersonnelCallEventType | undefined;
   callDoctor: (callData: CallMessage) => void;
-  endCall: () => void;
+  endCall: (send?: boolean) => void;
   message: WebSocketMessage<PersonnelCallEventType> | null;
   availableDoctors: string[];
 }

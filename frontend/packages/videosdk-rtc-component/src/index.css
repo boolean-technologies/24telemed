@@ -191,6 +191,6 @@ input[type="radio"]:checked + label{
 
 
 button, [type="button"], [type="reset"], [type="submit"] {
-	background-color: #000000;
+	background-color: black;
 	background-image: none;
 }
