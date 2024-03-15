@@ -7,10 +7,10 @@ import {
   Theme,
   createTheme,
 } from '@local/shared-components';
-import { ToastContainer } from 'react-toastify';
+// import { ToastContainer } from 'react-toastify';
 import { ConfigProvider, type ThemeConfig } from 'antd';
 
-import 'react-toastify/dist/ReactToastify.css';
+// import 'react-toastify/dist/ReactToastify.css';
 import { OpenAPI, TOKEN_KEY } from '@local/api-generated';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './router';
@@ -75,7 +75,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <>
-    <ToastContainer
+    {/* <ToastContainer
       toastClassName={() =>
         'relative flex py-4 px-3 rounded overflow-hidden cursor-pointer bg-white shadow-lg'
       }
@@ -91,7 +91,7 @@ root.render(
       draggable
       pauseOnHover
       theme="light"
-    />
+    /> */}
     <ThemeProvider theme={theme}>
       <Main />
     </ThemeProvider>

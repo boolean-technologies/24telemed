@@ -1,36 +1,37 @@
 import { CallLog, useCurrentUser } from '@local/api-generated';
 import { PageLoading } from '@local/shared-components';
-import { VideoCallSDK } from '@local/videosdk-rtc-component';
+import { VideoCall, VideoCallSDK } from '@local/videosdk-rtc-component';
 import { useDoctorCommunication } from '@local/websocket';
 import { useNavigate } from 'react-router-dom';
 import { Path } from '../../constants';
 
 export function MeetingPage() {
-  const navigate = useNavigate();
-  const { data } = useCurrentUser();
+  // const navigate = useNavigate();
+  // const { data } = useCurrentUser();
 
-  const { endCall, message } = useDoctorCommunication();
+  // const { endCall, message } = useDoctorCommunication();
 
-  const meetingId = (message?.data as CallLog)?.meeting_id;
+  // const meetingId = (message?.data as CallLog)?.meeting_id;
 
-  const onCallEnded = () => {
-    endCall();
-    navigate(Path.home);
-  };
+  // const onCallEnded = () => {
+  //   endCall();
+  //   navigate(Path.home);
+  // };
 
-  const fullName = [data?.first_name, data?.last_name]
-    .filter(Boolean)
-    .join(' ');
+  // const fullName = [data?.first_name, data?.last_name]
+  //   .filter(Boolean)
+  //   .join(' ');
 
-  if (!data || !meetingId) {
-    return <PageLoading />;
-  }
+  // if (!data || !meetingId) {
+  //   return <PageLoading />;
+  // }
 
-  return (
-    <VideoCallSDK
-      participantName={fullName}
-      meetingId={meetingId}
-      setIsMeetingLeft={onCallEnded}
-    />
-  );
+  // return (
+  //   <VideoCallSDK
+  //     participantName={fullName}
+  //     meetingId={meetingId}
+  //     setIsMeetingLeft={onCallEnded}
+  //   />
+  // );
+  return <VideoCall />
 }

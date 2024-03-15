@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import './index.css';
+// import './index.css';
 import { MeetingProvider } from "@videosdk.live/react-sdk";
 import { useState } from "react";
 import { MeetingAppProvider } from "./MeetingAppContextDef";
