@@ -17,6 +17,7 @@ import { PasswordForm } from './Forms/PasswordForm';
 import { LocationForm } from './Forms/LocationForm';
 import { SpecialtyForm } from './Forms/SpecialtyForm';
 import styled from 'styled-components';
+import { useGetCurrentUser } from '../../api/personnels';
 
 type DrawerFormType =
   | 'email'
@@ -27,29 +28,32 @@ type DrawerFormType =
   | 'specialty';
 
 export function ProfilePage() {
+  const { data: user } = useGetCurrentUser();
+  const name = `${user?.first_name} ${user?.last_name}`;
   const [drawerForm, setDrawerForm] = useState<DrawerFormType>();
   const data = [
     {
       name: 'Email',
-      value: 'tobi.sholanke@mailer.com',
+      value: user?.email,
       icon: <MailOutlined />,
       onClick: () => setDrawerForm('email'),
     },
     {
       name: 'Username',
-      value: 'tobi.sholanke',
+      value: user?.username,
       icon: <CheckCircleOutlined />,
       onClick: () => setDrawerForm('username'),
     },
     {
       name: 'Name',
-      value: 'Sholanke Tobi',
+      value: name,
       icon: <UserOutlined />,
       onClick: () => setDrawerForm('name'),
     },
     {
       name: 'Location',
-      value: 'Lagos, Island',
+      // TODO: replace with actual location
+      value: "Lagos, Nigeria",
       icon: <EnvironmentOutlined />,
       onClick: () => setDrawerForm('location'),
     },
@@ -62,7 +66,8 @@ export function ProfilePage() {
     {
       name: 'Specialty',
       value:
-        "These steps outline how to customize Ant Design's theme, including the height of form inputs, within a Create React App project without ejecting, providing a streamlined way to apply global theme customizations.",
+        user?.specialty ||
+        'Add your specialty to help patients find you easily',
       icon: <BookOutlined />,
       onClick: () => setDrawerForm('specialty'),
     },

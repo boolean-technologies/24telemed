@@ -1,9 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
-import { UsersService, ApiError, UserSearch } from '@local/api-generated';
+import { UsersService, ApiError, UserSearch, User } from '@local/api-generated';
 
 export const useGetPersonnel = (personnelId?: string) =>
   useQuery<UserSearch, ApiError>({
     queryKey: ['users', personnelId],
     queryFn: () => UsersService.usersPersonnelsRead(personnelId as string),
     enabled: !!personnelId,
+  });
+
+export const useGetCurrentUser = () =>
+  useQuery<User,ApiError>({
+    queryKey: ['current-user'],
+    queryFn:  () => UsersService.usersCurrentUser(),
   });
