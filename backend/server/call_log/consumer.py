@@ -157,8 +157,6 @@ class CallLogWebSocketConsumer(AsyncWebsocketConsumer):
             message = call_log_manager.composeMessage("NOTIFY_PERSONNEL_CLIENT_DOCTOR_ANSWERED_CALL")
             message["isRoomCreated"] = isRoomCreated
             personnel_connection = self.getConnectionByUserId(data["health_care_assistant"])
-            print("self.channel_name", self.channel_name)
-            print("personnel_connection", personnel_connection["channel_name"])
             await self.sendNotification(self.channel_name, message)
             await self.sendNotification(personnel_connection["channel_name"], message)
         except Exception as e:
@@ -169,7 +167,8 @@ class CallLogWebSocketConsumer(AsyncWebsocketConsumer):
         # Process CallLogDataType data
         try:
             data = message["data"]
-            call_log_manager = CallLogManager(data)
+            call_log_manager = CallLogManager()
+            await call_log_manager.setUpModel(data)
             await call_log_manager.setToBusy()
             message = call_log_manager.composeMessage("NOTIFY_PERSONNEL_CLIENT_DOCTOR_IS_BUSY")
             connection = self.getConnectionByUserId(self.userId)
@@ -178,16 +177,19 @@ class CallLogWebSocketConsumer(AsyncWebsocketConsumer):
             pass 
 
     async def handleEndCall(self, message: InMessageType):
-        # Process CallLogDataType data
         try:
             data = message["data"]
-            call_log_manager = CallLogManager(data)
-            call_log_manager.call_log.setToCompleted()
+            call_log_manager = CallLogManager()
+            await call_log_manager.setUpModel(data)
+            await call_log_manager.setToCompleted()
             message = call_log_manager.composeMessage("NOTIFY_PERSONNEL_CLIENT_DOCTOR_ENDED_CALL")
-            connection = self.getConnectionByUserId(str(call_log_manager.call_log.health_care_assistant.pk))
+            connection = self.getConnectionByUserId(data["health_care_assistant"])
             await self.sendNotification(connection["channel_name"], message)
-        except:
-            pass 
+            connection = self.getConnectionByUserId(data["doctor"])
+            await self.sendNotification(connection["channel_name"], message)
+        except Exception as e:
+            error_message = "End error occurred: {}".format(str(e))
+            print(error_message)
     
     # Handlers
     async def AVAILABLE_DOCTORS(self, event):

@@ -15,8 +15,8 @@ const DoctorInfoComponent = ({ id }: DoctorInfoComponentProps) => {
   const { data, isPending } = useGetDoctor(id);
   const [shoCallModal, setShowCallModal] = useState(false);
 
-  const handleCallDoctor = (data: { note: string, priority: number }) => {
-    callDoctor({ ...data, doctorId: id });
+  const handleCallDoctor = ({ note = "", priority = 1 }: { note: string; priority: number }) => {
+    callDoctor({ note, priority, doctorId: id });
     setShowCallModal(false);
   };
 
@@ -52,10 +52,13 @@ const DoctorInfoComponent = ({ id }: DoctorInfoComponentProps) => {
         visible={shoCallModal}
         title="Call Doctor"
         content={
-          <Form name="callDoctor" layout="vertical" onFinish={handleCallDoctor}>
-            <Form.Item label="Reasons" name="note" rules={[{ required: true }]}>
-              <Input.TextArea placeholder="Reason for this call" />
-            </Form.Item>
+          <Form
+            name="callDoctor"
+            layout="vertical"
+            onFinish={handleCallDoctor}
+            style={{ minWidth: 300 }}
+            defaultValue={{ priority: 1 } as any}
+          >
             <Form.Item
               label="Priority"
               name="priority"
@@ -69,8 +72,12 @@ const DoctorInfoComponent = ({ id }: DoctorInfoComponentProps) => {
                   { value: 3, label: 'High' },
                   { value: 4, label: 'Critical' },
                 ]}
+                defaultValue={2}
                 placeholder="Select priority"
               />
+            </Form.Item>
+            <Form.Item label="Reasons" name="note">
+              <Input.TextArea placeholder="Reason for this call" />
             </Form.Item>
             <Form.Item>
               <Button
@@ -97,11 +104,6 @@ const DoctorInfoComponent = ({ id }: DoctorInfoComponentProps) => {
 
 export default DoctorInfoComponent;
 
-const DoctorImage = styled.img`
-  width: 40px;
-  height: 40px;
-  border-radius: 40px;
-`;
 const DoctorInfo = styled(Flex)`
   background-color: ${({ theme }) => theme.palette.common.white};
 `;
