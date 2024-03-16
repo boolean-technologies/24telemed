@@ -1,37 +1,52 @@
-import { Flex, Typography } from '@local/shared-components';
+import { Flex } from '@local/shared-components';
 import { Layout } from 'antd';
-import { useState } from 'react';
 import { SideContent } from './SideContent';
+import { StreamLayout } from './Streaming';
+import styled from 'styled-components';
 
 export type StreamAreaProps = {
   sideView?: 'chats' | 'participants' | 'menu';
   onClose: () => void;
-}
+};
 
 export function StreamArea({ sideView, onClose }: StreamAreaProps) {
-  
+
+
   return (
     <Flex flex={1} justify="center" fullHeight>
-      <Layout style={{ minHeight: '100%', background: 'transparent' }}>
+      <StyledRootLayout collapsed={!sideView}>
+        
+        <Layout style={{ background: 'transparent' }}>
+          <Flex
+            fullHeight
+            fullWidth
+            justify="center"
+            gap="md"
+            direction="column"
+          >
+            <StreamLayout />
+          </Flex>
+        </Layout>
         <Layout.Sider
           collapsible
           collapsed={!sideView}
           onCollapse={(value) => onClose()}
           width={400}
           collapsedWidth={0}
-          style={{ background: 'transparent', overflow: "hidden" }}
+          style={{ background: 'transparent', overflow: 'hidden' }}
           trigger={null}
         >
-        <SideContent onClose={() => onClose()} />
+          <SideContent onClose={() => onClose()} />
         </Layout.Sider>
-        <Layout style={{ background: 'transparent' }}>
-          <Layout.Content style={{ background: 'transparent' }}>
-            <Flex fullHeight fullWidth justify="center">
-              <Typography color="common.white">Main area: <strong>{sideView}</strong></Typography>
-            </Flex>
-          </Layout.Content>
-        </Layout>
-      </Layout>
+      </StyledRootLayout>
     </Flex>
   );
 }
+
+const StyledRootLayout = styled(Layout)<{
+  collapsed: boolean;
+}>`
+  min-height: 100%;
+  background: transparent;
+  gap: ${({ theme, collapsed }) =>  collapsed ? theme.spacing.none : theme.spacing.md};
+`;

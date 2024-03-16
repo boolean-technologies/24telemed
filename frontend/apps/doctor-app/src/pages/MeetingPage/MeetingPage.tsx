@@ -33,5 +33,8 @@ export function MeetingPage() {
   //     setIsMeetingLeft={onCallEnded}
   //   />
   // );
-  return <VideoCall />
+  return <VideoCall
+    participantName="Blessing Sholanke"
+    meetingId="8kyw-wbu5-ena6"
+  />
 }

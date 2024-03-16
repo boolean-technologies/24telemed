@@ -13,6 +13,7 @@ export function MenuButton({ onClick, active }: MenuButtonProps) {
       onClick={onClick}
       tooltip="Open menu"
       variant={active ? 'primary2' : undefined}
+      size="middle"
     />
   );
 }

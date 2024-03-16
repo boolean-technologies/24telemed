@@ -1,4 +1,4 @@
-import { Badge, Button, ButtonProps, Tooltip } from 'antd';
+import { Badge, Button, ButtonProps, Dropdown, MenuProps, Tooltip } from 'antd';
 import styled, { css, useTheme } from 'styled-components';
 import {
   IonIcon,
@@ -101,7 +101,10 @@ type IconButtonProps = {
   disabled?: boolean;
   tooltip?: string;
   badgeCount?: number;
-  size?: "large" | "small" | "middle";
+  iconBold?: boolean;
+  size?: 'large' | 'small' | 'middle';
+  className?: string;
+  items?: MenuProps['items'];
 };
 
 export function IconButton({
@@ -113,15 +116,39 @@ export function IconButton({
   tooltip,
   badgeCount,
   size,
+  iconBold,
+  className,
+  items = [],
 }: IconButtonProps) {
   const variantDesc = variants[variant];
   const theme = useTheme() as Theme;
 
   const iconSize: Record<string, SpacingVariants> = {
-    large: "md",
-    small: "sm",
-    middle: "sm"
-  }
+    large: 'md',
+    small: 'sm',
+    middle: 'sm',
+  };
+
+  const mainButton = (
+    <StyledButton
+      type="primary"
+      icon={
+        <IonIcon
+          name={icon}
+          outlined={iconBold ? false : true}
+          color="common.white"
+          size={size ? iconSize[size] : 'md'}
+        />
+      }
+      onClick={onClick}
+      variant={variant}
+      isLoading={isLoading}
+      disabled={disabled}
+      size={size}
+      className={className}
+      outlined={!items.length}
+    />
+  );
 
   return (
     <Tooltip title={tooltip} color={get(theme.palette, variantDesc.background)}>
@@ -130,36 +157,43 @@ export function IconButton({
         overflowCount={9}
         style={{ fontWeight: 'bold', boxShadow: 'none' }}
       >
-        <StyledButton
-          type="primary"
-          icon={<IonIcon name={icon} outlined color="common.white" size={size ? iconSize[size] : "md"} />}
-          onClick={onClick}
-          variant={variant}
-          isLoading={isLoading}
-          disabled={disabled}
-          size={size}
-        />
+        {items.length ? (
+          <StyledDropdownButton
+            size={size}
+            menu={{ items }}
+            icon={
+              <IonIcon name="chevron-up" color="secondary1.light" size="sm" />
+            }
+            trigger={["click"]}
+          >
+            {mainButton}
+          </StyledDropdownButton>
+        ) : (
+          mainButton
+        )}
       </Badge>
     </Tooltip>
   );
 }
 
-const StyledButton = styled(Button)<ButtonProps | IconButtonProps>`
-  ${({ size = "large" }) => {
-    const width = {
-      large: 55,
-      small: 34,
-      middle: 45
-    }
+const width = {
+  large: 50,
+  small: 34,
+  middle: 45,
+};
 
+const StyledButton = styled(Button)<
+  (ButtonProps | IconButtonProps) & { outlined?: boolean }
+>`
+  ${({ size = 'large' }) => {
     return css`
       width: ${width[size]}px;
       height: ${width[size]}px;
       min-width: ${width[size]}px;
-      border-radius: ${18 * width[size] / 55}px;
-    `
+      border-radius: ${(18 * width[size]) / 55}px;
+    `;
   }}
-  
+
   .ant-btn-icon {
     display: flex;
     align-items: center;
@@ -168,4 +202,55 @@ const StyledButton = styled(Button)<ButtonProps | IconButtonProps>`
     height: 100%;
   }
   ${makeButtonColor};
+  ${({ outlined }) =>
+    outlined &&
+    css`
+      &:hover {
+        outline: 3px solid ${({ theme }) => theme.palette.primary1.light} !important;
+      }
+    `}
+`;
+
+const StyledDropdownButton = styled(Dropdown.Button)<{
+  size: IconButtonProps['size'];
+}>`
+  background: ${({ theme }) => theme.palette.primary1.light};
+  ${({ size = 'large' }) => {
+    return css`
+      border-radius: ${(18 * width[size]) / 55}px;
+      & > button {
+        padding: 0px;
+        border: none;
+        background: ${({ theme }) => theme.palette.primary1.light};
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        height: ${width[size]}px;
+        // min-width: ${width[size]}px;
+        border-radius: ${(18 * width[size]) / 55}px;
+      }
+    `;
+  }}
+
+  :hover {
+    background: rgba(255, 255, 255, 0.25) !important;
+  }
+
+  & > button:last-child {
+    background: transparent !important;
+    width: ${({ size = 'large' }) => width[size]/1.25}px !important;
+  }
+
+  & > button:last-child:hover {
+    background: transparent !important;
+    width: ${({ size = 'large' }) => width[size]/1.25}px !important;
+  }
+
+  & > button:first-child {
+    border-radius: 18px !important;
+    border-start-end-radius: 18px !important;
+    border-end-end-radius: 18px !important;
+    border: 3px solid ${({ theme }) => theme.palette.primary1.light} !important;
+  }
 `;

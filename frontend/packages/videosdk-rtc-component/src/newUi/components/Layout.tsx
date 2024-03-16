@@ -14,14 +14,14 @@ export function AppLayout({ children }: AppLayoutProps) {
 
   return (
     <StyledRoot>
-      <Flex direction="column" flex={1} gap="none">
-        <TopBar />
-        <StyledContent flex={1}>
+      <Flex direction="column" flex={1} gap="md" padding="md" fullWidth>
+        {/* <TopBar /> */}
+        <Flex flex={1}>
           <StreamArea
             sideView={sideView}
             onClose={() => setSideView(undefined)}
           />
-        </StyledContent>
+        </Flex>
         <BottomBar
           currentView={sideView}
           onMenuClick={() =>
@@ -45,9 +45,6 @@ const StyledRoot = styled(Layout)`
   height: 100vh;
   width: 100wv;
   background: ${({ theme }) => theme.palette.primary1.main};
-`;
-
-const StyledContent = styled(Flex)`
-  padding-left: ${({ theme }) => theme.spacing.md};
-  padding-right: ${({ theme }) => theme.spacing.md};
+  justify-content: center;
+  align-items: center;
 `;
