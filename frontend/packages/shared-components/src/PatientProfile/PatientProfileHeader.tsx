@@ -1,16 +1,23 @@
 import { Patient } from '@local/api-generated';
-import { Flex, IonIcon, Typography } from '@local/shared-components';
+
 import { Button, Image, Tag, Tooltip } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
+import { Flex } from '../Flex';
+import { Typography } from '../Typography';
+import { IonIcon } from '../IonIcon';
 
-type Props = {
+type PatientProfileHeaderProps = {
   patient: Patient;
+  onEdit?: () => void;
 };
 
-const PatientProfileHeader = ({ patient }: Props) => {
+export const PatientProfileHeader = ({
+  patient,
+  onEdit,
+}: PatientProfileHeaderProps) => {
   const patientName = `${patient.first_name} ${patient.last_name}`;
   return (
-    <Flex fullWidth padding="xl" justify="space-between"  xsDirection="column">
+    <Flex fullWidth padding="xl" justify="space-between" xsDirection="column">
       <Flex direction="row" gap="sm" align="center" xsDirection="column">
         <Image
           width={100}
@@ -41,11 +48,11 @@ const PatientProfileHeader = ({ patient }: Props) => {
           </Flex>
         </Flex>
       </Flex>
-      <Tooltip title="Modify patient record">
-        <Button type="primary" shape="circle" icon={<EditOutlined />} />
-      </Tooltip>
+      {onEdit ? (
+        <Tooltip title="Modify patient record">
+          <Button type="primary" shape="circle" icon={<EditOutlined />} />
+        </Tooltip>
+      ) : null}
     </Flex>
   );
 };
-
-export default PatientProfileHeader;

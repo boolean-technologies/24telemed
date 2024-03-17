@@ -1,7 +1,8 @@
 import { Patient } from '@local/api-generated';
-import { Flex, Typography } from '@local/shared-components';
 import { Card, Collapse, CollapseProps } from 'antd';
 import styled from 'styled-components';
+import { Typography } from '../Typography';
+import { Flex } from '../Flex';
 
 type MedicalHistoryProps = {
   patient: Patient;
@@ -12,7 +13,7 @@ type PatientValueProps = {
   value: string | number | undefined;
 };
 
-const MedicalHistory = ({ patient }: MedicalHistoryProps) => {
+export const MedicalHistory = ({ patient }: MedicalHistoryProps) => {
   const items: CollapseProps['items'] = [
     {
       key: '1',
@@ -60,10 +61,9 @@ const MedicalHistory = ({ patient }: MedicalHistoryProps) => {
   );
 };
 
-export default MedicalHistory;
-
 const StyledCard = styled(Card)`
   background-color: ${({ theme }) => theme.palette.neutral.main};
+  width: 100%;
 `;
 
 const PatientValue = ({ label, value }: PatientValueProps) => (

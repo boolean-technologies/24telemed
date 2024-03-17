@@ -39,7 +39,7 @@ export function StreamPlayer({
     >
       <StyledVideoWrap justify="center">
         <audio ref={micRef} autoPlay muted />
-        {!webcamOn ? (
+        {webcamOn ? (
           <StyledMicOffWrapper justify="center">
             <Avatar size={80} icon={displayName ? undefined : <UserOutlined />}>
               {displayName ? (

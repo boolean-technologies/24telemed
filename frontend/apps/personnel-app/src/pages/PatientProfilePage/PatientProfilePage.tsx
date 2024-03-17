@@ -1,11 +1,9 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetPatient } from '../../api/patient';
-import { Flex, PageLoading, Theme } from '@local/shared-components';
+import { Flex, PageLoading, Theme, PatientProfileHeader, MedicalHistory } from '@local/shared-components';
 import styled, { useTheme } from 'styled-components';
-import PatientProfileHeader from './PatientProfileHeader';
 import { Badge, Drawer, Tabs } from 'antd';
 import { Modal } from 'antd-mobile';
-import MedicalHistory from './MedicalHistory';
 import AvailableDoctors from './AvailableDoctors';
 import { usePersonnelCommunication } from '@local/websocket';
 

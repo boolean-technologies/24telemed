@@ -7,9 +7,11 @@ import { useEffect, useState } from 'react';
 type VideoCallProps = {
     participantName: string;
     meetingId: string;
+    userId: string;
+    patientId: string;
 }
 
-export function VideoCall({ participantName, meetingId }: VideoCallProps) {
+export function VideoCall({ participantName, meetingId, userId, patientId }: VideoCallProps) {
   const { checkPermissions, requestPermission } = useMediaDevice();
 
   const requestAudioVideoPermission = async () => {
@@ -40,12 +42,13 @@ export function VideoCall({ participantName, meetingId }: VideoCallProps) {
         micEnabled: true,
         webcamEnabled: true,
         name: participantName,
+        participantId: userId,
       }}
       token={import.meta.env.VITE_VIDEO_SDK_TOKEN}
       joinWithoutUserInteraction
     >
-      <CallContextProvider>
-        <AppLayout>something here</AppLayout>
+      <CallContextProvider patientId={patientId}>
+        <AppLayout meetingTitle="Medical consultation">something here</AppLayout>
       </CallContextProvider>
     </MeetingProvider>
   );

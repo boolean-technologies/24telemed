@@ -1,11 +1,23 @@
-import { IconButton } from "../../IconButton";
+import { IconButton } from '../../IconButton';
 
 type ParticipantsButtonProps = {
-    onClick: () => void;
-    active: boolean;
-}
+  onClick: () => void;
+  active: boolean;
+  hasNotification: boolean;
+};
 
-export function ParticipantsButton({ active, onClick }: ParticipantsButtonProps){
-
-    return <IconButton icon="people" onClick={onClick} tooltip="Participants" variant={active ? 'primary2' : undefined} />
+export function ParticipantsButton({
+  active,
+  onClick,
+  hasNotification,
+}: ParticipantsButtonProps) {
+  return (
+    <IconButton
+      icon="document-text"
+      onClick={onClick}
+      tooltip="Medical notes"
+      variant={active ? 'primary2' : undefined}
+      badgeIsDot={hasNotification}
+    />
+  );
 }

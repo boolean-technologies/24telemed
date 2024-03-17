@@ -8,12 +8,10 @@ type MenuButtonProps = {
 export function MenuButton({ onClick, active }: MenuButtonProps) {
   return (
     <IconButton
-      icon="menu"
-      badgeCount={2}
+      icon="medkit"
       onClick={onClick}
-      tooltip="Open menu"
+      tooltip="Medications"
       variant={active ? 'primary2' : undefined}
-      size="middle"
     />
   );
 }

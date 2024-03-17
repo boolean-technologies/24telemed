@@ -7,7 +7,7 @@ import { Path } from '../../constants';
 
 export function MeetingPage() {
   // const navigate = useNavigate();
-  // const { data } = useCurrentUser();
+  const { data } = useCurrentUser();
 
   // const { endCall, message } = usePersonnelCommunication();
 
@@ -34,6 +34,11 @@ export function MeetingPage() {
   //   />
   // );
   return (
-    <VideoCall participantName="Samuel Olaniyi" meetingId="8kyw-wbu5-ena6" />
+    <VideoCall
+      participantName="Samuel Olaniyi"
+      meetingId="8kyw-wbu5-ena6"
+      userId={data?.id!}
+      patientId="e92d1df8-2538-4d18-8b96-381e6ed3878f"
+    />
   );
 }

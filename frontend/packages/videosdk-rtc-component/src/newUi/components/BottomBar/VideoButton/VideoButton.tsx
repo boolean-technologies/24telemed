@@ -16,7 +16,6 @@ export function VideoButton() {
     getWebcams,
     'attachedCameras'
   );
-  console.log('data --> ', webcamStream);
 
   return (
     <IconButton

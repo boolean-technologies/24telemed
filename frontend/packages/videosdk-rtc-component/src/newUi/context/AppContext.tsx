@@ -13,29 +13,33 @@ export interface AppContextType {
   leaveMeeting: () => void;
   localParticipant: Participant;
   remoteParticipant?: Participant;
+  patientId: string;
 }
 
 const AppContext = createContext<AppContextType>({
   leaveMeeting: () => {},
-  localParticipant: {} as Participant
+  localParticipant: {} as Participant,
+  patientId: ""
 });
 
 export const useCallContext = () => useContext(AppContext);
 
 interface DoctorWebSocketProviderProps {
   children: ReactNode;
+  patientId: string;
 }
 
 export function CallContextProvider({
   children,
+  patientId,
 }: DoctorWebSocketProviderProps) {
 
   const queryClient = useQueryClient();
 
   const { join, leave, participants, localParticipant,  } = useMeeting({
     onMeetingJoined: () => {
-      console.log('Meeting joined');
       queryClient.invalidateQueries();
+      console.log("-----JOINED------")
     },
     onMeetingLeft: () => {
       console.log('Meeting left');
@@ -59,7 +63,7 @@ export function CallContextProvider({
 
   return (
     <AppContext.Provider
-      value={{ localParticipant, remoteParticipant, leaveMeeting }}
+      value={{ localParticipant, remoteParticipant, leaveMeeting, patientId }}
     >
       {children}
     </AppContext.Provider>

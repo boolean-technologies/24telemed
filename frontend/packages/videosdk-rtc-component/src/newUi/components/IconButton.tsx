@@ -105,6 +105,7 @@ type IconButtonProps = {
   size?: 'large' | 'small' | 'middle';
   className?: string;
   items?: MenuProps['items'];
+  badgeIsDot?: boolean;
 };
 
 export function IconButton({
@@ -115,6 +116,7 @@ export function IconButton({
   disabled,
   tooltip,
   badgeCount,
+  badgeIsDot,
   size,
   iconBold,
   className,
@@ -156,6 +158,7 @@ export function IconButton({
         count={badgeCount}
         overflowCount={9}
         style={{ fontWeight: 'bold', boxShadow: 'none' }}
+        dot={badgeIsDot}
       >
         {items.length ? (
           <StyledDropdownButton
