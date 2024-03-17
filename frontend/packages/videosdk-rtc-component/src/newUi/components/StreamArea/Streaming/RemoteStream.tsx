@@ -5,7 +5,12 @@ import { useMemo } from 'react';
 import styled from 'styled-components';
 import ReactPlayer from 'react-player';
 
-export function RemoteStream() {
+
+type RemoteStreamProps = {
+  onLayoutToggle: () => void;
+}
+
+export function RemoteStream({ onLayoutToggle }: RemoteStreamProps) {
   const { remoteParticipant } = useCallContext();
 
   const { webcamStream, webcamOn } = useParticipant(
@@ -22,7 +27,7 @@ export function RemoteStream() {
 
   if (!remoteParticipant) return null;
   return (
-    <StreamPlayer showBorder participantId={remoteParticipant.id}>
+    <StreamPlayer onLayoutToggle={onLayoutToggle} showBorder participantId={remoteParticipant.id}>
       <StyledRemoteVideo
         url={videoStream}
         playsInline

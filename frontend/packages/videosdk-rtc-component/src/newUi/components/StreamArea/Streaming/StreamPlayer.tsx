@@ -1,5 +1,5 @@
 import { Flex, IonIcon, Typography } from '@local/shared-components';
-import { Avatar } from 'antd';
+import { Avatar, Button } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { ReactNode } from 'react';
 import styled, { css } from 'styled-components';
@@ -13,12 +13,14 @@ type StreamPlayerProps = {
   name?: string;
   participantId: string;
   children: ReactNode;
+  onLayoutToggle: () => void;
 };
 
 export function StreamPlayer({
   participantId,
   showBorder,
   children,
+  onLayoutToggle,
 }: StreamPlayerProps) {
   const { micStream, webcamOn, micOn, displayName, isLocal } =
     useParticipant(participantId);
@@ -80,6 +82,20 @@ export function StreamPlayer({
             </Typography>
           ) : null}
         </StyledName>
+        <StyledStreamOverlay fullWidth fullHeight justify="center">
+          <StyledStreamOverlayContent align="center" justify="center">
+            <div className='content-holder'>
+              <Button
+                type="primary"
+                icon={<IonIcon name="swap-horizontal" size="md" />}
+                size="large"
+                shape="circle"
+                style={{ width: 60, height: 60, background: "rgba(0,0,0,0.5)", boxShadow: "none" }}
+                onClick={onLayoutToggle}
+              />
+            </div>
+          </StyledStreamOverlayContent>
+        </StyledStreamOverlay>
       </StyledVideoWrap>
     </StyledRoot>
   );
@@ -123,3 +139,31 @@ const StyledMicOffWrapper = styled(Flex)`
   width: 100%;
   height: 100%;
 `;
+
+const StyledStreamOverlayContent = styled(Flex)`
+  padding: 40px;
+  border-radius: 100%;
+  cursor: pointer;
+  
+  .content-holder {
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+
+  :hover  .content-holder{
+    display: flex
+  }
+
+`;
+
+
+const StyledStreamOverlay = styled(Flex)`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  
+`;
+
