@@ -1,11 +1,16 @@
-import { Flex, Typography, Card } from '@local/shared-components';
+import { Flex, Typography } from '@local/shared-components';
 
 import DoctorInfoComponent from './DoctorInfo';
 import { usePersonnelCommunication } from '@local/websocket';
 import { List } from 'antd-mobile';
 import { Empty } from 'antd';
 
-const AvailableDoctors = () => {
+type AvailableDoctorsProps = {
+  patientId: string;
+}
+
+const AvailableDoctors = ({ patientId }: AvailableDoctorsProps) => {
+
   const { availableDoctors = [] } = usePersonnelCommunication();
 
   return (
@@ -25,7 +30,7 @@ const AvailableDoctors = () => {
           <List style={{ width: "100%" }}>
             {availableDoctors.map((doctorId) => (
               <List.Item key={doctorId}>
-                <DoctorInfoComponent key={doctorId} id={doctorId} />
+                <DoctorInfoComponent key={doctorId} id={doctorId} patientId={patientId} />
               </List.Item>
             ))}
           </List>

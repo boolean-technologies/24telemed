@@ -7,9 +7,10 @@ import { Messanger } from './Messanger';
 import { MedicalNote } from './MedicalNote';
 import { SectionsType } from './MedicalNote/useMedicalNoteSections';
 import { NoteType } from './MedicalNote/types';
+import { Medications } from './Medications';
 
 export type StreamAreaProps = {
-  sideView?: 'chats' | 'participants' | 'menu';
+  sideView?: 'chats' | 'medicalNotes' | 'medication';
   onClose: () => void;
   activeNoteSection: NoteType;
   medicalNoteSections: SectionsType;
@@ -25,8 +26,8 @@ export function StreamArea({
 }: StreamAreaProps) {
   const titles = {
     chats: 'Messages',
-    participants: 'Participants',
-    menu: 'Medication & Review',
+    medicalNotes: 'Visitation Notes',
+    medication: 'Medication & Review',
   };
 
   return (
@@ -57,7 +58,8 @@ export function StreamArea({
             onClose={() => onClose()}
           >
             {sideView === 'chats' ? <Messanger /> : null}
-            {sideView === 'participants' ? (
+            {sideView === 'medication' ? <Medications /> : null}
+            {sideView === 'medicalNotes' ? (
               <MedicalNote
                 section={activeNoteSection}
                 setSection={setActiveNoteSection}

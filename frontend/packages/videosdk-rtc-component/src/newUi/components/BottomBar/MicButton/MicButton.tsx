@@ -8,7 +8,7 @@ type MicType = {
 };
 
 export function MicButton() {
-  const { toggleMic, localParticipant, getMics } = useMeeting();
+  const { toggleMic, localParticipant, getMics, changeMic } = useMeeting();
   const { micOn, micStream } = useParticipant(localParticipant?.id);
   const { data = [] } = useResolvePromise<MicType[]>(getMics, "attachedMicrophones");
 
@@ -18,8 +18,9 @@ export function MicButton() {
       onClick={() => toggleMic()}
       tooltip={micOn ? 'Turn off mic' : 'Turn on mic'}
       items={data.map((mic) => ({
-        ...mic,
         key: mic.deviceId,
+        label: mic.label,
+        onClick: () => changeMic(mic.deviceId),
         style:
         micStream?.track?.label === mic.label
             ? {

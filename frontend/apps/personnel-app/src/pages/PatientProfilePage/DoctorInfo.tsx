@@ -8,15 +8,16 @@ import { useState } from 'react';
 
 type DoctorInfoComponentProps = {
   id: string;
+  patientId: string;
 };
 
-const DoctorInfoComponent = ({ id }: DoctorInfoComponentProps) => {
+const DoctorInfoComponent = ({ id, patientId }: DoctorInfoComponentProps) => {
   const { callDoctor } = usePersonnelCommunication();
   const { data, isPending } = useGetDoctor(id);
   const [shoCallModal, setShowCallModal] = useState(false);
 
   const handleCallDoctor = ({ note = "", priority = 1 }: { note: string; priority: number }) => {
-    callDoctor({ note, priority, doctorId: id });
+    callDoctor({ note, priority, doctorId: id, patientId });
     setShowCallModal(false);
   };
 
@@ -57,7 +58,7 @@ const DoctorInfoComponent = ({ id }: DoctorInfoComponentProps) => {
             layout="vertical"
             onFinish={handleCallDoctor}
             style={{ minWidth: 300 }}
-            defaultValue={{ priority: 1 } as any}
+            initialValues={{ priority: 1 } as any}
           >
             <Form.Item
               label="Priority"
@@ -72,7 +73,6 @@ const DoctorInfoComponent = ({ id }: DoctorInfoComponentProps) => {
                   { value: 3, label: 'High' },
                   { value: 4, label: 'Critical' },
                 ]}
-                defaultValue={2}
                 placeholder="Select priority"
               />
             </Form.Item>

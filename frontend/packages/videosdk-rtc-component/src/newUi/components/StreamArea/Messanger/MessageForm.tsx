@@ -27,7 +27,11 @@ export function MessageForm() {
       >
         <Flex fullWidth flex={1} align="center" padding="sm">
           <Form.Item name="message" style={{ width: '100%', marginBottom: 0 }}>
-            <StyledTextArea placeholder="Send a message" rows={1} />
+            <StyledTextArea
+              placeholder="Type a message..."
+              onPressEnter={form.submit}
+              rows={1}
+            />
           </Form.Item>
           <Form.Item style={{ marginBottom: 0 }}>
             <Button
@@ -50,7 +54,7 @@ const StyledRoot = styled.div`
 const StyledTextArea = styled(Input.TextArea)`
   background: transparent;
   border: none;
-  color: #fff;
+  color: ${({ theme }) => theme.palette.common.white};
   :focus,
   :hover {
     background-color: transparent;
@@ -58,4 +62,5 @@ const StyledTextArea = styled(Input.TextArea)`
   ::placeholder {
     color: ${({ theme }) => theme.palette.primary1.lighter};
   }
+  resize: none !important;
 `;

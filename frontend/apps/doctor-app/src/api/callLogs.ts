@@ -6,25 +6,26 @@ import {
   FullCallLog,
   UseQueryOptions,
   CallStats,
+  CallLogsService,
 } from '@local/api-generated';
 
 type SearchType = {
   status?:
-    | 'Initiated'
-    | 'In Progress'
-    | 'Completed'
-    | 'Declined'
-    | 'Failed'
-    | 'Busy',
+  | 'Initiated'
+  | 'In Progress'
+  | 'Completed'
+  | 'Declined'
+  | 'Failed'
+  | 'Busy',
   callType?: 'Video' | 'Audio',
   notesIcontains?: string,
   order?:
-    | 'start_time'
-    | '-start_time'
-    | 'created_at'
-    | '-created_at'
-    | 'priority'
-    | '-priority',
+  | 'start_time'
+  | '-start_time'
+  | 'created_at'
+  | '-created_at'
+  | 'priority'
+  | '-priority',
   page?: number,
   size?: number
 }
@@ -61,4 +62,11 @@ export const useGetCallLogStats = (
       params.size
     ),
     ...options,
+  });
+
+export const useGetCallLog = (id?: string) =>
+  useQuery<FullCallLog>({
+    queryKey: ['fullCallLogs', id],
+    queryFn: () => CallLogsService.callLogsRead(id as string),
+    enabled: !!id,
   });

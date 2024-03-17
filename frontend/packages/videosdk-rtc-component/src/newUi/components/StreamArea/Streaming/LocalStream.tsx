@@ -1,25 +1,17 @@
-import { useLocalTracks } from './useLocalTracks';
 import { StreamPlayer } from './StreamPlayer';
 import { useCallContext } from '../../../context/AppContext';
 import { useParticipant } from '@videosdk.live/react-sdk';
 import styled from 'styled-components';
+import { useVideoStreamTrack } from './useVideoStreamTrack';
 
 export function LocalStream() {
   const { localParticipant } = useCallContext();
-  const { webcamStream, micStream, webcamOn, micOn } = useParticipant(
-    localParticipant?.id
-  );
-  const { videoRef, micRef } = useLocalTracks(
-    webcamOn,
-    micOn,
-    webcamStream?.track,
-    micStream?.track
-  );
+  const { webcamStream, webcamOn } = useParticipant(localParticipant?.id);
+  const videoRef = useVideoStreamTrack(webcamOn, webcamStream?.track);
 
   return (
     <StreamPlayer showBorder participantId={localParticipant.id}>
-      <audio style={{ display: "none" }} ref={micRef} autoPlay muted />
-      <StyledVideo ref={videoRef} autoPlay playsInline controls={false} muted />
+      <StyledVideo ref={videoRef} autoPlay playsInline controls={false} />
     </StreamPlayer>
   );
 }

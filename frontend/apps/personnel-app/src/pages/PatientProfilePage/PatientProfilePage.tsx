@@ -67,7 +67,7 @@ export function PatientProfilePage() {
                   />
                 </>
               ),
-              children: <AvailableDoctors  />,
+              children: <AvailableDoctors patientId={patientId!} />,
             },
           ]}
         />

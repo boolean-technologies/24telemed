@@ -23,8 +23,8 @@ export function VideoButton() {
       tooltip={webcamOn ? 'Turn off video' : 'Turn on video'}
       onClick={() => toggleWebcam()}
       items={data.map((cam) => ({
-        ...cam,
         key: cam.deviceId,
+        label: cam.label,
         onClick: () => changeWebcam(cam.deviceId),
         style:
           webcamStream?.track?.label === cam.label

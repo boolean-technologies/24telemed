@@ -81,9 +81,12 @@ const StyledRoot = styled(Flex)`
     overflow: scroll;
   }
   .ql-editor {
-    color: #fff;
-    font-family: 'Uniform Rounded', 'Helvetica', 'Arial', sans-serif;
-    font-size: 18px;
+    color: ${({ theme }) => theme.palette.primary1.lighter};
+    font-family: ${({ theme }) => theme.typography.bodyLg.fontFamily};
+    font-size: ${({ theme }) => theme.typography.bodyLg.fontSize};
+    p {
+      margin: 0;
+    }
   }
   .ql-editor.ql-blank::before {
     color: rgba(255, 255, 255, 0.6);

@@ -14,12 +14,16 @@ export interface AppContextType {
   localParticipant: Participant;
   remoteParticipant?: Participant;
   patientId: string;
+  userId: string;
+  userType: 'doctor' | 'personnel';
 }
 
 const AppContext = createContext<AppContextType>({
   leaveMeeting: () => {},
   localParticipant: {} as Participant,
-  patientId: ""
+  patientId: '',
+  userId: '',
+  userType: 'personnel',
 });
 
 export const useCallContext = () => useContext(AppContext);
@@ -27,19 +31,21 @@ export const useCallContext = () => useContext(AppContext);
 interface DoctorWebSocketProviderProps {
   children: ReactNode;
   patientId: string;
+  userId: string;
+  userType: AppContextType['userType'];
 }
 
 export function CallContextProvider({
   children,
   patientId,
+  userType,
+  userId,
 }: DoctorWebSocketProviderProps) {
-
   const queryClient = useQueryClient();
 
-  const { join, leave, participants, localParticipant,  } = useMeeting({
+  const { join, leave, participants, localParticipant } = useMeeting({
     onMeetingJoined: () => {
       queryClient.invalidateQueries();
-      console.log("-----JOINED------")
     },
     onMeetingLeft: () => {
       console.log('Meeting left');
@@ -48,12 +54,6 @@ export function CallContextProvider({
 
   const leaveMeeting = () => {};
 
-  useEffect(() => {
-    join();
-    return () => { leave() };
-  }, []);
-  console.log(participants)
-
   const remoteParticipant = useMemo(() => {
     for (const [key, value] of participants) {
       if (key !== localParticipant.id && !value.local) return value;
@@ -61,9 +61,23 @@ export function CallContextProvider({
     return undefined;
   }, [participants]);
 
+  useEffect(() => {
+    if (localParticipant?.id !== userId) join();
+    return () => {
+      leave();
+    };
+  }, [localParticipant?.id]);
+
   return (
     <AppContext.Provider
-      value={{ localParticipant, remoteParticipant, leaveMeeting, patientId }}
+      value={{
+        localParticipant,
+        remoteParticipant,
+        leaveMeeting,
+        patientId,
+        userType,
+        userId,
+      }}
     >
       {children}
     </AppContext.Provider>

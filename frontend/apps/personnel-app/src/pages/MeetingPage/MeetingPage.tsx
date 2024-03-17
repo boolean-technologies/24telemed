@@ -1,44 +1,29 @@
-import { CallLog, useCurrentUser } from '@local/api-generated';
+import { useCurrentUser } from '@local/api-generated';
 import { PageLoading } from '@local/shared-components';
-import { VideoCall, VideoCallSDK } from '@local/videosdk-rtc-component';
-import { usePersonnelCommunication } from '@local/websocket';
-import { useNavigate } from 'react-router-dom';
-import { Path } from '../../constants';
+import { VideoCall } from '@local/videosdk-rtc-component';
+import { useGetCallLog } from '../../api/callLogs';
+import { useParams } from 'react-router-dom';
 
 export function MeetingPage() {
-  // const navigate = useNavigate();
+  const { meetingId: internalMeetingId } = useParams();
   const { data } = useCurrentUser();
+  const { data: callLog } = useGetCallLog(internalMeetingId);
 
-  // const { endCall, message } = usePersonnelCommunication();
+  const fullName = [data?.first_name, data?.last_name]
+    .filter(Boolean)
+    .join(' ');
 
-  // const meetingId = (message?.data as CallLog)?.meeting_id;
+  if (!data || !callLog) {
+    return <PageLoading />;
+  }
 
-  // const onCallEnded = () => {
-  //   endCall();
-  //   navigate(Path.home);
-  // };
-
-  // const fullName = [data?.first_name, data?.last_name]
-  //   .filter(Boolean)
-  //   .join(' ');
-
-  // if (!data || !meetingId) {
-  //   return <PageLoading />;
-  // }
-
-  // return (
-  //   <VideoCallSDK
-  //     participantName={fullName}
-  //     meetingId={meetingId}
-  //     setIsMeetingLeft={onCallEnded}
-  //   />
-  // );
   return (
     <VideoCall
-      participantName="Samuel Olaniyi"
-      meetingId="8kyw-wbu5-ena6"
+      participantName={fullName}
+      meetingId={callLog?.meeting_id!}
       userId={data?.id!}
-      patientId="e92d1df8-2538-4d18-8b96-381e6ed3878f"
+      patientId={callLog?.patient!}
+      userType="personnel"
     />
   );
 }

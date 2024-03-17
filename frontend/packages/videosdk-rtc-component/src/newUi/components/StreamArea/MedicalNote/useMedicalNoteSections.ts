@@ -28,7 +28,7 @@ export function useMedicalNoteSections(type: NoteType): SectionsType {
 
   useEffect(() => {
     if (type) setHasNotification((prev) => ({ ...prev, [type]: false }));
-  }, [type, hasNotification]);
+  }, [type, hasNotification[type]]);
 
   const { messages = [] } = usePubSub('MEDICALNOTES', {
     onMessageReceived: (incomingMessage) => {
@@ -73,28 +73,28 @@ export function useMedicalNoteSections(type: NoteType): SectionsType {
       section: 'reason_for_visit',
       hasNotication: hasNotification.reason_for_visit,
       content: getLastMessage('reason_for_visit'),
-      icon: 'person',
+      icon: 'information-circle',
     },
     {
       section: 'assessment_and_diagnosis',
       hasNotication: hasNotification.assessment_and_diagnosis,
 
       content: getLastMessage('assessment_and_diagnosis'),
-      icon: 'person',
+      icon: 'pulse',
     },
     {
       section: 'treatment_and_interventions',
       hasNotication: hasNotification.treatment_and_interventions,
 
       content: getLastMessage('treatment_and_interventions'),
-      icon: 'person',
+      icon: 'bulb',
     },
     {
       section: 'follow_up_plans',
       hasNotication: hasNotification.follow_up_plans,
 
       content: getLastMessage('follow_up_plans'),
-      icon: 'person',
+      icon: 'today',
     },
   ];
 }

@@ -4,7 +4,7 @@ import { UserOutlined } from '@ant-design/icons';
 import { ReactNode } from 'react';
 import styled, { css } from 'styled-components';
 import { useParticipant } from '@videosdk.live/react-sdk';
-import { useLocalTracks } from './useLocalTracks';
+import { useAudioStreamTrack } from './useAudioStreamTrack';
 
 type StreamPlayerProps = {
   showBorder?: boolean;
@@ -20,14 +20,9 @@ export function StreamPlayer({
   showBorder,
   children,
 }: StreamPlayerProps) {
-  const { webcamStream, micStream, webcamOn, micOn, displayName } =
+  const { micStream, webcamOn, micOn, displayName, isLocal } =
     useParticipant(participantId);
-  const { micRef } = useLocalTracks(
-    webcamOn,
-    micOn,
-    webcamStream?.track,
-    micStream?.track
-  );
+  const audioRef = useAudioStreamTrack(micOn, micStream?.track);
 
   return (
     <StyledRoot
@@ -38,8 +33,15 @@ export function StreamPlayer({
       showBorder={showBorder}
     >
       <StyledVideoWrap justify="center">
-        <audio ref={micRef} autoPlay muted />
+        <audio
+          style={{ display: 'none' }}
+          ref={audioRef}
+          autoPlay
+          muted={isLocal}
+        />
         {webcamOn ? (
+          children
+        ) : (
           <StyledMicOffWrapper justify="center">
             <Avatar size={80} icon={displayName ? undefined : <UserOutlined />}>
               {displayName ? (
@@ -57,8 +59,6 @@ export function StreamPlayer({
               ) : null}
             </Avatar>
           </StyledMicOffWrapper>
-        ) : (
-          children
         )}
         <StyledName gap="xs" justify="center">
           <div>

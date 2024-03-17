@@ -19,6 +19,7 @@ export enum PersonnelCallEventType {
 
 export type CallMessage = {
   doctorId: string;
+  patientId: string;
   note: string;
   priority: number;
 };
@@ -44,7 +45,7 @@ export function usePersonnelWebSocket(userId: string, type: UserType) {
           break;
         case PersonnelCallEventType.ANSWERED:
           setCallStatus(PersonnelCallEventType.ANSWERED);
-          navigate("/meeting")
+          navigate("/meeting/"+message?.data?.id)
           break;
       }
     },

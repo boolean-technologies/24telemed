@@ -1,4 +1,4 @@
-import { InfiniteData, useInfiniteQuery } from '@tanstack/react-query';
+import { InfiniteData, useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import {
   ApiError,
   SearchResultType,
@@ -44,3 +44,12 @@ useInfiniteQuery<InfiniteData<SearchResultType<FullCallLog>, unknown>, ApiError>
     ...options,
     getNextPageParam: (lastPage) => lastPage.next ? Number(new URLSearchParams(lastPage.next).get("page")) : undefined,
   });
+
+
+
+export const useGetCallLog = (id?: string) =>
+useQuery<FullCallLog>({
+  queryKey: ['fullCallLogs', id],
+  queryFn: () => CallLogsService.callLogsRead(id as string),
+  enabled: !!id,
+});

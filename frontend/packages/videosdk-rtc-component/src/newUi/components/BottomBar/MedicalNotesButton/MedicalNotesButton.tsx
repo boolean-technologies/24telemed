@@ -1,16 +1,16 @@
 import { IconButton } from '../../IconButton';
 
-type ParticipantsButtonProps = {
+type MedicalNotesButtonProps = {
   onClick: () => void;
   active: boolean;
   hasNotification: boolean;
 };
 
-export function ParticipantsButton({
+export function MedicalNotesButton({
   active,
   onClick,
   hasNotification,
-}: ParticipantsButtonProps) {
+}: MedicalNotesButtonProps) {
   return (
     <IconButton
       icon="document-text"

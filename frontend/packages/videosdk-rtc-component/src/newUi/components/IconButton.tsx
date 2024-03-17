@@ -70,9 +70,12 @@ function makeButtonColor({
 
     &:hover:enabled {
       background-color: ${get(theme.palette, 'primary1.light')};
-      color: ${get(theme.palette, 'primary1.main')};
+      color: ${get(theme.palette, variantDesc.background)};
       outline: none;
       box-shadow: ${get(theme, 'shadows.lg')};
+      ion-icon {
+        color: ${get(theme.palette, variantDesc.background)} !important;
+      }
     }
 
     &:active:enabled {
@@ -188,6 +191,7 @@ const width = {
 const StyledButton = styled(Button)<
   (ButtonProps | IconButtonProps) & { outlined?: boolean }
 >`
+  cursor: pointer;
   ${({ size = 'large' }) => {
     return css`
       width: ${width[size]}px;

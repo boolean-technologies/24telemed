@@ -56,6 +56,7 @@ export function CallingDoctor() {
                 doctorId: callLog?.doctor as string,
                 note: callLog?.notes || "",
                 priority: callLog?.priority as unknown as number,
+                patientId: callLog?.patient as string,
               }),
             primary: true,
           },

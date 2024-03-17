@@ -27,4 +27,5 @@ export { CallLogsService } from './services/CallLogsService';
 export { DoctorsService } from './services/DoctorsService';
 export { PatientAccessLogsService } from './services/PatientAccessLogsService';
 export { PatientsService } from './services/PatientsService';
+export { PersonnelService } from './services/PersonnelService';
 export { UsersService } from './services/UsersService';

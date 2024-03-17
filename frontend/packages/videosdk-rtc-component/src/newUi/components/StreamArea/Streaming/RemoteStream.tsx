@@ -13,12 +13,12 @@ export function RemoteStream() {
   );
 
   const videoStream = useMemo(() => {
-    if (webcamOn && webcamStream) {
+    if (remoteParticipant && webcamOn && webcamStream) {
       const mediaStream = new MediaStream();
       mediaStream.addTrack(webcamStream.track);
       return mediaStream;
     }
-  }, [webcamStream, webcamOn]);
+  }, [webcamStream, webcamOn, remoteParticipant]);
 
   if (!remoteParticipant) return null;
   return (

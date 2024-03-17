@@ -8,6 +8,7 @@ import { NoteType } from './types';
 import { SectionsType } from './useMedicalNoteSections';
 import { TreatmentAndInterventions } from './TreatmentAndInterventions';
 import { find } from 'lodash-es';
+import { useCallContext } from '../../../context/AppContext';
 
 type MedicalNoteProps = {
   section: NoteType;
@@ -20,7 +21,8 @@ export function MedicalNote({
   setSection,
   section,
 }: MedicalNoteProps) {
-  const readOnly = false;
+  const { userType } = useCallContext();
+  const readOnly = userType === "personnel";
   return (
     <Flex direction="column" fullWidth fullHeight padding="sm" gap="xs">
       <StyledTabRoot fullWidth padding="xs" justify="space-between" gap="xs">
@@ -31,7 +33,7 @@ export function MedicalNote({
               type="primary"
               shape="default"
               size="middle"
-              icon={<IonIcon name={icon} size="sm" />}
+              icon={<IonIcon name={icon} size={20} outlined={section !== rowSection} />}
               active={section === rowSection}
               onClick={() => setSection(rowSection)}
             />

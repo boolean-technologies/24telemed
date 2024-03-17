@@ -51,7 +51,7 @@ const routes: RouteObject[] = [
         element: <PatientRegistionPage />,
       },
       {
-        path: Path.meeting,
+        path: Path.meeting + '/:meetingId',
         element: <MeetingPage />,
       },
     ],

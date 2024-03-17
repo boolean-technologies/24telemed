@@ -1,35 +1,32 @@
 import { Flex, Typography } from '@local/shared-components';
 import { ChatButton } from './ChatButton';
-import { ParticipantsButton } from './ParticipantsButton';
+import { MedicalNotesButton } from './MedicalNotesButton';
 import { VideoButton } from './VideoButton';
 import { MicButton } from './MicButton';
 import { RaiseHandButton } from './RaiseHandButton';
 import { PatientInfoButton } from './PatientInfoButton';
 import { EndCallButton } from './EndCallButton';
-import { MenuButton } from './MenuButton';
+import { MedicationButton } from './MedicationButton';
 import { StreamAreaProps } from '../StreamArea';
-import { useClock } from '../../hooks/useClock';
 import { ClockDisplay } from './ClockDisplay';
 
 type BottomBarProps = {
   meetingTitle: string;
   currentView: StreamAreaProps['sideView'];
-  onMenuClick: () => void;
+  onMedicationButtonClick: () => void;
   onChatClick: () => void;
-  onParticipantClick: () => void;
+  onMedicalNoteButtonClick: () => void;
   hasNoteNotification: boolean;
 };
 
 export function BottomBar({
-  meetingTitle = "",
+  meetingTitle = '',
   currentView,
   hasNoteNotification,
   onChatClick,
-  onMenuClick,
-  onParticipantClick,
+  onMedicationButtonClick,
+  onMedicalNoteButtonClick,
 }: BottomBarProps) {
-  console.log("meetingTitle", meetingTitle);
-  
   return (
     <Flex>
       <Flex gap="xs">
@@ -38,25 +35,28 @@ export function BottomBar({
           |
         </Typography>
         <Typography color="common.white" weight="bold">
-        {meetingTitle}
+          {meetingTitle}
         </Typography>
       </Flex>
       <Flex fullWidth justify="center" flex={1}>
-          <VideoButton />
-          <MicButton />
-          <RaiseHandButton />
-          {/* TODO: Fix record call button later */}
-          {/* <RecordCallButton /> */}
-          <EndCallButton />
+        <VideoButton />
+        <MicButton />
+        <RaiseHandButton />
+        {/* TODO: Fix record call button later */}
+        {/* <RecordCallButton /> */}
+        <EndCallButton />
       </Flex>
       <Flex justify="flex-end">
         <PatientInfoButton />
-        <ParticipantsButton
-          active={currentView === 'participants'}
-          onClick={onParticipantClick}
+        <MedicalNotesButton
+          active={currentView === 'medicalNotes'}
+          onClick={onMedicalNoteButtonClick}
           hasNotification={hasNoteNotification}
         />
-        <MenuButton active={currentView === 'menu'} onClick={onMenuClick} />
+        <MedicationButton
+          active={currentView === 'medication'}
+          onClick={onMedicationButtonClick}
+        />
         <ChatButton active={currentView === 'chats'} onClick={onChatClick} />
       </Flex>
     </Flex>

@@ -57,6 +57,9 @@ class CallLogManager():
             
         if isinstance(data["doctor"], UUID):
             data["doctor"] = str(data["doctor"])
+            
+        if isinstance(data["patient"], UUID):
+            data["patient"] = str(data["patient"])
         
         return data
     
@@ -76,6 +79,7 @@ class CallLogManager():
         def createCallLog():
             return CallLog.objects.create(
                 doctor_id = data["doctorId"],
+                patient_id = data["patientId"],
                 health_care_assistant_id = health_care_assistant_id,
                 notes = data["note"] if (data["note"]) else None,
                 priority = data["priority"] if data["priority"] else CallPriority.MEDIUM,

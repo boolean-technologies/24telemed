@@ -1,5 +1,5 @@
 import { Layout } from 'antd';
-import { ReactNode, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { BottomBar } from './BottomBar';
 import { Flex } from '@local/shared-components';
@@ -7,15 +7,21 @@ import { StreamArea, StreamAreaProps } from './StreamArea';
 import { NoteType } from './StreamArea/MedicalNote/types';
 import { useMedicalNoteSections } from './StreamArea/MedicalNote/useMedicalNoteSections';
 
-type AppLayoutProps = {
-  children: ReactNode;
+type AppMainProps = {
   meetingTitle: string;
 };
-export function AppLayout({ children, meetingTitle }: AppLayoutProps) {
+export function AppMain({ meetingTitle }: AppMainProps) {
   const [sideView, setSideView] = useState<StreamAreaProps['sideView']>();
   const [activeNoteSection, setActiveNoteSection] =
     useState<NoteType>('reason_for_visit');
   const medicalNoteSections = useMedicalNoteSections(activeNoteSection);
+
+  const onBottomButtonClick = (view: StreamAreaProps['sideView']) =>
+    setSideView(sideView === view ? undefined : view);
+
+  const hasBottomNotification = Boolean(
+    medicalNoteSections.find((e) => e.hasNotication)
+  );
 
   return (
     <StyledRoot>
@@ -30,22 +36,12 @@ export function AppLayout({ children, meetingTitle }: AppLayoutProps) {
           />
         </Flex>
         <BottomBar
-          hasNoteNotification={Boolean(
-            medicalNoteSections.find((e) => e.hasNotication)
-          )}
-          meetingTitle={meetingTitle}
           currentView={sideView}
-          onMenuClick={() =>
-            setSideView(sideView === 'menu' ? undefined : 'menu')
-          }
-          onChatClick={() =>
-            setSideView(sideView === 'chats' ? undefined : 'chats')
-          }
-          onParticipantClick={() =>
-            setSideView(
-              sideView === 'participants' ? undefined : 'participants'
-            )
-          }
+          meetingTitle={meetingTitle}
+          hasNoteNotification={hasBottomNotification}
+          onChatClick={() => onBottomButtonClick('chats')}
+          onMedicationButtonClick={() => onBottomButtonClick('medication')}
+          onMedicalNoteButtonClick={() => onBottomButtonClick('medicalNotes')}
         />
       </Flex>
     </StyledRoot>

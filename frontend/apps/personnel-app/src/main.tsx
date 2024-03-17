@@ -7,10 +7,8 @@ import {
   Theme,
   createTheme,
 } from '@local/shared-components';
-// import { ToastContainer } from 'react-toastify';
 import { ConfigProvider, type ThemeConfig } from 'antd';
 
-// import 'react-toastify/dist/ReactToastify.css';
 import { OpenAPI, TOKEN_KEY } from '@local/api-generated';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './router';
@@ -74,26 +72,7 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <>
-    {/* <ToastContainer
-      toastClassName={() =>
-        'relative flex py-4 px-3 rounded overflow-hidden cursor-pointer bg-white shadow-lg'
-      }
-      bodyClassName={() => 'text-black text-base font-normal'}
-      position="bottom-left"
-      autoClose={4000}
-      hideProgressBar={true}
-      newestOnTop={false}
-      closeButton={false}
-      closeOnClick
-      rtl={false}
-      pauseOnFocusLoss
-      draggable
-      pauseOnHover
-      theme="light"
-    /> */}
     <ThemeProvider theme={theme}>
       <Main />
     </ThemeProvider>
-  </>
 );

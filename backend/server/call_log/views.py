@@ -1,11 +1,10 @@
 from rest_framework import viewsets
-from .models import CallLog, CallStatus, CallType
+from .models import CallLog, CallStatus
 from .serializers import CallLogSerializer, CallStatsSerializer
 from utils.permission import PersonnelPermission, DoctorPermission
 from django.db.models import Sum
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from django_filters.rest_framework import DjangoFilterBackend
 from .serializers import CallLogSerializer, FullCallLogSerializer
@@ -18,7 +17,8 @@ class CallLogViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = CallLogSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = CallLogFilter
-    permission_classes = [DoctorPermission, PersonnelPermission]
+    # TODO: Fix this permission later
+    # permission_classes = (DoctorPermission, PersonnelPermission,)
 
 class DoctorCallLogViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = CallLog.objects.all()

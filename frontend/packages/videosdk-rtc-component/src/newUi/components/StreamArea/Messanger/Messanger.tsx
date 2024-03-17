@@ -1,4 +1,4 @@
-import { Flex } from '@local/shared-components';
+import { Flex, MessageResult } from '@local/shared-components';
 import { MessageItem } from './MessageItem';
 import styled from 'styled-components';
 import { MessageForm } from './MessageForm';
@@ -19,25 +19,33 @@ export function Messanger() {
 
   return (
     <Flex direction="column" gap="none" fullHeight fullWidth>
-      <MessagesArea flex={1}>
-        <MessagesAreaContainer
-          direction="column"
-          padding="sm"
-          gap="lg"
-          flex={1}
-          fullWidth
-        >
-          {messages.map((message) => (
-            <MessageItem key={message.id} {...message} />
-          ))}
-          <div ref={messagesEndRef} />
-        </MessagesAreaContainer>
-      </MessagesArea>
+      {messages?.length ? (
+        <MessagesArea flex={1}>
+          <MessagesAreaContainer
+            direction="column"
+            padding="sm"
+            gap="lg"
+            flex={1}
+            fullWidth
+          >
+            {messages.map((message) => (
+              <MessageItem key={message.id} {...message} />
+            ))}
+            <div ref={messagesEndRef} />
+          </MessagesAreaContainer>
+        </MessagesArea>
+      ) : (
+        <MessageResult
+          icon="chatbubbles"
+          title="No Chat Available"
+          subTitle="Send your first message by typing your message and clicking the send button below."
+        />
+      )}
+
       <MessageForm />
     </Flex>
   );
 }
-
 
 const MessagesArea = styled(Flex)`
   position: relative;

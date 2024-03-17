@@ -18,3 +18,4 @@ export * from "./IonIcon";
 export * from "./CallStatus";
 export * from "./PatientProfile";
 export * from "./TextEditor";
+export * from "./MessageResult";

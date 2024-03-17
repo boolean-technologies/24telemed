@@ -1,11 +1,11 @@
 import { IconButton } from '../../IconButton';
 
-type MenuButtonProps = {
+type MedicationButtonProps = {
   onClick: () => void;
   active: boolean;
 };
 
-export function MenuButton({ onClick, active }: MenuButtonProps) {
+export function MedicationButton({ onClick, active }: MedicationButtonProps) {
   return (
     <IconButton
       icon="medkit"
