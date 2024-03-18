@@ -7,9 +7,3 @@ export const useGetPersonnel = (personnelId?: string) =>
     queryFn: () => UsersService.usersPersonnelsRead(personnelId as string),
     enabled: !!personnelId,
   });
-
-export const useGetCurrentUser = () =>
-  useQuery<User,ApiError>({
-    queryKey: ['current-user'],
-    queryFn:  () => UsersService.usersCurrentUser(),
-  });

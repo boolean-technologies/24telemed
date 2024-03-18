@@ -5,7 +5,7 @@ import { ProfilePreview } from './ProfilePreview';
 import { useSearchCallLogs } from '../../api/callLogs';
 import { useState } from 'react';
 import { SearchPageParams } from '@local/api-generated';
-import { useGetCurrentUser } from '../../api/personnels';
+import { useCurrentUser } from '@local/api-generated'
 
 export function HomePage() {
   const [searchParams, setSearchParams] = useState<SearchPageParams>({
@@ -13,7 +13,7 @@ export function HomePage() {
     size: 5,
   });
   const { data } = useSearchCallLogs(searchParams);
-  const { data: user, isLoading } = useGetCurrentUser();
+  const { data: user, isLoading } = useCurrentUser();
 
   const onPageChange = (page: number, size: number) =>
     setSearchParams({ page, size });
