@@ -9,6 +9,12 @@ export default defineConfig({
   root: __dirname,
   cacheDir: '../../node_modules/.vite/packages/videosdk-rtc-component',
 
+  server: {
+    watch: {
+      usePolling: true
+    }
+  },
+
   plugins: [
     react(),
     nxViteTsPaths(),

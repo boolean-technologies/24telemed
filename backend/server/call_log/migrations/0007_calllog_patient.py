@@ -16,10 +16,9 @@ class Migration(migrations.Migration):
             model_name="calllog",
             name="patient",
             field=models.ForeignKey(
-                default="3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                on_delete=django.db.models.deletion.CASCADE,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
                 to="patient.patient",
             ),
-            preserve_default=False,
         ),
     ]

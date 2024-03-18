@@ -68,7 +68,7 @@ const StyledButton: FC<BaseButtonProps> = styled.button.attrs<BaseButtonProps>(
 
 export function Button(props: BaseButtonProps) {
   return (
-    <ButtonContainer fullWidth={props.fullWidth}>
+    <ButtonContainer>
       <StyledButton
         {...props}
         disabled={props.isSubmitting}

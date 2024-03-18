@@ -1,6 +1,5 @@
 import uuid
 from django.db import models
-from django.utils import timezone
 from enum import Enum
 from users.models import User
 from patient.models import Patient
@@ -33,12 +32,14 @@ class CallLog(models.Model):
     status = models.CharField(max_length=20, choices=CallStatus.choices, default=CallStatus.INITIATED)
     patient = models.ForeignKey(Patient, on_delete=models.SET_NULL, null=True)
     call_type = models.CharField(max_length=10, choices=CallType.choices, default=CallType.VIDEO)
+    meeting_id = models.CharField(max_length=100, null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
     duration = models.IntegerField(null=True, blank=True)
     call_data = models.JSONField(null=True, blank=True)
     priority = models.IntegerField(choices=CallPriority.choices, default=CallPriority.MEDIUM)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    decline_note = models.TextField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
         if self.end_time:
@@ -58,9 +59,14 @@ class CallLog(models.Model):
         self.save()
 
     def setToCompleted(self):
-        self.status = CallStatus.IN_PROGRESS
+        self.status = CallStatus.COMPLETED
         self.save()
 
-    def setToDeclined(self):
+    def setToDeclined(self, note = None):
         self.status = CallStatus.DECLINED
+        self.decline_note = note
+        self.save()
+
+    def setMeetingId(self, meetingId):
+        self.meeting_id = meetingId
         self.save()

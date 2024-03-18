@@ -99,6 +99,7 @@ export interface TypographyTheme {
   h4: HeadingVariant;
   h5: HeadingVariant;
   h6: HeadingVariant;
+  bodyXl: TypographyVariant;
   bodyLg: TypographyVariant;
   bodyMd: TypographyVariant;
   bodySm: TypographyVariant;
@@ -116,6 +117,7 @@ export type TypographyVariants =
   | "h5"
   | "h6"
   | "bodyLg"
+  | "bodyXl"
   | "bodyMd"
   | "bodySm"
   | "bodyXs";

@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import {
   type WebSocketMessage,
   useCallSocket,
@@ -13,15 +14,18 @@ export enum PersonnelCallEventType {
   DECLINED = 'NOTIFY_PERSONNEL_CLIENT_DOCTOR_DECLINED_CALL',
   ENDED = 'NOTIFY_PERSONNEL_CLIENT_DOCTOR_ENDED_CALL',
   ANSWERED = 'NOTIFY_PERSONNEL_CLIENT_DOCTOR_ANSWERED_CALL',
-};
+  AVAILABLE_DOCTORS = 'AVAILABLE_DOCTORS',
+}
 
 export type CallMessage = {
   doctorId: string;
+  patientId: string;
   note: string;
   priority: number;
 };
 
 export function usePersonnelWebSocket(userId: string, type: UserType) {
+  const navigate = useNavigate();
   const [callStatus, setCallStatus] = useState<PersonnelCallEventType>();
   // Function to handle incoming messages
   const handleMessageReceived = useCallback(
@@ -41,27 +45,34 @@ export function usePersonnelWebSocket(userId: string, type: UserType) {
           break;
         case PersonnelCallEventType.ANSWERED:
           setCallStatus(PersonnelCallEventType.ANSWERED);
+
+          navigate("/meeting/"+(message?.data as { id: string })?.id)
           break;
       }
-      console.log("Message: ", message)
     },
-    [setCallStatus]
+    [setCallStatus, navigate]
   );
 
-  const { isOpen, sendMessage, message } = useCallSocket(handleMessageReceived, userId, type);
+  const { isOpen, sendMessage, message, availableDoctors } = useCallSocket(
+    handleMessageReceived,
+    userId,
+    type
+  );
 
   const callDoctor = useCallback(
     (callData: CallMessage) => {
       setCallStatus(PersonnelCallEventType.CALLING);
-      sendMessage<{ data: CallMessage }>(MessageType.CALL_DOCTOR, { data: callData })
+      sendMessage<{ data: CallMessage }>(MessageType.CALL_DOCTOR, {
+        data: callData,
+      });
     },
     [sendMessage, setCallStatus]
   );
 
   const endCall = useCallback(
-    () => {
+    (send = true) => {
       setCallStatus(PersonnelCallEventType.ENDED);
-      sendMessage(MessageType.END_CALL);
+      if (send) sendMessage(MessageType.END_CALL);
     },
     [sendMessage, setCallStatus]
   );
@@ -72,6 +83,7 @@ export function usePersonnelWebSocket(userId: string, type: UserType) {
     isOpen,
     callStatus,
     message,
+    availableDoctors,
     isOngoingCall,
     callDoctor,
     endCall,

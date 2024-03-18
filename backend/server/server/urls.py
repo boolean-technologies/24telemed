@@ -68,4 +68,6 @@ urlpatterns = [
     path('admin_tools_stats/', include('admin_tools_stats.urls')),
     path('doctors/medical-encounters/', include('medication.urls')),
     path('doctors/call-logs/', include('call_log.urls.doctors')),
+    path('personnel/call-logs/', include('call_log.urls.personnel')),
+    path('patient-access-logs/', include('patient.urls.access_log')),
 ]

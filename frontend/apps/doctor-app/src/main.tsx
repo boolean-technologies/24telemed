@@ -7,16 +7,23 @@ import {
   Theme,
   createTheme,
 } from '@local/shared-components';
-import { DoctorCommunicationProvider } from '@local/websocket';
-import { ToastContainer } from 'react-toastify';
 import { ConfigProvider, type ThemeConfig } from 'antd';
 
-import 'react-toastify/dist/ReactToastify.css';
-import App from './app/app';
+import { OpenAPI, TOKEN_KEY } from '@local/api-generated';
+import { RouterProvider } from 'react-router-dom';
+import { router } from './router';
+
+OpenAPI.TOKEN = localStorage.getItem(TOKEN_KEY) || "";
 
 const theme = createTheme();
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 60,
+    },
+  },
+});
 
 function Main() {
   const theme = useTheme() as Theme;
@@ -27,12 +34,13 @@ function Main() {
     },
     components: {
       Input: {
-        controlHeight: 45
+        controlHeight: 45,
       },
       Button: {
-        controlHeight: 45
-      }
-    }
+        controlHeight: 45,
+        colorBgBase: "red"
+      },
+    },
   };
 
   return (
@@ -40,9 +48,7 @@ function Main() {
       <QueryClientProvider client={queryClient}>
         <Fonts />
         <CssBaseline />
-        <DoctorCommunicationProvider userId="bb8213f7-7dab-4d6c-a4ba-0c8e3bb4fdeb">
-          <App />
-        </DoctorCommunicationProvider>
+        <RouterProvider router={router} />
       </QueryClientProvider>
     </ConfigProvider>
   );
@@ -52,26 +58,7 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <>
-    <ToastContainer
-      toastClassName={() =>
-        'relative flex py-4 px-3 rounded overflow-hidden cursor-pointer bg-white shadow-lg'
-      }
-      bodyClassName={() => 'text-black text-base font-normal'}
-      position="bottom-left"
-      autoClose={4000}
-      hideProgressBar={true}
-      newestOnTop={false}
-      closeButton={false}
-      closeOnClick
-      rtl={false}
-      pauseOnFocusLoss
-      draggable
-      pauseOnHover
-      theme="light"
-    />
     <ThemeProvider theme={theme}>
       <Main />
     </ThemeProvider>
-  </>
 );

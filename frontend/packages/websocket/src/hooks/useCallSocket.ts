@@ -1,12 +1,14 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import useWebSocket from 'react-use-websocket';
 import { CallLog } from "@local/api-generated";
+import { useQueryClient } from '@tanstack/react-query';
 
 
 
 export type WebSocketMessage<EventType> = {
   type: EventType;
-  data: CallLog | undefined;
+  data: CallLog | string[] | undefined;
+  note?: string | null
 };
 
 export enum MessageType {
@@ -27,29 +29,40 @@ export function useCallSocket<EventType = undefined>(
   userId: string,
   type: UserType,
 ) {
-  const { sendJsonMessage, readyState, lastJsonMessage } =
+  const queryClient = useQueryClient();
+
+  const [currentCallLog, setCurrentCallLog] = useState<WebSocketMessage<EventType> | null>(null);
+  const [availableDoctors, setAvailableDoctors] = useState<string[]>([]);
+
+  const { sendJsonMessage, readyState } =
     useWebSocket<WebSocketMessage<EventType> | null>(WEBSOCKET_URL, {
       queryParams: { userId, type },
       onMessage: (event: WebSocketEventMap['message']) => {
         const message: WebSocketMessage<EventType> = JSON.parse(event.data);
         handleMessageReceived(message);
+        if ((message?.data || {}).hasOwnProperty('meeting_id')) {
+          setCurrentCallLog(message);
+        } else if (Array.isArray(message?.data)) {
+          setAvailableDoctors(message?.data);
+        }
+        queryClient.invalidateQueries({ queryKey: ["callLogs"]});
       },
       shouldReconnect: (_) => true
     });
 
-  const currentCallLog = lastJsonMessage?.data;
 
   const sendMessage = useCallback(
     <OthersType = undefined>(type: MessageType, others?: OthersType) => {
-      sendJsonMessage({ data: currentCallLog, type, ...others });
+      sendJsonMessage({ data: currentCallLog?.data, type, ...others });
     },
     [currentCallLog]
   );
 
   return {
+    sendMessage,
     isOpen: readyState === 1,
     isConnecting: readyState === 0,
-    message: lastJsonMessage,
-    sendMessage,
+    message: currentCallLog,
+    availableDoctors
   };
 }

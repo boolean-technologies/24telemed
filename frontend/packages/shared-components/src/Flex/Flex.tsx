@@ -34,6 +34,7 @@ export interface FlexProps
   fullWidth?: boolean;
   fullHeight?: boolean;
   flexWrap?: "nowrap" | "wrap" | "wrap-reverse";
+  flex?: number;
 }
 
 const responsiveProps = createResponsiveProps<FlexResponsivePropsBase>(
@@ -78,6 +79,11 @@ export const Flex: FC<FlexProps> = styled.div<FlexProps>`
     flexWrap &&
     css`
       flex-wrap: ${flexWrap};
+    `};
+    ${({ flex }) =>
+    flex &&
+    css`
+      flex: ${flex};
     `};
   ${responsiveProps}
 `;

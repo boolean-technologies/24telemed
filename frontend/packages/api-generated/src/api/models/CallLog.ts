@@ -8,14 +8,17 @@ export type CallLog = {
   end_time?: string | null;
   status?: CallLog.status;
   call_type?: CallLog.call_type;
+  meeting_id?: string | null;
   notes?: string | null;
   duration?: number | null;
   call_data?: any;
   priority?: CallLog.priority;
   readonly created_at?: string;
   readonly updated_at?: string;
+  decline_note?: string | null;
   health_care_assistant: string;
   doctor: string;
+  patient?: string | null;
 };
 export namespace CallLog {
   export enum status {

@@ -31,7 +31,6 @@ class InMessageType(TypedDict):
     isRoomCreated: Optional[bool]
 
 class CallLogWebSocketConsumer(AsyncWebsocketConsumer):
-    # connected_clients: List[ConnectedChannel] = []
     connected_clients: Dict[str, ConnectedChannel] = {}
     
 
@@ -55,24 +54,24 @@ class CallLogWebSocketConsumer(AsyncWebsocketConsumer):
             "channel_name": self.channel_name
         }
         self.userId = userId
-        # self.connected_clients.append(connection)
         self.connected_clients[userId] = connection
         print(self.connected_clients.keys())
         
         if connection["type"] == "doctor":
-            await self.sendConnectedClients()
+            await self.sendConnectedClientsToPersonnels()
+        else:
+            await self.sendConnectedClientsToCurrent()
 
     async def disconnect(self, close_code):
-        if self.userId:
+        if self.userId and self.userId in self.connected_clients:
             del self.connected_clients[self.userId]
-        await self.sendConnectedClients()
+        await self.sendConnectedClientsToPersonnels()
 
     async def receive(self, text_data):
         try:
             message: InMessageType = json.loads(text_data)
             messageName = message["type"]
 
-            # Define a dictionary mapping message names to their handlers
             message_handlers: Dict[InMessageNameType, Callable[[Union[CallADoctorType, CallLogDataType]], None]] = {
                 "NOTIFY-SERVER-CALL-A-DOCTOR": self.handleCallDoctor,
                 "NOTIFY-SERVER-DECLINE-CALL": self.handleDeclineCall,
@@ -81,21 +80,30 @@ class CallLogWebSocketConsumer(AsyncWebsocketConsumer):
                 "NOTIFY-SERVER-DOCTOR-IS-BUSY": self.handleDoctorIsBusy
             }
 
-            # Call the appropriate handler based on the message name
             if messageName in message_handlers:
                 handler = message_handlers[messageName]
                 await handler(message)
         except KeyError:
             pass
 
-
-    # TODO: Modify this to send to only health care personnel
-    async def sendConnectedClients(self):
+    def getAvailableDoctorsMessage(self):
+        connection_list = list(self.connected_clients.values())
+        doctor_ids = [client['user_id'] for client in connection_list if client['type'] == 'doctor']
         message: OutMessageType = {
-            'name': "NEW-CONNECTION",
-            'data': self.connected_clients,
+            'type': "AVAILABLE_DOCTORS",
+            'data': doctor_ids,
         }
-        await self.send(text_data=json.dumps(message))
+        return (message, connection_list)
+
+    async def sendConnectedClientsToCurrent(self):
+        message, _ = self.getAvailableDoctorsMessage()
+        await self.sendNotification(self.channel_name, message)
+
+    async def sendConnectedClientsToPersonnels(self):
+        message, connection_list = self.getAvailableDoctorsMessage()
+        personnel_connections = [client['channel_name'] for client in connection_list if client['type'] == "health-care-assistant"]
+        for channel_name in personnel_connections:
+            await self.sendNotification(channel_name, message)
         
     
     async def sendNotification(self, channel_name: str, message: OutMessageType):
@@ -123,16 +131,14 @@ class CallLogWebSocketConsumer(AsyncWebsocketConsumer):
             # if call_log_manager:
             #     await call_log_manager.setToFailed()
             error_message = "An error occurred: {}".format(str(e))
-            print(error_message)
         
     async def handleDeclineCall(self, message: InMessageType):
-        # Process CallLogDataType data
         try:
             data = message["data"]
-            note = message["note"]
+            note = message.get("note", None)
             call_log_manager = CallLogManager()
             await call_log_manager.setUpModel(data)
-            await call_log_manager.setToDeclined()
+            await call_log_manager.setToDeclined(note)
             message = call_log_manager.composeMessage("NOTIFY_PERSONNEL_CLIENT_DOCTOR_DECLINED_CALL")
             connection = self.getConnectionByUserId(data["health_care_assistant"])
             await self.sendNotification(connection["channel_name"], { **message, "note": note })
@@ -150,8 +156,9 @@ class CallLogWebSocketConsumer(AsyncWebsocketConsumer):
             isRoomCreated = await call_log_manager.setUpVideoSDKMeeting()
             message = call_log_manager.composeMessage("NOTIFY_PERSONNEL_CLIENT_DOCTOR_ANSWERED_CALL")
             message["isRoomCreated"] = isRoomCreated
-            connection = self.getConnectionByUserId(data["health_care_assistant"])
-            await self.sendNotification(connection["channel_name"], message)
+            personnel_connection = self.getConnectionByUserId(data["health_care_assistant"])
+            await self.sendNotification(self.channel_name, message)
+            await self.sendNotification(personnel_connection["channel_name"], message)
         except Exception as e:
             error_message = "An error occurred: {}".format(str(e))
             print(error_message)
@@ -160,7 +167,8 @@ class CallLogWebSocketConsumer(AsyncWebsocketConsumer):
         # Process CallLogDataType data
         try:
             data = message["data"]
-            call_log_manager = CallLogManager(data)
+            call_log_manager = CallLogManager()
+            await call_log_manager.setUpModel(data)
             await call_log_manager.setToBusy()
             message = call_log_manager.composeMessage("NOTIFY_PERSONNEL_CLIENT_DOCTOR_IS_BUSY")
             connection = self.getConnectionByUserId(self.userId)
@@ -169,18 +177,24 @@ class CallLogWebSocketConsumer(AsyncWebsocketConsumer):
             pass 
 
     async def handleEndCall(self, message: InMessageType):
-        # Process CallLogDataType data
         try:
             data = message["data"]
-            call_log_manager = CallLogManager(data)
-            call_log_manager.call_log.setToCompleted()
+            call_log_manager = CallLogManager()
+            await call_log_manager.setUpModel(data)
+            await call_log_manager.setToCompleted()
             message = call_log_manager.composeMessage("NOTIFY_PERSONNEL_CLIENT_DOCTOR_ENDED_CALL")
-            connection = self.getConnectionByUserId(str(call_log_manager.call_log.health_care_assistant.pk))
+            connection = self.getConnectionByUserId(data["health_care_assistant"])
             await self.sendNotification(connection["channel_name"], message)
-        except:
-            pass 
+            connection = self.getConnectionByUserId(data["doctor"])
+            await self.sendNotification(connection["channel_name"], message)
+        except Exception as e:
+            error_message = "End error occurred: {}".format(str(e))
+            print(error_message)
     
     # Handlers
+    async def AVAILABLE_DOCTORS(self, event):
+        await self.send(text_data=json.dumps(event))
+  
     async def NOTIFY_DOCTOR_CLIENT_INCOMING_CALL(self, event):
         await self.send(text_data=json.dumps(event))
     

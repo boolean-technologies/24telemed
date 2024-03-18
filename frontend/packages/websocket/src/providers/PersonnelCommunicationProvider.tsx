@@ -11,8 +11,9 @@ export interface PersonnelWebSocketContextType {
   isOngoingCall: boolean;
   callStatus: PersonnelCallEventType | undefined;
   callDoctor: (callData: CallMessage) => void;
-  endCall: () => void;
-  message: WebSocketMessage<PersonnelCallEventType> | null
+  endCall: (send?: boolean) => void;
+  message: WebSocketMessage<PersonnelCallEventType> | null;
+  availableDoctors: string[];
 }
 
 const PersonnelWebSocketContext = createContext<PersonnelWebSocketContextType>({
@@ -22,6 +23,7 @@ const PersonnelWebSocketContext = createContext<PersonnelWebSocketContextType>({
   callDoctor: (callData: CallMessage) => {},
   endCall: () => {},
   message: null,
+  availableDoctors: [],
 });
 
 export const usePersonnelCommunication = () =>

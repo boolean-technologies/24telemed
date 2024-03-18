@@ -2,9 +2,10 @@ import os
 import requests
 from asgiref.sync import sync_to_async
 from typing import Literal, TypedDict, Optional, Union, Dict, Any
-from .models import CallLog, CallStatus
+from .models import CallLog, CallStatus, CallPriority
 from .serializers import CallLogSerializer
 from uuid import UUID
+import json
 
 class CallLogDataType(TypedDict):
     id: str
@@ -56,6 +57,9 @@ class CallLogManager():
             
         if isinstance(data["doctor"], UUID):
             data["doctor"] = str(data["doctor"])
+            
+        if isinstance(data["patient"], UUID):
+            data["patient"] = str(data["patient"])
         
         return data
     
@@ -75,9 +79,10 @@ class CallLogManager():
         def createCallLog():
             return CallLog.objects.create(
                 doctor_id = data["doctorId"],
+                patient_id = data["patientId"],
                 health_care_assistant_id = health_care_assistant_id,
-                notes = data["note"],
-                priority = data["priority"]
+                notes = data["note"] if (data["note"]) else None,
+                priority = data["priority"] if data["priority"] else CallPriority.MEDIUM,
             )
         result = await sync_to_async(createCallLog)()
         self.call_log = result
@@ -95,14 +100,16 @@ class CallLogManager():
     async def setToCompleted(self):
         await sync_to_async(self.call_log.setToCompleted)()
 
-    async def setToDeclined(self):
-        await sync_to_async(self.call_log.setToDeclined)()
+    async def setToDeclined(self, decline_note = None):
+        await sync_to_async(self.call_log.setToDeclined)(decline_note)
         
     
     async def setUpVideoSDKMeeting(self) -> bool:
         url = "https://api.videosdk.live/v2/rooms"
         token = os.getenv('VIDEO_SDK_TOKEN')
         headers = {'Authorization' : token,'Content-Type' : 'application/json'}
-        response = requests.request("POST", url, json = { "customRoomId" : str(self.serializedData["id"]) }, headers = headers)
-        print(response.json())
-        return response.status_code == 200
+        request = requests.request("POST", url, json = { "customRoomId" : str(self.serializedData["id"]) }, headers = headers)
+        response = json.loads(request.text)
+        roomId = response.get("roomId", None)
+        await sync_to_async(self.call_log.setMeetingId)(roomId)
+        return True

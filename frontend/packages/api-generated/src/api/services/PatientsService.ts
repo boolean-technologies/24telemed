@@ -25,19 +25,14 @@ export class PatientsService {
    * @param phoneNumber phone_number
    * @param page A page number within the paginated result set.
    * @param size Number of results to return per page.
-   * @returns any
+   * @returns PatientSearch
    * @throws ApiError
    */
   public static patientsSearch(
     phoneNumber?: string,
     page?: number,
     size?: number
-  ): CancelablePromise<{
-    count: number;
-    next?: string | null;
-    previous?: string | null;
-    results: Array<PatientSearch>;
-  }> {
+  ): CancelablePromise<Array<PatientSearch>> {
     return __request(OpenAPI, {
       method: 'GET',
       url: '/patients/search/',

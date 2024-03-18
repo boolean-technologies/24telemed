@@ -4,6 +4,7 @@ import { MessageType, UserType, WebSocketMessage, useCallSocket } from './useCal
 export enum DoctorCallEventType {
   INCOMING = 'NOTIFY_DOCTOR_CLIENT_INCOMING_CALL',
   ENDED = 'ended',
+  ENDED_REMOTELY = 'NOTIFY_PERSONNEL_CLIENT_DOCTOR_ENDED_CALL',
   ANSWERED = 'answered',
   DECLINED = 'declined',
 }
@@ -11,7 +12,6 @@ export enum DoctorCallEventType {
 export function useDoctorWebSocket(userId: string, type: UserType) {
   const [callStatus, setCallStatus] = useState<DoctorCallEventType>();
   const [isBusy, setIsBusy] = useState<boolean>(false);
-  const [currentMessage, setCurrentMessage] = useState<WebSocketMessage<DoctorCallEventType> | null>();
 
   // Function to handle incoming messages
   const handleMessageReceived = useCallback(
@@ -21,13 +21,12 @@ export function useDoctorWebSocket(userId: string, type: UserType) {
           setIsBusy(true);
         } else {
           setCallStatus(DoctorCallEventType.INCOMING);
-          setCurrentMessage(message);
         }
+      } else if (message.type === DoctorCallEventType.ENDED_REMOTELY) {
+        setCallStatus(DoctorCallEventType.ENDED);
       }
-      console.log(message);
-      
     },
-    [setCallStatus, setCurrentMessage, setIsBusy]
+    [setCallStatus, setIsBusy]
   );
 
   const {
@@ -67,7 +66,7 @@ export function useDoctorWebSocket(userId: string, type: UserType) {
   return {
     isOpen,
     callStatus,
-    message: currentMessage || message,
+    message,
     isOngoingCall,
     declineCall,
     answerCall,

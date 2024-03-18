@@ -10,4 +10,9 @@ class UserSerializer(serializers.ModelSerializer):
 class UserSearchSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'first_name', 'last_name', 'username']
+        fields = ['id', 'first_name', 'last_name', 'username', 'photo']
+
+class DoctorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'first_name', 'last_name', 'username', 'photo', 'specialty']
