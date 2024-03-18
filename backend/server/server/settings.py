@@ -196,6 +196,7 @@ BATON = {
     "POWERED_BY": '<a href="https://www.theboolean.tech">The Bolean Tech </a>',
     "COPYRIGHT" : "copyright © 2023 The Boolean Tech",
     "MENU_ALWAYS_COLLAPSED": True
+}
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=7),
