@@ -1,9 +1,10 @@
-import { InfiniteData, useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import {
   ApiError,
   SearchResultType,
   FullCallLog,
   CallLogsService,
+  CallLog,
 } from '@local/api-generated';
 
 type SearchType = {
@@ -29,10 +30,10 @@ type SearchType = {
 
 export const useSearchCallLogs = (
   params: SearchType,
-  options?: InfiniteData<SearchResultType<FullCallLog>, unknown>
 ) =>
-useInfiniteQuery<InfiniteData<SearchResultType<FullCallLog>, unknown>, ApiError>({
+useInfiniteQuery<SearchResultType<FullCallLog>, ApiError>({
     queryKey: ['callLogs', params],
+    // @ts-ignore
     queryFn: ({ pageParam = 1 }) => CallLogsService.callLogsList(
       params.status,
       params.callType,
@@ -41,14 +42,13 @@ useInfiniteQuery<InfiniteData<SearchResultType<FullCallLog>, unknown>, ApiError>
       pageParam as number,
       params.size
     ),
-    ...options,
     getNextPageParam: (lastPage) => lastPage.next ? Number(new URLSearchParams(lastPage.next).get("page")) : undefined,
   });
 
 
 
 export const useGetCallLog = (id?: string) =>
-useQuery<FullCallLog>({
+useQuery<CallLog, ApiError>({
   queryKey: ['fullCallLogs', id],
   queryFn: () => CallLogsService.callLogsRead(id as string),
   enabled: !!id,

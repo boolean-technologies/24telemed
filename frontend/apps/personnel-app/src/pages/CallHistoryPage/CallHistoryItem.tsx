@@ -26,7 +26,7 @@ export function CallHistoryItem({ callLog }: CallHistoryItemProps) {
             <CallStatus status={callLog.status!} />
           </Typography>
           <Typography variant="bodySm" color="primary1.light">
-            Patient: Ruth (125412521)
+            Patient: {callLog?.patient ? <>{callLog?.patient?.first_name} ({callLog?.patient?.patient_id})</> : "N/A" } 
           </Typography>
         </Flex>
       </Flex>

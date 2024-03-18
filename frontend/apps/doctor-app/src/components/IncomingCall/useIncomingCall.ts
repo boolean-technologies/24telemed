@@ -21,7 +21,7 @@ export function useIncomingCall() {
     updateData();
     setDeclineNote(undefined);
     setShowNoteInput(false);
-    navigate(Path.meeting+"/"+message?.data?.id);
+    navigate(Path.meeting+"/"+(message?.data as { id: string })?.id);
   };
 
   const handleDeclineCall = () => {

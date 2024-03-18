@@ -17,6 +17,7 @@ const AllTheProviders = ({ children }: { children: ReactElement }) => {
 const customRender = (
   ui: ReactElement,
   options?: Omit<RenderOptions, "wrapper">,
+  // @ts-ignore
 ) => render(ui, { wrapper: AllTheProviders, ...options });
 
 const matchMedia = (mediaRule: string) =>

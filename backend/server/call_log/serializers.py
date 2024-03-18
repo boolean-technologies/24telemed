@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from .models import CallLog
 from users.serializers import UserSearchSerializer
+from patient.serializers import PatientSearchSerializer
+
 class CallLogSerializer(serializers.ModelSerializer):
     class Meta:
         model = CallLog
@@ -15,6 +17,7 @@ class CallStatsSerializer(serializers.Serializer):
 class FullCallLogSerializer(serializers.ModelSerializer):
     health_care_assistant = UserSearchSerializer()
     doctor = UserSearchSerializer()
+    patient = PatientSearchSerializer()
     class Meta:
         model = CallLog
         fields = '__all__'

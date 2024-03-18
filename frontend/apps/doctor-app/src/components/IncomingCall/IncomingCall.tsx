@@ -6,6 +6,7 @@ import { UserAvatar } from '../PageLayout/UserAvatar';
 import { CallPriority } from './CallPriority';
 import { useIncomingCall } from './useIncomingCall';
 import { useGetPersonnel } from '../../api/personnels';
+import { CallLog } from '@local/api-generated';
 
 const { TextArea } = Input;
 
@@ -20,7 +21,9 @@ export function IncomingCall() {
     handleDeclineCall,
   } = useIncomingCall();
 
-  const { data: personnelData, isPending } = useGetPersonnel(message?.data?.health_care_assistant);
+  const callLog = (message?.data as CallLog);
+
+  const { data: personnelData, isPending } = useGetPersonnel(callLog?.health_care_assistant);
 
   return (
     <StyledModal
@@ -48,13 +51,13 @@ export function IncomingCall() {
                 ID: {personnelData?.username}
               </Typography>
             </Flex>
-            <CallPriority priority={message?.data?.priority} />
+            <CallPriority priority={callLog?.priority} />
               </>
             )}
             
           </Flex>
           <Typography color="common.white" weight="bold">
-            {message?.data?.notes}
+            {callLog?.notes}
           </Typography>
           {showNoteInput && (
             <TextArea

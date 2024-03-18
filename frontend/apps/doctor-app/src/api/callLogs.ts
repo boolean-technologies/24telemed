@@ -7,6 +7,7 @@ import {
   UseQueryOptions,
   CallStats,
   CallLogsService,
+  CallLog,
 } from '@local/api-generated';
 
 type SearchType = {
@@ -65,7 +66,7 @@ export const useGetCallLogStats = (
   });
 
 export const useGetCallLog = (id?: string) =>
-  useQuery<FullCallLog>({
+  useQuery<CallLog, ApiError>({
     queryKey: ['fullCallLogs', id],
     queryFn: () => CallLogsService.callLogsRead(id as string),
     enabled: !!id,

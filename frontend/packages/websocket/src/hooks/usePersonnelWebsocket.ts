@@ -45,7 +45,8 @@ export function usePersonnelWebSocket(userId: string, type: UserType) {
           break;
         case PersonnelCallEventType.ANSWERED:
           setCallStatus(PersonnelCallEventType.ANSWERED);
-          navigate("/meeting/"+message?.data?.id)
+
+          navigate("/meeting/"+(message?.data as { id: string })?.id)
           break;
       }
     },

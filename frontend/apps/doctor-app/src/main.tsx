@@ -9,7 +9,6 @@ import {
 } from '@local/shared-components';
 import { ConfigProvider, type ThemeConfig } from 'antd';
 
-import 'react-toastify/dist/ReactToastify.css';
 import { OpenAPI, TOKEN_KEY } from '@local/api-generated';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './router';
