@@ -20,7 +20,7 @@ export type OpenAPIConfig = {
 };
 
 export const OpenAPI: OpenAPIConfig = {
-  BASE: 'http://telemedbackend-cc0b49c871e2.herokuapp.com',
+  BASE: 'https://telemedbackend-cc0b49c871e2.herokuapp.com',
   VERSION: '1',
   WITH_CREDENTIALS: false,
   CREDENTIALS: 'include',
