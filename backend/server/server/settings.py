@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
+import ast
 from pathlib import Path
 from dotenv import load_dotenv
 from datetime import timedelta
@@ -30,8 +31,9 @@ SECRET_KEY = get_random_secret_key()
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG')
 
-ALLOWED_HOSTS = []
-# CORS_ALLOWED_ORIGINS = ['http://localhost:4201', 'http://localhost:4200', 'http://localhost:8000']
+
+ALLOWED_HOSTS = ast.literal_eval(os.environ.get('ALLOWED_HOSTS', '[]'))
+CORS_ALLOWED_ORIGINS = ast.literal_eval(os.environ.get('CORS_ALLOWED_ORIGINS', '[]'))
 
 CORS_ORIGIN_ALLOW_ALL = True
 
