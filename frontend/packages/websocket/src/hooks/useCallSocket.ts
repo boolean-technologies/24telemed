@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import useWebSocket from 'react-use-websocket';
-import { CallLog } from "@local/api-generated";
+import { CallLog, TOKEN_KEY } from "@local/api-generated";
 import { useQueryClient } from '@tanstack/react-query';
 
 
@@ -35,7 +35,7 @@ export function useCallSocket<EventType = undefined>(
 
   const { sendJsonMessage, readyState } =
     useWebSocket<WebSocketMessage<EventType> | null>(WEBSOCKET_URL, {
-      queryParams: { userId, type },
+      queryParams: { userId, type, token: localStorage.getItem(TOKEN_KEY) || "" },
       onMessage: (event: WebSocketEventMap['message']) => {
         const message: WebSocketMessage<EventType> = JSON.parse(event.data);
         handleMessageReceived(message);
