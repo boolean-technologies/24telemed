@@ -8,7 +8,9 @@
     "start:mobile": "nx start personnel-mobile",
     "start:storybook": "nx run shared-components:storybook",
     "start:test": "nx run shared-components:test",
-    "generate": "node ./packages/api-generated/src/script/generated.mjs"
+    "generate": "node ./packages/api-generated/src/script/generated.mjs",
+    "build:doctor": "nx build doctor-app",
+    "build:personnel": "nx build personnel-app"
   },
   "private": true,
   "dependencies": {
