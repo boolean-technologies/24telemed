@@ -29,7 +29,7 @@ export function PatientNotFound({ phoneNumber, onSearchAnother }: PatientNotFoun
           </Button>
           </Link>
           <Button onClick={onSearchAnother}>
-            User another number
+            Use another number
           </Button>
         </Flex>
     </Flex>
