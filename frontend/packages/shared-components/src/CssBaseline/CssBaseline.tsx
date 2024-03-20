@@ -26,4 +26,7 @@ export const CssBaseline = createGlobalStyle`
     text-decoration: none;
     color: inherit;
   }
+  *:not(input) {
+    user-select: none;
+  }  
 `;

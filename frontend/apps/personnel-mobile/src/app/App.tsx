@@ -1,18 +1,21 @@
 import React from 'react';
-import { SafeAreaView, StatusBar } from 'react-native';
+import { SafeAreaView, StatusBar, View, Platform } from 'react-native';
 import { WebView } from 'react-native-webview';
 
 export const App = () => {
   return (
-    <>
-      <StatusBar />
+    <View style={{ backgroundColor: '#FFDD00', flex: 1 }}>
+      <StatusBar barStyle="dark-content" />
       <SafeAreaView style={{ flex: 1, overflow: 'hidden', paddingBottom: 0 }}>
         <WebView
-          source={{ uri: 'http://192.168.0.103:4202' }}
+          source={{ uri: 'https://telemed-personnel-app.netlify.app' }}
           style={{ flex: 1, overflow: 'hidden' }}
+          scrollEnabled={false}
+          setBuiltInZoomControls={false}
+          setDisplayZoomControls={false}
         />
       </SafeAreaView>
-    </>
+    </View>
   );
 };
 
