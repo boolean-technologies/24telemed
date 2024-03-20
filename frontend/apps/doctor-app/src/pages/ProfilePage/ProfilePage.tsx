@@ -17,39 +17,43 @@ import { PasswordForm } from './Forms/PasswordForm';
 import { LocationForm } from './Forms/LocationForm';
 import { SpecialtyForm } from './Forms/SpecialtyForm';
 import styled from 'styled-components';
-
+import { useCurrentUser } from '@local/api-generated';
+import { DescriptionForm } from './Forms/DescriptionForm';
 type DrawerFormType =
   | 'email'
   | 'username'
   | 'name'
   | 'location'
   | 'password'
-  | 'specialty';
+  | 'description';
 
 export function ProfilePage() {
+  const { data: user } = useCurrentUser();
+  const name = `${user?.first_name} ${user?.last_name}`;
   const [drawerForm, setDrawerForm] = useState<DrawerFormType>();
   const data = [
     {
       name: 'Email',
-      value: 'tobi.sholanke@mailer.com',
+      value: user?.email,
       icon: <MailOutlined />,
       onClick: () => setDrawerForm('email'),
     },
     {
       name: 'Username',
-      value: 'tobi.sholanke',
+      value: user?.username,
       icon: <CheckCircleOutlined />,
       onClick: () => setDrawerForm('username'),
     },
     {
       name: 'Name',
-      value: 'Sholanke Tobi',
+      value: name,
       icon: <UserOutlined />,
       onClick: () => setDrawerForm('name'),
     },
     {
       name: 'Location',
-      value: 'Lagos, Island',
+      // TODO: replace with actual location
+      value: 'Lagos, Nigeria',
       icon: <EnvironmentOutlined />,
       onClick: () => setDrawerForm('location'),
     },
@@ -60,11 +64,11 @@ export function ProfilePage() {
       onClick: () => setDrawerForm('password'),
     },
     {
-      name: 'Specialty',
-      value:
-        "These steps outline how to customize Ant Design's theme, including the height of form inputs, within a Create React App project without ejecting, providing a streamlined way to apply global theme customizations.",
+      name: 'Descriptipn',
+      // TODO: replace with actual description
+      value: 'I am a doctor',
       icon: <BookOutlined />,
-      onClick: () => setDrawerForm('specialty'),
+      onClick: () => setDrawerForm('description'),
     },
   ];
 
@@ -110,19 +114,18 @@ export function ProfilePage() {
         open={!!drawerForm}
         key={drawerForm}
       >
-        {drawerForm === "name" && <NameForm />}
-        {drawerForm === "username" && <UserNameForm />}
-        {drawerForm === "email" && <EmailForm />}
-        {drawerForm === "location" && <LocationForm />}
-        {drawerForm === "password" && <PasswordForm />}
-        {drawerForm === "specialty" && <SpecialtyForm />}
+        {drawerForm === 'name' && <NameForm />}
+        {drawerForm === 'username' && <UserNameForm />}
+        {drawerForm === 'email' && <EmailForm />}
+        {drawerForm === 'location' && <LocationForm />}
+        {drawerForm === 'password' && <PasswordForm />}
+        {drawerForm === 'description' && <DescriptionForm />}
       </Drawer>
     </StyledRoot>
   );
 }
 
-
 const StyledRoot = styled(Flex)`
-    max-width: 860px;
-    margin: 0 auto;
+  max-width: 860px;
+  margin: 0 auto;
 `;

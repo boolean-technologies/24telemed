@@ -1,6 +1,5 @@
 import uuid
 from django.db import models
-from enum import Enum
 from users.models import User
 from patient.models import Patient
 

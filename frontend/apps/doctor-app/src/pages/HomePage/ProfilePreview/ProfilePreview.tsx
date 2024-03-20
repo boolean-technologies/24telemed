@@ -7,24 +7,32 @@ import {
   FileProtectOutlined,
 } from '@ant-design/icons';
 import { UserAvatar } from '../../../components/PageLayout/UserAvatar';
+import { useGetCurrentUser } from '../../../api/personnels';
+import { User } from '@local/api-generated';
 
-export function ProfilePreview() {
+type ProfilePreviewProps = {
+  user: User;
+};
+export function ProfilePreview({ user }: ProfilePreviewProps) {
+  
+  
   const theme = useTheme() as Theme;
 
   const data = [
     {
       title: 'Email',
-      value: 'tobisholanke@gmail.com',
+      value: user?.email,
       icon: MailOutlined,
     },
     {
       title: 'Doctor ID',
-      value: '12345678',
+      // TODO: replace with actual doctor id
+      value: user?.id,
       icon: IdcardOutlined,
     },
     {
       title: 'Specialty',
-      value: 'Therapist and general practitioner',
+      value: user?.specialty,
       icon: FileProtectOutlined,
     },
   ];
@@ -35,10 +43,10 @@ export function ProfilePreview() {
         <UserAvatar size="lg" />
         <Flex direction="column" gap="none" align="center">
           <Typography weight="bold" align="center">
-            Dr. Ronald Eze
+            {`${user?.first_name} ${user?.last_name}`}
           </Typography>
           <Tag color={theme.palette.primary2.main}>
-            <Typography variant="bodySm">Therapist</Typography>
+            <Typography variant="bodySm">{user?.specialty}</Typography>
           </Tag>
         </Flex>
         <List

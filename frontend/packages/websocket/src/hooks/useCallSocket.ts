@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import useWebSocket from 'react-use-websocket';
-import { CallLog } from "@local/api-generated";
+import { CallLog, TOKEN_KEY } from "@local/api-generated";
 import { useQueryClient } from '@tanstack/react-query';
 
 
@@ -21,8 +21,7 @@ export enum MessageType {
 
 export type UserType = "doctor" | "health-care-assistant";
 
-// TODO: Move this to env later
-const WEBSOCKET_URL = 'ws://localhost:8000/video_call/';
+const WEBSOCKET_URL = import.meta.env.VITE_WEBSOCKET_BASE;
 
 export function useCallSocket<EventType = undefined>(
   handleMessageReceived: (message: WebSocketMessage<EventType>) => void,
@@ -36,7 +35,7 @@ export function useCallSocket<EventType = undefined>(
 
   const { sendJsonMessage, readyState } =
     useWebSocket<WebSocketMessage<EventType> | null>(WEBSOCKET_URL, {
-      queryParams: { userId, type },
+      queryParams: { userId, type, token: localStorage.getItem(TOKEN_KEY) || "" },
       onMessage: (event: WebSocketEventMap['message']) => {
         const message: WebSocketMessage<EventType> = JSON.parse(event.data);
         handleMessageReceived(message);
