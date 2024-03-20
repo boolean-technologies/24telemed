@@ -20,13 +20,15 @@ from channels.security.websocket import AllowedHostsOriginValidator
 from django.core.asgi import get_asgi_application
 from django.urls import path
 from call_log.consumer import CallLogWebSocketConsumer
+from .jwt_auth_middleware import JWTAuthMiddlewareStack
+
 asgi_application = get_asgi_application()
 
 application = ProtocolTypeRouter({
     "http": asgi_application,
 
     "websocket": AllowedHostsOriginValidator(
-        AuthMiddlewareStack(
+        JWTAuthMiddlewareStack(
             URLRouter([
                 path("video_call/", CallLogWebSocketConsumer.as_asgi()),
             ])
