@@ -27,11 +27,9 @@ asgi_application = get_asgi_application()
 application = ProtocolTypeRouter({
     "http": asgi_application,
 
-    "websocket": AllowedHostsOriginValidator(
-        JWTAuthMiddlewareStack(
+    "websocket": JWTAuthMiddlewareStack(
             URLRouter([
                 path("video_call/", CallLogWebSocketConsumer.as_asgi()),
             ])
-        )
-    ),
+        ),
 })
