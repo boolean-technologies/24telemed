@@ -7,7 +7,6 @@ import {
   FileProtectOutlined,
 } from '@ant-design/icons';
 import { UserAvatar } from '../../../components/PageLayout/UserAvatar';
-import { useGetCurrentUser } from '../../../api/personnels';
 import { User } from '@local/api-generated';
 
 type ProfilePreviewProps = {
