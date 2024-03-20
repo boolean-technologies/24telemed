@@ -28,10 +28,13 @@ application = ProtocolTypeRouter({
     "http": asgi_application,
 
     "websocket": AllowedHostsOriginValidator(
-        JWTAuthMiddlewareStack(
-            URLRouter([
-                path("video_call/", CallLogWebSocketConsumer.as_asgi()),
-            ])
-        )
+        URLRouter([
+            path("video_call/", CallLogWebSocketConsumer.as_asgi()),
+        ])
+        # JWTAuthMiddlewareStack(
+        #     URLRouter([
+        #         path("video_call/", CallLogWebSocketConsumer.as_asgi()),
+        #     ])
+        # )
     ),
 })
