@@ -41,6 +41,9 @@ CORS_ORIGIN_ALLOW_ALL = True
 # Application definition
 
 INSTALLED_APPS = [
+    'admin_tools_stats',
+    'django_nvd3',
+    'baton',
     "daphne",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -58,6 +61,7 @@ INSTALLED_APPS = [
     "patient",
     "medication",
     'django_filters',
+    'baton.autodiscover',
 ]
 
 MIDDLEWARE = [
@@ -187,6 +191,15 @@ SWAGGER_SETTINGS = {
 }
 
 AUTH_USER_MODEL = 'users.User'
+
+BATON = {
+    "SITE_TITLE": "Anambra State TeleHealth Connect System",
+    "SITE_HEADER": "Anambra State TeleHealth Connect System",
+    "INDEX_TITLE": "Anambra State TeleHealth Connect System",
+    "POWERED_BY": '<a href="https://www.theboolean.tech">The Bolean Tech </a>',
+    "COPYRIGHT" : "copyright © 2023 The Boolean Tech",
+    "MENU_ALWAYS_COLLAPSED": True
+}
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=7),
