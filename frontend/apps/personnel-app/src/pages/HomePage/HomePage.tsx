@@ -28,7 +28,7 @@ export function HomePage() {
     <>
       <Header />
       <Flex direction="column">
-        <Flex fullWidth padding="xl" direction="column">
+        <Flex fullWidth padding="xl" xsPadding="md" direction="column">
           <Typography variant="bodyLg" weight="bold">
             Find patient's profile
           </Typography>
@@ -46,6 +46,8 @@ export function HomePage() {
               flexDirection: 'row',
             }}
           >
+            <Flex fullWidth gap="xs">
+            <Flex flex={1}>
             <Form.Item<FieldType>
               name="phoneNumber"
               rules={[
@@ -66,7 +68,8 @@ export function HomePage() {
                 ref={searchInput}
               />
             </Form.Item>
-            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+            </Flex>
+            <Form.Item>
               <Button
                 type="primary"
                 loading={searchPatient.isPending}
@@ -74,6 +77,7 @@ export function HomePage() {
                 icon={<SearchIcon />}
               />
             </Form.Item>
+            </Flex>
           </Form>
           <Popup
             visible={!searchPatient.isIdle}

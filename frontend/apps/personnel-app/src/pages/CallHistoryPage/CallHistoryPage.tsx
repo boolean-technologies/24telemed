@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon';
 import { flatMap, groupBy } from 'lodash-es';
 import { isToday, isYesterday, format } from 'date-fns';
-import { Card, Flex, IonIcon, Typography } from '@local/shared-components';
+import { Card, Flex, IonIcon, MessageResult, Typography } from '@local/shared-components';
 import { InfiniteScroll, List } from 'antd-mobile';
 import { CallHistoryItem } from './CallHistoryItem';
 import { useSearchCallLogs } from '../../api/callLogs';
@@ -51,25 +51,11 @@ export function CallHistoryPage() {
         ))
       ) : (
         <Flex fullHeight fullWidth>
-          <Card fullHeight>
-            <Flex
-              direction="column"
-              align="center"
-              justify="center"
-              padding="xl"
-              fullHeight
-              fullWidth
-            >
-              <IonIcon name="list-circle" size={100} color="primary2.main" />
-              <Typography variant="h3" align="center">
-                No Call History
-              </Typography>
-              <Typography variant="bodyLg" align="center">
-                Your call log is currently empty. Make your first call today or
-                check back later to see your call history here.
-              </Typography>
-            </Flex>
-          </Card>
+          <MessageResult
+            icon="list-circle"
+            title="No Call History"
+            subTitle="Your call log is currently empty. Make your first call today or check back later to see your call history here."
+          />
         </Flex>
       )}
       {hasNextPage && (

@@ -16,23 +16,23 @@ export function PatientFountItem({ patient }: PatientFountItemProps) {
         <Flex>
           <StyledIconWrapper justify="center">
             {patient.photo ? (
-              <Image src={patient.photo} width={110} height={110} fit="contain" />
+              <Image src={patient.photo} width={60} height={60} fit="contain" />
             ) : (
               <IonIcon name="person" outlined color="primary2.main" size="lg" />
             )}
           </StyledIconWrapper>
 
           <Flex direction="column" gap="none">
-            <Typography variant="bodyXl" weight="bold">
+            <Typography variant="bodyMd" weight="bold">
               {patient.first_name} {patient.last_name}
             </Typography>
-            <Typography variant="bodyMd" color="primary1.light">
+            <Typography color="primary1.light">
               ID: {patient.phone_number}
             </Typography>
-            <Typography variant="bodyMd" color="primary1.light">
+            <Typography color="primary1.light">
               Gender: {patient.gender}
             </Typography>
-            <Typography variant="bodyMd" color="primary1.light">
+            <Typography color="primary1.light">
               Location: {patient.address}
             </Typography>
           </Flex>
@@ -43,8 +43,8 @@ export function PatientFountItem({ patient }: PatientFountItemProps) {
 }
 
 const StyledIconWrapper = styled(Flex)`
-  width: 110px;
-  height: 110px;
+  width: 60px;
+  height: 60px;
   border-radius: 100%;
   border: ${({ theme }) => theme.border.primary.main};
   background: ${({ theme }) => theme.palette.primary1.main};
