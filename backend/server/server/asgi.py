@@ -16,7 +16,7 @@ django.setup()
 
 from channels.auth import AuthMiddlewareStack
 from channels.routing import ProtocolTypeRouter, URLRouter
-from channels.security.websocket import AllowedHostsOriginValidator
+from channels.security.websocket import OriginValidator
 from django.core.asgi import get_asgi_application
 from django.urls import path
 from call_log.consumer import CallLogWebSocketConsumer
@@ -27,9 +27,16 @@ asgi_application = get_asgi_application()
 application = ProtocolTypeRouter({
     "http": asgi_application,
 
-    "websocket": JWTAuthMiddlewareStack(
+    "websocket": OriginValidator(
+        JWTAuthMiddlewareStack(
             URLRouter([
                 path("video_call/", CallLogWebSocketConsumer.as_asgi()),
             ])
         ),
+        [
+            'https://telemed-personnel-app.netlify.app',
+            'https://telemed-doctor-app.netlify.app', 
+            'localhost'
+        ]
+    ),
 })
