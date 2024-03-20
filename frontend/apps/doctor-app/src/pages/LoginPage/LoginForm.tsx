@@ -46,7 +46,7 @@ export function LoginForm() {
             name="username"
             rules={[
               { required: true, message: 'Please input your username!' },
-              { type: 'email', message: 'The input is not a valid username!' },
+              { type: 'string', message: 'The input is not a valid username!' },
             ]}
           >
             <Input prefix={<UserOutlined />} placeholder="Username" />
