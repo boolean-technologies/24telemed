@@ -17,6 +17,7 @@ export function MicButton() {
       icon={micOn ? 'mic' : 'mic-off'}
       onClick={() => toggleMic()}
       tooltip={micOn ? 'Turn off mic' : 'Turn on mic'}
+      variant={micOn ? 'primary2' : undefined}
       items={data.map((mic) => ({
         key: mic.deviceId,
         label: mic.label,

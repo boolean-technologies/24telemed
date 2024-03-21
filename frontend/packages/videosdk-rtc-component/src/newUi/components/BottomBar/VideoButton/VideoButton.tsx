@@ -21,6 +21,7 @@ export function VideoButton() {
     <IconButton
       icon={webcamOn ? 'videocam' : 'videocam-off'}
       tooltip={webcamOn ? 'Turn off video' : 'Turn on video'}
+      variant={webcamOn ? 'primary2' : undefined}
       onClick={() => toggleWebcam()}
       items={data.map((cam) => ({
         key: cam.deviceId,
