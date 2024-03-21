@@ -40,15 +40,13 @@ export function PatientProfilePage() {
         header: { background: theme.palette.primary2.main },
       }}
     >
-      <Flex direction="column" fullHeight fullWidth gap="lg">
+      <Flex direction="column" fullHeight fullWidth gap="lg" xsGap="xs">
         <PatientProfileHeader patient={patient} />
-        <TabContainer align="flex-start" justify="center" fullHeight fullWidth padding="lg">
+        <TabContainer align="flex-start" justify="center" fullHeight fullWidth padding="sm">
         <Tabs
           defaultActiveKey="medicalHistory"
           type="card"
-          tabBarStyle={{
-            width: `calc(100vw - 2 * ${theme.spacing.lg})`,
-          }}
+          style={{ width: "100%"}}
           tabBarGutter={8}
           items={[
             {
@@ -79,6 +77,6 @@ export function PatientProfilePage() {
 
 const TabContainer = styled(Flex)`
   background-color: ${({ theme }) => theme.palette.common.white};
-  border-top-right-radius: ${({ theme }) => theme.spacing.xl};
-  border-top-left-radius: ${({ theme }) => theme.spacing.xl};
+  // border-top-right-radius: ${({ theme }) => theme.spacing.xl};
+  // border-top-left-radius: ${({ theme }) => theme.spacing.xl};
 `;

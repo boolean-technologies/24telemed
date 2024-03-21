@@ -57,7 +57,6 @@ const DoctorInfoComponent = ({ id, patientId }: DoctorInfoComponentProps) => {
             name="callDoctor"
             layout="vertical"
             onFinish={handleCallDoctor}
-            style={{ minWidth: 300 }}
             initialValues={{ priority: 1 } as any}
           >
             <Form.Item
@@ -66,7 +65,6 @@ const DoctorInfoComponent = ({ id, patientId }: DoctorInfoComponentProps) => {
               rules={[{ required: true }]}
             >
               <Select
-                style={{ width: '100%' }}
                 options={[
                   { value: 1, label: 'Low' },
                   { value: 2, label: 'Medium' },

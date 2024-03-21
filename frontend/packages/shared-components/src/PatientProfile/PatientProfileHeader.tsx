@@ -17,7 +17,7 @@ export const PatientProfileHeader = ({
 }: PatientProfileHeaderProps) => {
   const patientName = `${patient.first_name} ${patient.last_name}`;
   return (
-    <Flex fullWidth padding="xl" justify="space-between" xsDirection="column">
+    <Flex fullWidth padding="xl" smPadding="lg" justify="space-between" xsDirection="column">
       <Flex direction="row" gap="sm" align="center" xsDirection="column">
         <Image
           width={100}

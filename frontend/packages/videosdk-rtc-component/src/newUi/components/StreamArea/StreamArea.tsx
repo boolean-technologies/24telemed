@@ -1,4 +1,4 @@
-import { Flex } from '@local/shared-components';
+import { Flex, useBreakpoints } from '@local/shared-components';
 import { Layout } from 'antd';
 import { SideContent } from './SideContent';
 import { StreamLayout } from './Streaming';
@@ -29,11 +29,12 @@ export function StreamArea({
     medicalNotes: 'Visitation Notes',
     medication: 'Medication & Review',
   };
+  const { isXs } = useBreakpoints();
 
   return (
     <Flex flex={1} justify="center" fullHeight>
       <StyledRootLayout collapsed={!sideView}>
-        <Layout style={{ background: 'transparent' }}>
+        <Layout style={{ background: 'transparent', display: !(!sideView && isXs) ? "none" : "unset" }}>
           <Flex
             fullHeight
             fullWidth
@@ -48,7 +49,7 @@ export function StreamArea({
           collapsible
           collapsed={!sideView}
           onCollapse={(value) => onClose()}
-          width={400}
+          width={isXs ? "100%" : 400}
           collapsedWidth={0}
           style={{ background: 'transparent', overflow: 'hidden' }}
           trigger={null}

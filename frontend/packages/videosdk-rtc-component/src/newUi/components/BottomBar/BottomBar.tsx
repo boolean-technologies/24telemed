@@ -28,7 +28,7 @@ export function BottomBar({
   onMedicalNoteButtonClick,
 }: BottomBarProps) {
   return (
-    <Flex>
+    <Flex xsDirection="column">
       <Flex gap="xs">
         <ClockDisplay />
         <Typography color="common.white" weight="bold">

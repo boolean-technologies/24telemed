@@ -11,8 +11,8 @@ const PatientFound = ({ data }: Props) => {
   const totalPatients = data.length;
 
   return (
-    <Flex direction="column" fullWidth padding="xl" justify="center">
-      <Flex padding="xs" direction="column">
+    <Flex direction="column" fullWidth padding="xl" smPadding="md" justify="center">
+      <Flex direction="column">
         <Flex fullWidth direction="row">
           <FoundIcon />
           <Typography variant="bodyLg" weight="bold">
@@ -23,13 +23,11 @@ const PatientFound = ({ data }: Props) => {
           Please click to confirm & access the patient profile.
         </Typography>
       </Flex>
-      <List style={{ margin: 0 }}>
-        {data.map((patient) => (
-          <List.Item key={patient.id}>
-            <PatientFountItem patient={patient} />
-          </List.Item>
+      <Flex direction="column">
+        {new Array(10).fill(data[0]).map((patient) => (
+          <PatientFountItem key={patient.id} patient={patient} />
         ))}
-      </List>
+      </Flex>
     </Flex>
   );
 };

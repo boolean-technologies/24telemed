@@ -1,5 +1,5 @@
 import { PatientSearch } from '@local/api-generated';
-import { Flex, IonIcon, Typography } from '@local/shared-components';
+import { Flex, IonIcon, Typography, addAlpha } from '@local/shared-components';
 import { Image } from 'antd-mobile';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -11,7 +11,7 @@ type PatientFountItemProps = {
 
 export function PatientFountItem({ patient }: PatientFountItemProps) {
   return (
-    <Link to={Path.patient+"/"+patient.id}>
+    <StyledRoot to={Path.patient+"/"+patient.id}>
       <Flex fullWidth justify="space-between">
         <Flex>
           <StyledIconWrapper justify="center">
@@ -38,7 +38,7 @@ export function PatientFountItem({ patient }: PatientFountItemProps) {
           </Flex>
         </Flex>
       </Flex>
-    </Link>
+    </StyledRoot>
   );
 }
 
@@ -49,4 +49,13 @@ const StyledIconWrapper = styled(Flex)`
   border: ${({ theme }) => theme.border.primary.main};
   background: ${({ theme }) => theme.palette.primary1.main};
   overflow: hidden;
+`;
+
+const StyledRoot = styled(Link)`
+  background: ${({ theme }) => addAlpha(theme.palette.primary1.lighter, 0.2)};
+  padding: ${({ theme }) => `${theme.spacing.xs} ${theme.spacing.sm}`};
+  border-radius: ${({ theme }) => theme.spacing.xs};
+  :hover {
+    background: ${({ theme }) => addAlpha(theme.palette.primary1.ligher, 0.3)};
+  }
 `;

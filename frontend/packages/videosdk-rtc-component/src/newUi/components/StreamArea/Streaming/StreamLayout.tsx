@@ -1,5 +1,5 @@
 import { Flex } from '@local/shared-components';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { LocalStream } from './LocalStream';
 import { RemoteStream } from './RemoteStream';
 import { useCallContext } from '../../../context/AppContext';
@@ -61,7 +61,13 @@ const StyledLocaStreamWrapper = styled(Flex)`
   position: absolute;
   bottom: ${({ theme }) => theme.spacing.sm};
   right: ${({ theme }) => theme.spacing.sm};
+
   width: 250px;
   aspect-ratio: 1.77273;
   box-shadow: ${({ theme }) => theme.shadows.lg};
+  ${({ theme }) =>
+    theme.breakpoints.xs.down(css`
+      bottom: unset;
+      top: ${({ theme }) => theme.spacing.sm};
+    `)}
 `;
