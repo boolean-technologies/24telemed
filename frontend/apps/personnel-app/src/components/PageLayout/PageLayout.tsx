@@ -3,7 +3,7 @@ import { useLocation, Outlet, useNavigate } from 'react-router-dom';
 
 import styled, { useTheme } from 'styled-components';
 import { Path } from '../../constants';
-import { IonIcon, Theme, Typography, useLogout } from '@local/shared-components';
+import { IonIcon, Theme, useLogout } from '@local/shared-components';
 import { Layout } from 'antd';
 import { PageHeader } from './PageHeader';
 
@@ -77,8 +77,7 @@ export function PageLayout() {
                   ...(isActive
                     ? {
                         fontWeight: 'bold',
-                        background: theme.palette.common.black,
-                        color: theme.palette.primary2.main,
+                        color: theme.palette.common.black,
                       }
                     : {}),
                   height: 65,
