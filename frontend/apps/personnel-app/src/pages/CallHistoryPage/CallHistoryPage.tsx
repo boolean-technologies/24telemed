@@ -33,10 +33,10 @@ export function CallHistoryPage() {
   };
 
   return (
-    <Flex direction="column" padding="md" fullHeight>
+    <Flex direction="column" padding="md" fullHeight fullWidth>
       {callLogs.length ? (
         Object.keys(groupedCalls).map((date: string) => (
-          <Flex direction="column">
+          <Flex direction="column" key={date}>
             <Typography weight="bold">{formatGroupDate(date)}</Typography>
             <Card padding="none">
               <List mode="card" style={{ margin: 0 }}>

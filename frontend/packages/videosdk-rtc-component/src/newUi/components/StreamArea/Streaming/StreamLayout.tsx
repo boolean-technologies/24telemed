@@ -55,6 +55,13 @@ const StyledRoot = styled(Flex)`
 
 const StyledRemoteStreamWrapper = styled(Flex)`
   position: absolute;
+  ${({ theme }) =>
+    theme.breakpoints.xs.down(css`
+      > div {
+        border: none;
+        border-radius: 0;
+      }
+    `)}
 `;
 
 const StyledLocaStreamWrapper = styled(Flex)`

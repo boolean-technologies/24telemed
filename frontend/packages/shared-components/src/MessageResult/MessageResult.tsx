@@ -11,7 +11,7 @@ type MessageResultProps = {
 
 export function MessageResult({ title, subTitle, icon }: MessageResultProps) {
   return (
-    <Flex fullHeight fullWidth>
+    <Flex fullHeight fullWidth justify="center" align="center">
       <Result
         icon={<IonIcon name={icon} size={80} color="primary1.lighter" />}
         title={

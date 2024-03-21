@@ -1,7 +1,7 @@
 import { Flex, IonIcon, Typography, addAlpha } from '@local/shared-components';
 import { Divider } from 'antd';
 import { ReactNode } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 type SideContentProps = {
     onClose: () => void;
@@ -31,6 +31,10 @@ export function SideContent({ onClose, children, title }: SideContentProps) {
 const StyledRoot = styled(Flex)`
   background: ${({ theme }) => addAlpha(theme.palette.primary1.lighter, 0.2)};
   border-radius: ${({ theme }) => theme.spacing.sm};
+  ${({ theme }) =>
+    theme.breakpoints.xs.down(css`
+      border-radius: 0;
+    `)}
   overflow: hidden;
 `;
 
