@@ -4,7 +4,7 @@ import { WebView } from 'react-native-webview';
 
 export const App = () => {
   return (
-    <View style={{ backgroundColor: '#FFDD00', flex: 1 }}>
+    <View style={{ flex: 1 }}>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView style={{ flex: 1, overflow: 'hidden', paddingBottom: 0 }}>
         <WebView
@@ -15,6 +15,17 @@ export const App = () => {
           setDisplayZoomControls={false}
         />
       </SafeAreaView>
+      <View 
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          height: 200,
+          backgroundColor: "#FFDD00",
+          zIndex: -1,
+        }}
+      />
     </View>
   );
 };
