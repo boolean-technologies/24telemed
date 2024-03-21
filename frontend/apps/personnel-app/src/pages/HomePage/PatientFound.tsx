@@ -1,6 +1,5 @@
 import { PatientSearch } from '@local/api-generated';
 import { Flex, FoundIcon, Typography } from '@local/shared-components';
-import { List } from 'antd-mobile';
 import { PatientFountItem } from './PatientFountItem';
 
 type Props = {
@@ -24,7 +23,7 @@ const PatientFound = ({ data }: Props) => {
         </Typography>
       </Flex>
       <Flex direction="column">
-        {new Array(10).fill(data[0]).map((patient) => (
+        {data.map((patient) => (
           <PatientFountItem key={patient.id} patient={patient} />
         ))}
       </Flex>

@@ -1,16 +1,14 @@
-import { Flex, Typography } from '@local/shared-components';
+import { Flex, MessageResult, Typography } from '@local/shared-components';
 
 import DoctorInfoComponent from './DoctorInfo';
 import { usePersonnelCommunication } from '@local/websocket';
 import { List } from 'antd-mobile';
-import { Empty } from 'antd';
 
 type AvailableDoctorsProps = {
   patientId: string;
-}
+};
 
 const AvailableDoctors = ({ patientId }: AvailableDoctorsProps) => {
-
   const { availableDoctors = [] } = usePersonnelCommunication();
 
   return (
@@ -27,22 +25,23 @@ const AvailableDoctors = ({ patientId }: AvailableDoctorsProps) => {
         justify="center"
       >
         {availableDoctors.length ? (
-          <List style={{ width: "100%" }}>
+          <List style={{ width: '100%' }}>
             {availableDoctors.map((doctorId) => (
               <List.Item key={doctorId}>
-                <DoctorInfoComponent key={doctorId} id={doctorId} patientId={patientId} />
+                <DoctorInfoComponent
+                  key={doctorId}
+                  id={doctorId}
+                  patientId={patientId}
+                />
               </List.Item>
             ))}
           </List>
         ) : (
           <Flex padding="xl">
-            <Empty
-              description={
-                <Typography align="center" variant="bodyLg">
-                  No doctor is available at the moment. <br />
-                  Please check back later.
-                </Typography>
-              }
+            <MessageResult
+              icon="people-circle"
+              title="No doctor is available at the moment."
+              subTitle="Please check back later."
             />
           </Flex>
         )}
