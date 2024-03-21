@@ -41,7 +41,10 @@ CORS_ORIGIN_ALLOW_ALL = True
 # Application definition
 
 INSTALLED_APPS = [
+    'admin_tools_stats',
+    'django_nvd3',
     "daphne",
+    'baton',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -58,6 +61,7 @@ INSTALLED_APPS = [
     "patient",
     "medication",
     'django_filters',
+    'baton.autodiscover',
 ]
 
 MIDDLEWARE = [
@@ -197,3 +201,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
+BATON = {
+    "SITE_TITLE": "Anambra State TeleHealth Connect System",
+    "SITE_HEADER": "Anambra State TeleHealth Connect System",
+    "INDEX_TITLE": "Anambra State TeleHealth Connect System",
+    "POWERED_BY": '<a href="https://www.theboolean.tech">The Bolean Tech </a>',
+    "COPYRIGHT" : "copyright © 2023 The Boolean Tech",
+    "MENU_ALWAYS_COLLAPSED": True
+}
