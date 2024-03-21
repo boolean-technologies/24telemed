@@ -16,6 +16,7 @@ type BottomBarProps = {
   onMedicationButtonClick: () => void;
   onChatClick: () => void;
   onMedicalNoteButtonClick: () => void;
+  onPatientProfileButtonClick: () => void;
   hasNoteNotification: boolean;
 };
 
@@ -26,6 +27,7 @@ export function BottomBar({
   onChatClick,
   onMedicationButtonClick,
   onMedicalNoteButtonClick,
+  onPatientProfileButtonClick,
 }: BottomBarProps) {
   return (
     <Flex xsDirection="column">
@@ -47,7 +49,10 @@ export function BottomBar({
         <EndCallButton />
       </Flex>
       <Flex justify="flex-end">
-        <PatientInfoButton />
+        <PatientInfoButton
+          active={currentView === 'patientProfile'}
+          onClick={onPatientProfileButtonClick}
+        />
         <MedicalNotesButton
           active={currentView === 'medicalNotes'}
           onClick={onMedicalNoteButtonClick}

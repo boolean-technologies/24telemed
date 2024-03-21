@@ -2,7 +2,7 @@ import { Layout } from 'antd';
 import { useState } from 'react';
 import styled from 'styled-components';
 import { BottomBar } from './BottomBar';
-import { Flex } from '@local/shared-components';
+import { Flex, useBreakpoints } from '@local/shared-components';
 import { StreamArea, StreamAreaProps } from './StreamArea';
 import { NoteType } from './StreamArea/MedicalNote/types';
 import { useMedicalNoteSections } from './StreamArea/MedicalNote/useMedicalNoteSections';
@@ -11,7 +11,8 @@ type AppMainProps = {
   meetingTitle: string;
 };
 export function AppMain({ meetingTitle }: AppMainProps) {
-  const [sideView, setSideView] = useState<StreamAreaProps['sideView']>();
+  const { isXs } = useBreakpoints();
+  const [sideView, setSideView] = useState<StreamAreaProps['sideView']>(isXs ? undefined : 'patientProfile');
   const [activeNoteSection, setActiveNoteSection] =
     useState<NoteType>('reason_for_visit');
   const medicalNoteSections = useMedicalNoteSections(activeNoteSection);
@@ -42,6 +43,7 @@ export function AppMain({ meetingTitle }: AppMainProps) {
           onChatClick={() => onBottomButtonClick('chats')}
           onMedicationButtonClick={() => onBottomButtonClick('medication')}
           onMedicalNoteButtonClick={() => onBottomButtonClick('medicalNotes')}
+          onPatientProfileButtonClick={() => onBottomButtonClick('patientProfile')}
         />
       </Flex>
     </StyledRoot>

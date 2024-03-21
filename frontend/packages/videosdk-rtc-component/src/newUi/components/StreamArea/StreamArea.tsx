@@ -8,9 +8,10 @@ import { MedicalNote } from './MedicalNote';
 import { SectionsType } from './MedicalNote/useMedicalNoteSections';
 import { NoteType } from './MedicalNote/types';
 import { Medications } from './Medications';
+import { PatientProfile } from './PatientProfile';
 
 export type StreamAreaProps = {
-  sideView?: 'chats' | 'medicalNotes' | 'medication';
+  sideView?: 'chats' | 'medicalNotes' | 'medication' | 'patientProfile';
   onClose: () => void;
   activeNoteSection: NoteType;
   medicalNoteSections: SectionsType;
@@ -28,13 +29,14 @@ export function StreamArea({
     chats: 'Messages',
     medicalNotes: 'Visitation Notes',
     medication: 'Medication & Review',
+    patientProfile: 'Patient Info'
   };
   const { isXs } = useBreakpoints();
 
   return (
     <Flex flex={1} justify="center" fullHeight>
       <StyledRootLayout collapsed={!sideView}>
-        <Layout style={{ background: 'transparent', display: !(!sideView && isXs) ? "none" : "unset" }}>
+        <Layout style={{ background: 'transparent', display: (sideView && isXs) ? "none" : "unset" }}>
           <Flex
             fullHeight
             fullWidth
@@ -49,7 +51,7 @@ export function StreamArea({
           collapsible
           collapsed={!sideView}
           onCollapse={(value) => onClose()}
-          width={isXs ? "100%" : 400}
+          width={isXs ? "100%" : 450}
           collapsedWidth={0}
           style={{ background: 'transparent', overflow: 'hidden' }}
           trigger={null}
@@ -58,6 +60,7 @@ export function StreamArea({
             title={sideView ? titles[sideView] : ''}
             onClose={() => onClose()}
           >
+            {sideView === 'patientProfile' ? <PatientProfile /> : null}
             {sideView === 'chats' ? <Messanger /> : null}
             {sideView === 'medication' ? <Medications /> : null}
             {sideView === 'medicalNotes' ? (
