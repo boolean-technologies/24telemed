@@ -11,6 +11,7 @@ export function MedicationButton({ onClick, active }: MedicationButtonProps) {
       icon="medkit"
       onClick={onClick}
       tooltip="Medications"
+      label="Meds"
       variant={active ? 'primary2' : undefined}
     />
   );

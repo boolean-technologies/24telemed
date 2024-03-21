@@ -16,6 +16,7 @@ export function MedicalNotesButton({
       icon="document-text"
       onClick={onClick}
       tooltip="Medical notes"
+      label="Notes"
       variant={active ? 'primary2' : undefined}
       badgeIsDot={hasNotification}
     />

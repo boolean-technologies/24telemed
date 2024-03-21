@@ -1,11 +1,13 @@
 import { Badge, Button, ButtonProps, Dropdown, MenuProps, Tooltip } from 'antd';
 import styled, { css, useTheme } from 'styled-components';
 import {
+  Flex,
   IonIcon,
   PaletteVariants,
   ShadowVariants,
   SpacingVariants,
   Theme,
+  Typography,
 } from '@local/shared-components';
 import { get } from 'lodash-es';
 
@@ -109,6 +111,7 @@ type IconButtonProps = {
   className?: string;
   items?: MenuProps['items'];
   badgeIsDot?: boolean;
+  label?: string;
 };
 
 export function IconButton({
@@ -124,6 +127,7 @@ export function IconButton({
   iconBold,
   className,
   items = [],
+  label,
 }: IconButtonProps) {
   const variantDesc = variants[variant];
   const theme = useTheme() as Theme;
@@ -163,6 +167,7 @@ export function IconButton({
         style={{ fontWeight: 'bold', boxShadow: 'none' }}
         dot={badgeIsDot}
       >
+        <Flex direction="column" gap="xxs" align="center" justify="center">
         {items.length ? (
           <StyledDropdownButton
             size={size}
@@ -177,6 +182,8 @@ export function IconButton({
         ) : (
           mainButton
         )}
+        {label && <Typography variant="bodyXs" weight="bold" color="primary1.lighter">{label}</Typography>}
+        </Flex>
       </Badge>
     </Tooltip>
   );

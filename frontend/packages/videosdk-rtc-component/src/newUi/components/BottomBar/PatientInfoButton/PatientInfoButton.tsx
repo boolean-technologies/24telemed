@@ -20,6 +20,7 @@ export function PatientInfoButton() {
         icon="information-circle"
         onClick={() => setOpen(true)}
         tooltip="Patient Info"
+        label="Patient"
       />
       <Drawer
         title="Patient Information"

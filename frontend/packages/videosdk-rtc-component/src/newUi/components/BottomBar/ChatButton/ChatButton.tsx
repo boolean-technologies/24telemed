@@ -32,6 +32,7 @@ export function ChatButton({ onClick, active }: ChatButtonProps) {
       icon="chatbubbles"
       onClick={onClick}
       tooltip="Send message"
+      label="Chats"
       variant={active ? 'primary2' : undefined}
     />
   );
