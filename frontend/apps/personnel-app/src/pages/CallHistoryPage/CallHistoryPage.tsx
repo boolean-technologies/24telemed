@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon';
 import { flatMap, groupBy } from 'lodash-es';
 import { isToday, isYesterday, format } from 'date-fns';
-import { Card, Flex, IonIcon, MessageResult, Typography } from '@local/shared-components';
+import { Card, Flex, MessageResult, Typography } from '@local/shared-components';
 import { InfiniteScroll, List } from 'antd-mobile';
 import { CallHistoryItem } from './CallHistoryItem';
 import { useSearchCallLogs } from '../../api/callLogs';

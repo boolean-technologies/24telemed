@@ -5,6 +5,7 @@ import {
   FullCallLog,
   CallLogsService,
   CallLog,
+  PersonnelService
 } from '@local/api-generated';
 
 type SearchType = {
@@ -32,9 +33,9 @@ export const useSearchCallLogs = (
   params: SearchType,
 ) =>
 useInfiniteQuery<SearchResultType<FullCallLog>, ApiError>({
+    initialPageParam: 1,
     queryKey: ['callLogs', params],
-    // @ts-ignore
-    queryFn: ({ pageParam = 1 }) => CallLogsService.callLogsList(
+    queryFn: ({ pageParam = 1 }) => PersonnelService.personnelCallLogsList(
       params.status,
       params.callType,
       params.notesIcontains,

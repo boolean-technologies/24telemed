@@ -35,7 +35,7 @@ export function CallHistoryTable({ tableData, searchParams, onPageChange }: Call
       title: 'Duration',
       dataIndex: 'created_at',
       key: 'time',
-      render: (_, record) => timeDiffInMins(record.start_time!, record.end_time!),
+      render: (_, record) => timeDiffInMins(record.start_time!, (record.end_time || record.updated_at)!),
     },
     {
       title: 'Status',

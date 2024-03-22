@@ -93,8 +93,8 @@ const StyledRoot = styled(Layout)`
 
 const StyledDrawer = styled(Drawer)`
   background: ${({ theme }) => theme.palette.primary1.main} !important;
-  border-top-left-radius: ${({ theme }) => theme.spacing.md};
-  border-top-right-radius: ${({ theme }) => theme.spacing.md};
+  // border-top-left-radius: ${({ theme }) => theme.spacing.md};
+  // border-top-right-radius: ${({ theme }) => theme.spacing.md};
   .ant-drawer-header {
     display: none;
   }

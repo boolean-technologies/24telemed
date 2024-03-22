@@ -27,6 +27,7 @@ export function PageLayout() {
   const { data: user } = useCurrentUser();
 
   const navigate = useNavigate();
+  const toggleCollapse = () => setCollapsed((prev) => !prev);
 
   return (
     <StyledRoot>
@@ -119,7 +120,7 @@ export function PageLayout() {
           <Button
             type="text"
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
+            onClick={toggleCollapse}
             style={{
               fontSize: theme.typography.bodySm.fontSize,
               width: 40,

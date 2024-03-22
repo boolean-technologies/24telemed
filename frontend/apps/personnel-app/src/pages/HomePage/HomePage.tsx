@@ -100,12 +100,12 @@ export function HomePage() {
               />
             ) : searchPatient.data?.length ? (
               <PatientFound data={searchPatient.data || []} />
-            ) : (
+            ) :  searchPatient.data?.length === 0 ?(
               <PatientNotFound
                 phoneNumber={searchPatient.variables!}
                 onSearchAnother={handleSearchAnother}
               />
-            )}
+            ) : null}
           </Popup>
         </Flex>
       </Flex>

@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon';
-import { FullCallLog } from '@local/api-generated';
+import { FullCallLog, timeDiffInMins } from '@local/api-generated';
 import {
   CallStatus,
   Flex,
@@ -26,7 +26,14 @@ export function CallHistoryItem({ callLog }: CallHistoryItemProps) {
             <CallStatus status={callLog.status!} />
           </Typography>
           <Typography variant="bodySm" color="primary1.light">
-            Patient: {callLog?.patient ? <>{callLog?.patient?.first_name} ({callLog?.patient?.patient_id})</> : "N/A" } 
+            Patient:{' '}
+            {callLog?.patient ? (
+              <>
+                {callLog?.patient?.first_name} ({callLog?.patient?.patient_id})
+              </>
+            ) : (
+              'N/A'
+            )}
           </Typography>
         </Flex>
       </Flex>
@@ -38,7 +45,7 @@ export function CallHistoryItem({ callLog }: CallHistoryItemProps) {
           </Typography>
         </Flex>
         <Typography variant="bodySm" color="primary1.light" align="right">
-          0 min
+          {timeDiffInMins(callLog.start_time!, (callLog.end_time || callLog.updated_at)!)}
         </Typography>
       </Flex>
     </Flex>
