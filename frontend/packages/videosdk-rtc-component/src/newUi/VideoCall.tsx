@@ -4,6 +4,7 @@ import { AppContextType, CallContextProvider } from './context/AppContext';
 import { usePermissions } from './hooks/usePermissions';
 import { useState } from 'react';
 import { JoiningArea } from './components/JoiningArea';
+import { useBreakpoints } from '@local/shared-components';
 
 type VideoCallProps = {
   participantName: string;
@@ -21,6 +22,7 @@ export function VideoCall({
   patientId,
 }: VideoCallProps) {
   usePermissions();
+  const { isXs } = useBreakpoints();
   const [screen, setScreen] = useState<'joining' | 'call'>('joining');
   const [micEnabled, setMicEnabled] = useState<boolean>(false);
   const [webcamEnabled, setWebcamEnabled] = useState<boolean>(false);
@@ -31,7 +33,7 @@ export function VideoCall({
         webcamEnabled={webcamEnabled}
         micEnabled={micEnabled}
         setMicEnabled={setMicEnabled}
-        onJoinNow={() => setScreen("call")}
+        onJoinNow={() => setScreen('call')}
       />
     );
   return (
@@ -52,7 +54,10 @@ export function VideoCall({
         patientId={patientId}
         userType={userType}
       >
-        <AppMain meetingTitle="Medical consultation" />
+        <AppMain
+          meetingTitle="Medical consultation"
+          defaultSideView={isXs ? undefined : 'patientProfile'}
+        />
       </CallContextProvider>
     </MeetingProvider>
   );

@@ -7,7 +7,7 @@ import ReactPlayer from 'react-player';
 
 
 type RemoteStreamProps = {
-  onLayoutToggle: () => void;
+  onLayoutToggle?: () => void;
 }
 
 export function RemoteStream({ onLayoutToggle }: RemoteStreamProps) {

@@ -149,6 +149,7 @@ const StyledRoot = styled(Flex)`
   background: ${({ theme }) => theme.palette.primary1.main};
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 `;
 
 const StyledVideo = styled.video`

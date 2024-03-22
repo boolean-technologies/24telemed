@@ -9,8 +9,9 @@ export function StreamLayout() {
   const { remoteParticipant, localParticipant } = useCallContext();
   const [bigStream, setBigStream] = useState<'remote' | 'local'>('remote');
 
-  const onLayoutToggle = () =>
-    setBigStream((prev) => (prev === 'local' ? 'remote' : 'local'));
+  const onLayoutToggle = remoteParticipant
+    ? () => setBigStream((prev) => (prev === 'local' ? 'remote' : 'local'))
+    : undefined;
 
   if (bigStream === 'local') {
     return (

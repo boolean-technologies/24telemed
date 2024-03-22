@@ -51,7 +51,7 @@ export function StreamArea({
           collapsible
           collapsed={!sideView}
           onCollapse={(_) => onClose()}
-          width={isXs ? "100%" : 450}
+          width={isXs ? "100%" : 400}
           collapsedWidth={0}
           style={{ background: 'transparent', overflow: 'hidden' }}
           trigger={null}

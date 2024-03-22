@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { useVideoStreamTrack } from './useVideoStreamTrack';
 
 type LocalStreamProps = {
-  onLayoutToggle: () => void;
+  onLayoutToggle?: () => void;
 }
 
 

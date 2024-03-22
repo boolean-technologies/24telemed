@@ -1,5 +1,5 @@
 import { Drawer, FloatButton, Layout } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { BottomBar } from './BottomBar';
 import {
@@ -14,13 +14,12 @@ import { useMedicalNoteSections } from './StreamArea/MedicalNote/useMedicalNoteS
 
 type AppMainProps = {
   meetingTitle: string;
+  defaultSideView?: StreamAreaProps['sideView'];
 };
-export function AppMain({ meetingTitle }: AppMainProps) {
+export function AppMain({ meetingTitle, defaultSideView }: AppMainProps) {
   const { isXs } = useBreakpoints();
   const [isOpenMobileMenus, setIsOpenMobileMenus] = useState<boolean>();
-  const [sideView, setSideView] = useState<StreamAreaProps['sideView']>(
-    isXs ? undefined : 'patientProfile'
-  );
+  const [sideView, setSideView] = useState<StreamAreaProps['sideView']>(defaultSideView);
   const [activeNoteSection, setActiveNoteSection] =
     useState<NoteType>('reason_for_visit');
   const medicalNoteSections = useMedicalNoteSections(activeNoteSection);

@@ -26,7 +26,7 @@ export const App = () => {
       <StatusBar barStyle="dark-content" />
       <SafeAreaView style={{ flex: 1, overflow: 'hidden', paddingBottom: 0 }}>
         <WebView
-          source={{ uri: 'https://telemed-personnel-app.netlify.app/meeting/bfe759dc-9544-489e-8168-96d939f3f65a' }}
+          source={{ uri: 'https://telemed-personnel-app.netlify.app/meeting/e03c155b-a11d-4d14-b637-2faee10e3901' }}
           style={{ flex: 1, overflow: 'hidden' }}
           scrollEnabled={false}
           setBuiltInZoomControls={false}

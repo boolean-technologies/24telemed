@@ -13,7 +13,7 @@ type StreamPlayerProps = {
   name?: string;
   participantId: string;
   children: ReactNode;
-  onLayoutToggle: () => void;
+  onLayoutToggle?: () => void;
 };
 
 export function StreamPlayer({
@@ -84,16 +84,23 @@ export function StreamPlayer({
         </StyledName>
         <StyledStreamOverlay fullWidth fullHeight justify="center">
           <StyledStreamOverlayContent align="center" justify="center">
-            <div className='content-holder'>
-              <Button
-                type="primary"
-                icon={<IonIcon name="swap-horizontal" size="md" />}
-                size="large"
-                shape="circle"
-                style={{ width: 60, height: 60, background: "rgba(0,0,0,0.5)", boxShadow: "none" }}
-                onClick={onLayoutToggle}
-              />
-            </div>
+            {onLayoutToggle ? (
+              <div className="content-holder">
+                <Button
+                  type="primary"
+                  icon={<IonIcon name="swap-horizontal" size="md" />}
+                  size="large"
+                  shape="circle"
+                  style={{
+                    width: 60,
+                    height: 60,
+                    background: 'rgba(0,0,0,0.5)',
+                    boxShadow: 'none',
+                  }}
+                  onClick={onLayoutToggle}
+                />
+              </div>
+            ) : null}
           </StyledStreamOverlayContent>
         </StyledStreamOverlay>
       </StyledVideoWrap>
@@ -144,19 +151,17 @@ const StyledStreamOverlayContent = styled(Flex)`
   padding: 40px;
   border-radius: 100%;
   cursor: pointer;
-  
+
   .content-holder {
     display: none;
     align-items: center;
     justify-content: center;
   }
 
-  :hover  .content-holder{
-    display: flex
+  :hover .content-holder {
+    display: flex;
   }
-
 `;
-
 
 const StyledStreamOverlay = styled(Flex)`
   position: absolute;
@@ -164,6 +169,4 @@ const StyledStreamOverlay = styled(Flex)`
   bottom: 0;
   left: 0;
   right: 0;
-  
 `;
-

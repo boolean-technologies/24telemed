@@ -10,7 +10,6 @@ import {
 } from 'react';
 
 export interface AppContextType {
-  leaveMeeting: () => void;
   localParticipant: Participant;
   remoteParticipant?: Participant;
   patientId: string;
@@ -19,7 +18,6 @@ export interface AppContextType {
 }
 
 const AppContext = createContext<AppContextType>({
-  leaveMeeting: () => {},
   localParticipant: {} as Participant,
   patientId: '',
   userId: '',
@@ -53,8 +51,6 @@ export function CallContextProvider({
     },
   });
 
-  const leaveMeeting = () => {};
-
   const remoteParticipant = useMemo(() => {
     for (const [key, value] of participants) {
       if (key !== localParticipant.id && !value.local) return value;
@@ -63,18 +59,16 @@ export function CallContextProvider({
   }, [participants]);
 
   useEffect(() => {
-    join();
-    return () => {
-      leave();
-    };
-  }, [localParticipant?.id]);
+    // join();
+    console.log("---- LOG ---- REFRESH")
+    return () => { leave(); };
+  }, []);
 
   return (
     <AppContext.Provider
       value={{
         localParticipant,
         remoteParticipant,
-        leaveMeeting,
         patientId,
         userType,
         userId,
