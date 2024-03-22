@@ -46,6 +46,7 @@ export function CallContextProvider({
   const { join, leave, participants, localParticipant } = useMeeting({
     onMeetingJoined: () => {
       queryClient.invalidateQueries();
+      console.log('Meeting joined');
     },
     onMeetingLeft: () => {
       console.log('Meeting left');
@@ -62,7 +63,7 @@ export function CallContextProvider({
   }, [participants]);
 
   useEffect(() => {
-    if (localParticipant?.id !== userId) join();
+    join();
     return () => {
       leave();
     };
