@@ -58,12 +58,6 @@ export function CallContextProvider({
     return undefined;
   }, [participants]);
 
-  useEffect(() => {
-    // join();
-    console.log("---- LOG ---- REFRESH")
-    return () => { leave(); };
-  }, []);
-
   return (
     <AppContext.Provider
       value={{
