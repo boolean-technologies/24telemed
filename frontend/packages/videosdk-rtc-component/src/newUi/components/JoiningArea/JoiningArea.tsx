@@ -5,6 +5,7 @@ import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { IconButton } from '../IconButton';
 import { Link } from 'react-router-dom';
+import { useMeeting } from '@videosdk.live/react-sdk';
 
 type JoiningAreaProps = {
   webcamEnabled: boolean;
@@ -21,8 +22,14 @@ export function JoiningArea({
   setMicEnabled,
   onJoinNow,
 }: JoiningAreaProps) {
-  const displayName = 'Tobi';
+  const { join, leave, localParticipant } = useMeeting();
+  const displayName = localParticipant?.displayName || " ";
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  const handleJoinNow = () => {
+    join();
+    onJoinNow();
+  }
 
   useEffect(() => {
     const getMediaStream = async () => {
@@ -123,6 +130,7 @@ export function JoiningArea({
               shape="round"
               size="middle"
               style={{ fontWeight: 'bold' }}
+              onClick={leave}
             >
               Cancel
             </Button>
@@ -132,7 +140,7 @@ export function JoiningArea({
               icon={<IonIcon name="navigate" />}
               size="middle"
               style={{ fontWeight: 'bold' }}
-              onClick={onJoinNow}
+              onClick={handleJoinNow}
             >
               Join now
             </Button>

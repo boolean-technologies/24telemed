@@ -26,20 +26,10 @@ export function VideoCall({
   const [screen, setScreen] = useState<'joining' | 'call'>('joining');
   const [micEnabled, setMicEnabled] = useState<boolean>(false);
   const [webcamEnabled, setWebcamEnabled] = useState<boolean>(false);
-  if (screen === 'joining')
-    return (
-      <JoiningArea
-        setWebcamEnabled={setWebcamEnabled}
-        webcamEnabled={webcamEnabled}
-        micEnabled={micEnabled}
-        setMicEnabled={setMicEnabled}
-        onJoinNow={() => setScreen('call')}
-      />
-    );
+
   return (
     <MeetingProvider
       config={{
-        // TODO: Add a joining screen so user can enable or disable their mic / cam before joining
         micEnabled,
         webcamEnabled,
         meetingId: meetingId,
@@ -47,17 +37,28 @@ export function VideoCall({
         participantId: userId,
       }}
       token={import.meta.env.VITE_VIDEO_SDK_TOKEN}
-      joinWithoutUserInteraction
+      // joinWithoutUserInteraction
     >
       <CallContextProvider
         userId={userId}
         patientId={patientId}
         userType={userType}
       >
-        <AppMain
-          meetingTitle="Medical consultation"
-          defaultSideView={isXs ? undefined : 'patientProfile'}
-        />
+        {screen === 'joining' ? (
+          <JoiningArea
+            setWebcamEnabled={setWebcamEnabled}
+            webcamEnabled={webcamEnabled}
+            micEnabled={micEnabled}
+            setMicEnabled={setMicEnabled}
+            onJoinNow={() => setScreen('call')}
+          />
+        ) : null}
+        {screen === 'call' ? (
+          <AppMain
+            meetingTitle="Medical consultation"
+            defaultSideView={isXs ? undefined : 'patientProfile'}
+          />
+        ) : null}
       </CallContextProvider>
     </MeetingProvider>
   );
