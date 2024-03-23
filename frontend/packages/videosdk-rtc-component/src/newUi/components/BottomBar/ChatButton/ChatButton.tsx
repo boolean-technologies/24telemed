@@ -1,7 +1,7 @@
 import { useMeeting, usePubSub } from '@videosdk.live/react-sdk';
 import { IconButton } from '../../IconButton';
 import { useEffect, useState } from 'react';
-
+import {playNotificationSound} from '../../../../utils'
 type ChatButtonProps = {
   onClick: () => void;
   active: boolean;
@@ -20,11 +20,10 @@ export function ChatButton({ onClick, active }: ChatButtonProps) {
     onMessageReceived: (incomingMessage) => {
       if (incomingMessage.senderId !== localParticipant.id && !active) {
         setCount((prev) => prev + 1);
-        // TODO: Handle incoming chat sound here
+        playNotificationSound()
       }
     },
   });
-  
 
   return (
     <IconButton

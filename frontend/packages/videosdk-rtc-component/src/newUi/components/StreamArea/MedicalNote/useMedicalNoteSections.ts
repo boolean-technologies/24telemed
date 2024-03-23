@@ -3,6 +3,7 @@ import { message } from 'antd';
 import { findLast, get } from 'lodash-es';
 import { NoteType } from './types';
 import { useEffect, useState } from 'react';
+import { playNotificationSound } from '../../../../utils'
 
 export type SectionsType = {
   section: NoteType;
@@ -25,7 +26,6 @@ export function useMedicalNoteSections(type: NoteType): SectionsType {
     follow_up_plans: false,
   });
 
-
   useEffect(() => {
     if (type) setHasNotification((prev) => ({ ...prev, [type]: false }));
   }, [type, hasNotification[type]]);
@@ -33,7 +33,7 @@ export function useMedicalNoteSections(type: NoteType): SectionsType {
   const { messages = [] } = usePubSub('MEDICALNOTES', {
     onMessageReceived: (incomingMessage) => {
       if (incomingMessage.senderId !== localParticipant.id) {
-        // TODO: Handle note sound here
+        playNotificationSound();
         message.info('Patient medical note has been updated', 10);
         // @ts-ignore
         switch (incomingMessage.payload.type) {
