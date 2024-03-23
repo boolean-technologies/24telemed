@@ -22,7 +22,7 @@ export function VideoCall({
   patientId,
 }: VideoCallProps) {
   usePermissions();
-  const { isXs } = useBreakpoints();
+  const { isMobile } = useBreakpoints();
   const [screen, setScreen] = useState<'joining' | 'call'>('joining');
   const [micEnabled, setMicEnabled] = useState<boolean>(false);
   const [webcamEnabled, setWebcamEnabled] = useState<boolean>(false);
@@ -56,7 +56,7 @@ export function VideoCall({
         {screen === 'call' ? (
           <AppMain
             meetingTitle="Medical consultation"
-            defaultSideView={isXs ? undefined : 'patientProfile'}
+            defaultSideView={isMobile ? undefined : 'patientProfile'}
           />
         ) : null}
       </CallContextProvider>

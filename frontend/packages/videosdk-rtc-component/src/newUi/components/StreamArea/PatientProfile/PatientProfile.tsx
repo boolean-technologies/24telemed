@@ -23,7 +23,7 @@ export function PatientProfile() {
           justify="flex-start"
           fullHeight
           fullWidth
-          padding="lg"
+          padding="sm"
           flex={1}
           direction="column"
         >

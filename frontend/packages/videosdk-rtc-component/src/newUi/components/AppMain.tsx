@@ -1,5 +1,6 @@
-import { Drawer, FloatButton, Layout } from 'antd';
-import { useEffect, useState } from 'react';
+import { FloatButton, Layout } from 'antd';
+import { Popup } from 'antd-mobile';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { BottomBar } from './BottomBar';
 import {
@@ -17,9 +18,10 @@ type AppMainProps = {
   defaultSideView?: StreamAreaProps['sideView'];
 };
 export function AppMain({ meetingTitle, defaultSideView }: AppMainProps) {
-  const { isXs } = useBreakpoints();
+  const { isMobile } = useBreakpoints();
   const [isOpenMobileMenus, setIsOpenMobileMenus] = useState<boolean>();
-  const [sideView, setSideView] = useState<StreamAreaProps['sideView']>(defaultSideView);
+  const [sideView, setSideView] =
+    useState<StreamAreaProps['sideView']>(defaultSideView);
   const [activeNoteSection, setActiveNoteSection] =
     useState<NoteType>('reason_for_visit');
   const medicalNoteSections = useMedicalNoteSections(activeNoteSection);
@@ -27,7 +29,7 @@ export function AppMain({ meetingTitle, defaultSideView }: AppMainProps) {
   const onBottomButtonClick = (view: StreamAreaProps['sideView']) => {
     setSideView(sideView === view ? undefined : view);
     setIsOpenMobileMenus(false);
-  }
+  };
 
   const hasBottomNotification = Boolean(
     medicalNoteSections.find((e) => e.hasNotication)
@@ -47,7 +49,14 @@ export function AppMain({ meetingTitle, defaultSideView }: AppMainProps) {
 
   return (
     <StyledRoot>
-      <Flex direction="column" flex={1} gap="md" padding="md" xsPadding="none" fullWidth>
+      <Flex
+        direction="column"
+        flex={1}
+        gap="md"
+        padding="md"
+        xsPadding="none"
+        fullWidth
+      >
         <Flex flex={1}>
           <StreamArea
             sideView={sideView}
@@ -57,24 +66,28 @@ export function AppMain({ meetingTitle, defaultSideView }: AppMainProps) {
             medicalNoteSections={medicalNoteSections}
           />
         </Flex>
-        {isXs ? (
-          <StyledDrawer
-            placement="bottom"
+
+        {isMobile ? (
+          <StyledPopup
+            visible={isOpenMobileMenus}
+            bodyStyle={{
+              overflow: 'scroll',
+              minHeight: 240,
+            }}
             onClose={() => setIsOpenMobileMenus(false)}
-            open={isOpenMobileMenus}
-            height={250}
+            onMaskClick={() => setIsOpenMobileMenus(false)}
           >
             {menuGroup}
-          </StyledDrawer>
+          </StyledPopup>
         ) : (
           menuGroup
         )}
       </Flex>
-      {(isXs && !sideView) ? (
+      {isMobile && !sideView ? (
         <FloatButton
           icon={<IonIcon name="menu" color="primary2.main" />}
           type="primary"
-          style={{ marginBottom: -18 }}
+          style={{ marginRight: 22 }}
           onClick={() => setIsOpenMobileMenus(true)}
         />
       ) : null}
@@ -90,15 +103,22 @@ const StyledRoot = styled(Layout)`
   align-items: center;
 `;
 
-const StyledDrawer = styled(Drawer)`
-  background: ${({ theme }) => theme.palette.primary1.main} !important;
-  // border-top-left-radius: ${({ theme }) => theme.spacing.md};
-  // border-top-right-radius: ${({ theme }) => theme.spacing.md};
-  .ant-drawer-header {
-    display: none;
+const StyledPopup = styled(Popup)`
+  .adm-popup-body {
+    padding: ${({ theme }) => theme.spacing.md};
+    background: ${({ theme }) => theme.palette.primary1.main} !important;
+    border-top-left-radius: ${({ theme }) => theme.spacing.md};
+    border-top-right-radius: ${({ theme }) => theme.spacing.md};
   }
-  .ant-drawer-body {
-    background: ${({ theme }) =>
-      addAlpha(theme.palette.primary1.lighter, 0.05)} !important;
+
+  .adm-popup-body::after {
+    background: ${({ theme }) => addAlpha(theme.palette.common.white, 0.085)};
+    content: " ";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -2;
   }
 `;

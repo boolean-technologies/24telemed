@@ -67,7 +67,7 @@ export function JoiningArea({
 
   return (
     <StyledRoot>
-      <Flex gap="xl" xsGap="md" xsDirection="column">
+      <Flex gap="xl" xsGap="md" smDirection="column">
         <Flex justify="center">
           <StyledVideoWrapper>
             <StyledVideo ref={videoRef} autoPlay playsInline controls={false} />

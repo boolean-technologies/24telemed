@@ -10,7 +10,8 @@
     "start:test": "nx run shared-components:test",
     "generate": "node ./packages/api-generated/src/script/generated.mjs",
     "build:doctor": "nx build doctor-app",
-    "build:personnel": "nx build personnel-app"
+    "build:personnel": "nx build personnel-app",
+    "build:personnel-mobile": "nx build personnel-app  --outDir ../../../TelemedConnectMobile/app/src/main/assets/build"
   },
   "private": true,
   "dependencies": {

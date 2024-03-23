@@ -30,7 +30,7 @@ export function BottomBar({
   onPatientProfileButtonClick,
 }: BottomBarProps) {
   return (
-    <Flex xsDirection="column">
+    <Flex smDirection="column">
       <Flex gap="xs">
         <ClockDisplay />
         <Typography color="common.white" weight="bold">
