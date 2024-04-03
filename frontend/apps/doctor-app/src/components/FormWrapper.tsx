@@ -8,6 +8,7 @@ type FormWrapperProps<FormFieldType> = {
   submitLabel?: string;
   onFinish: (values: FormFieldType) => void;
   initialValues?: FormFieldType;
+  isLoading?: boolean;
 };
 
 export function FormWrapper<FormFieldType = undefined>({
@@ -16,6 +17,7 @@ export function FormWrapper<FormFieldType = undefined>({
   submitLabel,
   initialValues,
   onFinish,
+  isLoading
 }: FormWrapperProps<FormFieldType>) {
   const [form] = Form.useForm<FormFieldType>();
 
@@ -34,6 +36,7 @@ export function FormWrapper<FormFieldType = undefined>({
           type="primary"
           htmlType="submit"
           style={{ width: '100%', fontWeight: 'bold' }}
+          loading={isLoading}
         >
           {submitLabel || 'Save changes'}
         </Button>
