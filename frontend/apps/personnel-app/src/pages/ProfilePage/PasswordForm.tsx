@@ -1,5 +1,4 @@
-import { Button, Form, Input, } from 'antd';
-
+import { Button, Form, Input } from 'antd';
 
 type FormField = {
   oldPassword: string;
@@ -14,11 +13,7 @@ export function PasswordForm() {
   };
 
   return (
-    <Form
-    layout="vertical"
-    onFinish={onFinish}
-    >
-    
+    <Form layout="vertical" onFinish={onFinish}>
       <Form.Item
         name="oldPassword"
         label="Old Password"
@@ -54,9 +49,10 @@ export function PasswordForm() {
         <Input.Password />
       </Form.Item>
       <Form.Item>
-        <Button type="primary" htmlType="submit"
-        style={{ width: '100%', fontWeight: 'bold' }}
-        
+        <Button
+          type="primary"
+          htmlType="submit"
+          style={{ width: '100%', fontWeight: 'bold' }}
         >
           Submit
         </Button>
