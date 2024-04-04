@@ -8,7 +8,7 @@ type FormField = {
 
 type Props = {
   userId: string;
-  refetch:any
+  refetch: any;
   defaultUsername: string;
 };
 
@@ -16,22 +16,18 @@ export function UserNameForm({ userId, refetch, defaultUsername }: Props) {
   const { mutate, isPending, error, isError, isSuccess } = useUpdateUser();
 
   const onFinish = (values: FormField) => {
-    mutate({
-      id: userId,
-      data: values as any,
-    },
+    mutate(
+      {
+        id: userId,
+        data: values as any,
+      },
 
       {
         onSuccess: () => {
           refetch();
         },
-        onError: () => {
-          console.log('error');
-        }
       }
-
-    )
-
+    );
   };
 
   return (
@@ -60,19 +56,14 @@ export function UserNameForm({ userId, refetch, defaultUsername }: Props) {
             marginBottom: 16,
           }}
         />
-
       )}
-    
+
       <Form.Item
         name="username"
         label="Username"
         rules={[{ required: true, message: 'Please input your username!' }]}
-        
       >
-        <Input 
-        
-        defaultValue={defaultUsername}
-        />
+        <Input defaultValue={defaultUsername} />
       </Form.Item>
     </FormWrapper>
   );
