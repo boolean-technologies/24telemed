@@ -12,6 +12,7 @@ export function PasswordForm() {
     mutate: changePassword,
     isError,
     isSuccess,
+    isPending
   } = useChangePassword();
   const onFinish = (values: FormField) => {
     changePassword({
@@ -87,6 +88,7 @@ export function PasswordForm() {
           type="primary"
           htmlType="submit"
           style={{ width: '100%', fontWeight: 'bold' }}
+          loading = {isPending}
         >
           Submit
         </Button>
