@@ -37,17 +37,33 @@ export const useLogin = () => {
 };
 
 export const useChangePassword = () => {
-  useMutation({
-    mutationFn: ({
-      current_password,
-      new_password,
-    }: {
-      current_password: string;
-      new_password: string;
-    }) =>
-      UsersService.usersChangePassword({
-        current_password,
-        new_password,
-      }),
-  });
-};
+  const changepassword =  useMutation({
+     mutationFn: ({
+       current_password,
+       new_password,
+     }: {
+       current_password: string;
+       new_password: string;
+     }) =>
+       UsersService.usersChangePassword({
+         current_password,
+         new_password,
+       }),
+   });
+ 
+   const performChangePassword = (
+     values: {
+       current_password: string;
+       new_password: string;
+     },
+     onSuccess: () => void
+   ) => {
+     changepassword.mutate(values, {
+       onSuccess: () => {
+         onSuccess();
+       },
+     });
+   };
+ 
+   return { ...changepassword, performChangePassword };
+ }

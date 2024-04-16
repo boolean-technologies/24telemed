@@ -1,3 +1,4 @@
+import { useChangePassword } from '@local/api-generated';
 import { Button, Form, Input } from 'antd';
 
 type FormField = {
@@ -7,9 +8,23 @@ type FormField = {
 };
 
 export function PasswordForm() {
+  const { isPending, error, mutate } = useChangePassword();
   const onFinish = (values: FormField) => {
-    // TODO: implement the change password
-    console.log('Received values of form: ', values);
+    mutate(
+      {
+        current_password: values.oldPassword,
+        new_password: values.newPassword,
+      },
+      {
+        onSuccess: () => {
+          console.log('Password changed');
+        },
+
+        onError: (error) => {
+          console.log('Password not changed', error);
+        },
+      }
+    );
   };
 
   return (
