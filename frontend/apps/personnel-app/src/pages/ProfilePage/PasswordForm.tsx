@@ -11,9 +11,7 @@ export function PasswordForm() {
   const {
     mutate: changePassword,
     isError,
-    error,
     isSuccess,
-    data,
   } = useChangePassword();
   const onFinish = (values: FormField) => {
     changePassword({
