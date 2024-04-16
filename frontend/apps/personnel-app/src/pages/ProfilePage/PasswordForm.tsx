@@ -1,5 +1,5 @@
 import { useChangePassword } from '@local/api-generated';
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, Alert } from 'antd';
 
 type FormField = {
   oldPassword: string;
@@ -8,27 +8,40 @@ type FormField = {
 };
 
 export function PasswordForm() {
-  const { isPending, mutate } = useChangePassword();
+  const {
+    mutate: changePassword,
+    isError,
+    error,
+    isSuccess,
+    data,
+  } = useChangePassword();
   const onFinish = (values: FormField) => {
-    mutate(
-      {
-        current_password: values.oldPassword,
-        new_password: values.newPassword,
-      },
-      {
-        onSuccess: () => {
-          console.log('Password changed');
-        },
-
-        onError: (error) => {
-          console.log('Password not changed', error);
-        },
-      }
-    );
+    changePassword({
+      current_password: values.oldPassword,
+      new_password: values.newPassword,
+    });
   };
 
   return (
     <Form layout="vertical" onFinish={onFinish}>
+      {isError && (
+        <Alert
+          message="Error"
+          description={
+            'Password update failed, make sure you have entered the correct password'
+          }
+          type="error"
+          style={{ marginBottom: 16 }}
+        />
+      )}
+      {isSuccess && (
+        <Alert
+          message="Success"
+          description="Password updated"
+          type="success"
+          style={{ marginBottom: 16 }}
+        />
+      )}
       <Form.Item
         name="oldPassword"
         label="Old Password"
@@ -39,7 +52,15 @@ export function PasswordForm() {
       <Form.Item
         name="newPassword"
         label="New Password"
-        rules={[{ required: true, message: 'Please input your new password!' }]}
+        rules={[
+          { required: true, message: 'Please input your new password!' },
+          { min: 8, message: 'Password must be at least 8 characters long!' },
+          {
+            pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+            message:
+              'Password must contain at least one letter and one number!',
+          },
+        ]}
       >
         <Input.Password />
       </Form.Item>
