@@ -8,7 +8,7 @@ type FormField = {
 };
 
 export function PasswordForm() {
-  const { isPending, error, mutate } = useChangePassword();
+  const { isPending, mutate } = useChangePassword();
   const onFinish = (values: FormField) => {
     mutate(
       {
