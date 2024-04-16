@@ -46,6 +46,25 @@ export class UsersService {
     });
   }
   /**
+   * Authenticated user password reset
+   * @param data
+   * @returns any
+   * @throws ApiError
+   */
+  public static usersChangePassword(data: {
+    current_password: string;
+    new_password: string;
+  }): CancelablePromise<{
+    current_password: string;
+    new_password: string;
+  }> {
+    return __request(OpenAPI, {
+      method: 'PUT',
+      url: '/users/change_password/',
+      body: data,
+    });
+  }
+  /**
    * Retrieve the current logged-in user's information
    * @param page A page number within the paginated result set.
    * @param size Number of results to return per page.
