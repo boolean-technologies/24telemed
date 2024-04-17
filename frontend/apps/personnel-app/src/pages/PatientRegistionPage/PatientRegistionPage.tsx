@@ -11,6 +11,7 @@ import { ContactDataPage } from './FormPages/ContactDataPage';
 import { PreviewPage } from './FormPages/PreviewPage';
 import { Button } from 'antd-mobile';
 import { useState, useEffect } from 'react';
+import { Patient } from '@local/api-generated';
 
 const steps = [
   {
@@ -28,61 +29,84 @@ const steps = [
   {
     title: 'Preview',
     content: <PreviewPage />,
-  }
-]
-export function PatientRegistionPage() {
-  
+  },
+];
 
+type RegistrationFormField = {
+    phone_number: string;
+    first_name: string;
+    last_name: string;
+    age: number;
+    date_of_birth: string;
+    gender: string;
+    email: string;
+    address: string;
+    medical_history: string;
+    allergies: string;
+    current_medications: string;
+    blood_type: string;
+    weight: number;
+    height: number;
+    chronic_conditions: string;
+    immunization_record: string;
+    family_medical_history: string;
+  }
+
+export function PatientRegistionPage() {
+  const [stepForm] = Form.useForm();
   const navigate = useNavigate();
-  const onFinish = (data: any) => {
-    console.log(data);
+  const onFinish = (data: RegistrationFormField) => {
+    const formData = stepForm.getFieldsValue(true);
+    console.log(formData);
   };
-  const [current, setCurrent] = useState<number>(0)
+  const [current, setCurrent] = useState<number>(0);
   const next = () => {
-    setCurrent(current + 1)
-  }
+    setCurrent(current + 1);
+  };
   const prev = () => {
-    setCurrent(current - 1)
-  }
+    setCurrent(current - 1);
+  };
 
   // scroll to top
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [ current ]);
+  }, [current]);
 
   return (
     <Layout>
       <PageHeader title="New Patient" />
       <StyledRoot padding="md" direction="column">
         <Card fullHeight>
-          <Form name="newPatient" layout="vertical" onFinish={onFinish}>
-            <Steps current={current}
-
-            >
+          <Form name="newPatient" layout="vertical" onFinish={onFinish} form={stepForm}>
+          
+            <Steps current={current}>
               {steps.map((item) => (
                 <Steps.Step key={item.title} title={item.title} />
               ))}
             </Steps>
             {steps[current].content}
-            {current < steps.length - 1 && (
-              <Button onClick={next} type="primary">
-                Next
-              </Button>
-            )}
-            {current === steps.length - 1 && (
-              <Button onClick={prev} type="primary">
-                Previous
-              </Button>
-            )}
-            {current === steps.length - 1 && (
-              <Button onClick={() => navigate('/patient-list')} type="primary">
-                Submit
-              </Button>
-            )}
+            {
+              <Flex justify="space-between" padding="md">
+                {current > 0 && (
+                  <Button type="button" onClick={prev} color="default">
+                    Previous
+                  </Button>
+                )}
+                {current < steps.length - 1 && (
+                  <Button type="button" onClick={next} color="primary">
+                    Next
+                  </Button>
+                )}
+                {current === steps.length - 1 && (
+                  <Button type="submit" htmlType="submit">
+                    Submit
+                  </Button>
+                )}
+              </Flex>
+            }
           </Form>
         </Card>
-
       </StyledRoot>
     </Layout>
   );
