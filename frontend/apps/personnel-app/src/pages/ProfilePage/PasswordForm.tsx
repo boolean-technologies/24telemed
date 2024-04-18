@@ -1,4 +1,5 @@
-import { Button, Form, Input } from 'antd';
+import { useChangePassword } from '@local/api-generated';
+import { Button, Form, Input, Alert } from 'antd';
 
 type FormField = {
   oldPassword: string;
@@ -7,13 +8,39 @@ type FormField = {
 };
 
 export function PasswordForm() {
+  const {
+    mutate: changePassword,
+    isError,
+    isSuccess,
+    isPending
+  } = useChangePassword();
   const onFinish = (values: FormField) => {
-    // TODO: implement the change password
-    console.log('Received values of form: ', values);
+    changePassword({
+      current_password: values.oldPassword,
+      new_password: values.newPassword,
+    });
   };
 
   return (
     <Form layout="vertical" onFinish={onFinish}>
+      {isError && (
+        <Alert
+          message="Error"
+          description={
+            'Password update failed, make sure you have entered the correct password'
+          }
+          type="error"
+          style={{ marginBottom: 16 }}
+        />
+      )}
+      {isSuccess && (
+        <Alert
+          message="Success"
+          description="Password updated"
+          type="success"
+          style={{ marginBottom: 16 }}
+        />
+      )}
       <Form.Item
         name="oldPassword"
         label="Old Password"
@@ -24,7 +51,15 @@ export function PasswordForm() {
       <Form.Item
         name="newPassword"
         label="New Password"
-        rules={[{ required: true, message: 'Please input your new password!' }]}
+        rules={[
+          { required: true, message: 'Please input your new password!' },
+          { min: 8, message: 'Password must be at least 8 characters long!' },
+          {
+            pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+            message:
+              'Password must contain at least one letter and one number!',
+          },
+        ]}
       >
         <Input.Password />
       </Form.Item>
@@ -53,6 +88,7 @@ export function PasswordForm() {
           type="primary"
           htmlType="submit"
           style={{ width: '100%', fontWeight: 'bold' }}
+          loading = {isPending}
         >
           Submit
         </Button>
