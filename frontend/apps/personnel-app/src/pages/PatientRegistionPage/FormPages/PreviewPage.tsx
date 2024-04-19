@@ -4,9 +4,9 @@ import { Divider } from 'antd';
 
 import { useFormContext } from 'react-hook-form';
 import styled from 'styled-components';
-
+import type { RegistrationFormField } from '../PatientRegistionPage';
 export function PreviewPage() {
-  const { getValues } = useFormContext();
+  const { getValues } = useFormContext<RegistrationFormField>();
 
   const {
     first_name,
@@ -18,12 +18,12 @@ export function PreviewPage() {
     allergies,
     chronic_conditions,
     blood_type,
-    genetype,
     height,
     weight,
     city,
     address,
     email,
+    genetype,
   } = getValues();
   const fullName = `${first_name} ${last_name}`;
 

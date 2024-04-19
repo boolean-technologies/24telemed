@@ -28,7 +28,7 @@ import { BiopageSchema } from './FormPages/formSchema';
 import { MedicalDataSchema } from './FormPages/formSchema';
 import { ContactDataSchema } from './FormPages/formSchema';
 
-type RegistrationFormField = {
+export type RegistrationFormField = {
   phone_number: string;
   first_name: string;
   last_name: string;
@@ -37,6 +37,8 @@ type RegistrationFormField = {
   gender: string;
   email: string;
   address: string;
+  city: string;
+  genetype: string;
   medical_history: string;
   allergies: string;
   current_medications: string;
