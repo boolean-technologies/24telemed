@@ -4,21 +4,7 @@ import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 
-export const MedicalDataSchema = yup.object().shape({
-  medical_history: yup.string().required('Medical history is required'),
-  allergies: yup.string().required('Allergies is required'),
-  chronic_conditions: yup.string().required('Chronic conditions is required'),
-  blood_type: yup.string().required('Blood type is required'),
-  genetype: yup.string().required('Genotype is required'),
-  weight: yup.number().required('Weight is required'),
-  height: yup.number().required('Height is required'),
-  immunization_records: yup
-    .string()
-    .required('Immunization records is required'),
-  family_medical_history: yup
-    .string()
-    .required('Family medical history is required'),
-});
+
 interface MedicalDataPageProps {
   control: any;
   errors: any;
@@ -175,7 +161,7 @@ export function MedicalDataPage({ control, errors }: MedicalDataPageProps) {
           )}
         </Form.Item>
         <Form.Item
-          label="Height"
+          label="Height (cm)"
           name="height"
           rules={[{ required: true }]}
           style={{ flex: 1 }}

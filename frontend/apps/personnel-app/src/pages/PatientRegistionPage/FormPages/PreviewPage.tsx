@@ -1,37 +1,64 @@
+import { calculateAge } from '@local/api-generated';
 import { Card, Flex, Typography } from '@local/shared-components';
-import { Divider, Form } from 'antd';
+import { Divider } from 'antd';
+
+import { useFormContext } from 'react-hook-form';
 import styled from 'styled-components';
 
 export function PreviewPage() {
-  const formData = Form.useFormInstance();
-  const user = formData.getFieldsValue(true);
-  console.log('user', user);
+  const { getValues } = useFormContext();
+
+  const {
+    first_name,
+    last_name,
+    gender,
+    phone_number,
+    date_of_birth,
+    family_medical_history,
+    allergies,
+    chronic_conditions,
+    blood_type,
+    genetype,
+    height,
+    weight,
+    city,
+    address,
+    email,
+  } = getValues();
+  const fullName = `${first_name} ${last_name}`;
+
   return (
     <Root direction="column" fullWidth padding="lg">
       <Flex gap="xxs" direction="column" fullWidth>
         <Typography variant="bodyMd" weight="bold">
           Preview Patient Information
         </Typography>
-        <Divider
-          style={{
-            width: '100%',
-          }}
-        />
       </Flex>
 
-      <Flex>
+      <Flex gap="sm" fullWidth>
         <Avatar src="https://via.placeholder.com/150" />
         <Flex direction="column" fullWidth gap="sm" padding="md">
           <Typography variant="bodySm" weight="bold">
-            Ademola Ogunmokun (Male)
+            {`${fullName} (${gender})`}
           </Typography>
-          <Flex direction="row" fullWidth gap="sm">
-            <Typography variant="bodySm">Phone Number: 08012345678</Typography>
-            <Typography variant="bodySm">ID Number: 123456789</Typography>
-          </Flex>
+          <NumberContainer direction="row" fullWidth gap="sm" padding="xxs">
+            <Typography variant="bodySm" color="primary2.main">
+              Phone Number: {phone_number}
+            </Typography>
+          </NumberContainer>
           <Flex>
-            <Typography variant="bodySm">Date of Birth: 01/01/2000</Typography>
-            <Typography variant="bodySm">Age: 21</Typography>
+            <Typography variant="bodySm">
+              Date of Birth: {new Date(date_of_birth).toDateString()}
+            </Typography>
+            <AgeContainer direction="row" fullWidth gap="sm" padding="xxs">
+              <Typography variant="bodySm">
+                {`${
+                  calculateAge(date_of_birth) > 0
+                    ? calculateAge(date_of_birth)
+                    : 1
+                } years old`}
+              </Typography>
+            </AgeContainer>
           </Flex>
         </Flex>
       </Flex>
@@ -41,76 +68,46 @@ export function PreviewPage() {
         </Typography>
         <Divider />
         <Flex direction="column" fullWidth gap="sm">
-          <Flex gap="sm" fullWidth direction="column">
-            <Typography variant="bodySm" color="primary2.main">
-              Medical History:{' '}
-            </Typography>
-            <Typography variant="bodySm">None</Typography>
-          </Flex>
-          <Flex gap="sm" fullWidth direction="column">
-            <Typography variant="bodySm" color="primary2.main">
-              Allergies:{' '}
-            </Typography>
-            <Typography variant="bodySm">None</Typography>
-          </Flex>
+          <InfoText
+            title="Family Medical History"
+            value={family_medical_history}
+          />
+          <InfoText title="Allergies" value={allergies} />
 
-          <Flex gap="sm" fullWidth direction="column">
-            <Typography variant="bodySm" color="primary2.main">
-              Chronic Conditions:{' '}
-            </Typography>
-            <Typography variant="bodySm">None</Typography>
-          </Flex>
-          <Flex gap="sm" fullWidth direction="row" justify='space-between'>
+          <InfoText title="Chronic Conditions" value={chronic_conditions} />
+          <Flex gap="sm" fullWidth direction="row" justify="space-between">
             <Flex direction="column" gap="sm" fullWidth>
-              <Flex gap="sm" direction='column' fullWidth>
-                <Typography variant="bodySm" color="primary2.main">
-                  Blood Group:{' '}
-                </Typography>
-                <Typography variant="bodySm">O+</Typography>
-              </Flex>
+              <InfoText title="Blood Type" value={blood_type} />
 
-              <Flex gap="sm" direction='column' fullWidth>
-                <Typography variant="bodySm" color="primary2.main">
-                  Genotype:{' '}
-                </Typography>
-                <Typography variant="bodySm">AA</Typography>
-              </Flex>
+              <InfoText title="Genotype" value={genetype} />
             </Flex>
-            <Flex gap="sm" direction='column' fullWidth>
+            <Flex gap="sm" direction="column" fullWidth>
               <Typography variant="bodySm" color="primary2.main">
                 Height:{' '}
               </Typography>
-              <Typography variant="bodySm">5'9</Typography>
+              <Typography variant="bodySm">{`${height} cm`}</Typography>
 
               <Typography variant="bodySm" color="primary2.main">
                 Weight:{' '}
               </Typography>
-              <Typography variant="bodySm">70kg</Typography>
-
-              </Flex>
+              <Typography variant="bodySm">{`${weight} kg`}</Typography>
+            </Flex>
           </Flex>
         </Flex>
       </Card>
       <Card>
         <Typography variant="bodyMd" weight="bold">
-          Next of Kin Information
+          Contact Information
         </Typography>
         <Divider />
-        <Flex direction="column" fullWidth gap="sm">
-          <Typography variant="bodySm" color="primary2.main">
-            Name:{' '}
-          </Typography>
-          <Typography variant="bodySm">Mrs. Ademola Ogunmokun</Typography>
-          <Typography variant="bodySm" color="primary2.main">
-            Phone Number:{' '}
-          </Typography>
-          <Typography variant="bodySm">08012345678</Typography>
-          <Typography variant="bodySm" color="primary2.main">
-            Relationship:{' '}
-          </Typography>
-          <Typography variant="bodySm">Spouse</Typography>
+        <Flex gap="sm" fullWidth direction="row" justify="space-between">
+          <InfoText title="Phone Number" value={phone_number} />
+          <InfoText title="Email" value={email} />
         </Flex>
-        
+        <Flex gap="sm" fullWidth direction="row" justify="space-between">
+          <InfoText title="Address" value={address} />
+          <InfoText title="City" value={city} />
+        </Flex>
       </Card>
     </Root>
   );
@@ -124,3 +121,23 @@ const Avatar = styled.img`
 const Root = styled(Flex)`
   background-color: ${({ theme }) => theme.palette.neutral.light};
 `;
+
+const NumberContainer = styled(Flex)`
+  background-color: ${({ theme }) => theme.palette.common.black};
+  width: fit-content;
+`;
+
+const AgeContainer = styled(Flex)`
+  background-color: ${({ theme }) => theme.palette.primary2.light};
+  width: fit-content;
+  border-radius: 5px;
+`;
+
+const InfoText = ({ title, value }: { title: string; value: string }) => (
+  <Flex gap="sm" fullWidth direction="column">
+    <Typography variant="bodySm" color="primary2.main">
+      {title}
+    </Typography>
+    <Typography variant="bodySm">{value}</Typography>
+  </Flex>
+);

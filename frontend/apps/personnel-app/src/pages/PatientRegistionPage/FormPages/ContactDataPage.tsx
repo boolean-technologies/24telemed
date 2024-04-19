@@ -1,26 +1,17 @@
 import { Typography } from '@local/shared-components';
 import { Form, Input } from 'antd';
-import { Controller, useForm } from 'react-hook-form';
-import * as yup from 'yup';
-
-export const ContactDataSchema = yup.object().shape({
-  phone_number: yup.string().required('Phone number is required'),
-  email_address: yup.string().email().required('Email address is required'),
-  address: yup.string().required('Residential address is required'),
-  city: yup.string().required('City is required'),
-});
+import { Controller } from 'react-hook-form';
 
 interface ContactDataPageProps {
   control: any;
-  errors : any;
+  errors: any;
 }
 export function ContactDataPage({ control, errors }: ContactDataPageProps) {
-  console.log(errors);
-  
-
   return (
     <>
-      <Form.Item label="Phone number" name="phone_number">
+      <Form.Item label="Phone number" name="phone_number"
+        rules={[{ required: true, message: 'Phone number is required' }]}
+      >
         <Controller
           control={control}
           name="phone_number"
@@ -38,10 +29,10 @@ export function ContactDataPage({ control, errors }: ContactDataPageProps) {
           {errors.phone_number?.message}
         </Typography>
       </Form.Item>
-      <Form.Item label="Email address" name="email_address">
+      <Form.Item label="Email address" name="email" rules={[{ required: true, message: 'Email address is required' }]}>
         <Controller
           control={control}
-          name="email_address"
+          name="email"
           render={({ field: { onChange, onBlur, value, ref } }) => (
             <Input
               placeholder="Enter email address"
@@ -53,10 +44,10 @@ export function ContactDataPage({ control, errors }: ContactDataPageProps) {
           defaultValue=""
         />
         <Typography variant="bodySm" color="error">
-          {errors.email_address?.message}
+          {errors.email?.message}
         </Typography>
       </Form.Item>
-      <Form.Item label="Residential address" name="address">
+      <Form.Item label="Residential address" name="address" rules={[{ required: true, message: 'Residential address is required' }]}>
         <Controller
           control={control}
           name="address"
@@ -74,7 +65,7 @@ export function ContactDataPage({ control, errors }: ContactDataPageProps) {
           {errors.address?.message}
         </Typography>
       </Form.Item>
-      <Form.Item label="Address City" name="city">
+      <Form.Item label="Address City" name="city" rules={[{ required: true, message: 'City is required' }]}>
         <Controller
           control={control}
           name="city"
@@ -91,7 +82,6 @@ export function ContactDataPage({ control, errors }: ContactDataPageProps) {
         <Typography variant="bodySm" color="error">
           {errors.city?.message}
         </Typography>
-
       </Form.Item>
     </>
   );
