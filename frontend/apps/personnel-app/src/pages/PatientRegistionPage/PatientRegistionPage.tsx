@@ -3,14 +3,6 @@ import { PageHeader } from '../../components/PageLayout';
 import { Card, Flex, defaultTheme } from '@local/shared-components';
 import styled from 'styled-components';
 import { Form, Layout, Steps } from 'antd';
-import {
-  LoadingOutlined,
-  SmileOutlined,
-  SolutionOutlined,
-  UserOutlined,
-  ContactsOutlined,
-  TeamOutlined,
-} from '@ant-design/icons';
 import { BioDataPage } from './FormPages/BioDataPage';
 import { MedicalDataPage } from './FormPages/MedicalDataPage';
 import { ContactDataPage } from './FormPages/ContactDataPage';
@@ -115,7 +107,7 @@ export function PatientRegistionPage() {
           errors={methods.formState.errors}
         />
       ),
-      icon: <UserOutlined />,
+      
     },
     {
       title: 'Contact Data',
@@ -125,7 +117,7 @@ export function PatientRegistionPage() {
           errors={methods.formState.errors}
         />
       ),
-      icon: <ContactsOutlined />,
+      
     },
     {
       title: 'Medical Data',
@@ -135,22 +127,15 @@ export function PatientRegistionPage() {
           errors={methods.formState.errors}
         />
       ),
-      icon: <TeamOutlined />,
+      
     },
 
     {
       title: 'Preview',
       content: <PreviewPage />,
-      icon: <SolutionOutlined />,
     },
   ];
 
-  useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  }, [current]);
 
   return (
     <Layout>
@@ -184,6 +169,7 @@ export function PatientRegistionPage() {
                       type="button"
                       color="primary"
                       onClick={methods.handleSubmit(next)}
+                      style={{ marginLeft: 'auto' }}
                     >
                       Next
                     </Button>
