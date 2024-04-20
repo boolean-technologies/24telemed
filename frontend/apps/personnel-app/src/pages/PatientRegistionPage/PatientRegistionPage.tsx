@@ -20,27 +20,9 @@ import { BiopageSchema } from './FormPages/formSchema';
 import { MedicalDataSchema } from './FormPages/formSchema';
 import { ContactDataSchema } from './FormPages/formSchema';
 
-export type RegistrationFormField = {
-  phone_number: string;
-  first_name: string;
-  last_name: string;
-  age: number;
-  date_of_birth: string;
-  gender: string;
-  email: string;
-  address: string;
-  city: string;
-  genetype: string;
-  medical_history: string;
-  allergies: string;
-  current_medications: string;
-  blood_type: string;
-  weight: number;
-  height: number;
-  chronic_conditions: string;
-  immunization_record: string;
-  family_medical_history: string;
-};
+export type RegistrationFormField = yup.InferType<typeof BiopageSchema> &
+  yup.InferType<typeof ContactDataSchema> &
+  yup.InferType<typeof MedicalDataSchema>;
 
 export function PatientRegistionPage() {
   const [current, setCurrent] = useState<number>(0);
@@ -107,7 +89,6 @@ export function PatientRegistionPage() {
           errors={methods.formState.errors}
         />
       ),
-      
     },
     {
       title: 'Contact Data',
@@ -117,7 +98,6 @@ export function PatientRegistionPage() {
           errors={methods.formState.errors}
         />
       ),
-      
     },
     {
       title: 'Medical Data',
@@ -127,7 +107,6 @@ export function PatientRegistionPage() {
           errors={methods.formState.errors}
         />
       ),
-      
     },
 
     {
@@ -135,7 +114,6 @@ export function PatientRegistionPage() {
       content: <PreviewPage />,
     },
   ];
-
 
   return (
     <Layout>

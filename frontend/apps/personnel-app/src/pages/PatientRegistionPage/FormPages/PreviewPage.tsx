@@ -6,7 +6,7 @@ import { useFormContext } from 'react-hook-form';
 import styled from 'styled-components';
 import type { RegistrationFormField } from '../PatientRegistionPage';
 export function PreviewPage() {
-  const { getValues } = useFormContext<RegistrationFormField>();
+  const { watch } = useFormContext<RegistrationFormField>();
 
   const {
     first_name,
@@ -24,7 +24,7 @@ export function PreviewPage() {
     address,
     email,
     genetype,
-  } = getValues();
+  } = watch();
   const fullName = `${first_name} ${last_name}`;
 
   return (
@@ -52,11 +52,7 @@ export function PreviewPage() {
             </Typography>
             <AgeContainer direction="row" fullWidth gap="sm" padding="xxs">
               <Typography variant="bodySm">
-                {`${
-                  calculateAge(date_of_birth) > 0
-                    ? calculateAge(date_of_birth)
-                    : 1
-                } years old`}
+                {`${calculateAge(date_of_birth) ?? '-'} years old`}
               </Typography>
             </AgeContainer>
           </Flex>
