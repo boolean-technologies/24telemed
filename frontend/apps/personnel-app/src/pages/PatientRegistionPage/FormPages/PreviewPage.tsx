@@ -26,6 +26,7 @@ export function PreviewPage() {
     genetype,
   } = watch();
   const fullName = `${first_name} ${last_name}`;
+  console.log('watch', watch())
 
   return (
     <Root direction="column" fullWidth padding="lg">
@@ -66,11 +67,10 @@ export function PreviewPage() {
         <Flex direction="column" fullWidth gap="sm">
           <InfoText
             title="Family Medical History"
-            value={family_medical_history}
+            value={family_medical_history || 'None'}
           />
-          <InfoText title="Allergies" value={allergies} />
-
-          <InfoText title="Chronic Conditions" value={chronic_conditions} />
+          <InfoText title="Allergies" value={allergies || 'None'} />
+          <InfoText title="Chronic Conditions" value={chronic_conditions || 'None'} />
           <Flex gap="sm" fullWidth direction="row" justify="space-between">
             <Flex direction="column" gap="sm" fullWidth>
               <InfoText title="Blood Type" value={blood_type} />

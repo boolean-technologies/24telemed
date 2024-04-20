@@ -1,4 +1,9 @@
 import * as yup from 'yup';
+enum gender {
+  MALE = 'Male',
+  FEMALE = 'Female',
+}
+
 
 export const ContactDataSchema = yup.object().shape({
   phone_number: yup.string().required('Phone number is required'),
@@ -10,7 +15,7 @@ export const ContactDataSchema = yup.object().shape({
 export const BiopageSchema = yup.object().shape({
   first_name: yup.string().required('First name is required'),
   last_name: yup.string().required('Last name is required '),
-  gender: yup.string().required(' Gender is required'),
+  gender: yup.string().oneOf(Object.values(gender)).required("Gender is required"),
   date_of_birth: yup.string().required('Date of birth is required'),
 });
 

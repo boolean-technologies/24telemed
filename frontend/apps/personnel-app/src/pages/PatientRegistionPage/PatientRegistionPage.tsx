@@ -8,7 +8,7 @@ import { MedicalDataPage } from './FormPages/MedicalDataPage';
 import { ContactDataPage } from './FormPages/ContactDataPage';
 import { PreviewPage } from './FormPages/PreviewPage';
 import { Button } from 'antd-mobile';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { calculateAge } from '@local/api-generated';
 import { FormProvider, useForm } from 'react-hook-form';
 import * as yup from 'yup';
@@ -49,7 +49,6 @@ export function PatientRegistionPage() {
   const onSubmit = () => {
     const patient = methods.getValues();
     mutate(
-      // @ts-ignore
       {
         ...patient,
         age: calculateAge(patient.date_of_birth),
