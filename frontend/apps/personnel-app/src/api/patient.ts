@@ -14,4 +14,10 @@ export const useSearchPatients = () =>
     queryFn: () => PatientsService.patientsRead(id as string),
     enabled: !!id
   });
+
+  export const useCreatePatient = () =>
+  useMutation({
+    mutationFn: (patient: Patient) => PatientsService.patientsCreate(patient),
+  });
+  
   

@@ -1,78 +1,151 @@
 import { useNavigate } from 'react-router-dom';
 import { PageHeader } from '../../components/PageLayout';
-import { Card, Flex } from '@local/shared-components';
-import { FormHeader } from './FormHeader';
+import { Card, Flex, defaultTheme } from '@local/shared-components';
 import styled from 'styled-components';
-import { StepStateProps } from './FormHeader/StepState';
-import { Form, Layout } from 'antd';
-import { useFormWizardNavigation } from './useFormWizardNavigation';
+import { Form, Layout, Steps } from 'antd';
 import { BioDataPage } from './FormPages/BioDataPage';
 import { MedicalDataPage } from './FormPages/MedicalDataPage';
 import { ContactDataPage } from './FormPages/ContactDataPage';
 import { PreviewPage } from './FormPages/PreviewPage';
 import { Button } from 'antd-mobile';
+import { useState, useCallback } from 'react';
+import { calculateAge } from '@local/api-generated';
+import { FormProvider, useForm } from 'react-hook-form';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useCreatePatient } from '../../api/patient';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { BiopageSchema } from './FormPages/formSchema';
+import { MedicalDataSchema } from './FormPages/formSchema';
+import { ContactDataSchema } from './FormPages/formSchema';
+
+export type RegistrationFormField = yup.InferType<typeof BiopageSchema> &
+  yup.InferType<typeof ContactDataSchema> &
+  yup.InferType<typeof MedicalDataSchema>;
 
 export function PatientRegistionPage() {
+  const [current, setCurrent] = useState<number>(0);
+  const { mutate, isPending } = useCreatePatient();
   const navigate = useNavigate();
 
-  const { step, goToStep, goBack, goNext } = useFormWizardNavigation(4);
+  const schema:
+    | yup.ObjectSchema<any, yup.AnyObject, any, ''>
+    | yup.Lazy<any, yup.AnyObject, any> =
+    current === 0
+      ? BiopageSchema
+      : current === 1
+      ? ContactDataSchema
+      : MedicalDataSchema;
+  const methods = useForm<RegistrationFormField>({
+    resolver: yupResolver(schema),
+  });
 
-  const steps: StepStateProps[] = [
+  const onSubmit = () => {
+    const patient = methods.getValues();
+    mutate(
+      {
+        ...patient,
+        age: calculateAge(patient.date_of_birth),
+        date_of_birth: patient.date_of_birth.toISOString().split('T')[0],
+      },
+      {
+        onSuccess: (data) => {
+          toast.success('Patient created successfully');
+
+          navigate(`/patient/${data.id}`, {
+            replace: true,
+          });
+        },
+        onError: (error) => {
+          toast.error('An error occured, patient creation failed', {
+            position: toast.POSITION.TOP_CENTER,
+          });
+        },
+      }
+    );
+  };
+
+  const next = useCallback(() => {
+    setCurrent(current + 1);
+  }, [current]);
+
+  const prev = useCallback(() => {
+    setCurrent(current - 1);
+  }, [current]);
+
+  const steps = [
     {
-      state: 'completed',
-      position: 0,
-      name: 'Bio Data',
-      onStep: () => goToStep(0),
+      title: 'Bio Data',
+      content: <BioDataPage />,
     },
     {
-      state: 'progress',
-      position: 1,
-      name: 'Medical Data',
-      onStep: () => goToStep(1),
+      title: 'Contact Data',
+      content: <ContactDataPage />,
     },
     {
-      state: 'pending',
-      position: 2,
-      name: 'Contact Data',
-      onStep: () => goToStep(2),
+      title: 'Medical Data',
+      content: <MedicalDataPage />,
     },
+
     {
-      state: 'pending',
-      position: 3,
-      name: 'Preview',
-      onStep: () => goToStep(3),
+      title: 'Preview',
+      content: <PreviewPage />,
     },
   ];
-
-  const onFinish = (data: any) => {
-    console.log(data);
-  };
 
   return (
     <Layout>
       <PageHeader title="New Patient" />
       <StyledRoot padding="md" direction="column">
-        <FormHeader steps={steps} current={step} total={steps.length} />
         <Card fullHeight>
-          <Form name="newPatient" layout="vertical" onFinish={onFinish}>
-            {step === 0 ? <BioDataPage /> : null}
-            {step === 1 ? <MedicalDataPage /> : null}
-            {step === 2 ? <ContactDataPage /> : null}
-            {step === 3 ? <PreviewPage /> : null}
-          </Form>
+          <FormProvider {...methods}>
+            <Form name="newPatient" layout="vertical">
+              <Steps
+                current={current}
+                style={{
+                  color: defaultTheme.palette.primary2.main,
+                  borderColor: defaultTheme.palette.primary1.main,
+                  marginBottom: '20px',
+                }}
+              >
+                {steps.map((item) => (
+                  <Steps.Step key={item.title} title={item.title} />
+                ))}
+              </Steps>
+              {steps[current].content}
+              {
+                <Flex justify="space-between" padding="md">
+                  {current > 0 && (
+                    <Button type="button" color="default" onClick={prev}>
+                      Previous
+                    </Button>
+                  )}
+                  {current < steps.length - 1 && (
+                    <Button
+                      type="button"
+                      color="primary"
+                      onClick={methods.handleSubmit(next)}
+                      style={{ marginLeft: 'auto' }}
+                    >
+                      Next
+                    </Button>
+                  )}
+                  {current === steps.length - 1 && (
+                    <Button
+                      type="submit"
+                      color="primary"
+                      onClick={onSubmit}
+                      loading={isPending}
+                    >
+                      Submit
+                    </Button>
+                  )}
+                </Flex>
+              }
+            </Form>
+          </FormProvider>
         </Card>
-        <Flex fullWidth justify="space-between">
-          {step === 0 ? <div /> : <Button onClick={goBack}>Previous</Button>}
-          {step === steps.length - 1 ? (
-            <Button color="primary" onClick={goNext}>
-              Submit
-            </Button>
-          ) : (
-            <Button color="primary" onClick={goNext}>
-              Next
-            </Button>
-          )}
-        </Flex>
       </StyledRoot>
     </Layout>
   );
