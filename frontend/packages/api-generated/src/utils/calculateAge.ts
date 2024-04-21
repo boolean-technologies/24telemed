@@ -1,5 +1,9 @@
-import { DateTime } from "luxon"
+import { DateTime } from 'luxon';
 
-export function calculateAge(dateOfBirth: string): number {
-    return DateTime.now().diff(DateTime.fromISO(dateOfBirth), 'years').years
+export function calculateAge(dateOfBirth: Date): number {
+  const dateToString = new Date(dateOfBirth).toISOString().split('T')[0];
+  const dob = DateTime.fromISO(dateToString);
+  const now = DateTime.now();
+  const absoulteAge = Math.abs(now.diff(dob, 'years').years);
+  return Math.floor(absoulteAge);
 }

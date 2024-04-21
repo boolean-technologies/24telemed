@@ -5,6 +5,7 @@ import { Divider } from 'antd';
 import { useFormContext } from 'react-hook-form';
 import styled from 'styled-components';
 import type { RegistrationFormField } from '../PatientRegistionPage';
+import { DateTime } from 'luxon';
 export function PreviewPage() {
   const { watch } = useFormContext<RegistrationFormField>();
 
@@ -26,7 +27,7 @@ export function PreviewPage() {
     genetype,
   } = watch();
   const fullName = `${first_name} ${last_name}`;
-  console.log('watch', watch())
+  
 
   return (
     <Root direction="column" fullWidth padding="lg">
@@ -49,11 +50,18 @@ export function PreviewPage() {
           </NumberContainer>
           <Flex>
             <Typography variant="bodySm">
-              Date of Birth: {new Date(date_of_birth).toDateString()}
+              Date of Birth:{' '}
+              {DateTime.fromISO(
+                new Date(date_of_birth).toISOString().split('T')[0]
+              ).toLocaleString(DateTime.DATE_MED)}
             </Typography>
             <AgeContainer direction="row" fullWidth gap="sm" padding="xxs">
               <Typography variant="bodySm">
-                {`${calculateAge(date_of_birth) ?? '-'} years old`}
+                {`${
+                  calculateAge(date_of_birth) === 0
+                    ? '< 1'
+                    : calculateAge(date_of_birth)
+                } years old`}
               </Typography>
             </AgeContainer>
           </Flex>
@@ -70,7 +78,10 @@ export function PreviewPage() {
             value={family_medical_history || 'None'}
           />
           <InfoText title="Allergies" value={allergies || 'None'} />
-          <InfoText title="Chronic Conditions" value={chronic_conditions || 'None'} />
+          <InfoText
+            title="Chronic Conditions"
+            value={chronic_conditions || 'None'}
+          />
           <Flex gap="sm" fullWidth direction="row" justify="space-between">
             <Flex direction="column" gap="sm" fullWidth>
               <InfoText title="Blood Type" value={blood_type} />

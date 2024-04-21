@@ -16,7 +16,7 @@ export const BiopageSchema = yup.object().shape({
   first_name: yup.string().required('First name is required'),
   last_name: yup.string().required('Last name is required '),
   gender: yup.string().oneOf(Object.values(gender)).required("Gender is required"),
-  date_of_birth: yup.string().required('Date of birth is required'),
+  date_of_birth: yup.date().required('Date of birth is required'),
 });
 
 export const MedicalDataSchema = yup.object().shape({

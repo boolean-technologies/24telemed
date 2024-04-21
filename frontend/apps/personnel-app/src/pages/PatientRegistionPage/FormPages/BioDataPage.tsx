@@ -1,13 +1,17 @@
 import { Typography } from '@local/shared-components';
 import { DatePicker, Form, Input, Select } from 'antd';
-import { Controller,} from 'react-hook-form';
+import { DateTime } from 'luxon';
+import type {RegistrationFormField} from '../PatientRegistionPage';
+import { Controller, useFormContext } from 'react-hook-form';
 
-interface BioDataPageProps {
-  control: any;
-  errors: any;
-}
 
-export function BioDataPage({ control, errors }: BioDataPageProps) {
+
+export function BioDataPage() {
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext<RegistrationFormField>();
+
   return (
     <>
       <Form.Item
@@ -26,7 +30,7 @@ export function BioDataPage({ control, errors }: BioDataPageProps) {
               value={value}
             />
           )}
-          defaultValue=""
+          
         />
         {errors.first_name && (
           <Typography variant="bodySm" color="error">
@@ -77,7 +81,12 @@ export function BioDataPage({ control, errors }: BioDataPageProps) {
           </Typography>
         )}
       </Form.Item>
-      <Form.Item label="Date of Birth" name="date_of_birth" style={{ flex: 1 }} rules={[{ required: true }]}>
+      <Form.Item
+        label="Date of Birth"
+        name="date_of_birth"
+        style={{ flex: 1 }}
+        rules={[{ required: true }]}
+      >
         <Controller
           control={control}
           name="date_of_birth"

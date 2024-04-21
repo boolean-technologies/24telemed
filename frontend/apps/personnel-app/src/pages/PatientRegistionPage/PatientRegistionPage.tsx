@@ -40,11 +40,6 @@ export function PatientRegistionPage() {
   const methods = useForm<RegistrationFormField>({
     resolver: yupResolver(schema),
   });
-  const formatDate = (date: string) => {
-    if (!date) return '';
-    const newDate = new Date(date)?.toISOString()?.split('T')[0];
-    return newDate;
-  };
 
   const onSubmit = () => {
     const patient = methods.getValues();
@@ -52,7 +47,7 @@ export function PatientRegistionPage() {
       {
         ...patient,
         age: calculateAge(patient.date_of_birth),
-        date_of_birth: formatDate(patient.date_of_birth),
+        date_of_birth: patient.date_of_birth.toISOString().split('T')[0],
       },
       {
         onSuccess: (data) => {
@@ -82,30 +77,15 @@ export function PatientRegistionPage() {
   const steps = [
     {
       title: 'Bio Data',
-      content: (
-        <BioDataPage
-          control={methods.control}
-          errors={methods.formState.errors}
-        />
-      ),
+      content: <BioDataPage />,
     },
     {
       title: 'Contact Data',
-      content: (
-        <ContactDataPage
-          control={methods.control}
-          errors={methods.formState.errors}
-        />
-      ),
+      content: <ContactDataPage />,
     },
     {
       title: 'Medical Data',
-      content: (
-        <MedicalDataPage
-          control={methods.control}
-          errors={methods.formState.errors}
-        />
-      ),
+      content: <MedicalDataPage />,
     },
 
     {

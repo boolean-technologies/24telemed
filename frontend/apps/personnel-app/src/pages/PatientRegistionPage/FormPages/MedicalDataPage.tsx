@@ -1,18 +1,16 @@
 import { Flex, Typography } from '@local/shared-components';
 import { Form, Input } from 'antd';
-import { Controller, useForm } from 'react-hook-form';
-import * as yup from 'yup';
+import { Controller, useFormContext } from 'react-hook-form';
 
 
-
-interface MedicalDataPageProps {
-  control: any;
-  errors: any;
-}
-export function MedicalDataPage({ control, errors }: MedicalDataPageProps) {
+export function MedicalDataPage() {
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext();
   return (
     <>
-      <Form.Item label="Medical history" name="medical_history" >
+      <Form.Item label="Medical history" name="medical_history">
         <Controller
           render={({ field: { onChange, onBlur, value, ref } }) => (
             <Input.TextArea
@@ -33,7 +31,7 @@ export function MedicalDataPage({ control, errors }: MedicalDataPageProps) {
           </Typography>
         )}
       </Form.Item>
-      <Form.Item label="Allergies" name="allergies" >
+      <Form.Item label="Allergies" name="allergies">
         <Controller
           render={({ field: { onChange, onBlur, value, ref } }) => (
             <Input.TextArea
@@ -54,7 +52,7 @@ export function MedicalDataPage({ control, errors }: MedicalDataPageProps) {
           </Typography>
         )}
       </Form.Item>
-      <Form.Item label="Chronic Conditions" name="chronic_conditions" >
+      <Form.Item label="Chronic Conditions" name="chronic_conditions">
         <Controller
           render={({ field: { onChange, onBlur, value, ref } }) => (
             <Input.TextArea
@@ -63,12 +61,11 @@ export function MedicalDataPage({ control, errors }: MedicalDataPageProps) {
               onChange={onChange}
               onBlur={onBlur}
               value={value}
-              
             />
           )}
           name="chronic_conditions"
           defaultValue=""
-          control = {control}
+          control={control}
         />
         {errors.chronic_conditions && (
           <Typography variant="bodySm" color="error">
@@ -95,7 +92,6 @@ export function MedicalDataPage({ control, errors }: MedicalDataPageProps) {
               />
             )}
             defaultValue=""
-            
           />
 
           {errors.blood_type && (
@@ -109,7 +105,6 @@ export function MedicalDataPage({ control, errors }: MedicalDataPageProps) {
           name="genetype"
           rules={[{ required: true }]}
           style={{ flex: 1 }}
-           
         >
           <Controller
             control={control}
@@ -123,7 +118,6 @@ export function MedicalDataPage({ control, errors }: MedicalDataPageProps) {
               />
             )}
             defaultValue=""
-            
           />
           {errors.genetype && (
             <Typography variant="bodySm" color="error">
@@ -138,7 +132,6 @@ export function MedicalDataPage({ control, errors }: MedicalDataPageProps) {
           name="weight"
           rules={[{ required: true }]}
           style={{ flex: 1 }}
-          
         >
           <Controller
             control={control}
@@ -165,7 +158,6 @@ export function MedicalDataPage({ control, errors }: MedicalDataPageProps) {
           name="height"
           rules={[{ required: true }]}
           style={{ flex: 1 }}
-          
         >
           <Controller
             control={control}
@@ -188,7 +180,7 @@ export function MedicalDataPage({ control, errors }: MedicalDataPageProps) {
           )}
         </Form.Item>
       </Flex>
-      <Form.Item label="Immunization Records" name="immunization_records" >
+      <Form.Item label="Immunization Records" name="immunization_records">
         <Controller
           render={({ field: { onChange, onBlur, value, ref } }) => (
             <Input.TextArea
@@ -209,7 +201,7 @@ export function MedicalDataPage({ control, errors }: MedicalDataPageProps) {
           </Typography>
         )}
       </Form.Item>
-      <Form.Item label="Family Medical History" name="family_medical_history" >
+      <Form.Item label="Family Medical History" name="family_medical_history">
         <Controller
           render={({ field: { onChange, onBlur, value, ref } }) => (
             <Input.TextArea
