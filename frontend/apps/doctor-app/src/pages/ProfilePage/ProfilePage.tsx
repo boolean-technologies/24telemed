@@ -29,7 +29,6 @@ type DrawerFormType =
 
 export function ProfilePage() {
   const { data: user, refetch } = useCurrentUser();
-  console.log(user);
   const name = `${user?.first_name} ${user?.last_name}`;
   const [drawerForm, setDrawerForm] = useState<DrawerFormType>();
   const data = [
