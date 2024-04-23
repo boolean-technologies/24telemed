@@ -9,10 +9,10 @@ type FormField = {
 type Props = {
   userId: string;
   refetch: any;
-  defaultUsername: string;
+  initialUserName: string;
 };
 
-export function UserNameForm({ userId, refetch, defaultUsername }: Props) {
+export function UserNameForm({ userId, refetch, initialUserName }: Props) {
   const { mutate, isPending, error, isError, isSuccess } = useUpdateUser();
 
   const onFinish = (values: FormField) => {
@@ -63,7 +63,7 @@ export function UserNameForm({ userId, refetch, defaultUsername }: Props) {
         label="Username"
         rules={[{ required: true, message: 'Please input your username!' }]}
       >
-        <Input defaultValue={defaultUsername} />
+        <Input defaultValue={initialUserName} />
       </Form.Item>
     </FormWrapper>
   );

@@ -29,6 +29,7 @@ type DrawerFormType =
 
 export function ProfilePage() {
   const { data: user, refetch } = useCurrentUser();
+  console.log(user);
   const name = `${user?.first_name} ${user?.last_name}`;
   const [drawerForm, setDrawerForm] = useState<DrawerFormType>();
   const data = [
@@ -114,8 +115,21 @@ export function ProfilePage() {
         open={!!drawerForm}
         key={drawerForm}
       >
-        {drawerForm === 'name' && <NameForm />}
-        {drawerForm === 'username' && <UserNameForm userId={user?.id || ""} refetch={refetch} defaultUsername={user?.username || ""} />}
+        {drawerForm === 'name' && (
+          <NameForm
+            initialFirstName={user?.first_name || ''}
+            initialLastName={user?.last_name || ''}
+            userId={user?.id || ''}
+            refetch={refetch}
+          />
+        )}
+        {drawerForm === 'username' && (
+          <UserNameForm
+            userId={user?.id || ''}
+            refetch={refetch}
+            initialUserName={user?.username || ''}
+          />
+        )}
         {drawerForm === 'email' && <EmailForm />}
         {drawerForm === 'location' && <LocationForm />}
         {drawerForm === 'password' && <PasswordForm />}
