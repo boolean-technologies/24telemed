@@ -52,8 +52,8 @@ export function ProfilePage() {
     },
     {
       name: 'Location',
-      // TODO: replace with actual location
-      value: 'Lagos, Nigeria',
+
+      value: user?.location || 'Not set',
       icon: <EnvironmentOutlined />,
       onClick: () => setDrawerForm('location'),
     },
@@ -65,8 +65,8 @@ export function ProfilePage() {
     },
     {
       name: 'Descriptipn',
-      // TODO: replace with actual description
-      value: 'I am a doctor',
+      
+      value: user?.description || 'Not set',
       icon: <BookOutlined />,
       onClick: () => setDrawerForm('description'),
     },
@@ -130,9 +130,21 @@ export function ProfilePage() {
           />
         )}
         {drawerForm === 'email' && <EmailForm />}
-        {drawerForm === 'location' && <LocationForm />}
+        {drawerForm === 'location' && (
+          <LocationForm
+            userId={user?.id || ''}
+            refetch={refetch}
+            initialLocation={user?.location || ''}
+          />
+        )}
         {drawerForm === 'password' && <PasswordForm />}
-        {drawerForm === 'description' && <DescriptionForm />}
+        {drawerForm === 'description' && (
+          <DescriptionForm
+            userId={user?.id || ''}
+            refetch={refetch}
+            initialDescription= {user?.description || ''}
+          />
+        )}
       </Drawer>
     </StyledRoot>
   );

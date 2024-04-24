@@ -28,9 +28,11 @@ export type User = {
   date_joined?: string;
   phone_number?: string | null;
   date_of_birth?: string | null;
+  description?: string | null;
   user_type?: User.user_type;
   readonly photo?: string | null;
   specialty?: string | null;
+  location?: string | null;
   /**
    * The groups this user belongs to. A user will get all permissions granted to each of their groups.
    */
