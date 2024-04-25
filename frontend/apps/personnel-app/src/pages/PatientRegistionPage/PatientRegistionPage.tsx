@@ -8,8 +8,8 @@ import { MedicalDataPage } from './FormPages/MedicalDataPage';
 import { ContactDataPage } from './FormPages/ContactDataPage';
 import { PreviewPage } from './FormPages/PreviewPage';
 import { Button } from 'antd-mobile';
-import { useState, useCallback } from 'react';
-import { calculateAge } from '@local/api-generated';
+import { useState, useCallback, useRef, useEffect } from 'react';
+import { calculateAge, parseApiError } from '@local/api-generated';
 import { FormProvider, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -25,6 +25,7 @@ export type RegistrationFormField = yup.InferType<typeof BiopageSchema> &
   yup.InferType<typeof MedicalDataSchema>;
 
 export function PatientRegistionPage() {
+  const pageRef = useRef<HTMLDivElement>(null);
   const [current, setCurrent] = useState<number>(0);
   const { mutate, isPending } = useCreatePatient();
   const navigate = useNavigate();
@@ -58,7 +59,7 @@ export function PatientRegistionPage() {
           });
         },
         onError: (error) => {
-          toast.error('An error occured, patient creation failed', {
+          toast.error(`${parseApiError(error)}, Please try again`, {
             position: toast.POSITION.TOP_CENTER,
           });
         },
@@ -72,6 +73,12 @@ export function PatientRegistionPage() {
 
   const prev = useCallback(() => {
     setCurrent(current - 1);
+  }, [current]);
+
+  useEffect(() => {
+    if (pageRef.current) {
+      pageRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }, [current]);
 
   const steps = [
@@ -97,7 +104,7 @@ export function PatientRegistionPage() {
   return (
     <Layout>
       <PageHeader title="New Patient" />
-      <StyledRoot padding="md" direction="column">
+      <StyledRoot padding="md" direction="column" ref={pageRef}>
         <Card fullHeight>
           <FormProvider {...methods}>
             <Form name="newPatient" layout="vertical">
