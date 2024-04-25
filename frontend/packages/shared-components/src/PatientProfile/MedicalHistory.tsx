@@ -18,33 +18,33 @@ export const MedicalHistory = ({ patient }: MedicalHistoryProps) => {
     {
       key: '1',
       label: <Typography variant="bodyMd" weight="bold">Medical History</Typography>,
-      children: <Typography variant="bodySm">{patient?.medical_history}</Typography>,
+      children: <Typography variant="bodySm">{patient?.medical_history || '-'}</Typography>,
     },
     {
       key: '2',
       label: <Typography variant="bodyMd" weight="bold">Current Medication</Typography>,
-      children: <Typography variant="bodySm">{patient?.current_medications}</Typography>,
+      children: <Typography variant="bodySm">{patient?.current_medications || '-'}</Typography>,
     },
     {
       key: '3',
       label: <Typography variant="bodyMd" weight="bold">Allergies</Typography>,
-      children: <Typography variant="bodySm">{patient?.allergies}</Typography>,
+      children: <Typography variant="bodySm">{patient?.allergies || '-'}</Typography>,
     },
     {
       key: '4',
       label: <Typography variant="bodyMd" weight="bold">Chronic Conditions</Typography>,
-      children: <Typography variant="bodySm">{patient?.chronic_conditions}</Typography>,
+      children: <Typography variant="bodySm">{patient?.chronic_conditions || '-'}</Typography>,
     },
     {
       key: '5',
       label: <Typography variant="bodyMd" weight="bold">Immunization Record</Typography>,
-      children: <Typography variant="bodySm">{patient?.immunization_record}</Typography>,
+      children: <Typography variant="bodySm">{patient?.immunization_record || '-'}</Typography>,
     },
     {
       key: '6',
       label: <Typography variant="bodyMd" weight="bold">Family Medical History</Typography>,
       children: (
-        <Typography variant="bodySm">{patient?.family_medical_history}</Typography>
+        <Typography variant="bodySm">{patient?.family_medical_history || '-'}</Typography>
       ),
     },
   ];

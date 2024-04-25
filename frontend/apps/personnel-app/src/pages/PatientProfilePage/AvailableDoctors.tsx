@@ -14,7 +14,7 @@ const AvailableDoctors = ({ patientId }: AvailableDoctorsProps) => {
   return (
     <Flex direction="column" fullWidth fullHeight>
       <Flex direction="row" justify="space-between" gap="none">
-        <Typography variant="bodyLg">Available Doctors</Typography>
+        
       </Flex>
       <Flex
         direction="column"
