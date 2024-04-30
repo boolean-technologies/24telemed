@@ -23,7 +23,7 @@ import {
   UserOutlined,
   SolutionOutlined,
   DatabaseOutlined,
-  MedicineBoxOutlined
+  MedicineBoxOutlined,
 } from '@ant-design/icons';
 export type RegistrationFormField = yup.InferType<typeof BiopageSchema> &
   yup.InferType<typeof ContactDataSchema> &
@@ -91,27 +91,22 @@ export function PatientRegistionPage() {
       title: 'Bio Data',
       content: <BioDataPage />,
       icon: <UserOutlined />,
-      
-      
     },
     {
       title: 'Contact Data',
       content: <ContactDataPage />,
       icon: <SolutionOutlined />,
-      
     },
     {
       title: 'Medical Data',
       content: <MedicalDataPage />,
       icon: <MedicineBoxOutlined />,
-      
     },
 
     {
       title: 'Preview',
       content: <PreviewPage />,
       icon: <DatabaseOutlined />,
-      
     },
   ];
 
@@ -131,7 +126,11 @@ export function PatientRegistionPage() {
                 }}
               >
                 {steps.map((item) => (
-                  <Steps.Step key={item.title} title={item.title} icon={item.icon} />
+                  <Steps.Step
+                    key={item.title}
+                    title={item.title}
+                    icon={item.icon}
+                  />
                 ))}
               </Steps>
               {steps[current].content}

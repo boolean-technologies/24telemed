@@ -1,16 +1,14 @@
 import React from 'react';
-import { Form,Input, Select } from 'antd';
+import { Form, Input, Select } from 'antd';
 import { Flex, PageLoading } from '@local/shared-components';
 
 import { useParams } from 'react-router-dom';
 import { useGetPatient } from '../../api/patient';
 
-
 export const BioDataForm = () => {
   const { patientId } = useParams();
-  
-  const {data:patient, isPending} = useGetPatient(patientId);
-  
+
+  const { data: patient, isPending } = useGetPatient(patientId);
 
   if (isPending) {
     return <PageLoading />;
@@ -24,17 +22,22 @@ export const BioDataForm = () => {
         rules={[{ required: true }]}
         initialValue={patient?.first_name}
       >
-        <Input placeholder="First Name" size="large"
-         />
+        <Input placeholder="First Name" size="large" />
       </Form.Item>
 
-      <Form.Item label="Last Name" name="last_name" rules={[{ required: true }]}
+      <Form.Item
+        label="Last Name"
+        name="last_name"
+        rules={[{ required: true }]}
         initialValue={patient?.last_name}
       >
         <Input placeholder="Last Name" size="large" />
       </Form.Item>
 
-      <Form.Item label="Gender" name="gender" rules={[{ required: true }]}
+      <Form.Item
+        label="Gender"
+        name="gender"
+        rules={[{ required: true }]}
         initialValue={patient?.gender}
       >
         <Select
@@ -86,38 +89,58 @@ export const BioDataForm = () => {
           <Input placeholder="Enter height" type="number" />
         </Form.Item>
       </Flex>
-      <Form.Item label="Medical history" name="medical_history"
+      <Form.Item
+        label="Medical history"
+        name="medical_history"
         initialValue={patient?.medical_history}
       >
-        <Input.TextArea placeholder="Medical history" size="large" rows = {6} />
+        <Input.TextArea placeholder="Medical history" size="large" rows={6} />
       </Form.Item>
-      <Form.Item label="Allergies" name="allergies"
+      <Form.Item
+        label="Allergies"
+        name="allergies"
         initialValue={patient?.allergies}
       >
         <Input.TextArea placeholder="Write patient's allergies here" rows={6} />
       </Form.Item>
-      <Form.Item label="Chronic Conditions" name="chronic_conditions"
+      <Form.Item
+        label="Chronic Conditions"
+        name="chronic_conditions"
         initialValue={patient?.chronic_conditions}
       >
         <Input.TextArea placeholder="Write patient's condition here" rows={6} />
       </Form.Item>
-      
-      <Form.Item label = "current_medications" name="current_medications"
+
+      <Form.Item
+        label="current_medications"
+        name="current_medications"
         initialValue={patient?.current_medications}
       >
-        <Input.TextArea placeholder="Write patient's current medication here" rows={6} />
+        <Input.TextArea
+          placeholder="Write patient's current medication here"
+          rows={6}
+        />
       </Form.Item>
-      <Form.Item label="Immunization Records" name="immunization_record"
+      <Form.Item
+        label="Immunization Records"
+        name="immunization_record"
         initialValue={patient?.immunization_record}
       >
-        <Input.TextArea placeholder="Write patient's immunization records here" rows={6} />
+        <Input.TextArea
+          placeholder="Write patient's immunization records here"
+          rows={6}
+        />
       </Form.Item>
-      <Form.Item label="Family Medical History" name="family_medical_history"
+      <Form.Item
+        label="Family Medical History"
+        name="family_medical_history"
         initialValue={patient?.family_medical_history}
       >
-        <Input.TextArea placeholder="Write patient's family medical history here" rows={6} />
+        <Input.TextArea
+          placeholder="Write patient's family medical history here"
+          rows={6}
+        />
       </Form.Item>
     </>
-    
   );
 };

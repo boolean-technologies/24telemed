@@ -1,6 +1,12 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetPatient } from '../../api/patient';
-import { Flex, PageLoading, Theme, PatientProfileHeader, MedicalHistory } from '@local/shared-components';
+import {
+  Flex,
+  PageLoading,
+  Theme,
+  PatientProfileHeader,
+  MedicalHistory,
+} from '@local/shared-components';
 import styled, { useTheme } from 'styled-components';
 import { Badge, Drawer, Tabs } from 'antd';
 import { Modal } from 'antd-mobile';
@@ -41,39 +47,47 @@ export function PatientProfilePage() {
       }}
     >
       <Flex direction="column" fullHeight fullWidth gap="lg" xsGap="xs">
-        <PatientProfileHeader patient={patient} isEditable={true}
-        onEdit={() => {
-          navigate(`/patient/${patientId}/edit`);
-        }}
-         />
-        
-        <TabContainer align="flex-start" justify="center" fullHeight fullWidth padding="sm">
-        <Tabs
-          defaultActiveKey="medicalHistory"
-          type="card"
-          style={{ width: "100%"}}
-          tabBarGutter={8}
-          items={[
-            {
-              key: 'medicalHistory',
-              label: 'Medical History',
-              children: <MedicalHistory patient={patient} />,
-            },
-            {
-              key: 'availableDoctors',
-              label: (
-                <>
-                  Available Doctors{' '}
-                  <Badge
-                    count={availableDoctors.length}
-                    style={{ fontWeight: 'bold' }}
-                  />
-                </>
-              ),
-              children: <AvailableDoctors patientId={patientId!} />,
-            },
-          ]}
+        <PatientProfileHeader
+          patient={patient}
+          isEditable={true}
+          onEdit={() => {
+            navigate(`/patient/${patientId}/edit`);
+          }}
         />
+
+        <TabContainer
+          align="flex-start"
+          justify="center"
+          fullHeight
+          fullWidth
+          padding="sm"
+        >
+          <Tabs
+            defaultActiveKey="medicalHistory"
+            type="card"
+            style={{ width: '100%' }}
+            tabBarGutter={8}
+            items={[
+              {
+                key: 'medicalHistory',
+                label: 'Medical History',
+                children: <MedicalHistory patient={patient} />,
+              },
+              {
+                key: 'availableDoctors',
+                label: (
+                  <>
+                    Available Doctors{' '}
+                    <Badge
+                      count={availableDoctors.length}
+                      style={{ fontWeight: 'bold' }}
+                    />
+                  </>
+                ),
+                children: <AvailableDoctors patientId={patientId!} />,
+              },
+            ]}
+          />
         </TabContainer>
       </Flex>
     </Drawer>
