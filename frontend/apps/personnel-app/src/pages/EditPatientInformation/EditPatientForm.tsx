@@ -5,7 +5,7 @@ import { Flex, PageLoading } from '@local/shared-components';
 import { useParams } from 'react-router-dom';
 import { useGetPatient } from '../../api/patient';
 
-export const BioDataForm = () => {
+export const EditPatientForm = () => {
   const { patientId } = useParams();
 
   const { data: patient, isPending } = useGetPatient(patientId);

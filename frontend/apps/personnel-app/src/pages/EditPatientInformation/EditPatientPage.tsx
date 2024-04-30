@@ -2,7 +2,7 @@ import { Flex, FormWrapper } from '@local/shared-components';
 import { Layout } from 'antd';
 import type { RegistrationFormField } from '../PatientRegistionPage';
 import { PageHeader } from '../../components/PageLayout';
-import { BioDataForm } from './EditPatientForm';
+import { EditPatientForm } from './EditPatientForm';
 import styled from 'styled-components';
 import { useUpdatePatient } from '../../api/patient';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -38,7 +38,7 @@ export function EditPatientPage() {
           onFinish={onFinish}
           isLoading={isPending}
         >
-          <BioDataForm />
+          <EditPatientForm />
         </FormWrapper>
       </StyledRoot>
     </Layout>
