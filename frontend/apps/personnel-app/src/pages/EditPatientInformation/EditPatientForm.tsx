@@ -112,7 +112,7 @@ export const BioDataForm = () => {
       </Form.Item>
 
       <Form.Item
-        label="current_medications"
+        label="Current medications"
         name="current_medications"
         initialValue={patient?.current_medications}
       >
