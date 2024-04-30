@@ -14,6 +14,8 @@ import { CallHistoryPage } from './pages/CallHistoryPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { PatientRegistionPage } from './pages/PatientRegistionPage';
 import { PatientProfilePage } from './pages/PatientProfilePage';
+import { EditPatientPage } from './pages/EditPatientInformation';
+
 
 const routes: RouteObject[] = [
   {
@@ -49,6 +51,10 @@ const routes: RouteObject[] = [
       {
         path: Path.registerPatient,
         element: <PatientRegistionPage />,
+      },
+      {
+        path: Path.patient + '/:patientId' + '/edit',
+        element: <EditPatientPage />,
       },
       {
         path: Path.meeting + '/:meetingId',

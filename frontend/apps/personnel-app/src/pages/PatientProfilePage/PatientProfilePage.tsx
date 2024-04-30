@@ -41,7 +41,12 @@ export function PatientProfilePage() {
       }}
     >
       <Flex direction="column" fullHeight fullWidth gap="lg" xsGap="xs">
-        <PatientProfileHeader patient={patient} />
+        <PatientProfileHeader patient={patient} isEditable={true}
+        onEdit={() => {
+          navigate(`/patient/${patientId}/edit`);
+        }}
+         />
+        
         <TabContainer align="flex-start" justify="center" fullHeight fullWidth padding="sm">
         <Tabs
           defaultActiveKey="medicalHistory"

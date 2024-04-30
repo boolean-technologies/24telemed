@@ -19,7 +19,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import { BiopageSchema } from './FormPages/formSchema';
 import { MedicalDataSchema } from './FormPages/formSchema';
 import { ContactDataSchema } from './FormPages/formSchema';
-
+import {
+  UserOutlined,
+  SolutionOutlined,
+  DatabaseOutlined,
+  MedicineBoxOutlined
+} from '@ant-design/icons';
 export type RegistrationFormField = yup.InferType<typeof BiopageSchema> &
   yup.InferType<typeof ContactDataSchema> &
   yup.InferType<typeof MedicalDataSchema>;
@@ -85,19 +90,28 @@ export function PatientRegistionPage() {
     {
       title: 'Bio Data',
       content: <BioDataPage />,
+      icon: <UserOutlined />,
+      
+      
     },
     {
       title: 'Contact Data',
       content: <ContactDataPage />,
+      icon: <SolutionOutlined />,
+      
     },
     {
       title: 'Medical Data',
       content: <MedicalDataPage />,
+      icon: <MedicineBoxOutlined />,
+      
     },
 
     {
       title: 'Preview',
       content: <PreviewPage />,
+      icon: <DatabaseOutlined />,
+      
     },
   ];
 
@@ -117,7 +131,7 @@ export function PatientRegistionPage() {
                 }}
               >
                 {steps.map((item) => (
-                  <Steps.Step key={item.title} title={item.title} />
+                  <Steps.Step key={item.title} title={item.title} icon={item.icon} />
                 ))}
               </Steps>
               {steps[current].content}

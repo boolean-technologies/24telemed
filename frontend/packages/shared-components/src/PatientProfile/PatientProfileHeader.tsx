@@ -10,12 +10,14 @@ type PatientProfileHeaderProps = {
   patient: Patient;
   onEdit?: () => void;
   inCall?: boolean;
+  isEditable? : boolean;
 };
 
 export const PatientProfileHeader = ({
   patient,
   onEdit,
   inCall,
+  isEditable
 }: PatientProfileHeaderProps) => {
   const patientName = `${patient.first_name} ${patient.last_name}`;
   return (
@@ -47,9 +49,11 @@ export const PatientProfileHeader = ({
           </Flex>
         </Flex>
       </Flex>
-      {onEdit ? (
+      {isEditable ? (
         <Tooltip title="Modify patient record">
-          <Button type="primary" shape="circle" icon={<EditOutlined />} />
+          <Button type="primary" shape="circle" icon={<EditOutlined />} 
+          onClick={onEdit}
+          />
         </Tooltip>
       ) : null}
     </Flex>
