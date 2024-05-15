@@ -10,17 +10,30 @@ type PatientProfileHeaderProps = {
   patient: Patient;
   onEdit?: () => void;
   inCall?: boolean;
+  isEditable?: boolean;
 };
 
 export const PatientProfileHeader = ({
   patient,
   onEdit,
   inCall,
+  isEditable,
 }: PatientProfileHeaderProps) => {
   const patientName = `${patient.first_name} ${patient.last_name}`;
   return (
-    <Flex fullWidth padding="xl" smPadding="lg" justify="space-between" xsDirection="column">
-      <Flex direction={inCall ? "column" :  "row"} gap="sm" align="center" xsDirection="column">
+    <Flex
+      fullWidth
+      padding="xl"
+      smPadding="lg"
+      justify="space-between"
+      xsDirection="column"
+    >
+      <Flex
+        direction={inCall ? 'column' : 'row'}
+        gap="sm"
+        align="center"
+        xsDirection="column"
+      >
         <Image
           width={100}
           height={100}
@@ -30,12 +43,22 @@ export const PatientProfileHeader = ({
         />
         <Flex direction="column" gap="xs">
           <Flex direction="row" gap="xs">
-            <Typography variant="bodyXl" weight="bold" align={inCall ? "center" : "left"} xsAlign="center">
+            <Typography
+              variant="bodyXl"
+              weight="bold"
+              align={inCall ? 'center' : 'left'}
+              xsAlign="center"
+            >
               {patientName} ({patient.age}yrs) ({patient.gender.charAt(0)})
             </Typography>
           </Flex>
-          <Flex direction={inCall ? "column" :  "row"} justify="center" gap="xs" xsDirection="column">
-            <Tag color="orange" style={{ textAlign: "center" }}>
+          <Flex
+            direction={inCall ? 'column' : 'row'}
+            justify="center"
+            gap="xs"
+            xsDirection="column"
+          >
+            <Tag color="orange" style={{ textAlign: 'center' }}>
               Patient ID: <strong>{patient.phone_number}</strong>
             </Tag>
           </Flex>
@@ -47,9 +70,14 @@ export const PatientProfileHeader = ({
           </Flex>
         </Flex>
       </Flex>
-      {onEdit ? (
+      {isEditable ? (
         <Tooltip title="Modify patient record">
-          <Button type="primary" shape="circle" icon={<EditOutlined />} />
+          <Button
+            type="primary"
+            shape="circle"
+            icon={<EditOutlined />}
+            onClick={onEdit}
+          />
         </Tooltip>
       ) : null}
     </Flex>

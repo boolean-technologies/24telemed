@@ -20,4 +20,13 @@ export const useSearchPatients = () =>
     mutationFn: (patient: Patient) => PatientsService.patientsCreate(patient),
   });
   
+  export const useUpdatePatient = () =>
+  useMutation({
+    mutationFn: ({id, data }: {id: string, data: Patient}) =>
+      PatientsService.patientsPartialUpdate(id, data),
+  });
+
+
+  
+
   
