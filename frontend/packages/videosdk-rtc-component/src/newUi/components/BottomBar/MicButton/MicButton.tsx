@@ -20,7 +20,7 @@ export function MicButton() {
       variant={micOn ? 'primary2' : undefined}
       items={data.map((mic) => ({
         key: mic.deviceId,
-        label: mic.label,
+        label: mic.label ?? mic.deviceId,
         onClick: () => changeMic(mic.deviceId),
         style:
         micStream?.track?.label === mic.label

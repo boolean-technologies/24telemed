@@ -25,7 +25,7 @@ export function VideoButton() {
       onClick={() => toggleWebcam()}
       items={data.map((cam) => ({
         key: cam.deviceId,
-        label: cam.label,
+        label: cam.label ?? cam.deviceId,
         onClick: () => changeWebcam(cam.deviceId),
         style:
           webcamStream?.track?.label === cam.label

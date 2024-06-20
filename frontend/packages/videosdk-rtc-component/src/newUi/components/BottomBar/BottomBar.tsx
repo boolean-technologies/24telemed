@@ -44,8 +44,6 @@ export function BottomBar({
         <VideoButton />
         <MicButton />
         <RaiseHandButton />
-        {/* TODO: Fix record call button later */}
-        {/* <RecordCallButton /> */}
         <EndCallButton />
       </Flex>
       <Flex justify="flex-end">
