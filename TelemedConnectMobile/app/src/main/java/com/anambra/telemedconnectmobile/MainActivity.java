@@ -1,6 +1,9 @@
 package com.anambra.telemedconnectmobile;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
+import android.webkit.PermissionRequest;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -23,7 +26,22 @@ public class MainActivity extends AppCompatActivity {
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setDomStorageEnabled(true);
-        webView.setWebChromeClient(new WebChromeClient());
+        webSettings.setMediaPlaybackRequiresUserGesture(false);
+        webView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onPermissionRequest(final PermissionRequest request) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (request.getOrigin().toString().equals(Constants.WEB_URL)) {
+                            request.grant(request.getResources());
+                        } else {
+                            request.deny();
+                        }
+                    }
+                });
+            }
+        });
         webView.loadUrl(Constants.WEB_URL);
     }
 

@@ -2,18 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Internet permission -->
-    <uses-feature
-        android:name="android.hardware.camera"
-        android:required="false" />
-
+    <uses-feature android:name="android.hardware.camera" android:required="true" />
+    <uses-feature android:name="android.hardware.audio.output" android:required="true" />
     <uses-permission android:name="android.permission.INTERNET" />
-
-    <!-- Camera permission -->
     <uses-permission android:name="android.permission.CAMERA" />
-
-    <!-- Microphone permission for recording audio -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
 
     <application
         android:allowBackup="true"
@@ -28,10 +22,10 @@
         android:usesCleartextTraffic="true"
         android:networkSecurityConfig="@xml/network_security_config"
         >
-        <!-- Declaration of MainActivity -->
+        <meta-data android:name="android.webkit.WebView.EnableSafeBrowsing"
+            android:value="false" />
         <activity android:name=".MainActivity"
             android:exported="true">
-            <!-- Intent filter to specify this activity as the entry point -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
