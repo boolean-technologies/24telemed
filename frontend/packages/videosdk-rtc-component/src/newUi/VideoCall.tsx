@@ -2,9 +2,10 @@ import { MeetingProvider } from '@videosdk.live/react-sdk';
 import { AppMain } from './components/AppMain';
 import { AppContextType, CallContextProvider } from './context/AppContext';
 import { usePermissions } from './hooks/usePermissions';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { JoiningArea } from './components/JoiningArea';
-import { useBreakpoints } from '@local/shared-components';
+import { Theme, useBreakpoints } from '@local/shared-components';
+import { useTheme } from 'styled-components';
 
 type VideoCallProps = {
   participantName: string;
@@ -26,6 +27,19 @@ export function VideoCall({
   const [screen, setScreen] = useState<'joining' | 'call'>('joining');
   const [micEnabled, setMicEnabled] = useState<boolean>(false);
   const [webcamEnabled, setWebcamEnabled] = useState<boolean>(false);
+
+  const theme = useTheme() as Theme;
+
+  useEffect(() => {
+    const metaTag = document.createElement("meta");
+    metaTag.name = "theme-color";
+    metaTag.content = theme.palette.common.black;
+
+    document.head.appendChild(metaTag);
+    return () => {
+      document.head.removeChild(metaTag);
+    };
+  }, []);
 
   return (
     <MeetingProvider
