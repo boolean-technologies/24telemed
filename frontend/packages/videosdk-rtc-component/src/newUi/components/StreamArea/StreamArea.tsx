@@ -78,6 +78,9 @@ export function StreamArea({
             onClose={onClose}
             closable={false}
             style={{ background: 'transparent', overflow: 'hidden' }}
+            styles={{
+              body: { position: 'relative', background: 'rgba(0,0,0,0.85)' },
+            }}
           >
             {siderContent}
           </Drawer>

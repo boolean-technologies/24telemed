@@ -3,6 +3,7 @@ import { SendOutlined } from '@ant-design/icons';
 import { Flex } from '@local/shared-components';
 import { usePubSub } from '@videosdk.live/react-sdk';
 import styled from 'styled-components';
+import { useRef } from 'react';
 
 type FormType = {
   message: string;
@@ -31,6 +32,7 @@ export function MessageForm() {
               placeholder="Type a message..."
               onPressEnter={form.submit}
               rows={1}
+              autoFocus
             />
           </Form.Item>
           <Form.Item style={{ marginBottom: 0 }}>
@@ -48,7 +50,7 @@ export function MessageForm() {
 }
 
 const StyledRoot = styled.div`
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.75);
 `;
 
 const StyledTextArea = styled(Input.TextArea)`
