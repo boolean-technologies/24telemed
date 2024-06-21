@@ -19,7 +19,6 @@ type AppMainProps = {
 };
 export function AppMain({ meetingTitle, defaultSideView }: AppMainProps) {
   const { isMobile } = useBreakpoints();
-  const [isOpenMobileMenus, setIsOpenMobileMenus] = useState<boolean>();
   const [sideView, setSideView] =
     useState<StreamAreaProps['sideView']>(defaultSideView);
   const [activeNoteSection, setActiveNoteSection] =
@@ -28,7 +27,6 @@ export function AppMain({ meetingTitle, defaultSideView }: AppMainProps) {
 
   const onBottomButtonClick = (view: StreamAreaProps['sideView']) => {
     setSideView(sideView === view ? undefined : view);
-    setIsOpenMobileMenus(false);
   };
 
   const hasBottomNotification = Boolean(
@@ -59,11 +57,7 @@ export function AppMain({ meetingTitle, defaultSideView }: AppMainProps) {
           <>
             <StyledPopup
               visible
-              bodyStyle={{
-                overflow: 'scroll',
-              }}
-              onClose={() => setIsOpenMobileMenus(false)}
-              onMaskClick={() => setIsOpenMobileMenus(false)}
+              bodyStyle={{ overflow: 'scroll' }}
               mask={false}
             >
               <BottomBarMobile

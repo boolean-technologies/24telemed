@@ -1,4 +1,4 @@
-import { NavBar, TabBar, Dialog } from 'antd-mobile';
+import { TabBar, Dialog } from 'antd-mobile';
 import { useLocation, Outlet, useNavigate } from 'react-router-dom';
 
 import styled, { useTheme } from 'styled-components';
