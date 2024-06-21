@@ -66,7 +66,7 @@ export function StreamArea({
             justify="center"
             gap="md"
             direction="column"
-            style={{ height: 'calc(100vh - 48px)' }}
+            style={isMobile ? { height: 'calc(100vh - 48px)' } : undefined}
           >
             <StreamLayout />
           </Flex>
