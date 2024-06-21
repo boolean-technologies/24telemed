@@ -1,5 +1,5 @@
 import { Flex, useBreakpoints } from '@local/shared-components';
-import { Layout } from 'antd';
+import { Drawer, Layout } from 'antd';
 import { SideContent } from './SideContent';
 import { StreamLayout } from './Streaming';
 import styled from 'styled-components';
@@ -29,49 +29,71 @@ export function StreamArea({
     chats: 'Messages',
     medicalNotes: 'Visitation Notes',
     medication: 'Medication & Review',
-    patientProfile: 'Patient Info'
+    patientProfile: 'Patient Info',
   };
-  const { isXs } = useBreakpoints();
+  const { isXs, isMobile } = useBreakpoints();
+
+  const siderContent = (
+    <SideContent
+      title={sideView ? titles[sideView] : ''}
+      onClose={() => onClose()}
+    >
+      {sideView === 'patientProfile' ? <PatientProfile /> : null}
+      {sideView === 'chats' ? <Messanger /> : null}
+      {sideView === 'medication' ? <Medications /> : null}
+      {sideView === 'medicalNotes' ? (
+        <MedicalNote
+          section={activeNoteSection}
+          setSection={setActiveNoteSection}
+          sections={medicalNoteSections}
+        />
+      ) : null}
+    </SideContent>
+  );
 
   return (
     <Flex flex={1} justify="center" fullHeight>
       <StyledRootLayout collapsed={!sideView}>
-        <Layout style={{ background: 'transparent', display: (sideView && isXs) ? "none" : "unset" }}>
+        <Layout
+          style={{
+            background: 'transparent',
+            display: sideView && isXs ? 'none' : 'unset',
+          }}
+        >
           <Flex
             fullHeight
             fullWidth
             justify="center"
             gap="md"
             direction="column"
+            style={{ height: 'calc(100vh - 48px)' }}
           >
             <StreamLayout />
           </Flex>
         </Layout>
-        <Layout.Sider
-          collapsible
-          collapsed={!sideView}
-          onCollapse={(_) => onClose()}
-          width={isXs ? "100%" : 400}
-          collapsedWidth={0}
-          style={{ background: 'transparent', overflow: 'hidden' }}
-          trigger={null}
-        >
-          <SideContent
-            title={sideView ? titles[sideView] : ''}
-            onClose={() => onClose()}
+        {isMobile ? (
+          <Drawer
+            open={!!sideView}
+            width={600}
+            onClose={onClose}
+            closable={false}
+            style={{ background: 'transparent', overflow: 'hidden' }}
           >
-            {sideView === 'patientProfile' ? <PatientProfile /> : null}
-            {sideView === 'chats' ? <Messanger /> : null}
-            {sideView === 'medication' ? <Medications /> : null}
-            {sideView === 'medicalNotes' ? (
-              <MedicalNote
-                section={activeNoteSection}
-                setSection={setActiveNoteSection}
-                sections={medicalNoteSections}
-              />
-            ) : null}
-          </SideContent>
-        </Layout.Sider>
+            {siderContent}
+          </Drawer>
+        ) : (
+          <Layout.Sider
+            collapsible
+            collapsed={!sideView}
+            onCollapse={(_) => onClose()}
+            width={isXs ? '100%' : 400}
+            collapsedWidth={0}
+            style={{ background: 'transparent', overflow: 'hidden' }}
+            trigger={null}
+          >
+            {siderContent}
+          </Layout.Sider>
+        )}
       </StyledRootLayout>
     </Flex>
   );
