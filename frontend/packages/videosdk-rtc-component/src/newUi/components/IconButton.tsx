@@ -11,7 +11,7 @@ import {
 } from '@local/shared-components';
 import { get } from 'lodash-es';
 
-export type ButtonVariants = 'primary1' | 'primary2' | 'primaryDanger';
+export type ButtonVariants = 'primary1' | 'primary2' | 'primary3' | 'primaryDanger';
 
 interface ButtonStateDescription {
   border: PaletteVariants;
@@ -43,6 +43,12 @@ const variants: VariantsDescription = {
     text: 'common.white',
     shadow: 'lg',
   },
+  primary3: {
+    border: 'common.transparent',
+    background: 'common.transparent',
+    text: 'primary2.main',
+    shadow: 'none',
+  }
 };
 
 function makeButtonColor({
@@ -59,11 +65,11 @@ function makeButtonColor({
   return css`
     background-color: ${get(theme.palette, variantDesc.background)};
     color: ${get(theme.palette, variantDesc.text)};
-    outline-color: ${get(theme.palette, variantDesc.border)};
-    outline-width: 2px;
-    outline-style: solid;
-    outline-offset: -2px;
-    border: none;
+    // outline-color: ${get(theme.palette, variantDesc.border)};
+    // outline-width: 2px;
+    // outline-style: solid;
+    // outline-offset: -2px;
+    // border: none;
     box-shadow: ${get(theme.shadows, variantDesc.shadow)};
 
     ion-icon {
@@ -176,13 +182,14 @@ export function IconButton({
               <IonIcon name="chevron-up" color="secondary1.light" size="sm" />
             }
             trigger={["click"]}
+            variant={variant}
           >
             {mainButton}
           </StyledDropdownButton>
         ) : (
           mainButton
         )}
-        {label && <Typography variant="bodyXs" weight="bold" color="primary1.lighter">{label}</Typography>}
+        {label && <Typography variant="bodyXs" color="common.white">{label}</Typography>}
         </Flex>
       </Badge>
     </Tooltip>
@@ -190,9 +197,9 @@ export function IconButton({
 }
 
 const width = {
-  large: 50,
+  large: 45,
   small: 34,
-  middle: 45,
+  middle: 40,
 };
 
 const StyledButton = styled(Button)<
@@ -204,7 +211,7 @@ const StyledButton = styled(Button)<
       width: ${width[size]}px;
       height: ${width[size]}px;
       min-width: ${width[size]}px;
-      border-radius: ${(18 * width[size]) / 55}px;
+      border-radius: 8px;
     `;
   }}
 
@@ -227,11 +234,13 @@ const StyledButton = styled(Button)<
 
 const StyledDropdownButton = styled(Dropdown.Button)<{
   size: IconButtonProps['size'];
+  variant?: ButtonVariants;
 }>`
-  background: ${({ theme }) => theme.palette.primary1.light};
+  // background: ${({ theme }) => theme.palette.primary1.light};
+  ${makeButtonColor};
   ${({ size = 'large' }) => {
     return css`
-      border-radius: ${(18 * width[size]) / 55}px;
+      border-radius: 8px;
       & > button {
         padding: 0px;
         border: none;
@@ -242,7 +251,7 @@ const StyledDropdownButton = styled(Dropdown.Button)<{
         overflow: hidden;
         height: ${width[size]}px;
         // min-width: ${width[size]}px;
-        border-radius: ${(18 * width[size]) / 55}px;
+        border-radius: 8px;
       }
     `;
   }}
@@ -259,12 +268,5 @@ const StyledDropdownButton = styled(Dropdown.Button)<{
   & > button:last-child:hover {
     background: transparent !important;
     width: ${({ size = 'large' }) => width[size]/1.25}px !important;
-  }
-
-  & > button:first-child {
-    border-radius: 18px !important;
-    border-start-end-radius: 18px !important;
-    border-end-end-radius: 18px !important;
-    border: 3px solid ${({ theme }) => theme.palette.primary1.light} !important;
   }
 `;

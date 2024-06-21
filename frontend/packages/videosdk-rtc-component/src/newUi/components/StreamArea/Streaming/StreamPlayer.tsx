@@ -32,7 +32,7 @@ export function StreamPlayer({
       justify="center"
       fullHeight
       fullWidth
-      showBorder={showBorder}
+      $showBorder={showBorder}
     >
       <StyledVideoWrap justify="center">
         <audio
@@ -45,14 +45,18 @@ export function StreamPlayer({
           children
         ) : (
           <StyledMicOffWrapper justify="center">
-            <Avatar size={80} icon={displayName ? undefined : <UserOutlined />}>
+            <Avatar
+              size={100}
+              icon={displayName ? undefined : <UserOutlined />}
+              style={{ background: 'rgba(255,255,255,0.15)' }}
+            >
               {displayName ? (
                 <Typography weight="bold" color="common.white" variant="bodyXl">
                   {
                     <Typography
                       weight="bold"
                       color="common.white"
-                      variant="bodyXl"
+                      variant="h1"
                     >
                       {displayName.charAt(0)}
                     </Typography>
@@ -94,7 +98,7 @@ export function StreamPlayer({
                   style={{
                     width: 60,
                     height: 60,
-                    background: 'rgba(0,0,0,0.5)',
+                    background: 'rgba(255,255,255,0.5)',
                     boxShadow: 'none',
                   }}
                   onClick={onLayoutToggle}
@@ -109,16 +113,21 @@ export function StreamPlayer({
 }
 
 const StyledRoot = styled(Flex)<{
-  showBorder?: boolean;
+  $showBorder?: boolean;
 }>`
   position: relative;
   overflow: hidden;
   border-radius: ${({ theme }) => theme.spacing.sm};
-  ${({ showBorder }) =>
-    showBorder &&
+  ${({ $showBorder }) =>
+    $showBorder &&
     css`
       border: 2px solid ${({ theme }) => theme.palette.primary1.light};
     `}
+  ${({ theme }) =>
+    theme.breakpoints.sm.down(css`
+      border-radius: 0;
+      border: none;
+    `)}
 `;
 
 const StyledVideoWrap = styled(Flex)`
@@ -134,7 +143,7 @@ const StyledName = styled(Flex)`
   padding: ${({ theme }) => theme.spacing.xxs}
     ${({ theme }) => theme.spacing.xs};
   border-radius: ${({ theme }) => theme.spacing.xs};
-  bottom: ${({ theme }) => theme.spacing.sm};
+  top: ${({ theme }) => theme.spacing.sm};
   left: ${({ theme }) => theme.spacing.sm};
   z-index: 0;
   overflow: hidden;
@@ -142,7 +151,7 @@ const StyledName = styled(Flex)`
 `;
 
 const StyledMicOffWrapper = styled(Flex)`
-  background: rgba(255, 255, 255, 0.125);
+  background: rgba(0, 0, 0, 0.125);
   width: 100%;
   height: 100%;
 `;

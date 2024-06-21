@@ -5,9 +5,10 @@ import {playNotificationSound} from '../../../../utils'
 type ChatButtonProps = {
   onClick: () => void;
   active: boolean;
+  hideLabel?: boolean;
 };
 
-export function ChatButton({ onClick, active }: ChatButtonProps) {
+export function ChatButton({ onClick, active, hideLabel }: ChatButtonProps) {
   const [count, setCount] = useState(0);
 
   const { localParticipant } = useMeeting();
@@ -31,7 +32,7 @@ export function ChatButton({ onClick, active }: ChatButtonProps) {
       icon="chatbubbles"
       onClick={onClick}
       tooltip="Send message"
-      label="Chats"
+      label={hideLabel ? undefined : "Chats"}
       variant={active ? 'primary2' : undefined}
     />
   );

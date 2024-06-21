@@ -2,7 +2,7 @@ import { FloatButton, Layout } from 'antd';
 import { Popup } from 'antd-mobile';
 import { useState } from 'react';
 import styled from 'styled-components';
-import { BottomBar } from './BottomBar';
+import { BottomBar, BottomBarMobile, TopCallTools } from './BottomBar';
 import {
   Flex,
   IonIcon,
@@ -35,18 +35,6 @@ export function AppMain({ meetingTitle, defaultSideView }: AppMainProps) {
     medicalNoteSections.find((e) => e.hasNotication)
   );
 
-  const menuGroup = (
-    <BottomBar
-      currentView={sideView}
-      meetingTitle={meetingTitle}
-      hasNoteNotification={hasBottomNotification}
-      onChatClick={() => onBottomButtonClick('chats')}
-      onMedicationButtonClick={() => onBottomButtonClick('medication')}
-      onMedicalNoteButtonClick={() => onBottomButtonClick('medicalNotes')}
-      onPatientProfileButtonClick={() => onBottomButtonClick('patientProfile')}
-    />
-  );
-
   return (
     <StyledRoot>
       <Flex
@@ -54,7 +42,7 @@ export function AppMain({ meetingTitle, defaultSideView }: AppMainProps) {
         flex={1}
         gap="md"
         padding="md"
-        xsPadding="none"
+        smPadding="none"
         fullWidth
       >
         <Flex flex={1}>
@@ -68,29 +56,49 @@ export function AppMain({ meetingTitle, defaultSideView }: AppMainProps) {
         </Flex>
 
         {isMobile ? (
-          <StyledPopup
-            visible={isOpenMobileMenus}
-            bodyStyle={{
-              overflow: 'scroll',
-              minHeight: 240,
-            }}
-            onClose={() => setIsOpenMobileMenus(false)}
-            onMaskClick={() => setIsOpenMobileMenus(false)}
-          >
-            {menuGroup}
-          </StyledPopup>
+          <>
+            <StyledPopup
+              visible
+              bodyStyle={{
+                overflow: 'scroll',
+              }}
+              onClose={() => setIsOpenMobileMenus(false)}
+              onMaskClick={() => setIsOpenMobileMenus(false)}
+              mask={false}
+            >
+              <BottomBarMobile
+                currentView={sideView}
+                meetingTitle={meetingTitle}
+                onChatClick={() => onBottomButtonClick('chats')}
+              />
+            </StyledPopup>
+            <TopCallTools
+              currentView={sideView}
+              hasNoteNotification={hasBottomNotification}
+              onChatClick={() => onBottomButtonClick('chats')}
+              onMedicationButtonClick={() => onBottomButtonClick('medication')}
+              onMedicalNoteButtonClick={() =>
+                onBottomButtonClick('medicalNotes')
+              }
+              onPatientProfileButtonClick={() =>
+                onBottomButtonClick('patientProfile')
+              }
+            />
+          </>
         ) : (
-          menuGroup
+          <BottomBar
+            currentView={sideView}
+            meetingTitle={meetingTitle}
+            hasNoteNotification={hasBottomNotification}
+            onChatClick={() => onBottomButtonClick('chats')}
+            onMedicationButtonClick={() => onBottomButtonClick('medication')}
+            onMedicalNoteButtonClick={() => onBottomButtonClick('medicalNotes')}
+            onPatientProfileButtonClick={() =>
+              onBottomButtonClick('patientProfile')
+            }
+          />
         )}
       </Flex>
-      {isMobile && !sideView ? (
-        <FloatButton
-          icon={<IonIcon name="menu" color="primary2.main" />}
-          type="primary"
-          style={{ marginRight: 22 }}
-          onClick={() => setIsOpenMobileMenus(true)}
-        />
-      ) : null}
     </StyledRoot>
   );
 }
@@ -107,13 +115,13 @@ const StyledPopup = styled(Popup)`
   .adm-popup-body {
     padding: ${({ theme }) => theme.spacing.md};
     background: ${({ theme }) => theme.palette.primary1.main} !important;
-    border-top-left-radius: ${({ theme }) => theme.spacing.md};
-    border-top-right-radius: ${({ theme }) => theme.spacing.md};
+    border-top-left-radius: ${({ theme }) => theme.spacing.xs};
+    border-top-right-radius: ${({ theme }) => theme.spacing.xs};
   }
 
   .adm-popup-body::after {
-    background: ${({ theme }) => addAlpha(theme.palette.common.white, 0.085)};
-    content: " ";
+    background: ${({ theme }) => addAlpha(theme.palette.common.white, 0.05)};
+    content: ' ';
     position: absolute;
     top: 0;
     bottom: 0;

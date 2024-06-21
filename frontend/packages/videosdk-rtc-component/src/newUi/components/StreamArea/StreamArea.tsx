@@ -66,7 +66,7 @@ export function StreamArea({
             justify="center"
             gap="md"
             direction="column"
-            style={isMobile ? { height: 'calc(100vh - 48px)' } : undefined}
+            style={isMobile ? { height: '100vh' } : undefined}
           >
             <StreamLayout />
           </Flex>
@@ -77,10 +77,7 @@ export function StreamArea({
             width={600}
             onClose={onClose}
             closable={false}
-            style={{ background: 'transparent', overflow: 'hidden' }}
-            styles={{
-              body: { position: 'relative', background: 'rgba(0,0,0,0.85)' },
-            }}
+            style={{ background: 'rgba(0,0,0,0.95)', overflow: 'hidden' }}
           >
             {siderContent}
           </Drawer>
