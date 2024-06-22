@@ -47,6 +47,7 @@ export function EndCallButton() {
       variant="primaryDanger"
       onClick={handleEndCall}
       tooltip="End call"
+      // isLoading
     />
   );
 }

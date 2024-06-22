@@ -1,4 +1,5 @@
 import { Badge, Button, ButtonProps, Dropdown, MenuProps, Tooltip } from 'antd';
+import { Loading3QuartersOutlined } from '@ant-design/icons';
 import styled, { css, useTheme } from 'styled-components';
 import {
   Flex,
@@ -11,7 +12,11 @@ import {
 } from '@local/shared-components';
 import { get } from 'lodash-es';
 
-export type ButtonVariants = 'primary1' | 'primary2' | 'primary3' | 'primaryDanger';
+export type ButtonVariants =
+  | 'primary1'
+  | 'primary2'
+  | 'primary3'
+  | 'primaryDanger';
 
 interface ButtonStateDescription {
   border: PaletteVariants;
@@ -48,7 +53,7 @@ const variants: VariantsDescription = {
     background: 'common.transparent',
     text: 'primary2.main',
     shadow: 'none',
-  }
+  },
 };
 
 function makeButtonColor({
@@ -65,11 +70,6 @@ function makeButtonColor({
   return css`
     background-color: ${get(theme.palette, variantDesc.background)};
     color: ${get(theme.palette, variantDesc.text)};
-    // outline-color: ${get(theme.palette, variantDesc.border)};
-    // outline-width: 2px;
-    // outline-style: solid;
-    // outline-offset: -2px;
-    // border: none;
     box-shadow: ${get(theme.shadows, variantDesc.shadow)};
 
     ion-icon {
@@ -92,15 +92,6 @@ function makeButtonColor({
       outline: none;
       box-shadow: ${get(theme, 'shadows.inset')};
     }
-
-    ${isLoading &&
-    css`
-      background-color: ${get(theme.palette, 'background.white')};
-      color: ${get(theme.palette, 'primary1.main')};
-      outline: none;
-      box-shadow: ${get(theme, 'shadows.inset')};
-      pointer-events: none;
-    `}
   `;
 }
 
@@ -148,12 +139,16 @@ export function IconButton({
     <StyledButton
       type="primary"
       icon={
-        <IonIcon
-          name={icon}
-          outlined={iconBold ? false : true}
-          color="common.white"
-          size={size ? iconSize[size] : 'md'}
-        />
+        isLoading ? (
+          <Loading3QuartersOutlined spin />
+        ) : (
+          <IonIcon
+            name={icon}
+            outlined={iconBold ? false : true}
+            color="common.white"
+            size={size ? iconSize[size] : 'md'}
+          />
+        )
       }
       onClick={onClick}
       variant={variant}
@@ -174,22 +169,26 @@ export function IconButton({
         dot={badgeIsDot}
       >
         <Flex direction="column" gap="xxs" align="center" justify="center">
-        {items.length ? (
-          <StyledDropdownButton
-            size={size}
-            menu={{ items }}
-            icon={
-              <IonIcon name="chevron-up" color="secondary1.light" size="sm" />
-            }
-            trigger={["click"]}
-            variant={variant}
-          >
-            {mainButton}
-          </StyledDropdownButton>
-        ) : (
-          mainButton
-        )}
-        {label && <Typography variant="bodyXs" color="common.white">{label}</Typography>}
+          {items.length ? (
+            <StyledDropdownButton
+              size={size}
+              menu={{ items }}
+              icon={
+                <IonIcon name="chevron-up" color="secondary1.light" size="sm" />
+              }
+              trigger={['click']}
+              variant={variant}
+            >
+              {mainButton}
+            </StyledDropdownButton>
+          ) : (
+            mainButton
+          )}
+          {label && (
+            <Typography variant="bodyXs" color="common.white">
+              {label}
+            </Typography>
+          )}
         </Flex>
       </Badge>
     </Tooltip>
@@ -236,7 +235,6 @@ const StyledDropdownButton = styled(Dropdown.Button)<{
   size: IconButtonProps['size'];
   variant?: ButtonVariants;
 }>`
-  // background: ${({ theme }) => theme.palette.primary1.light};
   ${makeButtonColor};
   ${({ size = 'large' }) => {
     return css`
@@ -250,7 +248,6 @@ const StyledDropdownButton = styled(Dropdown.Button)<{
         justify-content: center;
         overflow: hidden;
         height: ${width[size]}px;
-        // min-width: ${width[size]}px;
         border-radius: 8px;
       }
     `;
@@ -262,11 +259,11 @@ const StyledDropdownButton = styled(Dropdown.Button)<{
 
   & > button:last-child {
     background: transparent !important;
-    width: ${({ size = 'large' }) => width[size]/1.25}px !important;
+    width: ${({ size = 'large' }) => width[size] / 1.25}px !important;
   }
 
   & > button:last-child:hover {
     background: transparent !important;
-    width: ${({ size = 'large' }) => width[size]/1.25}px !important;
+    width: ${({ size = 'large' }) => width[size] / 1.25}px !important;
   }
 `;
