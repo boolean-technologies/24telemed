@@ -117,17 +117,6 @@ const StyledRoot = styled(Flex)<{
 }>`
   position: relative;
   overflow: hidden;
-  border-radius: ${({ theme }) => theme.spacing.sm};
-  ${({ $showBorder }) =>
-    $showBorder &&
-    css`
-      border: 2px solid ${({ theme }) => theme.palette.primary1.light};
-    `}
-  ${({ theme }) =>
-    theme.breakpoints.sm.down(css`
-      border-radius: 0;
-      border: none;
-    `)}
 `;
 
 const StyledVideoWrap = styled(Flex)`

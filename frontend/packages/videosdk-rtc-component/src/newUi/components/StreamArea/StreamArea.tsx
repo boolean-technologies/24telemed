@@ -72,7 +72,7 @@ export function StreamArea({
           </Flex>
         </Layout>
         {isMobile ? (
-          <Drawer
+          <StyledDrawer
             open={!!sideView}
             width={600}
             onClose={onClose}
@@ -80,7 +80,7 @@ export function StreamArea({
             style={{ background: 'rgba(0,0,0,0.95)', overflow: 'hidden' }}
           >
             {siderContent}
-          </Drawer>
+          </StyledDrawer>
         ) : (
           <Layout.Sider
             collapsible
@@ -106,4 +106,9 @@ const StyledRootLayout = styled(Layout)<{
   background: transparent;
   gap: ${({ theme, collapsed }) =>
     collapsed ? theme.spacing.none : theme.spacing.md};
+`;
+
+
+const StyledDrawer = styled(Drawer)`
+  border-left: 2px solid ${({ theme }) => theme.palette.primary1.light};
 `;

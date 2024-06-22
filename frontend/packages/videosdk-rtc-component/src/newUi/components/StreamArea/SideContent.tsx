@@ -36,6 +36,7 @@ const StyledRoot = styled(Flex)`
       border-radius: 0;
     `)}
   overflow: hidden;
+  box-shadow: ${({ theme }) => theme.shadows.lg};
 `;
 
 const StyledCloseButton = styled(Flex)`

@@ -63,6 +63,14 @@ const StyledRemoteStreamWrapper = styled(Flex)`
         border-radius: 0;
       }
     `)}
+  overflow: hidden;
+  border-radius: ${({ theme }) => theme.spacing.sm};
+  border: 2px solid ${({ theme }) => theme.palette.primary1.light};
+  ${({ theme }) =>
+    theme.breakpoints.sm.down(css`
+      border-radius: 0;
+      border: none;
+    `)}
 `;
 
 const StyledLocaStreamWrapper = styled(Flex)`
@@ -70,12 +78,22 @@ const StyledLocaStreamWrapper = styled(Flex)`
   bottom: ${({ theme }) => theme.spacing.sm};
   right: ${({ theme }) => theme.spacing.sm};
 
-  width: 250px;
+  width: 300px;
   aspect-ratio: 1.77273;
   box-shadow: ${({ theme }) => theme.shadows.lg};
+  
+  overflow: hidden;
+  border-radius: ${({ theme }) => theme.spacing.sm};
+  border: 2px solid ${({ theme }) => theme.palette.primary1.light};
+
   ${({ theme }) =>
     theme.breakpoints.xs.down(css`
       bottom: unset;
       top: ${({ theme }) => theme.spacing.sm};
+    `)}
+  ${({ theme }) =>
+    theme.breakpoints.sm.down(css`
+      bottom: 161px;
+      top: unset;
     `)}
 `;
