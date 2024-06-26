@@ -35,16 +35,14 @@ export function PatientRegistionPage() {
   const { mutate, isPending } = useCreatePatient();
   const navigate = useNavigate();
 
-  const schema:
-    | yup.ObjectSchema<any, yup.AnyObject, any, ''>
-    | yup.Lazy<any, yup.AnyObject, any> =
+  const schema =
     current === 0
       ? BiopageSchema
       : current === 1
       ? ContactDataSchema
       : MedicalDataSchema;
   const methods = useForm<RegistrationFormField>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema as any),
   });
 
   const onSubmit = () => {
