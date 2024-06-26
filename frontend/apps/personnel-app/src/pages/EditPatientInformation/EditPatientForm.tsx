@@ -93,6 +93,7 @@ export const EditPatientForm = () => {
         label="Medical history"
         name="medical_history"
         initialValue={patient?.medical_history}
+        rules={[{ required: true }]}
       >
         <Input.TextArea placeholder="Medical history" size="large" rows={6} />
       </Form.Item>
@@ -100,6 +101,7 @@ export const EditPatientForm = () => {
         label="Allergies"
         name="allergies"
         initialValue={patient?.allergies}
+        rules={[{ required: true }]}
       >
         <Input.TextArea placeholder="Write patient's allergies here" rows={6} />
       </Form.Item>
@@ -107,6 +109,7 @@ export const EditPatientForm = () => {
         label="Chronic Conditions"
         name="chronic_conditions"
         initialValue={patient?.chronic_conditions}
+        rules={[{ required: true }]}
       >
         <Input.TextArea placeholder="Write patient's condition here" rows={6} />
       </Form.Item>
@@ -115,6 +118,7 @@ export const EditPatientForm = () => {
         label="Current medications"
         name="current_medications"
         initialValue={patient?.current_medications}
+        rules={[{ required: true }]}
       >
         <Input.TextArea
           placeholder="Write patient's current medication here"
@@ -125,6 +129,7 @@ export const EditPatientForm = () => {
         label="Immunization Records"
         name="immunization_record"
         initialValue={patient?.immunization_record}
+        rules={[{ required: true }]}
       >
         <Input.TextArea
           placeholder="Write patient's immunization records here"
@@ -135,6 +140,7 @@ export const EditPatientForm = () => {
         label="Family Medical History"
         name="family_medical_history"
         initialValue={patient?.family_medical_history}
+        rules={[{ required: true }]}
       >
         <Input.TextArea
           placeholder="Write patient's family medical history here"

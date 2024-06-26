@@ -20,15 +20,15 @@ export const BiopageSchema = yup.object().shape({
 });
 
 export const MedicalDataSchema = yup.object().shape({
-  medical_history: yup.string(),
-  allergies: yup.string(),
-  chronic_conditions: yup.string(),
+  medical_history: yup.string().required('Medical history is required'),
+  allergies: yup.string().required('Allergies is required'),
+  chronic_conditions: yup.string().required('Chronic conditions is required'),
   blood_type: yup.string().required('Blood type is required'),
   genetype: yup.string().required('Genotype is required'),
   weight: yup.number().transform((value) => (isNaN(value) ? undefined : value)).required('Weight is required'),
   height: yup.number().transform((value) => (isNaN(value) ? undefined : value)).required('Height is required'),
   immunization_records: yup
-    .string(),
+    .string().required('Immunization records is required'),
   family_medical_history: yup
-    .string(),
+    .string().required('Family medical history is required'),
 });

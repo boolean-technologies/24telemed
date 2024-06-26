@@ -10,7 +10,7 @@ export function MedicalDataPage() {
   } = useFormContext();
   return (
     <>
-      <Form.Item label="Medical history" name="medical_history">
+      <Form.Item label="Medical history" name="medical_history" rules={[{ required: true }]}>
         <Controller
           render={({ field: { onChange, onBlur, value, ref } }) => (
             <Input.TextArea
@@ -31,7 +31,7 @@ export function MedicalDataPage() {
           </Typography>
         )}
       </Form.Item>
-      <Form.Item label="Allergies" name="allergies">
+      <Form.Item label="Allergies" name="allergies" rules={[{ required: true }]}>
         <Controller
           render={({ field: { onChange, onBlur, value, ref } }) => (
             <Input.TextArea
@@ -52,7 +52,7 @@ export function MedicalDataPage() {
           </Typography>
         )}
       </Form.Item>
-      <Form.Item label="Chronic Conditions" name="chronic_conditions">
+      <Form.Item label="Chronic Conditions" name="chronic_conditions" rules={[{ required: true }]}>
         <Controller
           render={({ field: { onChange, onBlur, value, ref } }) => (
             <Input.TextArea
@@ -180,7 +180,7 @@ export function MedicalDataPage() {
           )}
         </Form.Item>
       </Flex>
-      <Form.Item label="Immunization Records" name="immunization_records">
+      <Form.Item label="Immunization Records" name="immunization_records" rules={[{ required: true }]}>
         <Controller
           render={({ field: { onChange, onBlur, value, ref } }) => (
             <Input.TextArea
@@ -201,7 +201,7 @@ export function MedicalDataPage() {
           </Typography>
         )}
       </Form.Item>
-      <Form.Item label="Family Medical History" name="family_medical_history">
+      <Form.Item label="Family Medical History" name="family_medical_history" rules={[{ required: true }]}>
         <Controller
           render={({ field: { onChange, onBlur, value, ref } }) => (
             <Input.TextArea
