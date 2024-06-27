@@ -27,8 +27,9 @@ export const MedicalDataSchema = yup.object().shape({
   genetype: yup.string().required('Genotype is required'),
   weight: yup.number().transform((value) => (isNaN(value) ? undefined : value)).required('Weight is required'),
   height: yup.number().transform((value) => (isNaN(value) ? undefined : value)).required('Height is required'),
-  immunization_records: yup
+  immunization_record: yup
     .string().required('Immunization records is required'),
   family_medical_history: yup
     .string().required('Family medical history is required'),
+    current_medications: yup.string().required('Current medications is required'),
 });
