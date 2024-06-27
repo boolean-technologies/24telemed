@@ -180,7 +180,7 @@ export function MedicalDataPage() {
           )}
         </Form.Item>
       </Flex>
-      <Form.Item label="Immunization Records" name="immunization_records" rules={[{ required: true }]}>
+      <Form.Item label="Immunization Records" name="immunization_record" rules={[{ required: true }]}>
         <Controller
           render={({ field: { onChange, onBlur, value, ref } }) => (
             <Input.TextArea
@@ -191,13 +191,13 @@ export function MedicalDataPage() {
               value={value}
             />
           )}
-          name="immunization_records"
+          name="immunization_record"
           defaultValue=""
           control={control}
         />
         {errors.immunization_records && (
           <Typography variant="bodySm" color="error">
-            {errors.immunization_records?.message}
+            {errors.immunization_record?.message}
           </Typography>
         )}
       </Form.Item>
@@ -219,6 +219,27 @@ export function MedicalDataPage() {
         {errors.family_medical_history && (
           <Typography variant="bodySm" color="error">
             {errors.family_medical_history?.message}
+          </Typography>
+        )}
+      </Form.Item>
+      <Form.Item label="Current Medications" name="current_medications" rules={[{ required: true }]}>
+        <Controller
+          render={({ field: { onChange, onBlur, value, ref } }) => (
+            <Input.TextArea
+              placeholder="Write patient's current medications here"
+              rows={6}
+              onChange={onChange}
+              onBlur={onBlur}
+              value={value}
+            />
+          )}
+          name="current_medications"
+          defaultValue=""
+          control={control}
+        />
+        {errors.current_medications && (
+          <Typography variant="bodySm" color="error">
+            {errors.current_medications?.message}
           </Typography>
         )}
       </Form.Item>
