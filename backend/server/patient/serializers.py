@@ -9,8 +9,11 @@ class PatientSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def get_last_seen(self, obj):
-        last_log = PatientAccessLog.objects.filter(patient=obj).order_by('-created_at').first()
-        return last_log.created_at if last_log else None
+        user = self.context.get('request_user')
+        if user:
+            last_log = PatientAccessLog.objects.filter(patient=obj).order_by('-created_at').first()
+            return last_log.created_at if last_log else None
+        return None
 
 class PatientSearchSerializer(serializers.ModelSerializer):
     class Meta:

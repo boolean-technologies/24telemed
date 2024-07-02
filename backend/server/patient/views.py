@@ -44,6 +44,11 @@ class PatientViewSet(
         
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
+    
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context['request_user'] = self.request.user
+        return context
 
 
 class PatientAccessLogViewSet(viewsets.ReadOnlyModelViewSet):

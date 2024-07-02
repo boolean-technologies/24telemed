@@ -12,6 +12,8 @@ from drf_yasg import openapi
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.password_validation import validate_password, ValidationError
 from rest_framework_simplejwt.tokens import RefreshToken
+import pyotp
+from datetime import datetime, timedelta
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -75,20 +77,17 @@ class UserViewSet(viewsets.ModelViewSet):
         identifier = request.data.get('identifier')
 
         try:
-            if '@' in identifier:
-                user = User.objects.get(email=identifier)
-                # TODO: Implementation to Send link for password reset email
-                return Response({'message': 'Password reset email sent'}, status=status.HTTP_200_OK)
-
-            elif identifier.startswith('+') and identifier[1:].isdigit() or identifier.isdigit():
+            if identifier.startswith('+') and identifier[1:].isdigit() or identifier.isdigit():
                 user = User.objects.get(phone_number=identifier)
                 user_id = user.id
-                otp = str(randint(100000, 999999))
-                request.session['otp'] = otp
+                otp_secret = pyotp.random_base32()
+                otp = pyotp.TOTP(otp_secret).now()
+
+                request.session['otp_secret'] = otp_secret
+                request.session['otp_expiry'] = (datetime.now() + timedelta(minutes=5)).isoformat()
                 request.session['user_id'] = str(user_id)
                 # TODO: Implementation to send the OTP via SMS
                 return Response({'detail': 'Password reset OTP sent to phone number.'}, status=status.HTTP_200_OK)
-
             else:
                 user = User.objects.get(username=identifier)
                 # TODO: Implementation to Send link for password reset email
@@ -115,12 +114,17 @@ class UserViewSet(viewsets.ModelViewSet):
 
         try:
             user_id = request.session.get('user_id')
-            session_otp = request.session.get('otp')
+            otp_secret = request.session.get('otp_secret')
+            otp_expiry = request.session.get('otp_expiry')
 
-            if not user_id or not session_otp:
+            if not user_id or not otp_secret or not otp_expiry:
                 return Response({'error': 'Session timeout, try again.'}, status=status.HTTP_400_BAD_REQUEST)
 
-            if otp != session_otp:
+            if datetime.fromisoformat(otp_expiry) < datetime.now():
+                return Response({'error': 'OTP expired.'}, status=status.HTTP_400_BAD_REQUEST)
+            
+            totp = pyotp.TOTP(otp_secret)
+            if not totp.verify(otp):
                 return Response({'error': 'Invalid OTP.'}, status=status.HTTP_400_BAD_REQUEST)
 
             user = User.objects.get(pk=user_id)
@@ -146,17 +150,12 @@ class UserViewSet(viewsets.ModelViewSet):
             required=['new_password']
         ),
     )
-    @action(detail=False, methods=['put'], serializer_class=None, permission_classes=[])
+    @action(detail=False, methods=['put'], serializer_class=None, permission_classes=[IsAuthenticated])
     def password_reset_change(self, request):
         new_password = request.data.get('new_password')
 
         try:
-            user_id = request.session.get('user_id')
-
-            if not user_id:
-                return JsonResponse({'error': 'Session timeout'}, status=status.HTTP_400_BAD_REQUEST)
-
-            user = User.objects.get(pk=user_id)
+            user = request.user
             user.set_password(new_password)
             user.save()
 
