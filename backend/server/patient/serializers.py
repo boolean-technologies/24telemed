@@ -11,7 +11,7 @@ class PatientSerializer(serializers.ModelSerializer):
     def get_last_seen(self, obj):
         user = self.context.get('request_user')
         if user:
-            last_log = PatientAccessLog.objects.filter(patient=obj).order_by('-created_at').first()
+            last_log = PatientAccessLog.objects.filter(patient=obj, user=user).order_by('-created_at').first()
             return last_log.created_at if last_log else None
         return None
 
