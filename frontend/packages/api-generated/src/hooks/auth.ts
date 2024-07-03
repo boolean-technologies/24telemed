@@ -52,3 +52,11 @@ export const useChangePassword = () => {
   });
   return changePassword;
 };
+
+export const useForgotPassword = () => {
+  const forgotPassword = useMutation({
+    mutationFn: (identifier: string) =>
+      UsersService.usersForgetPassword({ identifier }),
+  });
+  return forgotPassword;
+};
