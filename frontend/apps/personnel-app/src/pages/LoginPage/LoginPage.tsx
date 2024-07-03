@@ -114,7 +114,7 @@ export function LoginPage() {
                 </Checkbox>
               </Form.Item>
 
-              <Link to="/forgot-password">
+              <Link to={Path.forgotPassword}>
                 <Typography  variant="bodySm">Forgot password</Typography>
               </Link>
             </Flex>
@@ -144,12 +144,12 @@ export function LoginPage() {
   );
 }
 
-const StyledRoot = styled(Flex)`
+export const StyledRoot = styled(Flex)`
   background-color: ${({ theme }) => theme.palette.common.white};
   height: 100vh;
   width: 100vw;
 `;
-const HeaderImage = styled.img`
+export const HeaderImage = styled.img`
   width: 300px;
   height: 200px;
   position: absolute;
