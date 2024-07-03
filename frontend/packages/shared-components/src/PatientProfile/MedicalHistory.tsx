@@ -56,7 +56,7 @@ export const MedicalHistory = ({ patient }: MedicalHistoryProps) => {
         <PatientValue label="Blood Type" value={patient.blood_type || "??"} />
       </Flex>
       {/* <Divider /> */}
-      <Collapse items={items} style={{ marginTop: 24 }} defaultActiveKey="1" />
+      <Collapse items={items} style={{ marginTop: 24, background: "#fff" }} defaultActiveKey="1" size="large" />
     </StyledCard>
   );
 };

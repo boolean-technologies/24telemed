@@ -1,10 +1,9 @@
 import { Patient } from '@local/api-generated';
 
-import { Button, Image, Tag, Tooltip } from 'antd';
+import { Avatar, Button, Image, Tooltip } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
 import { Flex } from '../Flex';
 import { Typography } from '../Typography';
-import { IonIcon } from '../IonIcon';
 
 type PatientProfileHeaderProps = {
   patient: Patient;
@@ -19,7 +18,13 @@ export const PatientProfileHeader = ({
   inCall,
   isEditable,
 }: PatientProfileHeaderProps) => {
-  const patientName = `${patient.first_name} ${patient.last_name}`;
+  const patientName = [patient?.first_name, patient?.last_name]
+    .filter(Boolean)
+    .join(' ');
+  const patientInitials = [patient?.first_name, patient?.last_name]
+    .filter(Boolean)
+    .map((name) => name.charAt(0))
+    .join('.');
   return (
     <Flex
       fullWidth
@@ -34,14 +39,24 @@ export const PatientProfileHeader = ({
         align="center"
         xsDirection="column"
       >
-        <Image
-          width={100}
-          height={100}
-          src={patient.photo || ''}
-          fallback="https://via.placeholder.com/150"
-          style={{ borderRadius: 8, minWidth: 100 }}
-        />
-        <Flex direction="column" gap="xs">
+        {patient?.photo ? (
+          <Image
+            width={110}
+            height={110}
+            src={patient.photo}
+            fallback="https://via.placeholder.com/150"
+            style={{ borderRadius: 8, minWidth: 110 }}
+          />
+        ) : (
+          <Avatar
+            size={110}
+            shape="square"
+            src={patient.photo || ''}
+            icon={patientInitials}
+          />
+        )}
+
+        <Flex direction="column" gap="xxs">
           <Flex direction="row" gap="xs">
             <Typography
               variant="bodyXl"
@@ -49,24 +64,39 @@ export const PatientProfileHeader = ({
               align={inCall ? 'center' : 'left'}
               xsAlign="center"
             >
-              {patientName} ({patient.age}yrs) ({patient.gender.charAt(0)})
+              {patientName}
             </Typography>
           </Flex>
           <Flex
             direction={inCall ? 'column' : 'row'}
-            justify="center"
             gap="xs"
             xsDirection="column"
           >
-            <Tag color="orange" style={{ textAlign: 'center' }}>
-              Patient ID: <strong>{patient.phone_number}</strong>
-            </Tag>
+            <Typography>
+              Gender: <strong>{patient.gender}</strong>
+            </Typography>
+            <span>•</span>
+            <Typography>
+              Age: <strong>{patient.age}yrs</strong>
+            </Typography>
           </Flex>
-          <Flex direction="row" gap="xs" xsDirection="column">
-            <Typography variant="bodyMd">Last visit date:</Typography>
-            <Tag>
-              <IonIcon name="time" outlined /> 2 days ago
-            </Tag>
+          <Flex
+            direction={inCall ? 'column' : 'row'}
+            gap="xs"
+            xsDirection="column"
+          >
+            <Typography>
+              Patient ID: <strong>{patient.phone_number}</strong>
+            </Typography>
+          </Flex>
+          <Flex
+            direction={inCall ? 'column' : 'row'}
+            gap="xs"
+            xsDirection="column"
+          >
+            <Typography>
+              Last visit date: <strong>2 days ago</strong>
+            </Typography>
           </Flex>
         </Flex>
       </Flex>

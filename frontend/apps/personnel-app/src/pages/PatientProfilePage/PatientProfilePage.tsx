@@ -96,6 +96,4 @@ export function PatientProfilePage() {
 
 const TabContainer = styled(Flex)`
   background-color: ${({ theme }) => theme.palette.common.white};
-  // border-top-right-radius: ${({ theme }) => theme.spacing.xl};
-  // border-top-left-radius: ${({ theme }) => theme.spacing.xl};
 `;
