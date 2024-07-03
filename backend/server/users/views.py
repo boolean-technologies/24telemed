@@ -77,10 +77,9 @@ class UserViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['post'], serializer_class=None, permission_classes=[])
     def forget_password(self, request):
         identifier = request.data.get('identifier')
-        notification = Notification()
-        user = User.objects.get(Q(username=identifier) | Q(email=identifier) | Q(phone_number=identifier))
-
         try:
+            notification = Notification()
+            user = User.objects.get(Q(username=identifier) | Q(email=identifier) | Q(phone_number=identifier))
             user_id = user.id
             otp_secret = pyotp.random_base32()
             otp = pyotp.TOTP(otp_secret).now()
