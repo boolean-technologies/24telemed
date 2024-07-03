@@ -5,6 +5,7 @@ import { AuthLayout } from './AuthLayout';
 export const creatRoutes = (
   routes: RouteObject[],
   loginPage: JSX.Element,
+  forgotPasswordPage: JSX.Element,
 ) => {
   return [
     {
@@ -15,6 +16,10 @@ export const creatRoutes = (
           index: true,
           path: Path.login,
           element: loginPage,
+        },
+        {
+          path: Path.forgotPassword,
+          element: forgotPasswordPage,
         },
         ...routes,
       ],

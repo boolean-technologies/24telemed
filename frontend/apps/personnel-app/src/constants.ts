@@ -6,6 +6,7 @@ export enum Path {
     profile = "/profile",
     logout = "/logout",
     registerPatient = "/register-patient",
-    patient = "/patient"
+    patient = "/patient",
+    forgotPassword = "/forgot-password",
     
 }
