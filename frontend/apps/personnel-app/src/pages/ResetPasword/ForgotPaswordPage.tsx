@@ -10,7 +10,7 @@ import { Path } from '../../constants';
 
 
 type FormFieldType = {
-  emailOrUsernameOrPhone: string;
+  identifier: string;
 };
 export function ForgotPaswordPage() {
   const forgotPassword = useForgotPassword();
@@ -20,9 +20,9 @@ export function ForgotPaswordPage() {
   };
 
   const onFinish = (values: FormFieldType) => {
-    forgotPassword.mutate(values.emailOrUsernameOrPhone, {
+    forgotPassword.mutate(values.identifier, {
       onSuccess: () => {
-        if (isPhone(values.emailOrUsernameOrPhone)) {
+        if (isPhone(values.identifier)) {
           // TODO: navigate to phone verification page
 
           console.log('navigate to phone verification page');
@@ -106,7 +106,7 @@ export function ForgotPaswordPage() {
           style={{ width: '100%' }}
         >
           <Form.Item
-            name="emailOrUsernameOrPhone"
+            name="identifier"
             rules={[
               {
                 required: true,
