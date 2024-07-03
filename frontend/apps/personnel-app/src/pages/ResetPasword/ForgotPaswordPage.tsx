@@ -1,17 +1,31 @@
-import React from 'react';
 import { Flex, Logo } from '@local/shared-components';
 import { Form, Input, Button, Space } from 'antd-mobile';
 import { Typography } from '@local/shared-components';
 import { BG } from '../../assets';
 import styled from 'styled-components';
-styled;
+import { useForgotPassword } from '@local/api-generated';
+import { Alert } from 'antd';
 
 type FormFieldType = {
   emailOrUsernameOrPhone: string;
 };
 export function ForgotPaswordPage() {
+  const forgotPassword = useForgotPassword();
+  const isPhone = (value: string) => {
+    const phoneRegex = /^\d{11}$/;
+    return phoneRegex.test(value);
+  };
+
   const onFinish = (values: FormFieldType) => {
-    console.log('Success:', values);
+    forgotPassword.mutate(values.emailOrUsernameOrPhone, {
+      onSuccess: () => {
+        if (isPhone(values.emailOrUsernameOrPhone)) {
+          // TODO: navigate to phone verification page
+
+          console.log('navigate to phone verification page');
+        }
+      },
+    });
   };
 
   return (
@@ -47,6 +61,7 @@ export function ForgotPaswordPage() {
               zIndex: 0,
             }}
           />
+
           <div>
             <Typography variant="bodyXl" weight="bold">
               Forgot Password
@@ -57,12 +72,35 @@ export function ForgotPaswordPage() {
             </Typography>
           </div>
         </Flex>
-      <Form 
+        {forgotPassword.isError && (
+          <Flex padding="sm" fullWidth>
+            <Alert
+              message={
+                'No account found with that email or username or phone number'
+              }
+              type="error"
+              showIcon
+            />
+          </Flex>
+        )}
+
+        {forgotPassword.isSuccess && (
+          <Flex padding="sm" fullWidth>
+            <Alert
+              message={
+                'A password reset link has been sent to your email address'
+              }
+              type="success"
+              showIcon
+            />
+          </Flex>
+        )}
+        <Form
           name="forgotPassword"
           initialValues={{ remember: true }}
           onFinish={onFinish}
+          layout="vertical"
           style={{ width: '100%' }}
-          
         >
           <Form.Item
             name="emailOrUsernameOrPhone"
@@ -73,14 +111,19 @@ export function ForgotPaswordPage() {
               },
             ]}
           >
-            <Input placeholder="Email or Username or Phone" />
+            <Input placeholder="Email, Username or Phone" />
           </Form.Item>
           <Form.Item noStyle>
-          <ButtonWrapper>
-            <Button block type="submit" color="primary" size="large">
-              Reset Password
-            </Button>
-          </ButtonWrapper>
+            <Flex padding="sm">
+              <Button
+                block
+                type="submit"
+                loading={forgotPassword.isPending}
+                color="primary"
+              >
+                Reset Password
+              </Button>
+            </Flex>
           </Form.Item>
         </Form>
       </Flex>
@@ -100,9 +143,4 @@ const HeaderImage = styled.img`
   right: 0;
   top: 0;
   z-index: 0;
-`;
-
-const ButtonWrapper = styled(Flex)`
-  width: 100%;
-  margin-top: 20px;
 `;
