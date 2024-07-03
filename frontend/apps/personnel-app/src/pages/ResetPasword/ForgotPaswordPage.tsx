@@ -8,7 +8,6 @@ import { Alert } from 'antd';
 import { Link } from 'react-router-dom';
 import { Path } from '../../constants';
 
-
 type FormFieldType = {
   identifier: string;
 };
@@ -64,7 +63,29 @@ export function ForgotPaswordPage() {
               zIndex: 0,
             }}
           />
+          {forgotPassword.isError && (
+            <Flex padding="sm" fullWidth>
+              <Alert
+                message={
+                  'No account found with that email or username or phone number'
+                }
+                type="error"
+                showIcon
+              />
+            </Flex>
+          )}
 
+          {forgotPassword.isSuccess && (
+            <Flex padding="sm" fullWidth>
+              <Alert
+                message={
+                  'A password reset link has been sent to your email address'
+                }
+                type="success"
+                showIcon
+              />
+            </Flex>
+          )}
           <div>
             <Typography variant="bodyXl" weight="bold">
               Forgot Password
@@ -75,29 +96,7 @@ export function ForgotPaswordPage() {
             </Typography>
           </div>
         </Flex>
-        {forgotPassword.isError && (
-          <Flex padding="sm" fullWidth>
-            <Alert
-              message={
-                'No account found with that email or username or phone number'
-              }
-              type="error"
-              showIcon
-            />
-          </Flex>
-        )}
 
-        {forgotPassword.isSuccess && (
-          <Flex padding="sm" fullWidth>
-            <Alert
-              message={
-                'A password reset link has been sent to your email address'
-              }
-              type="success"
-              showIcon
-            />
-          </Flex>
-        )}
         <Form
           name="forgotPassword"
           initialValues={{ remember: true }}
@@ -116,8 +115,8 @@ export function ForgotPaswordPage() {
           >
             <Input placeholder="Email, Username or Phone" />
           </Form.Item>
-          <Form.Item noStyle>
-            <Flex padding="sm">
+          <Form.Item style={{ width: '100%' }}>
+            
               <Button
                 block
                 type="submit"
@@ -126,7 +125,7 @@ export function ForgotPaswordPage() {
               >
                 Reset Password
               </Button>
-            </Flex>
+            
           </Form.Item>
         </Form>
         <Space />
@@ -134,8 +133,7 @@ export function ForgotPaswordPage() {
           <Link to={Path.login}>
             <Typography variant="bodySm">Back to login</Typography>
           </Link>
-
-          </Flex>
+        </Flex>
       </Flex>
     </StyledRoot>
   );
@@ -154,3 +152,4 @@ const HeaderImage = styled.img`
   top: 0;
   z-index: 0;
 `;
+
