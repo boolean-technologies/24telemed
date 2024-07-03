@@ -45,7 +45,13 @@ export function LoginPage() {
         fullWidth
         style={{ maxWidth: 860, margin: 'auto', zIndex: 1 }}
       >
-        <Flex direction="column" smAlign="center" gap="xl" align="flex-start" fullWidth>
+        <Flex
+          direction="column"
+          smAlign="center"
+          gap="xl"
+          align="flex-start"
+          fullWidth
+        >
           <Logo size="xl" />
           <div>
             <Typography variant="bodyXl" weight="bold">
@@ -63,15 +69,15 @@ export function LoginPage() {
           style={{ width: '100%' }}
         >
           <Flex direction="column">
-          {errorMessage && (
-          <Flex padding="sm" fullWidth>
-            <Alert
-              message={errorMessage}
-              type="error"
-              style={{ width: "100%" }}
-            />
-          </Flex> 
-          )}
+            {errorMessage && (
+              <Flex padding="sm" fullWidth>
+                <Alert
+                  message={errorMessage}
+                  type="error"
+                  style={{ width: '100%' }}
+                />
+              </Flex>
+            )}
             <Form.Item
               name="username"
               label="Username"
@@ -110,12 +116,12 @@ export function LoginPage() {
             <Flex justify="space-between" padding="sm">
               <Form.Item name="remember" valuePropName="checked" noStyle>
                 <Checkbox>
-                  <Typography  variant="bodySm">Remember me</Typography>
+                  <Typography variant="bodySm">Remember me</Typography>
                 </Checkbox>
               </Form.Item>
 
               <Link to={Path.forgotPassword}>
-                <Typography  variant="bodySm">Forgot password</Typography>
+                <Typography variant="bodySm">Forgot password</Typography>
               </Link>
             </Flex>
             <Space />
@@ -133,18 +139,20 @@ export function LoginPage() {
         </Form>
       </Flex>
       <Flex fullWidth padding="md" align="center" justify="center">
-        <Typography variant="bodySm">Anambra State Telemed @{new Date().getFullYear()}</Typography>
+        <Typography variant="bodySm">
+          Anambra State Telemed @{new Date().getFullYear()}
+        </Typography>
       </Flex>
     </StyledRoot>
   );
 }
 
-export const StyledRoot = styled(Flex)`
+const StyledRoot = styled(Flex)`
   background-color: ${({ theme }) => theme.palette.common.white};
   height: 100vh;
   width: 100vw;
 `;
-export const HeaderImage = styled.img`
+const HeaderImage = styled.img`
   width: 300px;
   height: 200px;
   position: absolute;
