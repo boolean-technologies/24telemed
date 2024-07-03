@@ -32,31 +32,18 @@ export function PasswordSetingsPage() {
         fullWidth
         style={{ maxWidth: 860, margin: 'auto', zIndex: 1 }}
       >
-        <Flex
-          direction="column"
-          smAlign="center"
-          gap="xl"
-          align="flex-start"
-          fullWidth
-        >
-          <Logo
-            size="xl"
-            style={{
-              position: 'absolute',
-              top: '0',
-              zIndex: 0,
-            }}
-          />
+        <Flex direction="column" smAlign="center" gap="xl" align="flex-start" fullWidth>
+          <Logo size="xl" />
           <div>
             <Typography variant="bodyXl" weight="bold">
-              Change Password
+                Change Password
             </Typography>
             <Typography>
-              Enter your new password and confirm it to change your password.
+                Enter your new password and confirm your password.
             </Typography>
           </div>
         </Flex>
-        <Form
+            <Form
           name="password"
           onFinish={onFinish}
           style={{ width: '100%', marginTop: '2rem' }}
@@ -94,7 +81,7 @@ export function PasswordSetingsPage() {
                 type="submit"
                 color="primary"
               >
-                Log in
+                Change Password
               </Button>
             </Flex>
           </Form.Item>
@@ -113,6 +100,7 @@ const HeaderImage = styled.img`
   width: 300px;
   height: 200px;
   position: absolute;
+  right: 0;
   top: 0;
   z-index: 0;
 `;

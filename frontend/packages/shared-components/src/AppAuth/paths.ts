@@ -3,4 +3,5 @@ export enum Path {
     meeting = "/meeting",
     login = "/login",
     forgotPassword = "/forgot-password",
+    passwordSettings = "/password-settings",
 }
