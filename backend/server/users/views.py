@@ -14,6 +14,8 @@ from django.contrib.auth.password_validation import validate_password, Validatio
 from rest_framework_simplejwt.tokens import RefreshToken
 import pyotp
 from datetime import datetime, timedelta
+from utils.notification import Notification
+from django.db.models import Q
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -75,23 +77,18 @@ class UserViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['post'], serializer_class=None, permission_classes=[])
     def forget_password(self, request):
         identifier = request.data.get('identifier')
-
         try:
-            if identifier.startswith('+') and identifier[1:].isdigit() or identifier.isdigit():
-                user = User.objects.get(phone_number=identifier)
-                user_id = user.id
-                otp_secret = pyotp.random_base32()
-                otp = pyotp.TOTP(otp_secret).now()
+            notification = Notification()
+            user = User.objects.get(Q(username=identifier) | Q(email=identifier) | Q(phone_number=identifier))
+            user_id = user.id
+            otp_secret = pyotp.random_base32()
+            otp = pyotp.TOTP(otp_secret).now()
 
-                request.session['otp_secret'] = otp_secret
-                request.session['otp_expiry'] = (datetime.now() + timedelta(minutes=5)).isoformat()
-                request.session['user_id'] = str(user_id)
-                # TODO: Implementation to send the OTP via SMS
-                return Response({'detail': 'Password reset OTP sent to phone number.'}, status=status.HTTP_200_OK)
-            else:
-                user = User.objects.get(username=identifier)
-                # TODO: Implementation to Send link for password reset email
-                return Response({'message': 'Password reset email sent'}, status=status.HTTP_200_OK)
+            request.session['otp_secret'] = otp_secret
+            request.session['otp_expiry'] = (datetime.now() + timedelta(minutes=5)).isoformat()
+            request.session['user_id'] = str(user_id)
+            notification.send_otp_notification(to=user.email, otp_code=otp)
+            return Response({'detail': 'Password reset OTP sent to your mail.'}, status=status.HTTP_200_OK)
         except User.DoesNotExist:
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
