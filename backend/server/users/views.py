@@ -78,29 +78,18 @@ class UserViewSet(viewsets.ModelViewSet):
     def forget_password(self, request):
         identifier = request.data.get('identifier')
         notification = Notification()
+        user = User.objects.get(Q(username=identifier) | Q(email=identifier) | Q(phone_number=identifier))
 
         try:
-            if identifier.startswith('+') and identifier[1:].isdigit() or identifier.isdigit():
-                user = User.objects.get(phone_number=identifier)
-                user_id = user.id
-                otp_secret = pyotp.random_base32()
-                otp = pyotp.TOTP(otp_secret).now()
+            user_id = user.id
+            otp_secret = pyotp.random_base32()
+            otp = pyotp.TOTP(otp_secret).now()
 
-                request.session['otp_secret'] = otp_secret
-                request.session['otp_expiry'] = (datetime.now() + timedelta(minutes=5)).isoformat()
-                request.session['user_id'] = str(user_id)
-                notification.send_otp_notification(to=user.email, otp_code=otp)
-                return Response({'detail': 'Password reset OTP sent to your mail.'}, status=status.HTTP_200_OK)
-            else:
-                user = User.objects.get(Q(username=identifier) | Q(email=identifier))
-                user_id = user.id
-                otp_secret = pyotp.random_base32()
-                otp = pyotp.TOTP(otp_secret).now()
-                request.session['otp_secret'] = otp_secret
-                request.session['otp_expiry'] = (datetime.now() + timedelta(minutes=5)).isoformat()
-                request.session['user_id'] = str(user_id)
-                notification.send_otp_notification(to=user.email, otp_code=otp)
-                return Response({'message': 'Password reset OTP sent to your mail'}, status=status.HTTP_200_OK)
+            request.session['otp_secret'] = otp_secret
+            request.session['otp_expiry'] = (datetime.now() + timedelta(minutes=5)).isoformat()
+            request.session['user_id'] = str(user_id)
+            notification.send_otp_notification(to=user.email, otp_code=otp)
+            return Response({'detail': 'Password reset OTP sent to your mail.'}, status=status.HTTP_200_OK)
         except User.DoesNotExist:
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
