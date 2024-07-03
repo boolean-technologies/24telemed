@@ -123,6 +123,75 @@ export class UsersService {
     });
   }
   /**
+   * Forget password endpoint
+   * @param data
+   * @returns any
+   * @throws ApiError
+   */
+  public static usersForgetPassword(data: {
+    /**
+     * Username, email, or phone number
+     */
+    identifier: string;
+  }): CancelablePromise<{
+    /**
+     * Username, email, or phone number
+     */
+    identifier: string;
+  }> {
+    return __request(OpenAPI, {
+      method: 'POST',
+      url: '/users/forget_password/',
+      body: data,
+    });
+  }
+  /**
+   * OTP validation for password reset
+   * @param data
+   * @returns any
+   * @throws ApiError
+   */
+  public static usersOtpValidation(data: {
+    /**
+     * OTP sent to user
+     */
+    otp: string;
+  }): CancelablePromise<{
+    /**
+     * OTP sent to user
+     */
+    otp: string;
+  }> {
+    return __request(OpenAPI, {
+      method: 'POST',
+      url: '/users/otp_validation/',
+      body: data,
+    });
+  }
+  /**
+   * Change user password
+   * @param data
+   * @returns any
+   * @throws ApiError
+   */
+  public static usersPasswordResetChange(data: {
+    /**
+     * New password
+     */
+    new_password: string;
+  }): CancelablePromise<{
+    /**
+     * New password
+     */
+    new_password: string;
+  }> {
+    return __request(OpenAPI, {
+      method: 'PUT',
+      url: '/users/password_reset_change/',
+      body: data,
+    });
+  }
+  /**
    * @param page A page number within the paginated result set.
    * @param size Number of results to return per page.
    * @returns any
