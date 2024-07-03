@@ -1,106 +1,73 @@
-import React, { useState } from 'react';
+import { Flex } from '@local/shared-components';
+import { Form, Input, Button } from 'antd-mobile';
 
-import { Flex, Logo } from '@local/shared-components';
-import { Form, Input, Button, Space } from 'antd-mobile';
-import { Typography } from '@local/shared-components';
-import { BG } from '../../assets';
-import styled from 'styled-components';
+import { PersonnelAuthLayout } from '../../components/PageLayout';
+import { useResetPassword } from '@local/api-generated';
 
 type FormFieldType = {
   newPassword: string;
   confirmPassword: string;
 };
 export function PasswordSetingsPage() {
+  const resetPassword = useResetPassword();
   const onFinish = (values: FormFieldType) => {
-    console.log('Success:', values);
+    resetPassword.mutate(values.newPassword);
   };
   return (
-    <StyledRoot
-      direction="column"
-      gap="sm"
-      fullHeight
-      justify="center"
-      align="flex-start"
+    <PersonnelAuthLayout
+      name="Change Password"
+      description="Enter your new password and confirm to change your password."
     >
-      <HeaderImage src={BG} alt="header-image" />
-      <Flex
-        direction="column"
-        align="center"
-        justify="center"
-        padding="md"
-        fullHeight
-        fullWidth
-        style={{ maxWidth: 860, margin: 'auto', zIndex: 1 }}
+      <Form
+        name="password"
+        onFinish={onFinish}
+        style={{ width: '100%', marginTop: '2rem' }}
+        layout="vertical"
+        initialValues={{ remember: true }}
       >
-        <Flex direction="column" smAlign="center" gap="xl" align="flex-start" fullWidth>
-          <Logo size="xl" />
-          <div>
-            <Typography variant="bodyXl" weight="bold">
-                Change Password
-            </Typography>
-            <Typography>
-                Enter your new password and confirm your password.
-            </Typography>
-          </div>
-        </Flex>
-            <Form
-          name="password"
-          onFinish={onFinish}
-          style={{ width: '100%', marginTop: '2rem' }}
-          layout="vertical"
-          initialValues={{ remember: true }}
+        <Form.Item
+          label="New Password"
+          name="newPassword"
+          rules={[
+            { required: true, message: 'Please input your new password!' },
+            { min: 8, message: 'Password must be at least 8 characters long!' },
+            {
+              pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+              message:
+                'Password must contain at least one letter and one number!',
+            },
+          ]}
         >
-          <Form.Item
-            label="New Password"
-            name="newPassword"
-            rules={[
-              {
-                required: true,
-                message: 'Please input your new password!',
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="Confirm Password"
+          name="confirmPassword"
+          dependencies={['newPassword']}
+          rules={[
+            { required: true, message: 'Please confirm your new password!' },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                if (!value || getFieldValue('newPassword') === value) {
+                  return Promise.resolve();
+                }
+                return Promise.reject(
+                  new Error('The two passwords that you entered do not match!')
+                );
               },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Confirm Password"
-            name="confirmPassword"
-            rules={[
-              {
-                required: true,
-                message: 'Please confirm your password!',
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item>
+            }),
+          ]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item>
           <Flex padding="sm">
-              <Button
-                block
-                type="submit"
-                color="primary"
-              >
-                Change Password
-              </Button>
-            </Flex>
-          </Form.Item>
-        </Form>
-      </Flex>
-    </StyledRoot>
+            <Button block type="submit" color="primary" loading={resetPassword.isPending}>
+              Change Password
+            </Button>
+          </Flex>
+        </Form.Item>
+      </Form>
+    </PersonnelAuthLayout>
   );
 }
-
-const StyledRoot = styled(Flex)`
-  background-color: ${({ theme }) => theme.palette.common.white};
-  height: 100vh;
-`;
-
-const HeaderImage = styled.img`
-  width: 300px;
-  height: 200px;
-  position: absolute;
-  right: 0;
-  top: 0;
-  z-index: 0;
-`;
