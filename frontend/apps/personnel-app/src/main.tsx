@@ -13,7 +13,7 @@ import { OpenAPI, TOKEN_KEY } from '@local/api-generated';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './router';
 import './style.css';
-import { ToastContainer,} from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 OpenAPI.TOKEN = localStorage.getItem(TOKEN_KEY) || '';
@@ -44,8 +44,7 @@ function Main() {
         colorBgBase: theme.palette.error,
       },
       Tabs: {
-        itemSelectedColor: theme.palette.primary2.main,
-        titleFontSize: 18,
+        titleFontSize: 16,
       },
       Collapse: {
         contentBg: theme.palette.neutral.main,
@@ -62,7 +61,6 @@ function Main() {
   return (
     <ConfigProvider theme={antConfig}>
       <QueryClientProvider client={queryClient}>
-        
         <Fonts />
         <CssBaseline />
         <RouterProvider router={router} />
@@ -76,7 +74,7 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-    <ThemeProvider theme={theme}>
-      <Main />
-    </ThemeProvider>
+  <ThemeProvider theme={theme}>
+    <Main />
+  </ThemeProvider>
 );

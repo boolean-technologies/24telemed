@@ -133,12 +133,7 @@ export function LoginPage() {
         </Form>
       </Flex>
       <Flex fullWidth padding="md" align="center" justify="center">
-        <Typography variant="bodySm">Don't have an account?</Typography>
-        <Link to="/register">
-          <Typography variant="bodySm" color="common.warning">
-            Register
-          </Typography>
-        </Link>
+        <Typography variant="bodySm">Anambra State Telemed @{new Date().getFullYear()}</Typography>
       </Flex>
     </StyledRoot>
   );

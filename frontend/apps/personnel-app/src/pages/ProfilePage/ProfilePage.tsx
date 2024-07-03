@@ -1,12 +1,13 @@
 import { useCurrentUser } from '@local/api-generated';
 import { Flex, Typography, defaultTheme } from '@local/shared-components';
-import { Image, List, Drawer, Card } from 'antd';
+import { List, Drawer, Card, Avatar } from 'antd';
 import styled from 'styled-components';
 import {
   KeyOutlined,
   BookOutlined,
   FileOutlined,
   ArrowRightOutlined,
+  UserOutlined,
 } from '@ant-design/icons';
 import { useState } from 'react';
 import TermsOfService from './TermsOfService';
@@ -54,12 +55,7 @@ export function ProfilePage() {
           alignItems="center"
           direction="column"
         >
-          <Image
-            width={150}
-            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-            fallback="https://via.placeholder.com/150"
-            style={{ borderRadius: 75 }}
-          />
+          <Avatar src={currentUser?.photo} icon={<UserOutlined />} size={150} />
 
           <Flex direction="column" justifyContent="center" alignItems="center">
             <Typography variant="bodyMd" weight="bold">
