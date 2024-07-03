@@ -5,6 +5,9 @@ import { BG } from '../../assets';
 import styled from 'styled-components';
 import { useForgotPassword } from '@local/api-generated';
 import { Alert } from 'antd';
+import { Link } from 'react-router-dom';
+import { Path } from '../../constants';
+
 
 type FormFieldType = {
   emailOrUsernameOrPhone: string;
@@ -126,6 +129,13 @@ export function ForgotPaswordPage() {
             </Flex>
           </Form.Item>
         </Form>
+        <Space />
+        <Flex padding="sm">
+          <Link to={Path.login}>
+            <Typography variant="bodySm">Back to login</Typography>
+          </Link>
+
+          </Flex>
       </Flex>
     </StyledRoot>
   );
