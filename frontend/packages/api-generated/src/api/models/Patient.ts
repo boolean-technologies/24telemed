@@ -4,6 +4,7 @@
 /* eslint-disable */
 export type Patient = {
   readonly id?: string;
+  readonly last_seen?: string;
   readonly patient_id?: string;
   phone_number: string;
   readonly photo?: string | null;
