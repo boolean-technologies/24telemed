@@ -1,4 +1,5 @@
 from rest_framework import viewsets
+from random import randint
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
@@ -10,6 +11,9 @@ from utils.permission import DoctorPermission, PersonnelPermission
 from drf_yasg import openapi
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.password_validation import validate_password, ValidationError
+from rest_framework_simplejwt.tokens import RefreshToken
+import pyotp
+from datetime import datetime, timedelta
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -56,6 +60,109 @@ class UserViewSet(viewsets.ModelViewSet):
         user.save()
 
         return Response({'detail': 'Password reset successful.'}, status=status.HTTP_200_OK)
+
+    @swagger_auto_schema(
+        method='post',
+        operation_description="Forget password endpoint",
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'identifier': openapi.Schema(type=openapi.TYPE_STRING, description="Username, email, or phone number"),
+            },
+            required=['identifier']
+        ),
+    )
+    @action(detail=False, methods=['post'], serializer_class=None, permission_classes=[])
+    def forget_password(self, request):
+        identifier = request.data.get('identifier')
+
+        try:
+            if identifier.startswith('+') and identifier[1:].isdigit() or identifier.isdigit():
+                user = User.objects.get(phone_number=identifier)
+                user_id = user.id
+                otp_secret = pyotp.random_base32()
+                otp = pyotp.TOTP(otp_secret).now()
+
+                request.session['otp_secret'] = otp_secret
+                request.session['otp_expiry'] = (datetime.now() + timedelta(minutes=5)).isoformat()
+                request.session['user_id'] = str(user_id)
+                # TODO: Implementation to send the OTP via SMS
+                return Response({'detail': 'Password reset OTP sent to phone number.'}, status=status.HTTP_200_OK)
+            else:
+                user = User.objects.get(username=identifier)
+                # TODO: Implementation to Send link for password reset email
+                return Response({'message': 'Password reset email sent'}, status=status.HTTP_200_OK)
+        except User.DoesNotExist:
+            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+    @swagger_auto_schema(
+        method='post',
+        operation_description="OTP validation for password reset",
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'otp': openapi.Schema(type=openapi.TYPE_STRING, description="OTP sent to user"),
+            },
+            required=['otp']
+        ),
+    )
+    @action(detail=False, methods=['post'], serializer_class=None, permission_classes=[])
+    def otp_validation(self, request):
+        otp = request.data.get('otp')
+
+        try:
+            user_id = request.session.get('user_id')
+            otp_secret = request.session.get('otp_secret')
+            otp_expiry = request.session.get('otp_expiry')
+
+            if not user_id or not otp_secret or not otp_expiry:
+                return Response({'error': 'Session timeout, try again.'}, status=status.HTTP_400_BAD_REQUEST)
+
+            if datetime.fromisoformat(otp_expiry) < datetime.now():
+                return Response({'error': 'OTP expired.'}, status=status.HTTP_400_BAD_REQUEST)
+            
+            totp = pyotp.TOTP(otp_secret)
+            if not totp.verify(otp):
+                return Response({'error': 'Invalid OTP.'}, status=status.HTTP_400_BAD_REQUEST)
+
+            user = User.objects.get(pk=user_id)
+            refresh = RefreshToken.for_user(user)
+            return Response({
+                'refresh': str(refresh),
+                'access': str(refresh.access_token),
+            }, status=status.HTTP_200_OK)
+
+        except User.DoesNotExist:
+            return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+    @swagger_auto_schema(
+        method='put',
+        operation_description="Change user password",
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'new_password': openapi.Schema(type=openapi.TYPE_STRING, description="New password"),
+            },
+            required=['new_password']
+        ),
+    )
+    @action(detail=False, methods=['put'], serializer_class=None, permission_classes=[IsAuthenticated])
+    def password_reset_change(self, request):
+        new_password = request.data.get('new_password')
+
+        try:
+            user = request.user
+            user.set_password(new_password)
+            user.save()
+
+            return JsonResponse({'detail': 'Password changed successfully'}, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 class DoctorUserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = User.objects.all()
