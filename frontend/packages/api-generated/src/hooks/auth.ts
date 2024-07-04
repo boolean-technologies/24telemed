@@ -60,3 +60,10 @@ export const useForgotPassword = () => {
   });
   return forgotPassword;
 };
+
+export const useOTPValidation = () => {
+  const otpValidation = useMutation({
+    mutationFn: (data: { otp: string }) => UsersService.usersOtpValidation(data),
+  });
+  return otpValidation;
+}

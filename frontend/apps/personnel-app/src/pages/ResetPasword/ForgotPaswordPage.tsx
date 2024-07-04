@@ -1,13 +1,13 @@
 import { Flex, Logo } from '@local/shared-components';
 import { Form, Input, Button, Space } from 'antd-mobile';
 import { Typography } from '@local/shared-components';
-import { BG } from '../../assets';
-import styled from 'styled-components';
+
 import { useForgotPassword } from '@local/api-generated';
 import { Alert } from 'antd';
 import { Link } from 'react-router-dom';
 import { Path } from '../../constants';
 import { PersonnelAuthLayout } from '../../components/PageLayout';
+import { OTPView } from './OTPView';
 
 type FormFieldType = {
   identifier: string;
@@ -33,8 +33,8 @@ export function ForgotPaswordPage() {
 
   return (
     <PersonnelAuthLayout
-      name="Forgot Password"
-      description="Enter your email, username or phone number to reset your password."
+      name={ true ? null: "Forgot Password"}
+      description={ true ? null:"Enter your email, username or phone number to reset your password."}
     >
       {forgotPassword.isError && (
         <Flex padding="sm" fullWidth>
@@ -48,18 +48,8 @@ export function ForgotPaswordPage() {
         </Flex>
       )}
 
-      {forgotPassword.isSuccess && (
-        <Flex padding="sm" fullWidth>
-          <Alert
-            message={
-              'A password reset link has been sent to your email address'
-            }
-            type="success"
-            showIcon
-          />
-        </Flex>
-      )}
-      <Form
+      {true ? <OTPView /> :
+      (<Form
         name="forgotPassword"
         initialValues={{ remember: true }}
         onFinish={onFinish}
@@ -87,7 +77,7 @@ export function ForgotPaswordPage() {
             Reset Password
           </Button>
         </Form.Item>
-      </Form>
+      </Form>)}
       <Space />
       <Flex padding="sm">
         <Link to={Path.login}>
