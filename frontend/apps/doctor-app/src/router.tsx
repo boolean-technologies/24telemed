@@ -43,4 +43,6 @@ const routes: RouteObject[] = [
   },
 ];
 
-export const router = createBrowserRouter(creatRoutes(routes, <LoginPage />));
+export const router = createBrowserRouter(
+  creatRoutes(routes, <LoginPage />, <div>forgotPasswordPage</div>)
+);
