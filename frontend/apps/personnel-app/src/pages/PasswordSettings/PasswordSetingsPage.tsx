@@ -2,22 +2,53 @@ import { Flex } from '@local/shared-components';
 import { Form, Input, Button } from 'antd-mobile';
 
 import { PersonnelAuthLayout } from '../../components/PageLayout';
-import { useResetPassword } from '@local/api-generated';
+import { parseApiError, useResetPassword } from '@local/api-generated';
+import { useState } from 'react';
+import { EyeInvisibleOutline, EyeOutline } from 'antd-mobile-icons';
+import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import { Alert } from 'antd';
 
 type FormFieldType = {
   newPassword: string;
   confirmPassword: string;
 };
 export function PasswordSetingsPage() {
+  const navigate = useNavigate();
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const resetPassword = useResetPassword();
   const onFinish = (values: FormFieldType) => {
-    resetPassword.mutate(values.newPassword);
+    resetPassword.mutate(values.newPassword, {
+      onSuccess: () => {
+        navigate('/');
+      },
+    });
   };
   return (
     <PersonnelAuthLayout
       name="Change Password"
       description="Enter your new password and confirm to change your password."
     >
+      {resetPassword.isError && (
+        <Flex padding="sm" fullWidth>
+          <Alert
+            message={parseApiError(resetPassword.error)}
+            type="error"
+            style={{ width: '100%' }}
+          />
+        </Flex>
+      )}
+
+      {resetPassword.isSuccess && (
+        <Flex padding="sm" fullWidth>
+          <Alert
+            message="Password changed successfully!"
+            type="success"
+            style={{ width: '100%' }}
+          />
+        </Flex>
+      )}
       <Form
         name="password"
         onFinish={onFinish}
@@ -32,13 +63,21 @@ export function PasswordSetingsPage() {
             { required: true, message: 'Please input your new password!' },
             { min: 8, message: 'Password must be at least 8 characters long!' },
             {
-              pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+              pattern:
+                /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]+$/,
               message:
-                'Password must contain at least one letter and one number!',
+                'Password must contain at least one letter, one number, and special character!',
             },
           ]}
+          extra={
+            <PasswordIconWrapper
+              onClick={() => setPasswordVisible(!passwordVisible)}
+            >
+              {passwordVisible ? <EyeOutline /> : <EyeInvisibleOutline />}
+            </PasswordIconWrapper>
+          }
         >
-          <Input />
+          <Input type={passwordVisible ? 'text' : 'password'} />
         </Form.Item>
         <Form.Item
           label="Confirm Password"
@@ -57,12 +96,28 @@ export function PasswordSetingsPage() {
               },
             }),
           ]}
+          extra={
+            <PasswordIconWrapper
+              onClick={() => setConfirmPasswordVisible(!confirmPasswordVisible)}
+            >
+              {confirmPasswordVisible ? (
+                <EyeOutline />
+              ) : (
+                <EyeInvisibleOutline />
+              )}
+            </PasswordIconWrapper>
+          }
         >
-          <Input />
+          <Input type={confirmPasswordVisible ? 'text' : 'password'} />
         </Form.Item>
         <Form.Item>
           <Flex padding="sm">
-            <Button block type="submit" color="primary" loading={resetPassword.isPending}>
+            <Button
+              block
+              type="submit"
+              color="primary"
+              loading={resetPassword.isPending}
+            >
               Change Password
             </Button>
           </Flex>
@@ -71,3 +126,12 @@ export function PasswordSetingsPage() {
     </PersonnelAuthLayout>
   );
 }
+
+const PasswordIconWrapper = styled.div`
+  padding: 4px;
+  cursor: pointer;
+  svg {
+    display: block;
+    font-size: var(--adm-font-size-7);
+  }
+`;
