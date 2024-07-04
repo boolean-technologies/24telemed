@@ -7,6 +7,7 @@ import {
   Typography,
 } from '@local/shared-components';
 import styled from 'styled-components';
+import { Avatar } from 'antd';
 
 type CallHistoryItemProps = {
   callLog: FullCallLog;
@@ -14,11 +15,9 @@ type CallHistoryItemProps = {
 
 export function CallHistoryItem({ callLog }: CallHistoryItemProps) {
   return (
-    <Flex fullWidth justify="space-between">
+    <StyledRoot fullWidth justify="space-between">
       <Flex>
-        <StyledIconWrapper justify="center">
-          <IonIcon name="videocam" color="primary2.main" />
-        </StyledIconWrapper>
+        <Avatar icon={<IonIcon name="videocam" />} size="large" />
 
         <Flex direction="column" gap="none">
           <Typography weight="bold">
@@ -45,17 +44,19 @@ export function CallHistoryItem({ callLog }: CallHistoryItemProps) {
           </Typography>
         </Flex>
         <Typography variant="bodySm" color="primary1.light" align="right">
-          {timeDiffInMins(callLog.start_time!, (callLog.end_time || callLog.updated_at)!)}
+          {timeDiffInMins(
+            callLog.start_time!,
+            (callLog.end_time || callLog.updated_at)!
+          )}
         </Typography>
       </Flex>
-    </Flex>
+    </StyledRoot>
   );
 }
 
-const StyledIconWrapper = styled(Flex)`
-  width: 40px;
-  height: 40px;
-  border-radius: 100%;
-  border: ${({ theme }) => theme.border.primary.main};
-  background: ${({ theme }) => theme.palette.primary1.main};
+const StyledRoot = styled(Flex)`
+  cursor: pointer;
+  :hover ion-icon {
+    color: #fd0;
+  }
 `;

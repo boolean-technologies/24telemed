@@ -1,8 +1,8 @@
 import { Form, Input, Button, Checkbox, Alert } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { Flex, Typography } from '@local/shared-components';
-import { parseApiError, useLogin } from '@local/api-generated';
+import { Flex, Typography, useLogin } from '@local/shared-components';
+import { parseApiError } from '@local/api-generated';
 import { Path } from '../../constants';
 
 type FormFieldType = {

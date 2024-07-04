@@ -6,17 +6,18 @@ import {
   Fonts,
   Theme,
   createTheme,
+  tokenManager,
 } from '@local/shared-components';
 import { ConfigProvider, type ThemeConfig } from 'antd';
 
-import { OpenAPI, TOKEN_KEY } from '@local/api-generated';
+import { OpenAPI } from '@local/api-generated';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './router';
 import './style.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-OpenAPI.TOKEN = localStorage.getItem(TOKEN_KEY) || '';
+OpenAPI.TOKEN = tokenManager.getToken();
 
 const theme = createTheme();
 
@@ -34,6 +35,7 @@ function Main() {
     token: {
       colorPrimary: theme.palette.primary1.main,
       fontFamily: 'inherit',
+      lineWidth: 2,
     },
     components: {
       Input: {
@@ -42,6 +44,7 @@ function Main() {
       Button: {
         controlHeight: 45,
         colorBgBase: theme.palette.error,
+        lineWidth: 0,
       },
       Tabs: {
         titleFontSize: 16,
@@ -55,6 +58,9 @@ function Main() {
       DatePicker: {
         controlHeight: 45,
       },
+      Segmented: {
+        itemSelectedBg: theme.palette.primary2.main
+      }
     },
   };
 

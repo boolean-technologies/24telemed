@@ -30,7 +30,7 @@ export function FormWrapper<FormFieldType = undefined>({
       layout="vertical"
       style={{ height: "100%" }}
     >
-      <Flex direction="column" gap="md" justify="space-between" fullHeight >
+      <Flex direction="column" gap="md" justify="space-between" fullHeight>
         <div>{children}</div>
         <Button
           type="primary"
