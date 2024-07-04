@@ -8,6 +8,7 @@ import { EyeInvisibleOutline, EyeOutline } from 'antd-mobile-icons';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { Alert } from 'antd';
+import { ResetSuccesss } from './ResetSuccesss';
 
 type FormFieldType = {
   newPassword: string;
@@ -18,17 +19,15 @@ export function PasswordSetingsPage() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const resetPassword = useResetPassword();
-  const onFinish = (values: FormFieldType) => {
-    resetPassword.mutate(values.newPassword, {
-      onSuccess: () => {
-        navigate('/');
-      },
-    });
-  };
+  const onFinish = (values: FormFieldType) =>
+    resetPassword.mutate(values.newPassword);
+
   return (
     <PersonnelAuthLayout
-      name="Change Password"
-      description="Enter your new password and confirm to change your password."
+      name={resetPassword.isSuccess ? null : 'Change Password'}
+      description={
+        resetPassword.isSuccess ? null : 'Please enter your new password'
+      }
     >
       {resetPassword.isError && (
         <Flex padding="sm" fullWidth>
@@ -40,89 +39,91 @@ export function PasswordSetingsPage() {
         </Flex>
       )}
 
-      {resetPassword.isSuccess && (
-        <Flex padding="sm" fullWidth>
-          <Alert
-            message="Password changed successfully!"
-            type="success"
-            style={{ width: '100%' }}
-          />
-        </Flex>
-      )}
-      <Form
-        name="password"
-        onFinish={onFinish}
-        style={{ width: '100%', marginTop: '2rem' }}
-        layout="vertical"
-        initialValues={{ remember: true }}
-      >
-        <Form.Item
-          label="New Password"
-          name="newPassword"
-          rules={[
-            { required: true, message: 'Please input your new password!' },
-            { min: 8, message: 'Password must be at least 8 characters long!' },
-            {
-              pattern:
-                /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]+$/,
-              message:
-                'Password must contain at least one letter, one number, and special character!',
-            },
-          ]}
-          extra={
-            <PasswordIconWrapper
-              onClick={() => setPasswordVisible(!passwordVisible)}
-            >
-              {passwordVisible ? <EyeOutline /> : <EyeInvisibleOutline />}
-            </PasswordIconWrapper>
-          }
+      {resetPassword.isSuccess ? (
+        <ResetSuccesss />
+      ) : (
+        <Form
+          name="password"
+          onFinish={onFinish}
+          style={{ width: '100%', marginTop: '2rem' }}
+          layout="vertical"
+          initialValues={{ remember: true }}
         >
-          <Input type={passwordVisible ? 'text' : 'password'} />
-        </Form.Item>
-        <Form.Item
-          label="Confirm Password"
-          name="confirmPassword"
-          dependencies={['newPassword']}
-          rules={[
-            { required: true, message: 'Please confirm your new password!' },
-            ({ getFieldValue }) => ({
-              validator(_, value) {
-                if (!value || getFieldValue('newPassword') === value) {
-                  return Promise.resolve();
-                }
-                return Promise.reject(
-                  new Error('The two passwords that you entered do not match!')
-                );
+          <Form.Item
+            label="New Password"
+            name="newPassword"
+            rules={[
+              { required: true, message: 'Please input your new password!' },
+              {
+                min: 8,
+                message: 'Password must be at least 8 characters long!',
               },
-            }),
-          ]}
-          extra={
-            <PasswordIconWrapper
-              onClick={() => setConfirmPasswordVisible(!confirmPasswordVisible)}
-            >
-              {confirmPasswordVisible ? (
-                <EyeOutline />
-              ) : (
-                <EyeInvisibleOutline />
-              )}
-            </PasswordIconWrapper>
-          }
-        >
-          <Input type={confirmPasswordVisible ? 'text' : 'password'} />
-        </Form.Item>
-        <Form.Item>
-          <Flex padding="sm">
-            <Button
-              block
-              type="submit"
-              color="primary"
-              loading={resetPassword.isPending}
-            >
-              Change Password
-            </Button>
-          </Flex>
-        </Form.Item>
-      </Form>
+              {
+                pattern:
+                  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]+$/,
+                message:
+                  'Password must contain at least one letter, one number, and special character!',
+              },
+            ]}
+            extra={
+              <PasswordIconWrapper
+                onClick={() => setPasswordVisible(!passwordVisible)}
+              >
+                {passwordVisible ? <EyeOutline /> : <EyeInvisibleOutline />}
+              </PasswordIconWrapper>
+            }
+          >
+            <Input type={passwordVisible ? 'text' : 'password'} />
+          </Form.Item>
+          <Form.Item
+            label="Confirm Password"
+            name="confirmPassword"
+            dependencies={['newPassword']}
+            rules={[
+              { required: true, message: 'Please confirm your new password!' },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue('newPassword') === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(
+                    new Error(
+                      'The two passwords that you entered do not match!'
+                    )
+                  );
+                },
+              }),
+            ]}
+            extra={
+              <PasswordIconWrapper
+                onClick={() =>
+                  setConfirmPasswordVisible(!confirmPasswordVisible)
+                }
+              >
+                {confirmPasswordVisible ? (
+                  <EyeOutline />
+                ) : (
+                  <EyeInvisibleOutline />
+                )}
+              </PasswordIconWrapper>
+            }
+          >
+            <Input type={confirmPasswordVisible ? 'text' : 'password'} />
+          </Form.Item>
+          <Form.Item>
+            <Flex padding="sm">
+              <Button
+                block
+                type="submit"
+                color="primary"
+                loading={resetPassword.isPending}
+              >
+                Change Password
+              </Button>
+            </Flex>
+          </Form.Item>
+        </Form>
+      )}
     </PersonnelAuthLayout>
   );
 }
