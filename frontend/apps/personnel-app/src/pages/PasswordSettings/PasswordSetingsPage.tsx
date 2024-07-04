@@ -6,7 +6,6 @@ import { parseApiError, useResetPassword } from '@local/api-generated';
 import { useState } from 'react';
 import { EyeInvisibleOutline, EyeOutline } from 'antd-mobile-icons';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
 import { Alert } from 'antd';
 import { ResetSuccesss } from './ResetSuccesss';
 
@@ -15,7 +14,6 @@ type FormFieldType = {
   confirmPassword: string;
 };
 export function PasswordSetingsPage() {
-  const navigate = useNavigate();
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const resetPassword = useResetPassword();
