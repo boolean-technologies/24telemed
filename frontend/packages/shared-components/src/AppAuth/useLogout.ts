@@ -3,13 +3,13 @@ import { useQueryClient } from '@tanstack/react-query';
 import { Path } from "./paths";
 import { TOKEN_KEY } from "../constants";
 import { OpenAPI } from "@local/api-generated";
+import { tokenManager } from "./tokenManager";
 
 export function useLogout(){
     const navigate = useNavigate();
     const queryClient = useQueryClient()
     return () => {
-        OpenAPI.TOKEN = "";
-        localStorage.removeItem(TOKEN_KEY);
+        tokenManager.setToken()
         queryClient.clear();
         navigate(Path.login);
     }

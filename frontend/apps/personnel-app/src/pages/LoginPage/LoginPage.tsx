@@ -1,10 +1,10 @@
-import { Flex, Typography, Logo } from '@local/shared-components';
+import { Flex, Typography, useLogin } from '@local/shared-components';
 import { Form, Input, Button, Checkbox, Space } from 'antd-mobile';
 import { EyeInvisibleOutline, EyeOutline } from 'antd-mobile-icons';
 import styled from 'styled-components';
 
 import { Link, useNavigate } from 'react-router-dom';
-import { parseApiError, useLogin } from '@local/api-generated';
+import { parseApiError } from '@local/api-generated';
 import { Path } from '../../constants';
 import { useState } from 'react';
 import { Alert } from 'antd'

@@ -2,7 +2,7 @@ import { Flex, IonIcon, Typography } from '@local/shared-components';
 import { Button, Image, Modal } from 'antd-mobile';
 import styled from 'styled-components';
 import { useGetDoctor } from '../../api/doctor';
-import { Form, Input, Select, Skeleton } from 'antd';
+import { Avatar, Form, Input, Select, Skeleton } from 'antd';
 import { usePersonnelCommunication } from '@local/websocket';
 import { useState } from 'react';
 
@@ -28,13 +28,7 @@ const DoctorInfoComponent = ({ id, patientId }: DoctorInfoComponentProps) => {
     <>
       <DoctorInfo direction="row" justify="space-between">
         <Flex>
-          <StyledIconWrapper justify="center">
-            {data?.photo ? (
-              <Image src={data.photo} width={60} height={60} fit="contain" />
-            ) : (
-              <IonIcon name="person" outlined color="primary2.main" size="lg" />
-            )}
-          </StyledIconWrapper>
+          <Avatar src={data?.photo} size={60} icon={<IonIcon name="person" outlined />} />
           <Flex direction="column" gap="none">
             <Typography variant="bodyMd">
               {' '}
