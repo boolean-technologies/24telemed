@@ -8,5 +8,5 @@ export enum Path {
     registerPatient = "/register-patient",
     patient = "/patient",
     forgotPassword = "/forgot-password",
-    
+    passwordSettings = "/password-settings",
 }
