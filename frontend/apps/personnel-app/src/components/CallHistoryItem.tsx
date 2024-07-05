@@ -34,7 +34,7 @@ export function CallHistoryItem({ callLog }: CallHistoryItemProps) {
     Dialog.show({
       title: 'Call',
       content: (
-        <AntFlex vertical gap={12}>
+        <AntFlex vertical gap={12} style={{ padding: 8, minWidth: 400 }}>
           <CallStatus status={callLog.status!} padding={8} />
           <Card.Meta
             title="Date & Time"
@@ -111,13 +111,15 @@ export function CallHistoryItem({ callLog }: CallHistoryItemProps) {
     <StyledRoot fullWidth justify="space-between" onClick={handleClick}>
       <Flex>
         <Avatar icon={<IonIcon name="videocam" />} size="large" />
-        <Flex direction="column" gap="none">
-          <Typography weight="bold">
-            {callLog.doctor.first_name} {callLog.doctor.last_name}{' '}
+        <Flex direction="column" gap="xxs">
+          <Flex>
+            <Typography weight="bold" color="primary1.lighter">
+              {callLog.doctor.first_name} {callLog.doctor.last_name}{' '}
+            </Typography>
             <CallStatus status={callLog.status!} />
-          </Typography>
+          </Flex>
           <Typography variant="bodySm" color="primary1.light">
-            Patient:{' '}
+            <strong>Patient:</strong>{' '}
             {callLog?.patient ? (
               <>
                 {callLog?.patient?.first_name} ({callLog?.patient?.patient_id})

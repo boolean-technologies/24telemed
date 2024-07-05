@@ -1,13 +1,13 @@
 import { useCurrentUser } from '@local/api-generated';
 import { Flex, Typography, defaultTheme } from '@local/shared-components';
-import { List, Drawer, Card, Avatar } from 'antd';
+import { List, Drawer, Card, Avatar, } from 'antd';
 import styled from 'styled-components';
 import {
-  KeyOutlined,
   BookOutlined,
-  FileOutlined,
   ArrowRightOutlined,
   UserOutlined,
+  LockOutlined,
+  SecurityScanOutlined,
 } from '@ant-design/icons';
 import { useState } from 'react';
 import TermsOfService from './TermsOfService';
@@ -26,21 +26,21 @@ export function ProfilePage() {
     {
       name: 'Change Password',
       value: '*******',
-      icon: <KeyOutlined />,
+      icon: LockOutlined,
       onClick: () => {
         setDrawer('password');
       },
     },
     {
       name: 'Terms of service',
-      icon: <BookOutlined />,
+      icon: BookOutlined,
       onClick: () => {
         setDrawer('terms');
       },
     },
     {
       name: 'Privacy Policy',
-      icon: <FileOutlined />,
+      icon: SecurityScanOutlined,
       onClick: () => {
         setDrawer('privacy');
       },
@@ -74,22 +74,21 @@ export function ProfilePage() {
         <List
           dataSource={data}
           className="demo-loadmore-list"
-          renderItem={(item) => (
+          renderItem={({ icon: Icon, ...item }) => (
             <List.Item
-              actions={[
-                <a onClick={item.onClick}>
-                  <ArrowRightOutlined />
-                </a>,
-              ]}
+              actions={[<ArrowRightOutlined />]}
               style={{
                 backgroundColor: defaultTheme.palette.neutral.light,
-                borderRadius: '10px',
-                padding: '10px',
-                marginBottom: '20px',
+                cursor: 'pointer',
+                padding: 16,
+                marginBottom: 10,
+                border: '2px solid ' + defaultTheme.palette.neutral.main,
+                borderRadius: 10,
               }}
+              onClick={item.onClick}
             >
               <List.Item.Meta
-                avatar={item.icon}
+                avatar={<Icon style={{ fontSize: 18 }} />}
                 title={item.name}
                 description={item.value}
               />

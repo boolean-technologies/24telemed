@@ -1,12 +1,9 @@
 import {
-  ArrowDown,
-  ClockIcon,
   Flex,
   IonIcon,
   Typography,
 } from '@local/shared-components';
-import { Button, Card, Divider } from 'antd';
-import React from 'react';
+import { Button, Divider } from 'antd';
 import styled from 'styled-components';
 import { CallHistoryBox } from '../../components/CallHistoryBox';
 import { Link } from 'react-router-dom';
