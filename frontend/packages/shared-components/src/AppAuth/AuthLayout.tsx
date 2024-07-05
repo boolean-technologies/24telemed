@@ -13,8 +13,13 @@ export function AuthLayout() {
   const tokenManager = TokenManager.getInstance();
   const { error, isLoading } = useCurrentUser(!tokenManager.getToken(), 1);
 
+  const publicRoutes = [Path.login, Path.forgotPassword] as string[];
+
   useEffect(() => {
-    if (!tokenManager.getToken() || error) {
+    if (
+      (!tokenManager.getToken() || error) &&
+      !publicRoutes.includes(location.pathname)
+    ) {
       tokenManager.setToken();
       queryClient.clear();
       navigate(Path.login);
