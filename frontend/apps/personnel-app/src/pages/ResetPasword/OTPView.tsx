@@ -2,10 +2,15 @@ import { useOTPValidation } from '@local/api-generated';
 import { Flex, Typography } from '@local/shared-components';
 import { Alert, Form, Input } from 'antd';
 import { Button } from 'antd-mobile';
-
+import { ResetSuccesss } from '../PasswordSettings/ResetSuccesss';
+import { useState } from 'react';
 
 export function OTPView() {
+  const [isSuccess, setIsSuccess] = useState(false);
   const otpValidation = useOTPValidation();
+  if (isSuccess) {
+    return <ResetSuccesss />;
+  }
   return (
     <Flex
       fullWidth
@@ -14,26 +19,18 @@ export function OTPView() {
       align="center"
       justify="center"
     >
-      {
-        otpValidation.isError && (
-          <Flex padding="sm" fullWidth justify='center'>
-            <Alert
-              message={'Invalid OTP'}
-              type="error"
-              showIcon
-            />
-          </Flex>
-        )
-      }
+      {otpValidation.isError && (
+        <Flex padding="sm" fullWidth justify="center">
+          <Alert message={'Invalid OTP'} type="error" showIcon />
+        </Flex>
+      )}
       <Typography variant="bodyXl">Enter OTP</Typography>
-      <Typography >
-        Enter the OTP sent to your phone number
-      </Typography>
+      <Typography>Enter the OTP sent to your phone number</Typography>
 
-      
       <Form
         onFinish={(values) => {
           otpValidation.mutate(values);
+          setIsSuccess(true);
         }}
       >
         <Form.Item

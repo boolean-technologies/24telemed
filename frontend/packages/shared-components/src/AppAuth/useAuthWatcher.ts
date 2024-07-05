@@ -4,7 +4,7 @@ import { TOKEN_KEY } from '../constants';
 import { Path } from './paths';
 
 export function useAuthWatcher() {
-  const publicRoutes: string[] = [Path.login, Path.forgotPassword];
+  const publicRoutes: string[] = [Path.login, Path.forgotPassword, Path.passwordSettings];
   const navigate = useNavigate();
   const location = useLocation();
   const { isPending, data, error } = useCurrentUser();

@@ -33,8 +33,12 @@ export function ForgotPaswordPage() {
 
   return (
     <PersonnelAuthLayout
-      name={ true ? null: "Forgot Password"}
-      description={ true ? null:"Enter your email, username or phone number to reset your password."}
+      name={true ? null : 'Forgot Password'}
+      description={
+        true
+          ? null
+          : 'Enter your email, username or phone number to reset your password.'
+      }
     >
       {forgotPassword.isError && (
         <Flex padding="sm" fullWidth>
@@ -48,42 +52,48 @@ export function ForgotPaswordPage() {
         </Flex>
       )}
 
-      {true ? <OTPView /> :
-      (<Form
-        name="forgotPassword"
-        initialValues={{ remember: true }}
-        onFinish={onFinish}
-        layout="vertical"
-        style={{ width: '100%' }}
-      >
-        <Form.Item
-          name="identifier"
-          rules={[
-            {
-              required: true,
-              message: 'Please input your email or username or phone number!',
-            },
-          ]}
-        >
-          <Input placeholder="Email, Username or Phone" />
-        </Form.Item>
-        <Form.Item style={{ width: '100%' }}>
-          <Button
-            block
-            type="submit"
-            loading={forgotPassword.isPending}
-            color="primary"
+      {true ? (
+        <OTPView />
+      ) : (
+        <>
+          <Form
+            name="forgotPassword"
+            initialValues={{ remember: true }}
+            onFinish={onFinish}
+            layout="vertical"
+            style={{ width: '100%' }}
           >
-            Reset Password
-          </Button>
-        </Form.Item>
-      </Form>)}
-      <Space />
-      <Flex padding="sm">
-        <Link to={Path.login}>
-          <Typography variant="bodySm">Back to login</Typography>
-        </Link>
-      </Flex>
+            <Form.Item
+              name="identifier"
+              rules={[
+                {
+                  required: true,
+                  message:
+                    'Please input your email or username or phone number!',
+                },
+              ]}
+            >
+              <Input placeholder="Email, Username or Phone" />
+            </Form.Item>
+            <Form.Item style={{ width: '100%' }}>
+              <Button
+                block
+                type="submit"
+                loading={forgotPassword.isPending}
+                color="primary"
+              >
+                Reset Password
+              </Button>
+            </Form.Item>
+          </Form>
+          <Space />
+          <Flex padding="sm">
+            <Link to={Path.login}>
+              <Typography variant="bodySm">Back to login</Typography>
+            </Link>
+          </Flex>{' '}
+        </>
+      )}
     </PersonnelAuthLayout>
   );
 }

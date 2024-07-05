@@ -5,8 +5,8 @@ import styled from 'styled-components';
 
 interface Props {
   children: React.ReactNode;
-  name: string;
-  description: string;
+  name: string | null;
+  description: string | null;
 }
 
 export function PersonnelAuthLayout({ children, name, description }: Props) {

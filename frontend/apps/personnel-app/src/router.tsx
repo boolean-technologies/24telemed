@@ -16,6 +16,8 @@ import { PatientRegistionPage } from './pages/PatientRegistionPage';
 import { PatientProfilePage } from './pages/PatientProfilePage';
 import { EditPatientPage } from './pages/EditPatientInformation';
 import { ForgotPaswordPage } from './pages/ResetPasword';
+import { PasswordSetingsPage } from './pages/PasswordSettings';
+
 
 
 const routes: RouteObject[] = [
@@ -65,4 +67,4 @@ const routes: RouteObject[] = [
   },
 ];
 
-export const router = createBrowserRouter(creatRoutes(routes, <LoginPage />, <ForgotPaswordPage />));
+export const router = createBrowserRouter(creatRoutes(routes, <LoginPage />, <ForgotPaswordPage />, <PasswordSetingsPage />));
