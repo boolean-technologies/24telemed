@@ -2,35 +2,28 @@ import {
   ArrowDown,
   ClockIcon,
   Flex,
+  IonIcon,
   Typography,
 } from '@local/shared-components';
-import { Card } from 'antd';
+import { Button, Card, Divider } from 'antd';
 import React from 'react';
 import styled from 'styled-components';
+import { CallHistoryBox } from '../../components/CallHistoryBox';
+import { Link } from 'react-router-dom';
+import { Path } from '../../constants';
 
 const RecentCalls = () => {
   return (
     <Flex direction="column" fullWidth fullHeight>
-      <Typography variant="bodyLg">Recent Calls</Typography>
-      <Card>
-        <Flex direction="column" fullWidth fullHeight>
-          <Typography variant="bodyMd">Today </Typography>
-          <Call direction="row" fullWidth fullHeight justify="space-between">
-            <Flex direction="row" gap="sm" padding="sm">
-              <ArrowDown />
-              <Flex direction="column" gap="none">
-                <Typography variant="bodyMd"> Dr Rotimi Adebayo </Typography>
-                <Typography variant="bodyXs">
-                  Patient 081******8 (Ademola)
-                </Typography>
-              </Flex>
-            </Flex>
-            <Flex direction="row" gap="none">
-              <ClockIcon /> <Typography variant="bodyXs"> 12:30 PM </Typography>
-            </Flex>
-          </Call>
-        </Flex>
-      </Card>
+      <Divider style={{ margin: 0 }} />
+      <Flex justify="space-between">
+        <Typography variant="bodyLg">Recent Calls</Typography>
+        <Link to={Path.history}>
+          <Button icon={<IonIcon name="list" size="md" />} />
+        </Link>
+      </Flex>
+      <Divider style={{ margin: 0 }} />
+      <CallHistoryBox recent />
     </Flex>
   );
 };

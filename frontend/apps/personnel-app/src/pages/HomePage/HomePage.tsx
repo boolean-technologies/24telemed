@@ -6,6 +6,7 @@ import { useSearchPatients } from '../../api/patient';
 import PatientFound from './PatientFound';
 import { PatientNotFound } from './PatientNotFound';
 import { useRef } from 'react';
+import RecentCalls from './RecentCalls';
 
 type FieldType = {
   phoneNumber: string;
@@ -107,6 +108,7 @@ export function HomePage() {
               />
             ) : null}
           </Popup>
+          <RecentCalls />
         </Flex>
       </Flex>
     </>
