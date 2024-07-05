@@ -2,13 +2,13 @@ import { Flex, Logo } from '@local/shared-components';
 import { Form, Input, Button, Space } from 'antd-mobile';
 import { Typography } from '@local/shared-components';
 
-import { useForgotPassword } from '@local/api-generated';
+import { parseApiError, useForgotPassword } from '@local/api-generated';
 import { Alert, Result } from 'antd';
 import { Link } from 'react-router-dom';
 import { Path } from '../../constants';
 import { PersonnelAuthLayout } from '../../components/PageLayout';
 import { OTPView } from './OTPView';
-import { useState } from 'react';
+
 
 type FormFieldType = {
   identifier: string;
@@ -36,7 +36,8 @@ export function ForgotPaswordPage() {
         <Flex padding="sm" fullWidth>
           <Alert
             message={
-              'No account found with that email or username or phone number'
+              parseApiError(forgotPassword.error) ||
+              'An error occured, please try again'
             }
             type="error"
             showIcon
