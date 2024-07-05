@@ -87,8 +87,11 @@ class UserViewSet(viewsets.ModelViewSet):
             request.session['otp_secret'] = otp_secret
             request.session['otp_expiry'] = (datetime.now() + timedelta(minutes=5)).isoformat()
             request.session['user_id'] = str(user_id)
-            notification.send_otp_notification(to=user.email, otp_code=otp)
-            return Response({'detail': 'Password reset OTP sent to your mail.'}, status=status.HTTP_200_OK)
+            try:
+                notification.send_otp_notification(to=user.email, otp_code=otp)
+                return Response({'detail': 'Password reset OTP sent to your mail.'}, status=status.HTTP_200_OK)
+            except Exception as e:
+                            return Response({'error': 'Failed to send OTP'}, status=status.HTTP_404_NOT_FOUND)
         except User.DoesNotExist:
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
