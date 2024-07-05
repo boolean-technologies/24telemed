@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { Path } from '../../constants';
 import { PersonnelAuthLayout } from '../../components/PageLayout';
 import { OTPView } from './OTPView';
+import { useState } from 'react';
 
 type FormFieldType = {
   identifier: string;
@@ -19,17 +20,8 @@ export function ForgotPaswordPage() {
     return phoneRegex.test(value);
   };
 
-  const onFinish = (values: FormFieldType) => {
-    forgotPassword.mutate(values.identifier, {
-      onSuccess: () => {
-        if (isPhone(values.identifier)) {
-          // TODO: navigate to phone verification page
-
-          console.log('navigate to phone verification page');
-        }
-      },
-    });
-  };
+  const onFinish = (values: FormFieldType) =>
+    forgotPassword.mutate(values.identifier);
 
   return (
     <PersonnelAuthLayout

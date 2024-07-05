@@ -3,12 +3,10 @@ import { Flex, Typography } from '@local/shared-components';
 import { Alert, Form, Input } from 'antd';
 import { Button } from 'antd-mobile';
 import { ResetSuccesss } from '../PasswordSettings/ResetSuccesss';
-import { useState } from 'react';
 
 export function OTPView() {
-  const [isSuccess, setIsSuccess] = useState(false);
   const otpValidation = useOTPValidation();
-  if (isSuccess) {
+  if (otpValidation.isSuccess) {
     return <ResetSuccesss />;
   }
   return (
@@ -27,12 +25,7 @@ export function OTPView() {
       <Typography variant="bodyXl">Enter OTP</Typography>
       <Typography>Enter the OTP sent to your phone number</Typography>
 
-      <Form
-        onFinish={(values) => {
-          otpValidation.mutate(values);
-          setIsSuccess(true);
-        }}
-      >
+      <Form onFinish={(values) => otpValidation.mutate(values)}>
         <Form.Item
           name="otp"
           rules={[
