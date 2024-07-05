@@ -44,7 +44,6 @@ export function BottomBar({
       <Flex fullWidth justify="center" flex={1}>
         <VideoButton />
         <MicButton />
-        <RaiseHandButton />
         <EndCallButton />
       </Flex>
       <Flex justify="flex-end">
@@ -57,10 +56,11 @@ export function BottomBar({
           onClick={onMedicalNoteButtonClick}
           hasNotification={hasNoteNotification}
         />
-        <MedicationButton
+        {/* TODO: Bring back the meds button when medication feature is been added */}
+        {/* <MedicationButton
           active={currentView === 'medication'}
           onClick={onMedicationButtonClick}
-        />
+        /> */}
         <ChatButton active={currentView === 'chats'} onClick={onChatClick} />
       </Flex>
     </Flex>
@@ -87,10 +87,11 @@ export function TopCallTools({
           onClick={onMedicalNoteButtonClick}
           hasNotification={hasNoteNotification}
         />
-        <MedicationButton
+        {/* TODO: Bring back the meds button when medication feature is been added */}
+        {/* <MedicationButton
           active={currentView === 'medication'}
           onClick={onMedicationButtonClick}
-        />
+        /> */}
         
       </Flex>
     </StyledCallTools>

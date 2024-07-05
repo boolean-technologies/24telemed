@@ -30,9 +30,9 @@ export const PatientProfileHeader = ({
       fullWidth
       padding="xl"
       smPadding="lg"
-      justify="space-between"
+      justify={inCall ? "center" : "space-between"}
       xsDirection="column"
-    >
+      >
       <Flex
         direction={inCall ? 'column' : 'row'}
         gap="sm"
@@ -56,7 +56,7 @@ export const PatientProfileHeader = ({
           />
         )}
 
-        <Flex direction="column" gap="xxs">
+        <Flex direction="column" gap="xxs" align={inCall ? "center" : undefined}>
           <Flex direction="row" gap="xs">
             <Typography
               variant="bodyXl"
@@ -68,7 +68,6 @@ export const PatientProfileHeader = ({
             </Typography>
           </Flex>
           <Flex
-            direction={inCall ? 'column' : 'row'}
             gap="xs"
             xsDirection="column"
           >

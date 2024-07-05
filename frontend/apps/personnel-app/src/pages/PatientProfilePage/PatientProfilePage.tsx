@@ -8,17 +8,18 @@ import {
   MedicalHistory,
 } from '@local/shared-components';
 import styled, { useTheme } from 'styled-components';
-import { Badge, Drawer, Tabs } from 'antd';
+import { Badge, Drawer, Segmented, Tabs } from 'antd';
 import { Modal } from 'antd-mobile';
 import AvailableDoctors from './AvailableDoctors';
 import { usePersonnelCommunication } from '@local/websocket';
+import { useState } from 'react';
 
 export function PatientProfilePage() {
   const { patientId } = useParams();
   const { data: patient, isPending } = useGetPatient(patientId);
   const navigate = useNavigate();
   const { availableDoctors } = usePersonnelCommunication();
-
+  const [value, setValue] = useState<string>('medicalHistory');
   const theme = useTheme() as Theme;
 
   const onCloseProfile = () => {
@@ -57,16 +58,49 @@ export function PatientProfilePage() {
 
         <TabContainer
           align="flex-start"
-          justify="center"
+          justify="flex-start"
           fullHeight
           fullWidth
           padding="sm"
+          direction="column"
         >
           <Tabs
             defaultActiveKey="medicalHistory"
             type="card"
             style={{ width: '100%' }}
             tabBarGutter={8}
+            renderTabBar={() => (
+              <Segmented
+                block
+                style={{ padding: 4, marginBottom: 12 }}
+                options={[
+                  {
+                    value: 'medicalHistory',
+                    label: (
+                      <StyledTabButton>
+                        Medical History
+                      </StyledTabButton>
+                    ),
+                  },
+                  {
+                    value: 'availableDoctors',
+                    label: (
+                      <StyledTabButton>
+                        Available Doctors{' '}
+                        <Badge
+                          count={availableDoctors.length}
+                          style={{ fontWeight: 'bold' }}
+                        />
+                      </StyledTabButton>
+                    ),
+                  },
+                ]}
+                value={value}
+                onChange={setValue}
+                size="large"
+              />
+            )}
+            activeKey={value}
             items={[
               {
                 key: 'medicalHistory',
@@ -96,4 +130,9 @@ export function PatientProfilePage() {
 
 const TabContainer = styled(Flex)`
   background-color: ${({ theme }) => theme.palette.common.white};
+`;
+
+const StyledTabButton = styled.div`
+  padding: 8px;
+  font-weight: bold;
 `;
