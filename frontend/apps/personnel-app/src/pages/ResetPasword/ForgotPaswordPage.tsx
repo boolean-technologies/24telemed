@@ -33,9 +33,9 @@ export function ForgotPaswordPage() {
 
   return (
     <PersonnelAuthLayout
-      name={true ? null : 'Forgot Password'}
+      name={forgotPassword.isSuccess ? null : 'Forgot Password'}
       description={
-        true
+        forgotPassword.isSuccess
           ? null
           : 'Enter your email, username or phone number to reset your password.'
       }
