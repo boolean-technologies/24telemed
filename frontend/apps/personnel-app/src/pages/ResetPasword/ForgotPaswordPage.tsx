@@ -3,7 +3,7 @@ import { Form, Input, Button, Space } from 'antd-mobile';
 import { Typography } from '@local/shared-components';
 
 import { useForgotPassword } from '@local/api-generated';
-import { Alert } from 'antd';
+import { Alert, Result } from 'antd';
 import { Link } from 'react-router-dom';
 import { Path } from '../../constants';
 import { PersonnelAuthLayout } from '../../components/PageLayout';
@@ -52,8 +52,21 @@ export function ForgotPaswordPage() {
         </Flex>
       )}
 
-      {true ? (
+      {forgotPassword.isSuccess && isPhone(forgotPassword.data.identifier) ? (
         <OTPView />
+      ) : forgotPassword.isSuccess ? (
+        <Result
+          status="success"
+          title="A password reset link has been sent to your email"
+          subTitle="Please check your email to reset your password"
+          extra={[
+            <Link to={Path.login} key="login">
+              <Button type="button" color="primary">
+                Go to Login
+              </Button>
+            </Link>,
+          ]}
+        />
       ) : (
         <>
           <Form
