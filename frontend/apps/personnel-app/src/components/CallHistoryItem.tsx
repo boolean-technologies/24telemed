@@ -38,15 +38,15 @@ export function CallHistoryItem({ callLog }: CallHistoryItemProps) {
           <CallStatus status={callLog.status!} padding={8} />
           <Card.Meta
             title="Date & Time"
-            description={<strong>{duration}</strong>}
+            description={<strong>{DateTime.fromISO(callLog.created_at!).toFormat(
+              'yyyy LLL dd @ hh:mm a'
+            )}</strong>}
           />
           <Card.Meta
             title="Duration"
             description={
               <strong>
-                {DateTime.fromISO(callLog.created_at!).toFormat(
-                  'yyyy LLL dd @ hh:mm a'
-                )}
+                {duration}
               </strong>
             }
           />
