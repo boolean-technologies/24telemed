@@ -91,11 +91,11 @@ class UserViewSet(viewsets.ModelViewSet):
                 notification.send_otp_notification(to=user.email, otp_code=otp)
                 return Response({'detail': 'Password reset OTP sent to your mail.'}, status=status.HTTP_200_OK)
             except Exception as e:
-                            return Response({'error': 'Failed to send OTP'}, status=status.HTTP_404_NOT_FOUND)
+                            return Response({'detail': 'Failed to send OTP'}, status=status.HTTP_404_NOT_FOUND)
         except User.DoesNotExist:
-            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'detail': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
-            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'detail': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
     @swagger_auto_schema(
         method='post',
@@ -118,14 +118,14 @@ class UserViewSet(viewsets.ModelViewSet):
             otp_expiry = request.session.get('otp_expiry')
 
             if not user_id or not otp_secret or not otp_expiry:
-                return Response({'error': 'Session timeout, try again.'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'detail': 'Session timeout, try again.'}, status=status.HTTP_400_BAD_REQUEST)
 
             if datetime.fromisoformat(otp_expiry) < datetime.now():
-                return Response({'error': 'OTP expired.'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'detail': 'OTP expired.'}, status=status.HTTP_400_BAD_REQUEST)
             
             totp = pyotp.TOTP(otp_secret)
             if not totp.verify(otp):
-                return Response({'error': 'Invalid OTP.'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'detail': 'Invalid OTP.'}, status=status.HTTP_400_BAD_REQUEST)
 
             user = User.objects.get(pk=user_id)
             refresh = RefreshToken.for_user(user)
@@ -135,9 +135,9 @@ class UserViewSet(viewsets.ModelViewSet):
             }, status=status.HTTP_200_OK)
 
         except User.DoesNotExist:
-            return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'detail': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
-            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'detail': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
     @swagger_auto_schema(
         method='put',
@@ -162,7 +162,7 @@ class UserViewSet(viewsets.ModelViewSet):
             return JsonResponse({'detail': 'Password changed successfully'}, status=status.HTTP_200_OK)
 
         except Exception as e:
-            return JsonResponse({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return JsonResponse({'detail': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 class DoctorUserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = User.objects.all()
