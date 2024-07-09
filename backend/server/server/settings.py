@@ -214,10 +214,6 @@ BATON = {
     "COPYRIGHT" : "copyright © 2023 The Boolean Tech",
     "MENU_ALWAYS_COLLAPSED": True
 }
-
-
-# MAILGUN_API_KEY = os.getenv('MAILGUN_API_KEY')
-# MAILGUN_DOMAIN = os.getenv('MAILGUN_DOMAIN')
 EMAIL_BACKEND = 'sendgrid_backend.SendgridBackend'
 EMAIL_FROM = os.getenv('EMAIL_FROM')
 SENDGRID_API_KEY=os.getenv('SENDGRID_API_KEY')

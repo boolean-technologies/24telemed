@@ -91,7 +91,7 @@ class UserViewSet(viewsets.ModelViewSet):
                 notification.send(otp=otp)
                 return Response({'detail': 'Password reset OTP sent to your mail.'}, status=status.HTTP_200_OK)
             except Exception as e:
-                            return Response({'detail': 'Failed to send OTP'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                            pass
         except User.DoesNotExist:
             return Response({'detail': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
