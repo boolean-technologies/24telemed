@@ -80,7 +80,6 @@ class UserViewSet(viewsets.ModelViewSet):
         try:
             user = User.objects.get(Q(username=identifier) | Q(email=identifier) | Q(phone_number=identifier))
             user_id = user.id
-            print(user.email)
             otp_secret = pyotp.random_base32()
             otp = pyotp.TOTP(otp_secret).now()
 
