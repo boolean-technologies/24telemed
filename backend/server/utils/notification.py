@@ -1,43 +1,79 @@
-import requests
+from django.core.mail import send_mail
+from users.models import User
+from typing import Literal
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 from django.conf import settings
-from django.template.loader import render_to_string
+from datetime import datetime
+
+EmailType = Literal[
+    'forget_password_otp', 
+]
 
 class Notification:
-    def __init__(self):
-        self.api_key = settings.MAILGUN_API_KEY
-        self.domain = settings.MAILGUN_DOMAIN
-        self.email_from = settings.EMAIL_FROM
+    def __init__(self, user: User, emailType: EmailType):
+        """
+        Initialize the EmailNotification object with a user.
+        
+        :param user: User object representing the email recipient.
+        """
+        self.emailType = emailType
+        self.user = user
+        self.subject = ""
+        self.message = ""
+        self.data = {
+            "date": datetime.now().strftime('%d %b, %Y'),
+            "name": self.user.first_name
+        }
+        self.template_id = None
+        
+    def send(self, *args, **kwargs):
+        """
+        Send an email based on the emailType by calling the appropriate function.
+        """
+        email_functions = {
+            'forget_password_otp': self.send_otp_notification,
+        }
 
-    def send_email(self, to, subject, template_name, context):
-        template = render_to_string(template_name, context)
-        return self._send_mailgun_email(to, subject, template)
+        # Check if emailType is valid
+        if self.emailType not in email_functions:
+            raise ValueError(f"Invalid emailType: {self.emailType}")
 
-    def _send_mailgun_email(self, to, subject, html_content):
-        return requests.post(
-            f"https://api.mailgun.net/v3/{self.domain}/messages",
-            auth=("api", self.api_key),
-            data={
-                "from": self.email_from,
-                "to": to,
-                "subject": subject,
-                "html": html_content,
-            }
-        )
+        # Call the appropriate function based on emailType
+        email_functions[self.emailType](*args, **kwargs)
 
-    def send_password_reset(self, to, reset_link):
-        subject = "Password Reset Request"
-        template_name = 'emails/password_reset.html'
-        context = {'reset_link': reset_link}
-        return self.send_email(to, subject, template_name, context)
+        # After setting the subject and message, call the private __send method to send the email.
+        if (self.__send()):
+            print("Notification sent!")
+        else:
+            print("Notification NOT sent!")
 
-    def send_otp_notification(self, to, otp_code):
-        subject = "Your OTP Code"
-        template_name = 'emails/otp_notification.html'
-        context = {'otp_code': otp_code}
-        return self.send_email(to, subject, template_name, context)
+        
+    def __send(self):
+        try:
+            sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
+            message = Mail(
+                from_email=settings.EMAIL_FROM,
+                to_emails=self.user.email
+            )
+            message.dynamic_template_data = self.data
+            message.template_id = self.template_id
+            
+            response = sg.send(message)
+            if response.status_code == 202:
+                return True
+            else:
+                return False
+        except Exception as e:
+            print("Error sending email: ", e)
+            return False
+    
+    def __add_mail_data(self, data):
+        self.data = {
+            **self.data,
+            **data,
+        }
 
-    def send_welcome_notification(self, to, username):
-        subject = "Welcome to Our Service"
-        template_name = 'emails/welcome_notification.html'
-        context = {'username': username}
-        return self.send_email(to, subject, template_name, context)
+    def send_otp_notification(self, otp: str):
+        self.template_id = settings.SENDGRID_TEMPLATE_ID_PASSWORD_RESET_OTP
+        self.__add_mail_data({ "otp": otp })

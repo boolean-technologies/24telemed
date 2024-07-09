@@ -78,9 +78,9 @@ class UserViewSet(viewsets.ModelViewSet):
     def forget_password(self, request):
         identifier = request.data.get('identifier')
         try:
-            notification = Notification()
             user = User.objects.get(Q(username=identifier) | Q(email=identifier) | Q(phone_number=identifier))
             user_id = user.id
+            print(user.email)
             otp_secret = pyotp.random_base32()
             otp = pyotp.TOTP(otp_secret).now()
 
@@ -88,10 +88,11 @@ class UserViewSet(viewsets.ModelViewSet):
             request.session['otp_expiry'] = (datetime.now() + timedelta(minutes=5)).isoformat()
             request.session['user_id'] = str(user_id)
             try:
-                notification.send_otp_notification(to=user.email, otp_code=otp)
+                notification = Notification(user=user, emailType='forget_password_otp')
+                notification.send(otp=otp)
                 return Response({'detail': 'Password reset OTP sent to your mail.'}, status=status.HTTP_200_OK)
             except Exception as e:
-                            return Response({'detail': 'Failed to send OTP'}, status=status.HTTP_404_NOT_FOUND)
+                            return Response({'detail': 'Failed to send OTP'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         except User.DoesNotExist:
             return Response({'detail': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
@@ -159,10 +160,10 @@ class UserViewSet(viewsets.ModelViewSet):
             user.set_password(new_password)
             user.save()
 
-            return JsonResponse({'detail': 'Password changed successfully'}, status=status.HTTP_200_OK)
+            return Response({'detail': 'Password changed successfully'}, status=status.HTTP_200_OK)
 
         except Exception as e:
-            return JsonResponse({'detail': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'detail': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 class DoctorUserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = User.objects.all()
