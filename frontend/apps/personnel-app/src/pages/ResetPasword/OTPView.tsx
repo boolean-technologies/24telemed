@@ -2,7 +2,7 @@ import { useOTPValidation } from '@local/api-generated';
 import { Flex, Typography } from '@local/shared-components';
 import { Alert, Form, Input } from 'antd';
 import { Button } from 'antd-mobile';
-import { ResetSuccesss } from '../PasswordSettings/ResetSuccesss';
+import { ResetSuccesss } from './ResultSucess';
 
 export function OTPView() {
   const otpValidation = useOTPValidation();
