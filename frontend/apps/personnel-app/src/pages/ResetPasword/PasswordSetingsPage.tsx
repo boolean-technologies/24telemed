@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { EyeInvisibleOutline, EyeOutline } from 'antd-mobile-icons';
 import styled from 'styled-components';
 import { Alert } from 'antd';
-import { ResetSuccesss } from './ResetSuccesss';
+import { ResetSuccesss } from '../PasswordSettings/ResetSuccesss';
 
 type FormFieldType = {
   newPassword: string;

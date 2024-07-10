@@ -23,7 +23,7 @@ export function OTPView() {
         </Flex>
       )}
       <Typography variant="bodyXl">Enter OTP</Typography>
-      <Typography>Enter the OTP sent to your phone number</Typography>
+      <Typography>Enter the OTP sent to your email</Typography>
 
       <Form onFinish={(values) => otpValidation.mutate(values)}>
         <Form.Item
