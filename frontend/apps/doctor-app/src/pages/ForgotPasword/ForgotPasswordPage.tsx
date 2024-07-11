@@ -3,6 +3,7 @@ import { AuthLayout } from '../../components/AuthLayout';
 import { Form, Input, Button, Checkbox, Alert } from 'antd';
 import { parseApiError, useForgotPassword } from '@local/api-generated';
 import { Flex, Typography } from '@local/shared-components';
+import { OTPView } from './OTPView';
 
 type FormFieldType = {
   identifier: string;
@@ -11,7 +12,10 @@ export function ForgotPasswordPage() {
   const forgotPassword = useForgotPassword();
   return (
     <AuthLayout>
-      <Form
+      {
+        forgotPassword.isSuccess ? <OTPView /> :
+        
+        <Form
         name="forgot-password"
         initialValues={{ remember: true }}
         autoComplete="off"
@@ -24,7 +28,7 @@ export function ForgotPasswordPage() {
           Forgot password
         </Typography>
         <Typography variant="bodyMd" marginBottom="xl">
-          Enter your email or username to OTP
+          Enter your email or username to reset your password.
         </Typography>
         {
           forgotPassword.error && (
@@ -62,7 +66,7 @@ export function ForgotPasswordPage() {
             </Button>
           </Form.Item>
         </Flex>
-      </Form>
+      </Form>}
     </AuthLayout>
   );
 }
