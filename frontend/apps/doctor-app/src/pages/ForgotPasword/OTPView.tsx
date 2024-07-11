@@ -5,13 +5,14 @@ import { Alert, Form, Input, Button, Result } from 'antd';
 
 import { Link } from 'react-router-dom';
 import { Path } from '../../constants';
+import { PasswordReset } from './PasswordReset';
 
 
 
 export function OTPView() {
   const otpValidation = useOTPValidation();
   if (otpValidation.isSuccess) {
-    return <ResetSuccesss />;
+    return <PasswordReset />;
   }
   return (
     <Flex
