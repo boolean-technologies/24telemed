@@ -2,7 +2,7 @@ import { useOTPValidation } from '@local/api-generated';
 import { Flex, Typography } from '@local/shared-components';
 import { Alert, Form, Input } from 'antd';
 import { Button } from 'antd-mobile';
-import { ResetSuccesss } from '../PasswordSettings/ResetSuccesss';
+import { ResetSuccesss } from './ResultSucess';
 
 export function OTPView() {
   const otpValidation = useOTPValidation();
@@ -23,7 +23,7 @@ export function OTPView() {
         </Flex>
       )}
       <Typography variant="bodyXl">Enter OTP</Typography>
-      <Typography>Enter the OTP sent to your phone number</Typography>
+      <Typography>Enter the OTP sent to your email</Typography>
 
       <Form onFinish={(values) => otpValidation.mutate(values)}>
         <Form.Item
