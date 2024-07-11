@@ -7,7 +7,9 @@ import { Link } from 'react-router-dom';
 import { Path } from '../../constants';
 import { PasswordReset } from './PasswordReset';
 
-
+type FormFieldType = {
+  otp: string;
+};
 
 export function OTPView() {
   const otpValidation = useOTPValidation();
@@ -30,7 +32,8 @@ export function OTPView() {
       <Typography variant="bodyXl">Enter OTP</Typography>
       <Typography>Enter the OTP sent to your email</Typography>
 
-      <Form onFinish={(values) => otpValidation.mutate(values)}>
+      <Form onFinish={(values: FormFieldType) => otpValidation.mutate(values)}>
+        
         <Form.Item
           name="otp"
           rules={[
@@ -44,10 +47,12 @@ export function OTPView() {
         </Form.Item>
         <Button
           type="primary"
+          htmlType="submit"
           color="primary"
           style={{ width: '100%' }}
           loading={otpValidation.isPending}
           disabled={otpValidation.isPending}
+          
         >
           Submit
         </Button>
