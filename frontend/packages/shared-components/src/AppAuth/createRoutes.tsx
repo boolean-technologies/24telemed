@@ -6,7 +6,6 @@ export const creatRoutes = (
   routes: RouteObject[],
   loginPage: JSX.Element,
   forgotPasswordPage: JSX.Element,
-  passwordSettingsPage: JSX.Element,
 ) => {
   return [
     {
@@ -21,10 +20,6 @@ export const creatRoutes = (
         {
           path: Path.forgotPassword,
           element: forgotPasswordPage,
-        },
-        {
-          path: Path.passwordSettings,
-          element: passwordSettingsPage,
         },
         ...routes,
       ],
