@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
             model_name="patient",
             name="patient_id",
             field=models.CharField(
-                default="012345678901", editable=False, max_length=11, unique=True
+                default="012345678901", editable=False, max_length=15, unique=True
             ),
             preserve_default=False,
         ),

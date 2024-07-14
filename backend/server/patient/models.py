@@ -9,7 +9,7 @@ class Gender(models.TextChoices):
 
 class Patient(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    patient_id = models.CharField(max_length=11, unique=True, editable=False)
+    patient_id = models.CharField(max_length=15, unique=True, editable=False)
     phone_number = models.CharField(max_length=15, unique=True)
     photo = models.ImageField(upload_to='patient_photos/', blank=True, null=True)
     first_name = models.CharField(max_length=255)
