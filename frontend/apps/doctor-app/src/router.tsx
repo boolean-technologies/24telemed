@@ -44,5 +44,6 @@ const routes: RouteObject[] = [
 ];
 
 export const router = createBrowserRouter(
+  // @ts-ignore
   creatRoutes(routes, <LoginPage />, <div>forgotPasswordPage</div>)
 );
