@@ -1,1 +1,1 @@
-export const TOKEN_KEY = "APP-TOKEN-KEY";
+export const TOKEN_KEY = "AUTHENTICATION_TOKEN_KEY"

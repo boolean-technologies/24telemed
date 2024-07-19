@@ -15,6 +15,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from datetime import timedelta
 from django.core.management.utils import get_random_secret_key
+import dj_database_url
 
 load_dotenv()
 
@@ -112,8 +113,14 @@ ASGI_APPLICATION = "server.asgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+ENVIRONMENT = os.environ.get('ENVIRONMENT')
+
 DATABASES = {
-    "default": {
+    "default": dj_database_url.config(
+        default=os.environ.get('DATABASE_URL'),
+        conn_max_age=600,
+        conn_health_checks=True,
+    ) if ENVIRONMENT == "PRODUCTION" else {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
     }
