@@ -11,6 +11,7 @@ import { LoginPage } from './pages/LoginPage';
 import { creatRoutes } from '@local/shared-components';
 import { CommsLayout } from './components/CommsLayout';
 import { MeetingPage } from './pages/MeetingPage';
+import { ForgotPasswordPage } from './pages/ForgotPasword';
 
 const routes: RouteObject[] = [
   {
@@ -44,6 +45,6 @@ const routes: RouteObject[] = [
 ];
 
 export const router = createBrowserRouter(
-  // @ts-ignore
-  creatRoutes(routes, <LoginPage />, <div>forgotPasswordPage</div>)
+  
+  creatRoutes(routes, <LoginPage />, <ForgotPasswordPage/>)
 );

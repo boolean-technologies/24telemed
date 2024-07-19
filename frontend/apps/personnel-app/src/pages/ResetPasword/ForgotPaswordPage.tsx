@@ -9,7 +9,6 @@ import { Path } from '../../constants';
 import { PersonnelAuthLayout } from '../../components/PageLayout';
 import { OTPView } from './OTPView';
 
-
 type FormFieldType = {
   identifier: string;
 };
@@ -22,6 +21,7 @@ export function ForgotPaswordPage() {
 
   const onFinish = (values: FormFieldType) =>
     forgotPassword.mutate(values.identifier);
+console.log(isPhone("09068874821"))
 
   return (
     <PersonnelAuthLayout
@@ -45,20 +45,8 @@ export function ForgotPaswordPage() {
         </Flex>
       )}
 
-      {forgotPassword.isSuccess && isPhone(forgotPassword.data.identifier) ? (
-        <OTPView />
-      ) : forgotPassword.isSuccess ? (
-        <Result
-          status="success"
-          title="A password reset link has been sent to your email"
-          subTitle="Please check your email to reset your password"
-          extra={[
-            <Link to={Path.login} key="login">
-              <Button type="button" color="primary">
-                Go to Login
-              </Button>
-            </Link>,
-          ]}
+      {forgotPassword.isSuccess ? (
+        <OTPView
         />
       ) : (
         <>
