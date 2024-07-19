@@ -6,7 +6,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from drf_yasg.utils import swagger_auto_schema
 from .models import User
-from .serializers import UserSerializer, UserSearchSerializer, DoctorSerializer
+from .serializers import UserSerializer, UserSearchSerializer, DoctorSerializer, DoctorTokenObtainPairSerializer, PersonnelTokenObtainPairSerializer
 from utils.permission import DoctorPermission, PersonnelPermission
 from drf_yasg import openapi
 from django.contrib.auth.hashers import check_password
@@ -16,6 +16,7 @@ import pyotp
 from datetime import datetime, timedelta
 from utils.notification import Notification
 from django.db.models import Q
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -124,7 +125,9 @@ class UserViewSet(viewsets.ModelViewSet):
                 return Response({'detail': 'OTP expired.'}, status=status.HTTP_400_BAD_REQUEST)
             
             totp = pyotp.TOTP(otp_secret)
-            if not totp.verify(otp):
+            is_valid = totp.verify(otp, valid_window=3)
+
+            if not is_valid:
                 return Response({'detail': 'Invalid OTP.'}, status=status.HTTP_400_BAD_REQUEST)
 
             user = User.objects.get(pk=user_id)
@@ -173,3 +176,9 @@ class PersonnelUserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSearchSerializer
     permission_classes = [DoctorPermission]
+
+class DoctorTokenObtainPairView(TokenObtainPairView):
+    serializer_class = DoctorTokenObtainPairSerializer
+
+class PersonnelTokenObtainPairView(TokenObtainPairView):
+    serializer_class = PersonnelTokenObtainPairSerializer
