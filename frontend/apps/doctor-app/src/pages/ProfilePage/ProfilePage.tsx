@@ -1,5 +1,5 @@
 import { Card, Flex } from '@local/shared-components';
-import { Image, Divider, List, Drawer } from 'antd';
+import { Image, Divider, List, Drawer, Avatar } from 'antd';
 import {
   UserOutlined,
   MailOutlined,
@@ -83,12 +83,7 @@ export function ProfilePage() {
       <Card title="Profile" subtitle="Update your profile information">
         <Divider />
         <Flex direction="column" fullWidth align="center">
-          <Image
-            width={200}
-            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-            fallback={userAvatar}
-            style={{ borderRadius: 200 }}
-          />
+        <Avatar src={user?.photo} icon={<UserOutlined />} size={150} />
           <Divider />
           <List
             style={{ width: '100%' }}

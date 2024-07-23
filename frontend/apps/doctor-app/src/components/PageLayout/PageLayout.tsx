@@ -3,8 +3,9 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   HomeFilled,
+  UserOutlined,
 } from '@ant-design/icons';
-import { Layout, Menu, Button } from 'antd';
+import { Layout, Menu, Button,Avatar } from 'antd';
 import styled, { useTheme } from 'styled-components';
 import {
   Flex,
@@ -76,7 +77,7 @@ export function PageLayout() {
           </Flex>
             {collapsed ? (
               <Link to={Path.profile} style={{ cursor: 'pointer' }}>
-                <UserAvatar />
+                <Avatar src={user?.photo} icon={<UserOutlined />} size={50} />
               </Link>
             ) : (
               <StyledAccountUser
@@ -87,7 +88,7 @@ export function PageLayout() {
               >
               <Link to={Path.profile} style={{ cursor: 'pointer' }}>
                 <Flex>
-                <UserAvatar />
+                <Avatar src={user?.photo} icon={<UserOutlined />} size={50} />
                 <Flex direction="column" gap="none">
                   <Typography weight="bold" color="common.white">
                     {user?.first_name} {user?.last_name}

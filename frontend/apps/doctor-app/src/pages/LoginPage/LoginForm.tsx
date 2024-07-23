@@ -1,9 +1,14 @@
-import { Form, Input, Button, Checkbox, Alert } from 'antd';
+import { Form, Input, Button, Checkbox, Alert, Modal } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { UserOutlined, LockOutlined,
+  FileMarkdownFilled,
+  PhoneFilled
+ } from '@ant-design/icons';
 import { Flex, Typography, useLogin } from '@local/shared-components';
 import { parseApiError } from '@local/api-generated';
 import { Path } from '../../constants';
+import { useState } from 'react';
+
 
 type FormFieldType = {
   username: string;
@@ -11,6 +16,7 @@ type FormFieldType = {
 };
 
 export function LoginForm() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const login = useLogin();
   const navigate = useNavigate();
 
@@ -21,6 +27,17 @@ export function LoginForm() {
   };
 
   const errorMessage = parseApiError(login?.error);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <Form
@@ -81,9 +98,44 @@ export function LoginForm() {
           </Form.Item>
         </Flex>
         <Typography align="center">
-          Don't have account? <Link to="/register">Contact our admin</Link>
+          Don't have account? <Button type="link" onClick={showModal}>
+            Contact Admin
+          </Button>
         </Typography>
       </Flex>
+
+      <Modal
+        title="Admin Contact Information"
+        
+        onOk={handleOk}
+        onCancel={handleCancel}
+        open={isModalOpen}
+        centered
+      >
+        <Flex direction="column" gap="md">
+
+          <Flex direction="column" gap="none">
+            <Typography weight="bold">Email</Typography>
+            <Link to="mailto:coo@theboolean.tech">
+              <Typography>
+                coo@theboolean.tech
+              
+              </Typography>
+            </Link>
+
+            
+              
+          <Flex direction="column" gap="none">
+            <Typography weight="bold">Phone</Typography>
+            <Link to="tel:+2349094267360">
+              <Typography>
+              +2349094267360
+              </Typography>
+            </Link>
+          </Flex>
+          </Flex>
+        </Flex>
+      </Modal>
     </Form>
   );
 }
