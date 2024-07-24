@@ -4,6 +4,7 @@
 /* eslint-disable */
 export type UserSearch = {
   readonly id?: string;
+  readonly user_id?: string | null;
   first_name?: string;
   last_name?: string;
   /**

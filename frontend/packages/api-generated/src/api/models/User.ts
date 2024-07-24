@@ -26,6 +26,7 @@ export type User = {
    */
   is_active?: boolean;
   date_joined?: string;
+  readonly user_id?: string | null;
   phone_number?: string | null;
   date_of_birth?: string | null;
   description?: string | null;
