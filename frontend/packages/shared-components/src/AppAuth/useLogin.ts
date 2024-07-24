@@ -1,21 +1,22 @@
 import {
   AuthService,
-  TokenObtainPair,
+  DoctorTokenObtainPair,
+  PersonnelTokenObtainPair,
   TokenRefresh,
 } from '@local/api-generated';
 import { useMutation } from '@tanstack/react-query';
 import { tokenManager } from './tokenManager';
 
-export const useLogin = () => {
-  const login = useMutation({
-    mutationFn: (data: TokenObtainPair) => AuthService.authTokenCreate(data),
+export const useDoctorLogin = () => {
+  const doctorLogin = useMutation({
+    mutationFn: (data: DoctorTokenObtainPair) => AuthService.authTokenDoctorCreate(data),
   });
 
   const performLogin = (
     values: any,
     onSuccess: (data: TokenRefresh) => void
   ) => {
-    login.mutate(values, {
+    doctorLogin.mutate(values, {
       onSuccess: (data) => {
         const token = (data as unknown as TokenRefresh).access || '';
         tokenManager.setToken(token);
@@ -24,5 +25,27 @@ export const useLogin = () => {
     });
   };
 
-  return { ...login, performLogin };
+  return { ...doctorLogin, performLogin };
 };
+
+
+export const usePersonnelLogin = () => {
+  const personnelLogin = useMutation({
+    mutationFn: (data: PersonnelTokenObtainPair) => AuthService.authTokenPersonnelCreate(data),
+  });
+
+  const performLogin = (
+    values: any,
+    onSuccess: (data: TokenRefresh) => void
+  ) => {
+    personnelLogin.mutate(values, {
+      onSuccess: (data) => {
+        const token = (data as unknown as TokenRefresh).access || '';
+        tokenManager.setToken(token);
+        onSuccess(data as unknown as TokenRefresh);
+      },
+    });
+  };
+
+  return { ...personnelLogin, performLogin };
+}

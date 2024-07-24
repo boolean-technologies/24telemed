@@ -2,25 +2,38 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { TokenObtainPair } from '../models/TokenObtainPair';
+import type { DoctorTokenObtainPair } from '../models/DoctorTokenObtainPair';
+import type { PersonnelTokenObtainPair } from '../models/PersonnelTokenObtainPair';
 import type { TokenRefresh } from '../models/TokenRefresh';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 export class AuthService {
   /**
-   * Takes a set of user credentials and returns an access and refresh JSON web
-   * token pair to prove the authentication of those credentials.
    * @param data
-   * @returns TokenObtainPair
+   * @returns DoctorTokenObtainPair
    * @throws ApiError
    */
-  public static authTokenCreate(
-    data: TokenObtainPair
-  ): CancelablePromise<TokenObtainPair> {
+  public static authTokenDoctorCreate(
+    data: DoctorTokenObtainPair
+  ): CancelablePromise<DoctorTokenObtainPair> {
     return __request(OpenAPI, {
       method: 'POST',
-      url: '/auth/token/',
+      url: '/auth/token/doctor/',
+      body: data,
+    });
+  }
+  /**
+   * @param data
+   * @returns PersonnelTokenObtainPair
+   * @throws ApiError
+   */
+  public static authTokenPersonnelCreate(
+    data: PersonnelTokenObtainPair
+  ): CancelablePromise<PersonnelTokenObtainPair> {
+    return __request(OpenAPI, {
+      method: 'POST',
+      url: '/auth/token/personnel/',
       body: data,
     });
   }
