@@ -1,4 +1,4 @@
-import { Flex, Typography, useLogin } from '@local/shared-components';
+import { Flex, Typography, usePersonnelLogin } from '@local/shared-components';
 import { Form, Input, Button, Checkbox, Space } from 'antd-mobile';
 import { EyeInvisibleOutline, EyeOutline } from 'antd-mobile-icons';
 import styled from 'styled-components';
@@ -17,7 +17,7 @@ type FormFieldType = {
 };
 
 export function LoginPage() {
-  const login = useLogin();
+  const login = usePersonnelLogin();
   const [visible, setVisible] = useState(false);
   const navigate = useNavigate();
 

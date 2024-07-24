@@ -1,10 +1,8 @@
 import { Form, Input, Button, Checkbox, Alert, Modal } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserOutlined, LockOutlined,
-  FileMarkdownFilled,
-  PhoneFilled
  } from '@ant-design/icons';
-import { Flex, Typography, useLogin } from '@local/shared-components';
+import { Flex, Typography, useDoctorLogin } from '@local/shared-components';
 import { parseApiError } from '@local/api-generated';
 import { Path } from '../../constants';
 import { useState } from 'react';
@@ -17,7 +15,7 @@ type FormFieldType = {
 
 export function LoginForm() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const login = useLogin();
+  const login = useDoctorLogin();
   const navigate = useNavigate();
 
   const onFinish = (values: FormFieldType) => {
