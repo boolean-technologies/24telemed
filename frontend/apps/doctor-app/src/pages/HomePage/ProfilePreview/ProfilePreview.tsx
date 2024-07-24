@@ -5,8 +5,9 @@ import {
   MailOutlined,
   IdcardOutlined,
   FileProtectOutlined,
+  UserOutlined,
 } from '@ant-design/icons';
-import { UserAvatar } from '../../../components/PageLayout/UserAvatar';
+
 import { User } from '@local/api-generated';
 
 type ProfilePreviewProps = {
@@ -39,7 +40,7 @@ export function ProfilePreview({ user }: ProfilePreviewProps) {
   return (
     <StyledCard>
       <Flex direction="column" align="center">
-        <UserAvatar size="lg" />
+         <Avatar src={user?.photo} size={150} icon={<UserOutlined />} />
         <Flex direction="column" gap="none" align="center">
           <Typography weight="bold" align="center">
             {`${user?.first_name} ${user?.last_name}`}

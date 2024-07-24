@@ -52,7 +52,7 @@ export function LoginForm() {
         <Flex direction="column" gap="none">
           {errorMessage && (
             <Alert
-              message={errorMessage}
+              message={"Invalid username or password"}
               type="error"
               style={{ marginBottom: 16 }}
             />

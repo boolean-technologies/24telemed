@@ -44,7 +44,7 @@ export function LoginPage() {
         {errorMessage && (
           <Flex padding="sm" fullWidth>
             <Alert
-              message={errorMessage}
+              message={"Invalid username or password"}
               type="error"
               style={{ width: '100%' }}
             />
