@@ -19,7 +19,8 @@ from django.urls import path, re_path, include
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import routers, permissions
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework_simplejwt.views import TokenRefreshView
+from users.views import DoctorTokenObtainPairView, PersonnelTokenObtainPairView
 from baton.autodiscover import admin
 
 
@@ -54,8 +55,9 @@ This documentation is structured to provide a clear and user-friendly guide to o
 router = routers.DefaultRouter()
 
 urlpatterns = [
-    path('auth/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('auth/token/doctor/', DoctorTokenObtainPairView.as_view(), name='token_obtain_pair_doctor'),
+    path('auth/token/personnel/', PersonnelTokenObtainPairView.as_view(), name='token_obtain_pair_personnel'),
     path("admin/", admin.site.urls),
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     re_path(r'^$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
