@@ -1,4 +1,3 @@
-import os
 import requests
 from asgiref.sync import sync_to_async
 from typing import Literal, TypedDict, Optional, Union, Dict, Any
@@ -6,6 +5,8 @@ from .models import CallLog, CallStatus, CallPriority
 from .serializers import CallLogSerializer
 from uuid import UUID
 import json
+import os
+from django.conf import settings
 
 class CallLogDataType(TypedDict):
     id: str
@@ -107,8 +108,22 @@ class CallLogManager():
     async def setUpVideoSDKMeeting(self) -> bool:
         url = "https://api.videosdk.live/v2/rooms"
         token = os.getenv('VIDEO_SDK_TOKEN')
-        headers = {'Authorization' : token,'Content-Type' : 'application/json'}
-        request = requests.request("POST", url, json = { "customRoomId" : str(self.serializedData["id"]) }, headers = headers)
+        headers = {"Authorization" : token,"Content-Type" : "application/json"}
+        data = { 
+            "customRoomId" : str(self.serializedData["id"]),
+            "webhook": {
+                "endPoint": os.getenv('VIDEO_SDK_CALL_WEBHOOK'),
+                "events": [
+                    "session-started",
+                    "session-ended"
+                ]
+            },
+            "autoCloseConfig": {
+                "type": "session-end-and-deactivate",
+                "duration": int(os.getenv('VIDEO_SDK_CALL_DURATION_LIMIT', '15'))
+            }
+        }
+        request = requests.request("POST", url, json = data, headers = headers)
         response = json.loads(request.text)
         roomId = response.get("roomId", None)
         await sync_to_async(self.call_log.setMeetingId)(roomId)

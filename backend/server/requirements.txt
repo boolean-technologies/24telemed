@@ -57,3 +57,4 @@ pyotp==2.9.0
 sendgrid==6.11.0
 dj-database-url==1.2.0
 psycopg2-binary==2.9.5
+rsa==4.9

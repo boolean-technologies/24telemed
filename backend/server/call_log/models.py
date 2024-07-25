@@ -1,4 +1,5 @@
 import uuid
+from django.utils.dateparse import parse_datetime
 from django.db import models
 from users.models import User
 from patient.models import Patient
@@ -69,3 +70,23 @@ class CallLog(models.Model):
     def setMeetingId(self, meetingId):
         self.meeting_id = meetingId
         self.save()
+        
+    def sessionStarted(self, startTime):
+        if isinstance(startTime, str):
+            startTime = parse_datetime(startTime)
+        if startTime is not None:
+            self.start_time = startTime
+            self.status = "In Progress"
+            self.save()
+    
+    def sessionEnded(self, startTime, endTime):
+        if isinstance(startTime, str):
+            startTime = parse_datetime(startTime)
+        if isinstance(endTime, str):
+            endTime = parse_datetime(endTime)
+
+        if startTime is not None and endTime is not None:
+            self.start_time = startTime
+            self.end_time = endTime
+            self.status = "Completed"
+            self.save()
