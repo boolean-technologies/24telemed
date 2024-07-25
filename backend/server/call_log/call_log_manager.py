@@ -107,13 +107,13 @@ class CallLogManager():
     async def setUpVideoSDKMeeting(self) -> bool:
         url = "https://api.videosdk.live/v2/rooms"
         token = settings.VIDEO_SDK_TOKEN
-        headers = {'Authorization' : token,'Content-Type' : 'application/json'}
+        headers = {"Authorization" : token,"Content-Type" : "application/json"}
         data = { 
             "customRoomId" : str(self.serializedData["id"]),
             "webhook": settings.VIDEO_SDK_CALL_WEBHOOK,
             "autoCloseConfig": {
-                'type': 'session-end-and-deactivate',
-                'duration': settings.VIDEO_SDK_CALL_DURATION_LIMIT
+                "type": "session-end-and-deactivate",
+                "duration": settings.VIDEO_SDK_CALL_DURATION_LIMIT
             }
         }
         request = requests.request("POST", url, json = data, headers = headers)
