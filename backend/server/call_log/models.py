@@ -69,3 +69,14 @@ class CallLog(models.Model):
     def setMeetingId(self, meetingId):
         self.meeting_id = meetingId
         self.save()
+        
+    def sessionStarted(self, startTime):
+        self.start_time = startTime
+        self.status = "In Progress"
+        self.save()
+    
+    def sessionEnded(self, startTime, endTime):
+        self.start_time = startTime
+        self.end_time = endTime
+        self.status = "Completed"
+        self.save()

@@ -11,6 +11,14 @@ from .serializers import CallLogSerializer, FullCallLogSerializer
 from utils.permission import PersonnelPermission, DoctorPermission
 from .filters import CallLogFilter
 
+from rest_framework.views import APIView
+from rest_framework import status
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+import base64
+import rsa
+from django.conf import settings
+
 
 class CallLogViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = CallLog.objects.all()
@@ -67,3 +75,49 @@ class PersonnelCallLogViewSet(viewsets.ReadOnlyModelViewSet):
             return CallLog.objects.filter(health_care_assistant=user)
         else:
             return CallLog.objects.none()
+        
+        
+
+def verify_webhook(data, signature):
+    try:
+        # rsa.verify expects a bytes-like object for both data and signature
+        rsa.verify(data, signature, rsa.PublicKey.load_pkcs1(settings.VIDEO_SDK_PUBLIC_KEY.encode('utf-8')))
+        return True
+    except rsa.VerificationError:
+        return False
+
+
+class WebhookAPIView(APIView):
+    permission_classes = [] 
+    
+    @method_decorator(csrf_exempt)
+    def post(self, request, *args, **kwargs):
+        data = request.body
+        signature = request.headers.get('videosdk-signature')
+
+        if not signature:
+            return Response({'error': 'Missing signature'}, status=400)
+
+        try:
+            signature_bytes = base64.b64decode(signature)
+        except (TypeError, ValueError):
+            return Response({'error': 'Invalid signature format'}, status=400)
+
+        public_key = rsa.PublicKey.load_pkcs1(settings.PUBLIC_KEY.encode('utf-8'))
+        try:
+            rsa.verify(data, signature_bytes, public_key)
+        except rsa.VerificationError:
+            return Response({'error': 'Invalid signature'}, status=401)
+        
+        hookType = data.get("webhookType")
+        meetingData = data.get("data")
+        meetingId = meetingData.get("meetingId")
+        callLog = CallLog.objects.get(meeting_id=meetingId)
+        
+        if hookType == "session-started":
+            callLog.sessionStarted(meetingData.get("start"))
+        
+        if hookType == "session-ended":
+            callLog.sessionEnded(meetingData.get("start"), meetingData.get("end"))
+            
+        return Response({'status': 'success'}, status=200)
