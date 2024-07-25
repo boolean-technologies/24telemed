@@ -5,6 +5,7 @@ from .models import CallLog, CallStatus, CallPriority
 from .serializers import CallLogSerializer
 from uuid import UUID
 import json
+import os
 from django.conf import settings
 
 class CallLogDataType(TypedDict):
@@ -106,14 +107,20 @@ class CallLogManager():
     
     async def setUpVideoSDKMeeting(self) -> bool:
         url = "https://api.videosdk.live/v2/rooms"
-        token = settings.VIDEO_SDK_TOKEN
+        token = os.getenv('VIDEO_SDK_TOKEN')
         headers = {"Authorization" : token,"Content-Type" : "application/json"}
         data = { 
             "customRoomId" : str(self.serializedData["id"]),
-            "webhook": settings.VIDEO_SDK_CALL_WEBHOOK,
+            "webhook": {
+                "endPoint": os.getenv('VIDEO_SDK_CALL_WEBHOOK'),
+                "events": [
+                    "session-started",
+                    "session-ended"
+                ]
+            },
             "autoCloseConfig": {
                 "type": "session-end-and-deactivate",
-                "duration": settings.VIDEO_SDK_CALL_DURATION_LIMIT
+                "duration": int(os.getenv('VIDEO_SDK_CALL_DURATION_LIMIT', '15'))
             }
         }
         request = requests.request("POST", url, json = data, headers = headers)
