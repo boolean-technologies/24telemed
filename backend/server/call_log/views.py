@@ -104,7 +104,7 @@ class WebhookAPIView(APIView):
         data = request.data
         signature = request.headers.get('videosdk-signature')
 
-        verified = self.verify_webhook(json.loads(data), base64.b64decode(signature))
+        verified = self.verify_webhook(json.dumps(data), base64.b64decode(signature))
 
         if not verified:
             Response({'error': 'Invalid signature format'}, status=400)
