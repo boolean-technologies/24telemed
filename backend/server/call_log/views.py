@@ -17,6 +17,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 import base64
 import rsa
+import json
 from django.conf import settings
 
 
@@ -90,24 +91,23 @@ def verify_webhook(data, signature):
 class WebhookAPIView(APIView):
     permission_classes = [] 
     
+    
+    def verify_webhook(data, signature):
+        try:
+            rsa.verify(data, signature, rsa.PublicKey.load_pkcs1(settings.VIDEO_SDK_PUBLIC_KEY)) == 'SHA-256'
+            return True
+        except:
+            return False
+    
     @method_decorator(csrf_exempt)
     def post(self, request, *args, **kwargs):
-        data = request.body
+        data = request.data
         signature = request.headers.get('videosdk-signature')
 
-        if not signature:
-            return Response({'error': 'Missing signature'}, status=400)
+        verified = verify_webhook(json.loads(data), base64.b64decode(signature))
 
-        try:
-            signature_bytes = base64.b64decode(signature)
-        except (TypeError, ValueError):
-            return Response({'error': 'Invalid signature format'}, status=400)
-
-        public_key = rsa.PublicKey.load_pkcs1(settings.VIDEO_SDK_PUBLIC_KEY.encode('utf-8'))
-        try:
-            rsa.verify(data, signature_bytes, public_key)
-        except rsa.VerificationError:
-            return Response({'error': 'Invalid signature'}, status=401)
+        if not verified:
+            Response({'error': 'Invalid signature format'}, status=400)
         
         hookType = data.get("webhookType")
         meetingData = data.get("data")
