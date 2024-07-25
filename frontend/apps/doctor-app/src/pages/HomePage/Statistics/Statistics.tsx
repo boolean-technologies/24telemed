@@ -2,16 +2,15 @@ import { FrownOutlined, FieldTimeOutlined, CustomerServiceOutlined, HourglassOut
 import { Statistic } from 'antd';
 import { Flex, Card } from '@local/shared-components';
 import styled from 'styled-components';
-import { CallStats } from '@local/api-generated';
 import { useGetCallLogStats } from '../../../api/callLogs';
-
+import { formatMinutesToHoursMinutes } from '../../../utils/formatMinutesToHoursMinutes';
 
 
 export function Statistics() {
 
   const { data: stats } = useGetCallLogStats({
     page: 1,
-    size: 10
+    size: 1
   });
 
 
@@ -22,10 +21,8 @@ export function Statistics() {
         <StyledStatCard align="center" justify="center">
           <Statistic
             title="Total Call Time"
-            value={stats?.total_call_time || 0}
-            precision={2}
+            value={formatMinutesToHoursMinutes(stats?.total_call_time || 0)}
             prefix={<FieldTimeOutlined />}
-            suffix="hrs"
           />
         </StyledStatCard>
         <StyledStatCard align="center" justify="center">
