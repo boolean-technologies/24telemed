@@ -79,6 +79,8 @@ class PersonnelCallLogViewSet(viewsets.ReadOnlyModelViewSet):
         
         
 class WebhookAPIView(APIView):
+    permission_classes = []
+    
     @staticmethod
     def verify_webhook(data, signature):
         try:
