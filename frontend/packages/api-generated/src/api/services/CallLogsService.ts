@@ -56,6 +56,16 @@ export class CallLogsService {
     });
   }
   /**
+   * @returns any
+   * @throws ApiError
+   */
+  public static callLogsVideoSdkWebhookCreate(): CancelablePromise<any> {
+    return __request(OpenAPI, {
+      method: 'POST',
+      url: '/call-logs/video-sdk-webhook/',
+    });
+  }
+  /**
    * @param id A UUID string identifying this call log.
    * @returns CallLog
    * @throws ApiError

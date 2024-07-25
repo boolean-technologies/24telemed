@@ -27,7 +27,7 @@ export function ProfilePreview({ user }: ProfilePreviewProps) {
     {
       title: 'Doctor ID',
       // TODO: replace with actual doctor id
-      value: user?.id,
+      value: user?.user_id,
       icon: IdcardOutlined,
     },
     {

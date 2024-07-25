@@ -94,7 +94,7 @@ export function PageLayout() {
                     {user?.first_name} {user?.last_name}
                   </Typography>
                   <Typography variant="bodyXs" color="common.white" noWrap>
-                    ID: #09876543
+                    ID: {user?.user_id}
                   </Typography>
                 </Flex>
                 <LogoutButton />
