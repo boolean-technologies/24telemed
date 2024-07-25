@@ -103,7 +103,7 @@ class WebhookAPIView(APIView):
         except (TypeError, ValueError):
             return Response({'error': 'Invalid signature format'}, status=400)
 
-        public_key = rsa.PublicKey.load_pkcs1(settings.PUBLIC_KEY.encode('utf-8'))
+        public_key = rsa.PublicKey.load_pkcs1(settings.VIDEO_SDK_PUBLIC_KEY.encode('utf-8'))
         try:
             rsa.verify(data, signature_bytes, public_key)
         except rsa.VerificationError:
