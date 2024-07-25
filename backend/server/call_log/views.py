@@ -18,7 +18,7 @@ from django.views.decorators.csrf import csrf_exempt
 import base64
 import rsa
 import json
-from django.conf import settings
+import os
 
 
 class CallLogViewSet(viewsets.ReadOnlyModelViewSet):
@@ -84,7 +84,7 @@ class WebhookAPIView(APIView):
     @staticmethod
     def verify_webhook(data, signature):
         try:
-            public_key = rsa.PublicKey.load_pkcs1(settings.VIDEO_SDK_PUBLIC_KEY.encode('utf-8'))
+            public_key = rsa.PublicKey.load_pkcs1(os.getenv('VIDEO_SDK_PUBLIC_KEY').encode('utf-8'))
             rsa.verify(data.encode('utf-8'), signature, public_key)
             return True
         except rsa.VerificationError:
