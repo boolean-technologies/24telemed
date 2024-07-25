@@ -19,7 +19,9 @@ import base64
 import rsa
 import json
 import os
+import logging
 
+logger = logging.getLogger(__name__)
 
 class CallLogViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = CallLog.objects.all()
@@ -87,9 +89,11 @@ class WebhookAPIView(APIView):
             public_key = rsa.PublicKey.load_pkcs1(os.getenv('VIDEO_SDK_PUBLIC_KEY').encode('utf-8'))
             rsa.verify(data.encode('utf-8'), signature, public_key)
             return True
-        except rsa.VerificationError:
+        except rsa.VerificationError as e:
+            logger.error("Verification failed: %s", e)
             return False
-        except Exception:
+        except Exception as e:
+            logger.error("An error occurred during webhook verification: %s", e)
             return False
 
     @method_decorator(csrf_exempt)
