@@ -95,18 +95,18 @@ class WebhookAPIView(APIView):
         data = request.data
         signature = request.headers.get('videosdk-signature')
 
-        if not signature:
-            return Response({'error': 'Missing signature'}, status=status.HTTP_400_BAD_REQUEST)
+        # if not signature:
+        #     return Response({'error': 'Missing signature'}, status=status.HTTP_400_BAD_REQUEST)
 
-        try:
-            signature_bytes = base64.b64decode(signature)
-        except (TypeError, ValueError):
-            return Response({'error': 'Invalid signature format'}, status=status.HTTP_400_BAD_REQUEST)
+        # try:
+        #     signature_bytes = base64.b64decode(signature)
+        # except (TypeError, ValueError):
+        #     return Response({'error': 'Invalid signature format'}, status=status.HTTP_400_BAD_REQUEST)
 
-        verified = self.verify_webhook(json.dumps(data), signature_bytes)
+        # verified = self.verify_webhook(json.dumps(data), signature_bytes)
 
-        if not verified:
-            return Response({'error': 'Invalid signature'}, status=status.HTTP_401_UNAUTHORIZED)
+        # if not verified:
+        #     return Response({'error': 'Invalid signature'}, status=status.HTTP_401_UNAUTHORIZED)
 
         hook_type = data.get("webhookType")
         meeting_data = data.get("data")
