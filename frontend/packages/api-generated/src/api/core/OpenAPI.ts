@@ -20,7 +20,7 @@ export type OpenAPIConfig = {
 };
 
 export const OpenAPI: OpenAPIConfig = {
-  BASE: import.meta.env.VITE_API_BASE,
+  BASE: 'http://telemedbackend-cc0b49c871e2.herokuapp.com',
   VERSION: '1',
   WITH_CREDENTIALS: false,
   CREDENTIALS: 'include',
