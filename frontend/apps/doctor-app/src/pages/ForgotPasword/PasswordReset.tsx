@@ -50,7 +50,7 @@ export function PasswordReset() {
         {
           resetPassword.error && (
             <Alert
-              message={parseApiError(resetPassword.error)}
+              message={"Unable to reset password, please try again"}
               type="error"
               style={{ marginBottom: 16 }}
             />

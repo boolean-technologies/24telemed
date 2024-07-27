@@ -35,7 +35,7 @@ export function ForgotPasswordPage() {
           </Typography>
           {forgotPassword.error && (
             <Alert
-              message={parseApiError(forgotPassword.error)}
+              message={"Invalid email or username"}
               type="error"
               style={{ marginBottom: 16 }}
             />

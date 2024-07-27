@@ -12,7 +12,8 @@ type FormFieldType = {
   username: string;
   password: string;
 };
-
+const admin_email = import.meta.env. VITE_ADMIN_CONTACT_EMAIL;
+const admin_phone = import.meta.env. VITE_ADMIN_CONTACT_PHONE;
 export function LoginForm() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const login = useDoctorLogin();
@@ -114,9 +115,9 @@ export function LoginForm() {
 
           <Flex direction="column" gap="none">
             <Typography weight="bold">Email</Typography>
-            <Link to="mailto:coo@theboolean.tech">
+            <Link to={`mailto:${admin_email}`}>
               <Typography>
-                coo@theboolean.tech
+                {admin_email}
               
               </Typography>
             </Link>
@@ -125,9 +126,9 @@ export function LoginForm() {
               
           <Flex direction="column" gap="none">
             <Typography weight="bold">Phone</Typography>
-            <Link to="tel:+2349094267360">
+            <Link to={`tel:${admin_phone}`}>
               <Typography>
-              +2349094267360
+                {admin_phone}
               </Typography>
             </Link>
           </Flex>
