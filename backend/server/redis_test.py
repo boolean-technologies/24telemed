@@ -1,15 +1,13 @@
 import redis
+import os
 
-# Connect to Redis server
-r = redis.Redis(host='localhost', port=6379, db=0)
+redis_url = os.getenv('REDIS_URL', 'redis://localhost:6379')
 
-# # Set a key
-# r.set('test_key', 'test_value')
-
-# # Get value of the key
-# value = r.get('test_key')
-# print('Value of test_key:', value)
-
-# Check server info
-info = r.info()
-print('Server Info:', info)
+try:
+    r = redis.Redis.from_url(redis_url)
+    r.ping()  
+    print("Connected to Redis")
+    info = r.info()
+    print('Server Info:', info)
+except redis.RedisError as e:
+    print(f"Failed to connect to Redis: {e}")

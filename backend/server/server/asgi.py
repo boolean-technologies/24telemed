@@ -8,6 +8,7 @@ https://docs.djangoproject.com/en/5.0/howto/deployment/asgi/
 """
 
 import os
+import ast
 import django
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "server.settings")
@@ -33,10 +34,6 @@ application = ProtocolTypeRouter({
                 path("video_call/", CallLogWebSocketConsumer.as_asgi()),
             ])
         ),
-        [
-            'https://telemed-personnel-app.netlify.app',
-            'https://telemed-doctor-app.netlify.app', 
-            'localhost'
-        ]
+        ast.literal_eval(os.environ.get('ALLOWED_ORIGINS', '[]'))
     ),
 })
