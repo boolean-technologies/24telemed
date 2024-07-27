@@ -42,7 +42,7 @@ export const App = () => {
           left: 0,
           right: 0,
           height: 200,
-          backgroundColor: "#FFDD00",
+          backgroundColor: "#33ada3",
           zIndex: -1,
         }}
       />

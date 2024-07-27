@@ -8,7 +8,7 @@ export const SeeAllIcon = createSvgIcon(
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <rect x="0.5" width="36" height="36" rx="8" fill="#FFDD00" />
+    <rect x="0.5" width="36" height="36" rx="8" fill="#33ada3" />
     <g clipPath="url(#clip0_4859_23099)">
       <path
         fillRule="evenodd"

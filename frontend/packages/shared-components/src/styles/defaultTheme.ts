@@ -46,7 +46,7 @@ export const defaultTheme: Theme = {
       lighter: "#A0A4A5",
     },
     primary2: {
-      main: "#FFDD00",
+      main: "#33ada3",
       light: "#FFEC80",
       lighter: "#FFF4B0",
     },
