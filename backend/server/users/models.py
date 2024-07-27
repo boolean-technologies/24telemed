@@ -23,7 +23,7 @@ class User(AbstractUser):
         if not self.user_id:
             is_unique = False
             while not is_unique:
-                potential_id = ''.join(random.choices('0123456789', k=15))
+                potential_id = ''.join(random.choices('0123456789', k=8))
                 is_unique = not User.objects.filter(user_id=potential_id).exists()
             self.user_id = potential_id
         super().save(*args, **kwargs)
