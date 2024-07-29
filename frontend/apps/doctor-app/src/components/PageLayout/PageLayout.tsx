@@ -51,7 +51,7 @@ export function PageLayout() {
             <Logo size={collapsed ? 'sm' : 'lg'} />
             {!collapsed && (
               <Typography variant="h3" align="center" weight="bold">
-                Anambra State Doctor Connect System
+                24Telemed Doctor Connect System
               </Typography>
             )}
             <Menu
@@ -142,7 +142,7 @@ export function PageLayout() {
               </div>
               <Footer style={{ textAlign: 'center', width: '100%', marginTop: 16 }}>
                 <Typography align="center" variant="bodySm">
-                  <strong>Anambra State Doctor Connect</strong> ©
+                  <strong>24Telemed Doctor Connect</strong> ©
                   {new Date().getFullYear()} Created by The Boolean Tech
                 </Typography>
               </Footer>

@@ -47,7 +47,7 @@ export function PersonnelAuthLayout({ children, name, description }: Props) {
       </Flex>
       <Flex fullWidth padding="md" align="center" justify="center">
         <Typography variant="bodySm">
-          Anambra State Telemed @{new Date().getFullYear()}
+          24Telemed @{new Date().getFullYear()}
         </Typography>
       </Flex>
     </StyledRoot>
