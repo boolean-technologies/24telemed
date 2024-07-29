@@ -27,7 +27,7 @@ export function PatientFountItem({ patient }: PatientFountItemProps) {
               {patient.first_name} {patient.last_name}
             </Typography>
             <Typography color="primary1.light">
-              ID: {patient.phone_number}
+              ID: {patient.patient_id}
             </Typography>
             <Typography color="primary1.light">
               Gender: {patient.gender}
