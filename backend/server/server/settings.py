@@ -214,9 +214,9 @@ STATICFILES_DIRS = [
 ]
 
 BATON = {
-    "SITE_TITLE": "Anambra State TeleHealth Connect System",
-    "SITE_HEADER": "Anambra State TeleHealth Connect System",
-    "INDEX_TITLE": "Anambra State TeleHealth Connect System",
+    "SITE_TITLE": "24Telemed TeleHealth Connect System",
+    "SITE_HEADER": "24Telemed TeleHealth Connect System",
+    "INDEX_TITLE": "24Telemed TeleHealth Connect System",
     "POWERED_BY": '<a href="https://www.theboolean.tech">The Bolean Tech </a>',
     "COPYRIGHT" : "copyright © 2023 The Boolean Tech",
     "MENU_ALWAYS_COLLAPSED": True

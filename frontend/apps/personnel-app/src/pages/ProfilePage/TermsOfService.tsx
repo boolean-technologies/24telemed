@@ -9,7 +9,7 @@ const TermsOfService = () => {
       <Typography variant="bodySm">
         All content and materials available on the App, including but not
         limited to text, graphics, logos, images, and software, are the property
-        of Anambra State Telemedice or its licensors and are protected by
+        of 24Telemed Telemedicine or its licensors and are protected by
         copyright, trademark, and other intellectual property laws.
       </Typography>
     </Flex>
