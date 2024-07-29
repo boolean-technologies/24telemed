@@ -36,7 +36,7 @@ export function PageLayout() {
         trigger={null}
         collapsible
         collapsed={collapsed}
-        width={270}
+        width={300}
         style={{
           background: theme.palette.primary2.main,
           padding: theme.spacing.sm,
@@ -107,8 +107,8 @@ export function PageLayout() {
       <Layout
         style={{
           position: 'fixed',
-          width: `calc(100% - ${collapsed ? 80 : 270}px)`,
-          left: collapsed ? 80 : 270,
+          width: `calc(100% - ${collapsed ? 80 : 300}px)`,
+          left: collapsed ? 80 : 300,
           overflowY: 'scroll',
         }}
       >

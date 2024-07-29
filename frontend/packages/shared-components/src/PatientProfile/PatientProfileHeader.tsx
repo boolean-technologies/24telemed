@@ -85,7 +85,7 @@ export const PatientProfileHeader = ({
             xsDirection="column"
           >
             <Typography>
-              Patient ID: <strong>{patient.phone_number}</strong>
+              Patient ID: <strong>{patient.patient_id}</strong>
             </Typography>
           </Flex>
           <Flex

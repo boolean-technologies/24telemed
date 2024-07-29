@@ -1,0 +1,36 @@
+name: Sync Branches
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Ensure full history is checked out
+
+      - name: Set up Git
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+      - name: Sync changes to main-anambra
+        run: |
+          git checkout main-anambra
+          git merge main --no-edit
+          git push origin main-anambra
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      - name: Sync changes to main-24telemed
+        run: |
+          git checkout main-24telemed
+          git merge main --no-edit
+          git push origin main-24telemed
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
