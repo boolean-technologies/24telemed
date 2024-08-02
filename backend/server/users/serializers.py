@@ -36,8 +36,8 @@ class PersonnelTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
         data = super().validate(attrs)
 
-        if self.user.user_type != 'personnel':
-            raise serializers.ValidationError("Invalid credentials for personnel login.")
+        if self.user.user_type not in ['customer', 'personnel']:
+            raise serializers.ValidationError("Invalid credentials for login.")
 
         refresh = self.get_token(self.user)
 
