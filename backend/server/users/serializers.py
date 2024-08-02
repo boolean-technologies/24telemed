@@ -10,7 +10,7 @@ class UserSerializer(serializers.ModelSerializer):
         
     def get_patient_id(self, obj):
         try:
-            return str(obj.patient_profile.id) if (obj.patient_profile) else None
+            return str(obj.patient_profile.first().id) if (obj.patient_profile) else None
         except:
             return None
 
