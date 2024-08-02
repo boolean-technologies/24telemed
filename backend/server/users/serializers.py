@@ -3,9 +3,16 @@ from .models import User
 from  rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class UserSerializer(serializers.ModelSerializer):
+    patient_id = serializers.SerializerMethodField()
     class Meta:
         model = User
         fields = '__all__'
+        
+    def get_patient_id(self, obj):
+        try:
+            return str(obj.patient_profile.id) if (obj.patient_profile) else None
+        except:
+            return None
 
 
 class UserSearchSerializer(serializers.ModelSerializer):
