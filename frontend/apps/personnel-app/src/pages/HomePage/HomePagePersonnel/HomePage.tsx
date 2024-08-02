@@ -2,7 +2,7 @@ import { Flex, Typography, SearchIcon } from '@local/shared-components';
 import Header from '../Header';
 import { Form, Button, Input, InputRef } from 'antd';
 import { Popup, SpinLoading } from 'antd-mobile';
-import { useSearchPatients } from '../../api/patient';
+import { useSearchPatients } from '../../../api/patient';
 import PatientFound from './PatientFound';
 import { PatientNotFound } from './PatientNotFound';
 import { useRef } from 'react';
