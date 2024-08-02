@@ -27,6 +27,7 @@ export type Patient = {
   readonly created_at?: string;
   readonly updated_at?: string;
   parent?: string | null;
+  user?: string | null;
 };
 export namespace Patient {
   export enum gender {

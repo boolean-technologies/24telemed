@@ -17,6 +17,7 @@ import './style.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+OpenAPI.BASE = import.meta.env.VITE_API_BASE
 OpenAPI.TOKEN = tokenManager.getToken();
 
 const theme = createTheme();
@@ -45,6 +46,8 @@ function Main() {
         controlHeight: 45,
         colorBgBase: theme.palette.error,
         lineWidth: 0,
+        boxShadow: 'none',
+        primaryShadow: 'none',
       },
       Tabs: {
         titleFontSize: 16,

@@ -3,7 +3,7 @@ import { Flex, IonIcon, Typography, addAlpha } from '@local/shared-components';
 import { Image } from 'antd-mobile';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { Path } from '../../constants';
+import { Path } from '../../../constants';
 
 type PatientFountItemProps = {
   patient: PatientSearch;
