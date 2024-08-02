@@ -5,9 +5,9 @@ import {
 } from '@local/shared-components';
 import { Button, Divider } from 'antd';
 import styled from 'styled-components';
-import { CallHistoryBox } from '../../components/CallHistoryBox';
+import { CallHistoryBox } from '../../../components/CallHistoryBox';
 import { Link } from 'react-router-dom';
-import { Path } from '../../constants';
+import { Path } from '../../../constants';
 
 const RecentCalls = () => {
   return (

@@ -4,6 +4,7 @@
 /* eslint-disable */
 export type User = {
   readonly id?: string;
+  readonly patient_id?: string;
   password: string;
   last_login?: string | null;
   /**
@@ -47,5 +48,6 @@ export namespace User {
   export enum user_type {
     PERSONNEL = 'personnel',
     DOCTOR = 'doctor',
+    CUSTOMER = 'customer',
   }
 }

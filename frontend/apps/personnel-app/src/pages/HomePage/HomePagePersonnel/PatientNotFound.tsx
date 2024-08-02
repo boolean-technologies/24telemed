@@ -1,7 +1,7 @@
 import { Flex, IonIcon, Typography } from '@local/shared-components';
 import { Button } from 'antd-mobile';
 import { Link } from 'react-router-dom';
-import { Path } from '../../constants';
+import { Path } from '../../../constants';
 
 
 type PatientNotFoundProps = {
