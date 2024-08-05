@@ -12,5 +12,5 @@ export function Logo({ size = "lg" }: LogoProps) {
     xl: 150,
   }[size];
 
-  return <img src={LogoPng} width={width} height={width} alt="Logo" />;
+  return <img src={LogoPng} width={width} height="auto" alt="Logo" />;
 }
