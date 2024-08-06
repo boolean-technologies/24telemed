@@ -1,4 +1,4 @@
-name: CI/CD Docker Build and Push
+name: Anambra Telehealth CI/CD Build and Push
 
 on:
   push:

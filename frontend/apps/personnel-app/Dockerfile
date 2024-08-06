@@ -1,21 +1,21 @@
 # Use the official Node.js image from the Docker Hub
-FROM node:16
+FROM node:18
 
 # Set working directory
 WORKDIR /app
 
 # Install dependencies
-COPY ../../package*.json ./
-RUN npm install
+COPY ../../package.json ../../yarn.lock ./
+RUN yarn install
 
 # Copy project files
 COPY . .
 
 # Build the application
-RUN npm run build
+RUN yarn build:personnel
 
 # Expose the port
-EXPOSE 3000
+EXPOSE 3001
 
 # Command to run the application
-CMD ["npm", "start:personnel"]
+CMD ["yarn", "start:personnel"]

@@ -1,21 +1,26 @@
 # Use the official Node.js image from the Docker Hub
-FROM node:16
+FROM node:18
 
 # Set working directory
 WORKDIR /app
 
 # Install dependencies
-COPY ../../package*.json ./
-RUN npm install
+COPY ../../package.json ../../yarn.lock ./
+
+COPY ../../tsconfig.base.json .
+
+RUN yarn install
+
+
 
 # Copy project files
-COPY . .
+COPY ./apps/doctor-app .
 
 # Build the application
-RUN npm run build
+RUN yarn build:doctor
 
 # Expose the port
-EXPOSE 3000
+EXPOSE 4200
 
 # Command to run the application
-CMD ["npm", "start:doctor"]
+CMD ["yarn", "start:doctor"]
