@@ -26,22 +26,19 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: ./backend
-          dockerfile: ./devcontainer/Dockerfile
           push: true
-          tags: agbaprogrammer/anambra-telemed-backend:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/anambra-telemed-backend:latest
 
       - name: Build and push doctor app Docker image
         uses: docker/build-push-action@v4
         with:
           context: ./frontend/apps/doctor-app
-          dockerfile: ./devcontainer/Dockerfile
           push: true
-          tags: agbaprogrammer/anambra-doctor-app:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/anambra-doctor-app:latest
 
       - name: Build and push personnel app Docker image
         uses: docker/build-push-action@v4
         with:
           context: ./frontend/apps/personnel-app
-          dockerfile: ./devcontainer/Dockerfile
           push: true
-          tags: agbaprogrammer/anambra-personnel-app:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/anambra-personnel-app:latest

@@ -5,4 +5,4 @@ class PatientFilter(filters.FilterSet):
     phone_number = filters.CharFilter(lookup_expr='exact')
     class Meta:
         model = Patient
-        fields = ['phone_number']
+        fields = ['phone_number', 'patient_id']
