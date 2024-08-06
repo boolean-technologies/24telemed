@@ -24,14 +24,15 @@ class PatientViewSet(
         
     @swagger_auto_schema(
         method='get',
-        operation_description="Search patients by phone number",
+        operation_description="Search patients by phone number or patient id",
         responses={200: PatientSearchSerializer(many=True)}
     )
     @action(detail=False, methods=['get'], serializer_class=PatientSearchSerializer)
     def search(self, request):
         phone_number = request.query_params.get('phone_number')
-        if not phone_number:
-            return Response({"detail": "phone_number is required for searching"}, status=status.HTTP_400_BAD_REQUEST)
+        patient_id = request.query_params.get('patient_id')
+        if not phone_number and not patient_id:
+            return Response({"detail": "phone_number or patient ID is required for searching"}, status=status.HTTP_400_BAD_REQUEST)
         
         queryset = self.filter_queryset(self.get_queryset())
         serializer = PatientSearchSerializer(queryset, many=True)
