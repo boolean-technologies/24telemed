@@ -21,8 +21,9 @@ export class PatientsService {
     });
   }
   /**
-   * Search patients by phone number
+   * Search patients by phone number or patient id
    * @param phoneNumber phone_number
+   * @param patientId patient_id
    * @param page A page number within the paginated result set.
    * @param size Number of results to return per page.
    * @returns PatientSearch
@@ -30,6 +31,7 @@ export class PatientsService {
    */
   public static patientsSearch(
     phoneNumber?: string,
+    patientId?: string,
     page?: number,
     size?: number
   ): CancelablePromise<Array<PatientSearch>> {
@@ -38,6 +40,7 @@ export class PatientsService {
       url: '/patients/search/',
       query: {
         phone_number: phoneNumber,
+        patient_id: patientId,
         page: page,
         size: size,
       },
