@@ -5,7 +5,7 @@ FROM node:20 AS builder
 WORKDIR /app
 
 # Install dependencies
-COPY ../../package.json ../../nx.json ../../tsconfig.base.json ../../vite.config.ts ./
+COPY ../../package.json ../../nx.json ../../tsconfig.base.json ./
 
 COPY ../../packages ./packages
 
