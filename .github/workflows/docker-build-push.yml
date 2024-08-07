@@ -33,7 +33,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: frontend
-          file: frontend/apps/doctor-app/Dockerfile
+          file: apps/doctor-app/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/anambra-doctor-app:latest
 
@@ -41,6 +41,6 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: frontend
-          file: frontend/apps/personnel-app/Dockerfile
+          file: apps/personnel-app/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/anambra-personnel-app:latest
