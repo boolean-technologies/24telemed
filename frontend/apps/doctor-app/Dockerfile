@@ -7,6 +7,8 @@ WORKDIR /app
 # Install dependencies
 COPY ../../package.json ../../nx.json ../../tsconfig.base.json ./
 
+COPY ../../packages ./packages
+
 # Copy application source code
 COPY ../../apps/doctor-app ./apps/doctor-app
 

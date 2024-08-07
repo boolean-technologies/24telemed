@@ -7,6 +7,8 @@ WORKDIR /app
 # Install dependencies
 COPY ../../package.json ../../nx.json ../../tsconfig.base.json ./
 
+COPY ../../packages ./packages
+
 COPY apps/personnel-app ./apps/personnel-app
 
 # Install dependencies
