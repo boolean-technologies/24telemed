@@ -5,7 +5,7 @@ FROM node:20 AS builder
 WORKDIR /app
 
 # Install dependencies
-COPY ../../package.json ./
+COPY ../../package.json ../../yarn.lock ./
 RUN yarn install
 
 # Copy project files
