@@ -8,8 +8,9 @@ WORKDIR /app
 COPY ../../package.json ../../yarn.lock ./
 RUN yarn install
 
-# Copy project files
-COPY . .
+# Copy NX workspace files and application source code
+COPY ../../nx.json ./
+COPY apps/doctor-app ./apps/doctor-app
 
 # Build the application
 RUN yarn build:doctor

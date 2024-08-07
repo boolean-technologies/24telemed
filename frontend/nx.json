@@ -90,5 +90,46 @@
         "cacheableOperations": ["build-storybook"]
       }
     }
+  },
+  "projects": {
+    "doctor-app": {
+      "architect": {
+        "build": {
+          "builder": "@nrwl/web:build",
+          "options": {
+            "outputPath": "dist/apps/doctor-app",
+            "index": "apps/doctor-app/src/index.html",
+            "main": "apps/doctor-app/src/main.tsx",
+            "tsConfig": "apps/doctor-app/tsconfig.app.json",
+            "assets": [
+              "apps/doctor-app/src/assets"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "personnel-app": {
+    "architect": {
+      "build": {
+        "builder": "@nrwl/web:build",
+        "options": {
+          "outputPath": "dist/apps/personnel-app",
+          "index": "apps/personnel-app/src/index.html",
+          "main": "apps/personnel-app/src/main.ts",
+          "polyfills": "apps/personnel-app/src/polyfills.ts",
+          "tsConfig": "apps/personnel-app/tsconfig.app.json",
+          "assets": [
+            "apps/personnel-app/src/favicon.ico",
+            "apps/personnel-app/src/assets"
+          ],
+          "styles": [
+            "apps/personnel-app/src/styles.css"
+          ]
+        }
+      }
+    }
   }
+
 }
+
