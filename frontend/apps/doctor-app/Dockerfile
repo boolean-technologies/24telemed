@@ -12,7 +12,7 @@ COPY ../../package.json ../../yarn.lock ./
 COPY ../../nx.json ./
 
 # Copy application source code
-COPY ../../apps/personnel-app ./apps/doctor-app
+COPY ../../apps/doctor-app ./apps/doctor-app
 
 RUN yarn install
 
