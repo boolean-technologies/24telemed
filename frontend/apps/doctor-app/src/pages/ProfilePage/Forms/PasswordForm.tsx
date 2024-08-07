@@ -8,22 +8,39 @@ type FormField = {
   newPasswordConfirm: string;
 };
 
-export function PasswordForm() {
+interface Props {
+  onClose: () => void;
+}
+
+export function PasswordForm({ onClose }: Props) {
   const {
     mutate: changePassword,
     isError,
     isSuccess,
-    isPending
+    isPending,
   } = useChangePassword();
   const onFinish = (values: FormField) => {
-    changePassword({
-      current_password: values.oldPassword,
-      new_password: values.newPassword,
-    });
+    changePassword(
+      {
+        current_password: values.oldPassword,
+        new_password: values.newPassword,
+      },
+      {
+        onSuccess: () => {
+          setTimeout(() => {
+            onClose();
+          }, 1000);
+        },
+      }
+    );
   };
 
   return (
-    <FormWrapper<FormField> name="nameForm" onFinish={onFinish} isLoading={isPending}>
+    <FormWrapper<FormField>
+      name="nameForm"
+      onFinish={onFinish}
+      isLoading={isPending}
+    >
       {isError && (
         <Alert
           message="Error"
@@ -42,7 +59,7 @@ export function PasswordForm() {
           style={{ marginBottom: 16 }}
         />
       )}
-      
+
       <Form.Item
         name="oldPassword"
         label="Old Password"
@@ -57,7 +74,8 @@ export function PasswordForm() {
           { required: true, message: 'Please input your new password!' },
           { min: 8, message: 'Password must be at least 8 characters long!' },
           {
-            pattern: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+            pattern:
+              /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
             message:
               'Password must contain at least one letter, one number and one special character!',
           },

@@ -10,9 +10,10 @@ type Props = {
   userId: string;
   refetch: any;
   initialUserName: string;
+  onClose: () => void;
 };
 
-export function UserNameForm({ userId, refetch, initialUserName }: Props) {
+export function UserNameForm({ userId, refetch, initialUserName, onClose }: Props) {
   const { mutate, isPending, error, isError, isSuccess } = useUpdateUser();
 
   const onFinish = (values: FormField) => {
@@ -25,6 +26,9 @@ export function UserNameForm({ userId, refetch, initialUserName }: Props) {
       {
         onSuccess: () => {
           refetch();
+          setTimeout(() => {
+            onClose();
+          }, 1000);
         },
       }
     );

@@ -7,6 +7,12 @@ export function ContactDataPage() {
     control,
     formState: { errors },
   } = useFormContext();
+
+  const handleNumberInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const numberOnly = value.replace(/[^0-9]/g, '');
+    e.target.value = numberOnly;
+  }
   return (
     <>
       <Form.Item
@@ -20,7 +26,11 @@ export function ContactDataPage() {
           render={({ field: { onChange, onBlur, value } }) => (
             <Input
               placeholder="Enter phone number"
-              onChange={onChange}
+              onChange={(e) => {
+                handleNumberInput(e);
+                onChange(e);
+              }
+              }
               onBlur={onBlur}
               value={value}
             />

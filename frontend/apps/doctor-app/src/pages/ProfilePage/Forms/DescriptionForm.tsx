@@ -9,9 +9,10 @@ type Props = {
   userId: string;
   refetch: any;
   initialDescription: string;
+  onClose: () => void;
 };
 
-export function DescriptionForm( { userId, refetch, initialDescription, }: Props) {
+export function DescriptionForm( { userId, refetch, initialDescription, onClose }: Props) {
   const { mutate, isPending, error, isError, isSuccess } = useUpdateUser();
   const onFinish = (values: FormField) => {
     mutate(
@@ -22,6 +23,9 @@ export function DescriptionForm( { userId, refetch, initialDescription, }: Props
       {
         onSuccess: () => {
           refetch();
+          setTimeout(() => {
+            onClose();
+          }, 1000);
         },
       }
     );

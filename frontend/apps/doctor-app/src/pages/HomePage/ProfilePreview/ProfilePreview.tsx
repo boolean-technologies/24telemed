@@ -46,7 +46,10 @@ export function ProfilePreview({ user }: ProfilePreviewProps) {
             {`${user?.first_name} ${user?.last_name}`}
           </Typography>
           <Tag color={theme.palette.primary2.main}>
-            <Typography variant="bodySm">{user?.specialty}</Typography>
+            <Typography variant="bodySm">{
+              user?.description || user.specialty || 'No description'
+              
+              }</Typography>
           </Tag>
         </Flex>
         <List

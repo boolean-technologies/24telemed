@@ -11,6 +11,11 @@ export function BioDataPage() {
     control,
     formState: { errors },
   } = useFormContext<RegistrationFormField>();
+  const handleLetterInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const letterOnly = value.replace(/[^a-zA-Z\s]/g, '');
+    e.target.value = letterOnly;
+  };
 
   return (
     <>
@@ -25,7 +30,11 @@ export function BioDataPage() {
           render={({ field: { onChange, onBlur, value, ref } }) => (
             <Input
               placeholder="Enter firstname"
-              onChange={onChange}
+              onChange={(e) => {
+                handleLetterInput(e);
+                onChange(e);
+              }
+              }
               onBlur={onBlur}
               value={value}
             />
@@ -48,7 +57,14 @@ export function BioDataPage() {
           control={control}
           name="last_name"
           render={({ field }) => (
-            <Input {...field} placeholder="Enter lastname" />
+            <Input {...field} placeholder="Enter lastname"
+            onChange={(e) => {
+              handleLetterInput(e);
+              field.onChange(e);
+            }
+            }
+            
+             />
           )}
         />
         {errors.last_name && (
