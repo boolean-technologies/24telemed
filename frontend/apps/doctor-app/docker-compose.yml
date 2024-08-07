@@ -4,7 +4,7 @@ services:
   doctor-app:
     build:
       context: ../..
-      dockerfile: ./apps/doctor-app/Dockerfile
+      dockerfile: apps/doctor-app/Dockerfile
     ports:
       - "80:80"
     environment:
