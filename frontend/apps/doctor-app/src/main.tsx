@@ -13,6 +13,7 @@ import { OpenAPI, TOKEN_KEY } from '@local/api-generated';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './router';
 
+OpenAPI.BASE = import.meta.env.VITE_API_BASE
 OpenAPI.TOKEN = localStorage.getItem(TOKEN_KEY) || "";
 
 const theme = createTheme();
@@ -38,7 +39,8 @@ function Main() {
       },
       Button: {
         controlHeight: 45,
-        colorBgBase: "red"
+        colorBgBase: "red",
+        boxShadow: 'none'
       },
     },
   };

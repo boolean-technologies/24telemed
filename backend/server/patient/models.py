@@ -31,6 +31,7 @@ class Patient(models.Model):
     family_medical_history = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='patient_profile', blank=True, null=True)
     
     def save(self, *args, **kwargs):
         if not self.patient_id:

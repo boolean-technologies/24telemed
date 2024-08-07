@@ -4,7 +4,6 @@ import {
   createBrowserRouter,
 } from 'react-router-dom';
 import { PageLayout } from './components/PageLayout';
-import { HomePage } from './pages/HomePage';
 import { Path } from './constants';
 import { creatRoutes } from '@local/shared-components';
 import { MeetingPage } from './pages/MeetingPage';
@@ -12,10 +11,11 @@ import { CommsLayout } from './components/CommsLayout';
 import { LoginPage } from './pages/LoginPage';
 import { CallHistoryPage } from './pages/CallHistoryPage';
 import { ProfilePage } from './pages/ProfilePage';
-import { PatientRegistionPage } from './pages/PatientRegistionPage';
+import { AccountPatientProfileSetupPage, RegistrationPageLayout } from './pages/PatientRegistionPage';
 import { PatientProfilePage } from './pages/PatientProfilePage';
 import { EditPatientPage } from './pages/EditPatientInformation';
 import { ForgotPaswordPage } from './pages/ResetPasword';
+import { HomePage } from './pages/HomePage';
 
 
 
@@ -52,7 +52,11 @@ const routes: RouteObject[] = [
       },
       {
         path: Path.registerPatient,
-        element: <PatientRegistionPage />,
+        element: <RegistrationPageLayout title='New patient' />,
+      },
+      {
+        path: Path.setupAccount,
+        element: <AccountPatientProfileSetupPage />,
       },
       {
         path: Path.patient + '/:patientId' + '/edit',

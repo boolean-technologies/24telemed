@@ -6,8 +6,10 @@ import { Path } from '../../constants';
 import { IonIcon, Theme, useLogout } from '@local/shared-components';
 import { Layout } from 'antd';
 import { PageHeader } from './PageHeader';
+import { useCurrentUser } from '@local/api-generated';
 
 export function PageLayout() {
+  const { data: user } = useCurrentUser();
   const navigate = useNavigate();
   const location = useLocation();
   const { pathname } = location;
@@ -16,25 +18,31 @@ export function PageLayout() {
   const theme = useTheme() as Theme;
 
   const tabs = [
-    {
-      path: Path.home,
-      title: 'Search',
-      iconName: "search",
-    },
+    user?.user_type === 'personnel'
+      ? {
+          path: Path.home,
+          title: 'Search',
+          iconName: 'search',
+        }
+      : {
+          path: Path.home,
+          title: 'Home',
+          iconName: 'home',
+        },
     {
       path: Path.history,
       title: 'History',
-      iconName: "call",
+      iconName: 'call',
     },
     {
       path: Path.profile,
       title: 'Profile',
-      iconName: "person",
+      iconName: 'person',
     },
     {
       path: Path.logout,
       title: 'Logout',
-      iconName: "log-out",
+      iconName: 'log-out',
     },
   ];
 
@@ -54,7 +62,7 @@ export function PageLayout() {
 
   return (
     <StyledRoot>
-      {showHeader ? <PageHeader title={currentTab?.title || ""} /> : null}
+      {showHeader ? <PageHeader title={currentTab?.title || ''} /> : null}
       <StyledContainer style={{ top: showHeader ? 60 : 0 }}>
         <Outlet />
       </StyledContainer>
@@ -84,7 +92,7 @@ export function PageLayout() {
                   fontSize: 16,
                 }}
               />
-            )
+            );
           })}
         </TabBar>
       </StyledBottom>
