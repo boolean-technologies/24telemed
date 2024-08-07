@@ -3,8 +3,8 @@ version: '3.8'
 services:
   doctor-app:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ../..
+      dockerfile: ./apps/doctor-app/Dockerfile
     ports:
       - "80:80"
     environment:
