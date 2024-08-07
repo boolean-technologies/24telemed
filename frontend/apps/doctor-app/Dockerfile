@@ -10,7 +10,7 @@ RUN yarn install
 
 # Copy NX workspace files and application source code
 COPY ../../nx.json ./
-COPY apps/doctor-app ./apps/doctor-app
+COPY . .
 
 # Build the application
 RUN yarn build:doctor
