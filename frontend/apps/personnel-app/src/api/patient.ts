@@ -1,11 +1,14 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 
 import { PatientsService, Patient } from '@local/api-generated';
-
+type SearchQueries = {
+  phoneNumber?: string;
+  patientId?: string;
+};
 export const useSearchPatients = () =>
   useMutation({
-    mutationFn: (searchQuery: string) =>
-      PatientsService.patientsSearch(searchQuery),
+    mutationFn: (searchQuery: SearchQueries) =>
+      PatientsService.patientsSearch(searchQuery.phoneNumber, searchQuery.patientId),
   });
 
   export const useGetPatient = (id?: string) =>

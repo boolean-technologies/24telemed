@@ -1,7 +1,7 @@
 import { Flex, Typography, SearchIcon } from '@local/shared-components';
 import Header from '../Header';
 import { Form, Button, Input, InputRef } from 'antd';
-import { Popup, SpinLoading } from 'antd-mobile';
+import { Divider, Popup, SpinLoading } from 'antd-mobile';
 import { useSearchPatients } from '../../../api/patient';
 import PatientFound from './PatientFound';
 import { PatientNotFound } from './PatientNotFound';
@@ -12,10 +12,17 @@ type FieldType = {
   phoneNumber: string;
 };
 
+type PatientIDFieldType = {
+  patientId: string;
+};
+
 export function HomePagePersonnel() {
   const searchPatient = useSearchPatients();
   const onFinish = (values: FieldType) => {
-    searchPatient.mutate(values.phoneNumber);
+    searchPatient.mutate({ phoneNumber: values.phoneNumber });
+  };
+  const onFinishPatientId = (values: PatientIDFieldType) => {
+    searchPatient.mutate({ patientId: values.patientId });
   };
 
   const searchInput = useRef<InputRef>(null);
@@ -48,36 +55,80 @@ export function HomePagePersonnel() {
             }}
           >
             <Flex fullWidth gap="xs">
-            <Flex flex={1}>
-            <Form.Item<FieldType>
-              name="phoneNumber"
-              rules={[
-                { required: true, message: 'Please input the phone number!' },
-                {
-                  pattern: new RegExp('^[0-9]*$'),
-                  message: 'Please input valid phone number!',
-                },
-                {
-                  max: 11,
-                  message: 'Phone number should be 11 digits',
-                },
-              ]}
-              style={{ width: '100%' }}
-            >
-              <Input
-                placeholder="Enter patient's phone number"
-                ref={searchInput}
-              />
-            </Form.Item>
+              <Flex flex={1}>
+                <Form.Item<FieldType>
+                  name="phoneNumber"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please input the phone number!',
+                    },
+                    {
+                      pattern: new RegExp('^[0-9]*$'),
+                      message: 'Please input valid phone number!',
+                    },
+                    {
+                      max: 11,
+                      message: 'Phone number should be 11 digits',
+                    },
+                  ]}
+                  style={{ width: '100%' }}
+                >
+                  <Input
+                    placeholder="Enter patient's phone number"
+                    ref={searchInput}
+                  />
+                </Form.Item>
+              </Flex>
+              <Form.Item>
+                <Button
+                  type="primary"
+                  loading={searchPatient.isPending}
+                  htmlType="submit"
+                  icon={<SearchIcon />}
+                />
+              </Form.Item>
             </Flex>
-            <Form.Item>
-              <Button
-                type="primary"
-                loading={searchPatient.isPending}
-                htmlType="submit"
-                icon={<SearchIcon />}
-              />
-            </Form.Item>
+          </Form>
+
+
+
+          <Form
+            layout="horizontal"
+            name="basic"
+            initialValues={{ remember: true }}
+            onFinish={onFinishPatientId}
+            style={{
+              maxWidth: '100%',
+              width: '100%',
+              display: 'flex',
+              flexDirection: 'row',
+            }}
+          >
+            <Flex fullWidth gap="xs">
+              <Flex flex={1}>
+                <Form.Item<PatientIDFieldType>
+                  name="patientId"
+                  rules={[
+                    { required: true, message: 'Please input the patient ID!' },
+                    {
+                      pattern: new RegExp('^[0-9]*$'),
+                      message: 'Please input valid patient ID!',
+                    },
+                  ]}
+                  style={{ width: '100%' }}
+                >
+                  <Input placeholder="Enter patient's ID" ref={searchInput} />
+                </Form.Item>
+              </Flex>
+              <Form.Item>
+                <Button
+                  type="primary"
+                  loading={searchPatient.isPending}
+                  htmlType="submit"
+                  icon={<SearchIcon />}
+                />
+              </Form.Item>
             </Flex>
           </Form>
           <Popup
@@ -101,9 +152,13 @@ export function HomePagePersonnel() {
               />
             ) : searchPatient.data?.length ? (
               <PatientFound data={searchPatient.data || []} />
-            ) :  searchPatient.data?.length === 0 ?(
+            ) : searchPatient.data?.length === 0 ? (
               <PatientNotFound
-                phoneNumber={searchPatient.variables!}
+                phoneNumber={
+                  searchPatient.variables?.phoneNumber ||
+                  searchPatient.variables?.patientId ||
+                  ''
+                }
                 onSearchAnother={handleSearchAnother}
               />
             ) : null}
