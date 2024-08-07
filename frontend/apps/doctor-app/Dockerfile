@@ -14,6 +14,8 @@ COPY ../../apps/doctor-app ./apps/doctor-app
 
 RUN yarn install
 
+RUN yarn nx reset
+
 # Build the application
 RUN yarn build:doctor
 
