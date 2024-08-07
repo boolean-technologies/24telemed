@@ -14,6 +14,8 @@ COPY apps/personnel-app ./apps/personnel-app
 # Install dependencies
 RUN yarn install
 
+RUN yarn nx reset
+
 # Build the application
 RUN yarn build personnel-app
 
