@@ -32,13 +32,15 @@ jobs:
       - name: Build and push doctor app Docker image
         uses: docker/build-push-action@v4
         with:
-          context: ./frontend/apps/doctor-app
+          context: frontend
+          file: frontend/apps/doctor-app/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/anambra-doctor-app:latest
 
       - name: Build and push personnel app Docker image
         uses: docker/build-push-action@v4
         with:
-          context: ./frontend/apps/personnel-app
+          context: frontend
+          file: frontend/apps/personnel-app/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/anambra-personnel-app:latest
