@@ -14,6 +14,8 @@ COPY apps/personnel-app ./apps/personnel-app
 # Install dependencies
 RUN yarn install
 
+RUN rm -rf ./packages/shared-components/ .storybook
+
 # Build the application
 RUN yarn build personnel-app
 
