@@ -14,8 +14,12 @@ COPY ../../apps/doctor-app ./apps/doctor-app
 
 RUN yarn install
 
+RUN rm -rf ./packages/shared-components/ .storybook
+
 # Build the application
 RUN yarn build:doctor
+
+
 
 # Second stage: Serve the application using Nginx
 FROM nginx:alpine
