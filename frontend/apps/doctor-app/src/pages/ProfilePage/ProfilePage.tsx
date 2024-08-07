@@ -115,6 +115,7 @@ export function ProfilePage() {
             initialLastName={user?.last_name || ''}
             userId={user?.id || ''}
             refetch={refetch}
+            onClose={() => setDrawerForm(undefined)}
           />
         )}
         {drawerForm === 'username' && (
@@ -122,6 +123,7 @@ export function ProfilePage() {
             userId={user?.id || ''}
             refetch={refetch}
             initialUserName={user?.username || ''}
+            onClose={() => setDrawerForm(undefined)}
           />
         )}
         {drawerForm === 'email' && <EmailForm />}
@@ -130,14 +132,19 @@ export function ProfilePage() {
             userId={user?.id || ''}
             refetch={refetch}
             initialLocation={user?.location || ''}
+            onClose={() => setDrawerForm(undefined)}
+            
           />
         )}
-        {drawerForm === 'password' && <PasswordForm />}
+        {drawerForm === 'password' && <PasswordForm
+        onClose={() => setDrawerForm(undefined)}
+         />}
         {drawerForm === 'description' && (
           <DescriptionForm
             userId={user?.id || ''}
             refetch={refetch}
             initialDescription= {user?.description || ''}
+            onClose={() => setDrawerForm(undefined)}
           />
         )}
       </Drawer>

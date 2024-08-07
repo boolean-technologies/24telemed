@@ -94,7 +94,11 @@ export const PatientProfileHeader = ({
             xsDirection="column"
           >
             <Typography>
-              Last visit date: <strong>2 days ago</strong>
+              Last visit date: <strong>{
+                patient.last_seen
+                  ? new Date(patient.last_seen).toLocaleDateString()
+                  : 'N/A'
+                }</strong>
             </Typography>
           </Flex>
         </Flex>

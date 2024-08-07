@@ -1,6 +1,7 @@
 import { Alert, Form, Input } from 'antd';
 import { FormWrapper } from '../../../components/FormWrapper';
 import { useUpdateUser } from '@local/api-generated';
+import { on } from 'events';
 
 type FormField = {
   location: string;
@@ -10,12 +11,14 @@ type Props = {
   userId: string;
   refetch: any;
   initialLocation: string;
+  onClose: () => void;
 };
 
 export function LocationForm({
   userId,
   refetch,
   initialLocation,
+  onClose,
 }: Props) {
   const { mutate, isPending, error, isError, isSuccess } = useUpdateUser();
   const onFinish = (values: FormField) => {
@@ -27,6 +30,10 @@ export function LocationForm({
       {
         onSuccess: () => {
           refetch();
+          setTimeout(() => {
+            onClose();
+          }
+          , 1000);
         },
       }
     );

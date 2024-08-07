@@ -12,14 +12,16 @@ type Props = {
   refetch: any;
   initialFirstName: string;
   initialLastName: string;
+  onClose: () => void;
 };
 export function NameForm({
   userId,
   refetch,
   initialFirstName,
   initialLastName,
+  onClose,
 }: Props) {
-  const { mutate, isPending, error, isError, isSuccess, } = useUpdateUser();
+  const { mutate, isPending, error, isError, isSuccess } = useUpdateUser();
   const onFinish = (values: FormField) => {
     mutate(
       {
@@ -29,6 +31,9 @@ export function NameForm({
       {
         onSuccess: () => {
           refetch();
+          setTimeout(() => {
+            onClose();
+          }, 1000);
         },
       }
     );
