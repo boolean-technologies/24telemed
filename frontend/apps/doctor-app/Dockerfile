@@ -5,11 +5,7 @@ FROM node:20 AS builder
 WORKDIR /app
 
 # Install dependencies
-COPY ../../package.json ../../yarn.lock ./
-
-
-# Copy NX workspace files and application source code
-COPY ../../nx.json ./
+COPY ../../package.json ../../nx.json ../../tsconfig.base.json ./
 
 # Copy application source code
 COPY ../../apps/doctor-app ./apps/doctor-app

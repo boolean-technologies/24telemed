@@ -4,15 +4,13 @@ FROM node:20 AS builder
 # Set working directory
 WORKDIR /app
 
-# Copy package.json and yarn.lock from the root directory of the build context
-COPY ../../package.json ../../yarn.lock ./
+# Install dependencies
+COPY ../../package.json ../../nx.json ../../tsconfig.base.json ./
+
+COPY apps/personnel-app ./apps/personnel-app
 
 # Install dependencies
 RUN yarn install
-
-# Copy NX workspace files and application source code
-COPY ../../nx.json ./
-COPY apps/personnel-app ./apps/personnel-app
 
 # Build the application
 RUN yarn build personnel-app
