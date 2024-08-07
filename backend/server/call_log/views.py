@@ -56,7 +56,7 @@ class DoctorCallLogViewSet(viewsets.ReadOnlyModelViewSet):
 
         total_call_time = filtered_calls.aggregate(total_call_time=Sum('duration'))['total_call_time']
         total_completed = filtered_calls.filter(status=CallStatus.COMPLETED).count()
-        total_busy = filtered_calls.filter(status=CallStatus.BUSY).count()
+        total_busy = filtered_calls.filter(status=CallStatus.DECLINED).count()
         total_failed = filtered_calls.filter(status=CallStatus.FAILED).count()
 
         return Response({
