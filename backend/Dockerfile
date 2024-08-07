@@ -15,5 +15,8 @@ RUN pip install -r requirements.txt
 # Copy project
 COPY server/ .
 
-# Command to run the application
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Expose the port the app runs on
+EXPOSE 8000
+
+# Define the command to run the app
+CMD ["uvicorn", "server.server.asgi:application", "--host", "0.0.0.0", "--port", "8000"]

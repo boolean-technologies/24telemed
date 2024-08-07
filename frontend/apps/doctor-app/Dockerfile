@@ -1,26 +1,27 @@
 # Use the official Node.js image from the Docker Hub
-FROM node:18
+FROM node:20 AS builder
 
 # Set working directory
 WORKDIR /app
 
 # Install dependencies
-COPY ../../package.json ../../yarn.lock ./
-
-COPY ../../tsconfig.base.json .
-
+COPY ../../package.json ./
 RUN yarn install
 
-
-
 # Copy project files
-COPY ./apps/doctor-app .
+COPY . .
 
 # Build the application
 RUN yarn build:doctor
 
-# Expose the port
-EXPOSE 4200
+# Second stage: Serve the application using Nginx
+FROM nginx:alpine
 
-# Command to run the application
-CMD ["yarn", "start:doctor"]
+# Copy the build output from the builder stage
+COPY --from=builder /app/dist/apps/doctor-app /usr/share/nginx/html
+
+# Expose the port the app runs on
+EXPOSE 80
+
+# Define the command to run the app
+CMD ["nginx", "-g", "daemon off;"]
