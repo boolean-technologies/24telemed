@@ -5,7 +5,7 @@ FROM node:20 AS builder
 WORKDIR /app
 
 # Install dependencies
-COPY ../../package.json ../../nx.json ../../tsconfig.base.json ./
+COPY ../../package.json ../../nx.json ../../tsconfig.base.json ../../vite.config.ts ./
 
 COPY ../../packages ./packages
 
@@ -13,8 +13,6 @@ COPY ../../packages ./packages
 COPY ../../apps/doctor-app ./apps/doctor-app
 
 RUN yarn install
-
-RUN rm -rf ./packages/shared-components/ .storybook
 
 # Build the application
 RUN yarn build:doctor
