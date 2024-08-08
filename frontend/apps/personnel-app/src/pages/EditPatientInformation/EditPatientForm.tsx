@@ -19,7 +19,13 @@ export const EditPatientForm = () => {
       <Form.Item
         label="First Name"
         name="first_name"
-        rules={[{ required: true }]}
+        rules={[
+          { required: true },
+          {
+            pattern: /^[a-zA-Z\s]*$/,
+            message: 'Only letters and spaces are allowed',
+          },
+        ]}
         initialValue={patient?.first_name}
       >
         <Input placeholder="First Name" size="large" />
@@ -28,7 +34,13 @@ export const EditPatientForm = () => {
       <Form.Item
         label="Last Name"
         name="last_name"
-        rules={[{ required: true }]}
+        rules={[
+          { required: true },
+          {
+            pattern: /^[a-zA-Z\s]*$/,
+            message: 'Only letters and spaces are allowed',
+          },
+        ]}
         initialValue={patient?.last_name}
       >
         <Input placeholder="Last Name" size="large" />
