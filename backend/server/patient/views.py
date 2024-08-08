@@ -32,8 +32,7 @@ class PatientViewSet(
         phone_number = request.query_params.get('phone_number')
         patient_id = request.query_params.get('patient_id')
         if not phone_number and not patient_id:
-            return Response({"detail": "Phone number or Patient ID is required for searching"}, status=status.HTTP_400_BAD_REQUEST)
-        
+            return Response({"detail": "phone_number or patient ID is required for searching"}, status=status.HTTP_400_BAD_REQUEST)
         queryset = self.filter_queryset(self.get_queryset())
         serializer = PatientSearchSerializer(queryset, many=True)
         return Response(serializer.data)

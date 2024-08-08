@@ -3,9 +3,16 @@ from .models import User
 from  rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class UserSerializer(serializers.ModelSerializer):
+    patient_id = serializers.SerializerMethodField()
     class Meta:
         model = User
         fields = '__all__'
+        
+    def get_patient_id(self, obj):
+        try:
+            return str(obj.patient_profile.first().id) if (obj.patient_profile) else None
+        except:
+            return None
 
 
 class UserSearchSerializer(serializers.ModelSerializer):
@@ -36,8 +43,8 @@ class PersonnelTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
         data = super().validate(attrs)
 
-        if self.user.user_type != 'personnel':
-            raise serializers.ValidationError("Invalid credentials for personnel login.")
+        if self.user.user_type not in ['customer', 'personnel']:
+            raise serializers.ValidationError("Invalid credentials for login.")
 
         refresh = self.get_token(self.user)
 

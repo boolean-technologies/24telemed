@@ -2,14 +2,16 @@ import { Result } from 'antd';
 import { Flex } from '../Flex';
 import { Typography } from '../Typography';
 import { IonIcon } from '../IonIcon';
+import { ReactNode } from 'react';
 
 type MessageResultProps = {
   title: string;
-  subTitle?: string;
+  subTitle?: ReactNode;
   icon: string;
+  extra?: ReactNode;
 };
 
-export function MessageResult({ title, subTitle, icon }: MessageResultProps) {
+export function MessageResult({ title, subTitle, icon, extra }: MessageResultProps) {
   return (
     <Flex fullHeight fullWidth justify="center" align="center">
       <Result
@@ -31,6 +33,7 @@ export function MessageResult({ title, subTitle, icon }: MessageResultProps) {
             </Typography>
           ) : undefined
         }
+        extra={extra}
       />
     </Flex>
   );
