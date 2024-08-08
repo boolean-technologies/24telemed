@@ -55,12 +55,16 @@ const StyledRoot = styled.div`
 
 const StyledTextArea = styled(Input.TextArea)`
   background: transparent;
-  border: none;
+  border: 1px solid ${({ theme }) => theme.palette.primary1.main};
   color: ${({ theme }) => theme.palette.common.white};
+  padding: 8px 12px;
+  border-radius: 4px;
   :focus,
   :hover {
     background-color: transparent;
+    border-color: ${({ theme }) => theme.palette.primary1.lighter};
   }
+
   ::placeholder {
     color: ${({ theme }) => theme.palette.primary1.lighter};
   }
