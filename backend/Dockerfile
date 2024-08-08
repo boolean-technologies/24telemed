@@ -19,4 +19,4 @@ COPY server/ .
 EXPOSE 8000
 
 # Define the command to run the app
-CMD ["daphne", "-b", "0.0.0.0", "-p", "8000", "server.server.asgi:application"]
+CMD ["daphne", "-b", "0.0.0.0", "-p", "8000", "server.asgi:application"]
