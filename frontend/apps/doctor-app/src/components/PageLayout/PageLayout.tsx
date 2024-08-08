@@ -173,6 +173,6 @@ const StyledContainer = styled(Flex)`
 const StyledInnerContainer = styled(Flex)`
   width: 100%;
   height: calc(100vh - 64px);
-  overflow-y: scroll;
+  
   margin: auto;
 `;
