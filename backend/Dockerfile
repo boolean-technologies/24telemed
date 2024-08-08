@@ -15,8 +15,11 @@ RUN pip install -r requirements.txt
 # Copy project
 COPY server/ .
 
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 # Expose the port the app runs on
 EXPOSE 8000
 
 # Define the command to run the app
-CMD ["daphne", "-b", "0.0.0.0", "-p", "8000", "server.asgi:application"]
+ENTRYPOINT [ "/entrypoint.sh" ]

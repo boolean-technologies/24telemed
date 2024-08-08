@@ -221,7 +221,7 @@ BATON = {
     "COPYRIGHT" : "copyright © 2023 The Boolean Tech",
     "MENU_ALWAYS_COLLAPSED": True
 }
-EMAIL_BACKEND = 'sendgrid_backend.SendgridBackend'
+# EMAIL_BACKEND = 'sendgrid_backend.SendgridBackend'
 EMAIL_FROM = os.getenv('EMAIL_FROM')
 SENDGRID_API_KEY=os.getenv('SENDGRID_API_KEY')
 SENDGRID_TEMPLATE_ID_PASSWORD_RESET_OTP=os.getenv('SENDGRID_TEMPLATE_ID_PASSWORD_RESET_OTP')
