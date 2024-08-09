@@ -47,7 +47,7 @@ export function ProfilePreview({ user }: ProfilePreviewProps) {
           </Typography>
           <Tag color={theme.palette.primary2.main}>
             <Typography variant="bodySm">{
-              user?.description || user.specialty || 'No description'
+              user.specialty || 'N/A'
               
               }</Typography>
           </Tag>
