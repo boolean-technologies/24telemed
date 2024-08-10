@@ -1,31 +1,10 @@
-FROM node:20 AS builder
-
-WORKDIR /app
-
-COPY package*.json ./
-
-RUN npm install
-
-COPY . .
-
-ARG VITE_VIDEO_SDK_TOKEN
-ARG VITE_API_BASE
-ARG VITE_WEBSOCKET_BASE
-
-ENV VITE_VIDEO_SDK_TOKEN=$VITE_VIDEO_SDK_TOKEN
-ENV VITE_API_BASE=$VITE_API_BASE
-ENV VITE_WEBSOCKET_BASE=$VITE_WEBSOCKET_BASE
-
-RUN npx nx build personnel-app --prod
-
 FROM nginx:alpine
 
-RUN rm -rf /usr/share/nginx/html/*
+# Copy the built React app from the dist directory
+COPY frontend/dist/apps/personnel-app /usr/share/nginx/html
 
-COPY --from=builder /app/dist/apps/personnel-app /usr/share/nginx/html
-
-COPY frontend/apps/personnel-app/nginx.conf /etc/nginx/nginx.conf
-
+# Expose port 80
 EXPOSE 80
 
+# Start Nginx server
 CMD ["nginx", "-g", "daemon off;"]
