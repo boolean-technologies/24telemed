@@ -1,7 +1,7 @@
 FROM nginx:alpine
 
 # Copy the built React app from the dist directory
-COPY frontend/dist/apps/doctor-app /usr/share/nginx/html
+COPY dist/apps/doctor-app /usr/share/nginx/html
 
 # Expose port 80
 EXPOSE 80
