@@ -24,7 +24,7 @@ RUN rm -rf /usr/share/nginx/html/*
 
 COPY --from=builder /app/dist/apps/personnel-app /usr/share/nginx/html
 
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY frontend/apps/personnel-app/nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 80
 
