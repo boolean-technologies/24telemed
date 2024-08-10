@@ -3,7 +3,6 @@ import { SendOutlined } from '@ant-design/icons';
 import { Flex } from '@local/shared-components';
 import { usePubSub } from '@videosdk.live/react-sdk';
 import styled from 'styled-components';
-import { useRef } from 'react';
 
 type FormType = {
   message: string;

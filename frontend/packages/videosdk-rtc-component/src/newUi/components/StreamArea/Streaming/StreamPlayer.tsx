@@ -2,7 +2,7 @@ import { Flex, IonIcon, Typography } from '@local/shared-components';
 import { Avatar, Button } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { ReactNode } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { useParticipant } from '@videosdk.live/react-sdk';
 import { useAudioStreamTrack } from './useAudioStreamTrack';
 

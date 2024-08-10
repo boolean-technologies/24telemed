@@ -31,15 +31,15 @@ export function VideoCall({
   const theme = useTheme() as Theme;
 
   useEffect(() => {
-    const metaTag = document.createElement("meta");
-    metaTag.name = "theme-color";
+    const metaTag = document.createElement('meta');
+    metaTag.name = 'theme-color';
     metaTag.content = theme.palette.common.black;
 
     document.head.appendChild(metaTag);
     return () => {
       document.head.removeChild(metaTag);
     };
-  }, []);
+  }, [theme.palette.common.black]);
 
   return (
     <MeetingProvider
@@ -51,7 +51,6 @@ export function VideoCall({
         participantId: userId,
       }}
       token={import.meta.env.VITE_VIDEO_SDK_TOKEN}
-      // joinWithoutUserInteraction
     >
       <CallContextProvider
         userId={userId}

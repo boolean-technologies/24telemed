@@ -1,11 +1,10 @@
-import { FloatButton, Layout } from 'antd';
+import { Layout } from 'antd';
 import { Popup } from 'antd-mobile';
 import { useState } from 'react';
 import styled from 'styled-components';
 import { BottomBar, BottomBarMobile, TopCallTools } from './BottomBar';
 import {
   Flex,
-  IonIcon,
   addAlpha,
   useBreakpoints,
 } from '@local/shared-components';
