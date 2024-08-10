@@ -35,8 +35,7 @@ export function useMedicalNoteSections(type: NoteType): SectionsType {
       if (incomingMessage.senderId !== localParticipant.id) {
         playNotificationSound();
         message.info('Patient medical note has been updated', 10);
-        // @ts-ignore
-        switch (incomingMessage.payload.type) {
+        switch ((incomingMessage.payload as { type: string }).type) {
           case 'reason_for_visit':
             setHasNotification((prev) => ({ ...prev, reason_for_visit: true }));
             break;

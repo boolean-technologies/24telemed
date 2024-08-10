@@ -1,12 +1,10 @@
 import {
   Flex,
-  IonIcon,
   MessageResult,
   TextEditor,
   Typography,
-  addAlpha,
 } from '@local/shared-components';
-import { Button, Result } from 'antd';
+import { Button } from 'antd';
 import { useState } from 'react';
 import styled from 'styled-components';
 

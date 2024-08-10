@@ -40,13 +40,12 @@ export function CallContextProvider({
 }: DoctorWebSocketProviderProps) {
   const queryClient = useQueryClient();
 
-  const { join, leave, participants, localParticipant } = useMeeting({
+  const { participants, localParticipant } = useMeeting({
     onMeetingJoined: () => {
       queryClient.invalidateQueries();
-      console.log('Meeting joined');
     },
     onMeetingLeft: () => {
-      console.log('Meeting left');
+      queryClient.invalidateQueries();
     },
   });
 
@@ -55,7 +54,7 @@ export function CallContextProvider({
       if (key !== localParticipant.id && !value.local) return value;
     }
     return undefined;
-  }, [participants]);
+  }, [participants, localParticipant.id]);
 
   return (
     <AppContext.Provider
