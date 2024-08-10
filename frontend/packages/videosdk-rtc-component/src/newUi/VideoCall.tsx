@@ -49,6 +49,7 @@ export function VideoCall({
         meetingId: meetingId,
         name: participantName,
         participantId: userId,
+        debugMode: false
       }}
       token={import.meta.env.VITE_VIDEO_SDK_TOKEN}
     >
