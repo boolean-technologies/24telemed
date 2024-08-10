@@ -1,32 +1,31 @@
-# Stage 1: Build the application
 FROM node:20 AS builder
 
-# Set working directory
 WORKDIR /app
 
-# Install dependencies
-COPY ../../package.json ../../nx.json ../../tsconfig.base.json ./
+COPY package*.json ./
 
-COPY ../../packages ./packages
+RUN npm install
 
-COPY apps/personnel-app ./apps/personnel-app
+COPY . .
 
-# Install dependencies
-RUN yarn install
+ARG VITE_VIDEO_SDK_TOKEN
+ARG VITE_API_BASE
+ARG VITE_WEBSOCKET_BASE
 
-RUN yarn nx reset
+ENV VITE_VIDEO_SDK_TOKEN=$VITE_VIDEO_SDK_TOKEN
+ENV VITE_API_BASE=$VITE_API_BASE
+ENV VITE_WEBSOCKET_BASE=$VITE_WEBSOCKET_BASE
 
-# Build the application
-RUN yarn build personnel-app
+RUN npx nx build personnel-app --prod
 
-# Stage 2: Serve the application with Nginx
 FROM nginx:alpine
 
-# Copy the build output from the builder stage
+RUN rm -rf /usr/share/nginx/html/*
+
 COPY --from=builder /app/dist/apps/personnel-app /usr/share/nginx/html
 
-# Expose port 80
+COPY nginx.conf /etc/nginx/nginx.conf
+
 EXPOSE 80
 
-# Run Nginx in the foreground
 CMD ["nginx", "-g", "daemon off;"]

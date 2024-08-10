@@ -1,34 +1,31 @@
-# Use the official Node.js image from the Docker Hub
 FROM node:20 AS builder
 
-# Set working directory
 WORKDIR /app
 
-# Install dependencies
-COPY ../../package.json ../../nx.json ../../tsconfig.base.json ./
+COPY package*.json ./
 
-COPY ../../packages ./packages
+RUN npm install
 
-# Copy application source code
-COPY ../../apps/doctor-app ./apps/doctor-app
+COPY . .
 
-RUN yarn install
+ARG VITE_VIDEO_SDK_TOKEN
+ARG VITE_API_BASE
+ARG VITE_WEBSOCKET_BASE
 
-RUN yarn nx reset
+ENV VITE_VIDEO_SDK_TOKEN=$VITE_VIDEO_SDK_TOKEN
+ENV VITE_API_BASE=$VITE_API_BASE
+ENV VITE_WEBSOCKET_BASE=$VITE_WEBSOCKET_BASE
 
-# Build the application
-RUN yarn build:doctor
+RUN npx nx build doctor-app --prod
 
-
-
-# Second stage: Serve the application using Nginx
 FROM nginx:alpine
 
-# Copy the build output from the builder stage
+RUN rm -rf /usr/share/nginx/html/*
+
 COPY --from=builder /app/dist/apps/doctor-app /usr/share/nginx/html
 
-# Expose the port the app runs on
+COPY nginx.conf /etc/nginx/nginx.conf
+
 EXPOSE 80
 
-# Define the command to run the app
 CMD ["nginx", "-g", "daemon off;"]
