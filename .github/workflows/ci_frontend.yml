@@ -26,7 +26,7 @@ jobs:
           --build-arg VITE_API_BASE=${{ secrets.VITE_API_BASE }} \
           --build-arg VITE_WEBSOCKET_BASE=${{ secrets.VITE_WEBSOCKET_BASE }} \
           -t ${{ secrets.DOCKER_USERNAME }}/doctor-app:latest \
-          -f docker/doctor-app/Dockerfile .
+          -f ./frontend/apps/doctor-app/Dockerfile .
 
     - name: Login to DockerHub
       uses: docker/login-action@v2
@@ -56,7 +56,7 @@ jobs:
           --build-arg VITE_API_BASE=${{ secrets.VITE_API_BASE }} \
           --build-arg VITE_WEBSOCKET_BASE=${{ secrets.VITE_WEBSOCKET_BASE }} \
           -t ${{ secrets.DOCKER_USERNAME }}/personnel-app:latest \
-          -f docker/personnel-app/Dockerfile .
+          -f ./frontend/apps/personnel-app/Dockerfile .
 
     - name: Login to DockerHub
       uses: docker/login-action@v2
