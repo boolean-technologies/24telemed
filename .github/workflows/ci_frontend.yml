@@ -29,7 +29,7 @@ jobs:
         VITE_API_BASE: ${{ secrets.VITE_API_BASE }}
         VITE_WEBSOCKET_BASE: ${{ secrets.VITE_WEBSOCKET_BASE }}
       run: |
-        npx nx build doctor-app --prod
+        npm run build:doctor
 
     - name: Build personnel-app
       env:
@@ -37,7 +37,7 @@ jobs:
         VITE_API_BASE: ${{ secrets.VITE_API_BASE }}
         VITE_WEBSOCKET_BASE: ${{ secrets.VITE_WEBSOCKET_BASE }}
       run: |
-        npx nx build personnel-app --prod
+        npm run build:personnel
 
     - name: Build Docker image for doctor-app
       run: |
