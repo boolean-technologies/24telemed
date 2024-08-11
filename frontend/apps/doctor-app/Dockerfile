@@ -1,10 +1,16 @@
 FROM nginx:alpine
 
-# Copy the built React app from the dist directory
 COPY ../../dist/apps/doctor-app /usr/share/nginx/html
 
-# Expose port 80
+COPY /apps/doctor-app/custom-nginx.template /etc/nginx/conf.d/
+
+COPY /apps/doctor-app/generate-config.sh .
+
+RUN chmod +x generate-config.sh
+
 EXPOSE 80
 
-# Start Nginx server
-CMD ["nginx", "-g", "daemon off;"]
+USER root
+
+ENTRYPOINT [ "/bin/sh", "generate-config.sh"]
+
