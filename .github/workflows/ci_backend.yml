@@ -1,0 +1,42 @@
+name: CI Backend
+
+on:
+  push:
+    branches:
+      - Setup-CI-pipeline-for-docker-github-actions
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push backend Docker image
+        env:
+          DEBUG:  ${{ secrets.DEBUG }}
+          VIDEO_SDK_TOKEN:  ${{ secrets.VIDEO_SDK_TOKEN }}
+          VIDEO_SDK_CALL_WEBHOOK:  ${{ secrets.VIDEO_SDK_CALL_WEBHOOK }}
+          REDIS_URL:  ${{ secrets.REDIS_URL }}
+          VIDEO_SDK_CALL_DURATION_LIMIT:  ${{ secrets.VIDEO_SDK_CALL_DURATION_LIMIT }}
+          VIDEO_SDK_PUBLIC_KEY:  ${{ secrets.VIDEO_SDK_PUBLIC_KEY }}
+          EMAIL_FROM:  ${{ secrets.EMAIL_FROM }}
+          SENDGRID_API_KEY:  ${{ secrets.SENDGRID_API_KEY }}
+          SENDGRID_TEMPLATE_ID_PASSWORD_RESET_OTP:  ${{ secrets.SENDGRID_TEMPLATE_ID_PASSWORD_RESET_OTP }}
+          ALLOWED_HOSTS:  ${{ secrets.ALLOWED_HOSTS }}
+          CORS_ALLOWED_ORIGINS:  ${{ secrets.CORS_ALLOWED_ORIGINS }}
+        uses: docker/build-push-action@v4
+        with:
+          context: ./backend
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/anambra-telemed-backend:latest
