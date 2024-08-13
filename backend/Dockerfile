@@ -33,8 +33,9 @@ ENV VIDEO_SDK_TOKEN=$VIDEO_SDK_TOKEN
 ENV DEBUG=False
 ENV EMAIL_FROM="no-reply@example.com"
 ENV SENDGRID_TEMPLATE_ID_PASSWORD_RESET_OTP="d-1234567890abcdef1234567890abcdef"
-ENV ALLOWED_HOSTS='["localhost, 127.0.0.1, 102.164.38.91"]'
-ENV CORS_ALLOWED_ORIGINS='["http://localhost, http://127.0.0.1, http://localhost:8000, http://127.0.0.1:8000, http://102.164.38.91, http://102.164.38.91:8080"]'
+ENV ALLOWED_HOSTS='["localhost", "127.0.0.1", "102.164.38.91"]'
+ENV CORS_ALLOWED_ORIGINS='["http://localhost", "http://127.0.0.1", "http://localhost:8000", "http://127.0.0.1:8000", "http://102.164.38.91", "http://102.164.38.91:8080"]'
+
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
