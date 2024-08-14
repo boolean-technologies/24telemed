@@ -90,8 +90,8 @@ jobs:
             docker rm personnel-app || true
 
             # Run doctor-app on port 8081
-            docker run -d -p 8081:80 --name doctor-app ${{ secrets.DOCKER_USERNAME }}/doctor-app:latest
+            docker run -d -p 8081:8081 --name doctor-app ${{ secrets.DOCKER_USERNAME }}/doctor-app:latest
 
             # Run personnel-app on port 8082
-            docker run -d -p 8082:80 --name personnel-app ${{ secrets.DOCKER_USERNAME }}/personnel-app:latest
+            docker run -d -p 8082:8082 --name personnel-app ${{ secrets.DOCKER_USERNAME }}/personnel-app:latest
           EOF
