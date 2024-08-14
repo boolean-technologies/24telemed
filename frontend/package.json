@@ -5,7 +5,6 @@
   "scripts": {
     "start:doctor": "nx serve doctor-app",
     "start:personnel": "nx serve personnel-app",
-    "start:mobile": "nx start personnel-mobile",
     "start:storybook": "nx run shared-components:storybook",
     "start:test": "nx run shared-components:test",
     "generate": "node ./packages/api-generated/src/script/generated.mjs",
