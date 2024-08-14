@@ -3,7 +3,11 @@ name: CI Backend
 on:
   push:
     branches:
-      - Setup-CI-pipeline-for-docker-github-actions
+      - main
+    tags:
+      - '!*'
+    paths:
+      - "backend/**"
 
 jobs:
   build-image:
