@@ -8,7 +8,7 @@ COPY /apps/personnel-app/generate-config.sh .
 
 RUN chmod +x generate-config.sh
 
-EXPOSE 80
+EXPOSE 8082
 
 USER root
 
