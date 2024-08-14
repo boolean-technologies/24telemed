@@ -12,6 +12,7 @@ on:
 jobs:
   build-image:
     runs-on: ubuntu-latest
+    environment: telemedbackend
 
     steps:
       - name: Checkout code
@@ -33,11 +34,18 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/anambra-telemed-backend:latest
           build-args: |
-            REDIS_URL=${{ secrets.REDIS_URL }}
-            SENDGRID_API_KEY=${{ secrets.SENDGRID_API_KEY }}
-            VIDEO_SDK_CALL_WEBHOOK=${{ secrets.VIDEO_SDK_CALL_WEBHOOK }}
-            VIDEO_SDK_PUBLIC_KEY=${{ secrets.VIDEO_SDK_PUBLIC_KEY }}
+            EMAIL_FROM=${{ vars.EMAIL_FROM }}
+            ALLOWED_HOSTS=${{ vars.ALLOWED_HOSTS }}
+            ALLOWED_ORIGINS=${{ vars.ALLOWED_ORIGINS }}
+            REDIS_URL=${{ vars.REDIS_URL }}
+            SENDGRID_API_KEY=${{ vars.SENDGRID_API_KEY }}
+            SENDGRID_TEMPLATE_ID_PASSWORD_RESET_OTP=${{ vars.SENDGRID_TEMPLATE_ID_PASSWORD_RESET_OTP }}
+            VIDEO_SDK_CALL_WEBHOOK=${{ vars.VIDEO_SDK_CALL_WEBHOOK }}
+            VIDEO_SDK_CALL_DURATION_LIMIT=${{ vars.VIDEO_SDK_CALL_DURATION_LIMIT }}
+
             VIDEO_SDK_TOKEN=${{ secrets.VIDEO_SDK_TOKEN }}
+            DATABASE_URL=${{ secrets.DATABASE_URL }}
+            VIDEO_SDK_PUBLIC_KEY=${{ secrets.VIDEO_SDK_PUBLIC_KEY }}
 
   deploy-image:
     runs-on: ubuntu-latest
@@ -54,7 +62,7 @@ jobs:
 
       - name: Deploy the Docker image on the server
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_ADDRESS }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no ${{ vars.SERVER_ADDRESS }} << 'EOF'
             # Pull the latest image from Docker Hub
             docker pull ${{ secrets.DOCKER_USERNAME }}/anambra-telemed-backend:latest
             
