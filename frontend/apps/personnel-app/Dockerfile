@@ -2,15 +2,8 @@ FROM nginx:alpine
 
 COPY ../../dist/apps/personnel-app /usr/share/nginx/html
 
-COPY /apps/personnel-app/custom-nginx.template /etc/nginx/conf.d/
+COPY /nginx/default.conf /etc/nginx/conf.d/default.conf
 
-COPY /apps/personnel-app/generate-config.sh .
+EXPOSE 80
 
-RUN chmod +x generate-config.sh
-
-EXPOSE 8082
-
-USER root
-
-ENTRYPOINT [ "/bin/sh", "generate-config.sh"]
-
+CMD ["nginx", "-g", "daemon off;"]
