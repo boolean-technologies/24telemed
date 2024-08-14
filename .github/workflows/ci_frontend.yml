@@ -3,7 +3,11 @@ name: Build and Deploy
 on:
   push:
     branches:
-      - Setup-CI-pipeline-for-docker-github-actions
+      - main
+    tags:
+      - '!*'
+    paths:
+      - "frontend/**"
 
 jobs:
   build-images:
