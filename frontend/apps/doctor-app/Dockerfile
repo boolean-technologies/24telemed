@@ -8,7 +8,7 @@ COPY /apps/doctor-app/generate-config.sh .
 
 RUN chmod +x generate-config.sh
 
-EXPOSE 80
+EXPOSE 8081
 
 USER root
 
