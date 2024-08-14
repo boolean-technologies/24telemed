@@ -12,6 +12,7 @@ on:
 jobs:
   build-images:
     runs-on: ubuntu-latest
+    environment: telemedfrontend
     defaults:
         run:
           working-directory: ./frontend
@@ -30,16 +31,16 @@ jobs:
     - name: Build doctor-app
       env:
         VITE_VIDEO_SDK_TOKEN: ${{ secrets.VITE_VIDEO_SDK_TOKEN }}
-        VITE_API_BASE: ${{ secrets.VITE_API_BASE }}
-        VITE_WEBSOCKET_BASE: ${{ secrets.VITE_WEBSOCKET_BASE }}
+        VITE_API_BASE: ${{ vars.VITE_API_BASE }}
+        VITE_WEBSOCKET_BASE: ${{ vars.VITE_WEBSOCKET_BASE }}
       run: |
         npm run build:doctor
 
     - name: Build personnel-app
       env:
         VITE_VIDEO_SDK_TOKEN: ${{ secrets.VITE_VIDEO_SDK_TOKEN }}
-        VITE_API_BASE: ${{ secrets.VITE_API_BASE }}
-        VITE_WEBSOCKET_BASE: ${{ secrets.VITE_WEBSOCKET_BASE }}
+        VITE_API_BASE: ${{ vars.VITE_API_BASE }}
+        VITE_WEBSOCKET_BASE: ${{ vars.VITE_WEBSOCKET_BASE }}
       run: |
         npm run build:personnel
 
@@ -82,7 +83,7 @@ jobs:
 
       - name: Deploy doctor-app and personnel-app on server
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_ADDRESS }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no ${{ vars.SERVER_ADDRESS }} << 'EOF'
             # Pull the latest images from Docker Hub
             docker pull ${{ secrets.DOCKER_USERNAME }}/doctor-app:latest
             docker pull ${{ secrets.DOCKER_USERNAME }}/personnel-app:latest
