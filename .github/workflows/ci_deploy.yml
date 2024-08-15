@@ -1,15 +1,15 @@
 name: Deploy to Server
 
 on:
-    workflow_run:
-      workflows: ["Build Backend Image", "Build Frontend Images"]
-      types:
-        - completed
+  workflow_run:
+    workflows: ["Build Backend Image", "Build Frontend Images"]
+    types:
+      - completed
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
