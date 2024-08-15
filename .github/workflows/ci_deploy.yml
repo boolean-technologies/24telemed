@@ -1,6 +1,11 @@
 name: Deploy to Server
 
 on:
+  push:
+    branches:
+      - Setup-CI-pipeline-for-docker-github-actions
+    tags:
+      - '!*'
   workflow_run:
     workflows: ["Build Backend Image", "Build Frontend Images"]
     types:
