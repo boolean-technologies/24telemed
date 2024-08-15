@@ -36,7 +36,7 @@ jobs:
 
       - name: Deploy to server via SSH
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_ADDRESS }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_ADDRESS }} << 'EOF'
             # Pull the latest Docker images
             docker pull ${{ secrets.DOCKER_USERNAME }}/anambra-telemed-backend:latest
             docker pull ${{ secrets.DOCKER_USERNAME }}/doctor-app:latest
