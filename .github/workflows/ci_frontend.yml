@@ -3,11 +3,11 @@ name: Build and Deploy
 on:
   push:
     branches:
-      - main
+      - Setup-CI-pipeline-for-docker-github-actions
     tags:
       - '!*'
-    paths:
-      - "frontend/**"
+    # paths:
+    #   - "frontend/**"
 
 jobs:
   build-images:
@@ -67,36 +67,3 @@ jobs:
 
     - name: Push Docker image for personnel-app
       run: docker push ${{ secrets.DOCKER_USERNAME }}/personnel-app:latest
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build-images
-
-    steps:
-      - name: Install SSH Client
-        run: sudo apt-get install openssh-client -y
-
-      - name: Set up SSH Agent and add private key
-        uses: webfactory/ssh-agent@v0.7.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-      - name: Deploy doctor-app and personnel-app on server
-        run: |
-          ssh -o StrictHostKeyChecking=no ${{ vars.SERVER_ADDRESS }} << 'EOF'
-            # Pull the latest images from Docker Hub
-            docker pull ${{ secrets.DOCKER_USERNAME }}/doctor-app:latest
-            docker pull ${{ secrets.DOCKER_USERNAME }}/personnel-app:latest
-            
-            # Stop and remove any existing containers
-            docker stop doctor-app || true
-            docker rm doctor-app || true
-            docker stop personnel-app || true
-            docker rm personnel-app || true
-
-            # Run doctor-app on port 8081
-            docker run -d -p 8081:80 --name doctor-app ${{ secrets.DOCKER_USERNAME }}/doctor-app:latest
-
-            # Run personnel-app on port 8082
-            docker run -d -p 8082:80 --name personnel-app ${{ secrets.DOCKER_USERNAME }}/personnel-app:latest
-          EOF
