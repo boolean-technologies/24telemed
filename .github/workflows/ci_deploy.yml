@@ -1,0 +1,112 @@
+name: Deploy to Server
+
+on:
+    workflow_run:
+      workflows: ["ci_backend", "ci_frontend"]
+      types:
+        - completed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Install SSH Client
+        run: sudo apt-get install openssh-client -y
+
+      - name: Set up SSH Agent and add private key
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Deploy to server via SSH
+        run: |
+            ssh -o StrictHostKeyChecking=no ${{ vars.SERVER_ADDRESS }} << 'EOF'
+                # Pull the latest Docker images
+                docker pull ${{ secrets.DOCKER_USERNAME }}/anambra-telemed-backend:latest
+                docker pull ${{ secrets.DOCKER_USERNAME }}/doctor-app:latest
+                docker pull ${{ secrets.DOCKER_USERNAME }}/personnel-app:latest
+                
+                # Stop and remove existing containers
+                docker stop anambra-backend || true
+                docker rm anambra-backend || true
+
+                docker stop doctor-app || true
+                docker rm doctor-app || true
+
+                docker stop personnel-app || true
+                docker rm personnel-app || true
+                
+                docker stop nginx-reverse-proxy || true
+                docker rm nginx-reverse-proxy || true
+                
+                # Create a Docker network if it doesn't exist
+                docker network create telemed-network || true
+
+                # Run the application containers
+                docker run -d --name doctor-app --network telemed-network ${{ secrets.DOCKER_USERNAME }}/doctor-app:latest
+                docker run -d --name personnel-app --network telemed-network ${{ secrets.DOCKER_USERNAME }}/personnel-app:latest
+                docker run -d --name anambra-backend --network telemed-network ${{ secrets.DOCKER_USERNAME }}/anambra-backend:latest
+                
+                # Set up the Nginx reverse proxy container
+                mkdir -p ~/nginx-reverse-proxy
+                cat <<EOT > ~/nginx-reverse-proxy/nginx.conf
+                http {
+                    server {
+                        listen 80;
+                        server_name telemedapp.anambrastate.gov.ng;
+                        location / {
+                            proxy_pass http://doctor-app:80;
+                            proxy_set_header Host \$host;
+                            proxy_set_header X-Real-IP \$remote_addr;
+                            proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+                            proxy_set_header X-Forwarded-Proto \$scheme;
+                        }
+                    }
+                    server {
+                        listen 80;
+                        server_name telemed.anambrastate.gov.ng;
+                        location / {
+                            proxy_pass http://personnel-app:80;
+                            proxy_set_header Host \$host;
+                            proxy_set_header X-Real-IP \$remote_addr;
+                            proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+                            proxy_set_header X-Forwarded-Proto \$scheme;
+                        }
+                    }
+                    server {
+                        listen 80;
+                        server_name telemedadmin.anambrastate.gov.ng;
+                        location / {
+                            proxy_pass http://anambra-backend:8000;
+                            proxy_set_header Host \$host;
+                            proxy_set_header X-Real-IP \$remote_addr;
+                            proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+                            proxy_set_header X-Forwarded-Proto \$scheme;
+                        }
+                    }
+                }
+                EOT
+                
+                docker run -d \
+                --name nginx-reverse-proxy \
+                --network telemed-network \
+                -v ~/nginx-reverse-proxy/nginx.conf:/etc/nginx/nginx.conf:ro \
+                -p 80:80 \
+                nginx
+            EOF
+
+
+          
