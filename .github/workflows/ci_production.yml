@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - Setup-CI-pipeline-for-docker-github-actions
     tags:
       - '!*'
     # paths:
@@ -112,7 +113,7 @@ jobs:
     needs: 
         - build-backend-image
         - build-frontend-images
-        
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
