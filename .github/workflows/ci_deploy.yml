@@ -32,7 +32,7 @@ jobs:
 
       - name: Deploy to server via SSH
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ vars.SERVER_ADDRESS }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_ADDRESS }} << 'EOF'
             # Install Nginx if it's not already installed
             sudo apt-get update
             sudo apt-get install -y nginx
@@ -41,7 +41,7 @@ jobs:
             docker pull ${{ secrets.DOCKER_USERNAME }}/anambra-telemed-backend:latest
             docker pull ${{ secrets.DOCKER_USERNAME }}/doctor-app:latest
             docker pull ${{ secrets.DOCKER_USERNAME }}/personnel-app:latest
-
+      
             # Stop and remove existing containers
             docker stop anambra-backend || true
             docker rm anambra-backend || true
@@ -54,52 +54,53 @@ jobs:
             docker run -d --name anambra-backend -p 8000:8000 ${{ secrets.DOCKER_USERNAME }}/anambra-telemed-backend:latest
             docker run -d --name doctor-app -p 8001:80 ${{ secrets.DOCKER_USERNAME }}/doctor-app:latest
             docker run -d --name personnel-app -p 8002:80 ${{ secrets.DOCKER_USERNAME }}/personnel-app:latest
-
+      
             # Create Nginx configuration for reverse proxy
-            sudo tee /etc/nginx/sites-available/telemed <<EOL
-            server {
-                listen 80;
-                server_name telemedadmin.anambrastate.gov.ng;
-                location / {
-                    proxy_pass http://localhost:8000;
-                    proxy_set_header Host \$host;
-                    proxy_set_header X-Real-IP \$remote_addr;
-                    proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-                    proxy_set_header X-Forwarded-Proto \$scheme;
-                }
-            }
+            sudo tee /etc/nginx/sites-available/telemed > /dev/null <<EOL
+server {
+  listen 80;
+  server_name telemedadmin.anambrastate.gov.ng;
+  location / {
+      proxy_pass http://localhost:8000;
+      proxy_set_header Host \$host;
+      proxy_set_header X-Real-IP \$remote_addr;
+      proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto \$scheme;
+  }
+}
 
-            server {
-                listen 80;
-                server_name telemedapp.anambrastate.gov.ng;
-                location / {
-                    proxy_pass http://localhost:8001;
-                    proxy_set_header Host \$host;
-                    proxy_set_header X-Real-IP \$remote_addr;
-                    proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-                    proxy_set_header X-Forwarded-Proto \$scheme;
-                }
-            }
+server {
+  listen 80;
+  server_name telemedapp.anambrastate.gov.ng;
+  location / {
+      proxy_pass http://localhost:8001;
+      proxy_set_header Host \$host;
+      proxy_set_header X-Real-IP \$remote_addr;
+      proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto \$scheme;
+  }
+}
 
-            server {
-                listen 80;
-                server_name telemed.anambrastate.gov.ng;
-                location / {
-                    proxy_pass http://localhost:8002;
-                    proxy_set_header Host \$host;
-                    proxy_set_header X-Real-IP \$remote_addr;
-                    proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-                    proxy_set_header X-Forwarded-Proto \$scheme;
-                }
-            }
-            EOL
-
+server {
+  listen 80;
+  server_name telemed.anambrastate.gov.ng;
+  location / {
+      proxy_pass http://localhost:8002;
+      proxy_set_header Host \$host;
+      proxy_set_header X-Real-IP \$remote_addr;
+      proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto \$scheme;
+  }
+}
+              EOL
+      
             # Enable the configuration by creating a symlink
             sudo ln -s /etc/nginx/sites-available/telemed /etc/nginx/sites-enabled/
-
+      
             # Test Nginx configuration for syntax errors
             sudo nginx -t
-
-            # Reload Nginx to apply the new configuration
-            sudo systemctl reload nginx
+      
+            # Reload Nginx to apply the new configuration, if it fails, start Nginx
+            sudo systemctl reload nginx || sudo systemctl start nginx
           EOF
+      
