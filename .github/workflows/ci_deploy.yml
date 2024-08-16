@@ -1,4 +1,4 @@
-name: Deploy to Server
+name: Deploy to Server with SSL
 
 on:
   push:
@@ -36,7 +36,7 @@ jobs:
 
       - name: Deploy to server via SSH
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ vars.SERVER_ADDRESS }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_ADDRESS }} << 'EOF'
             # Pull the latest Docker images
             docker pull ${{ secrets.DOCKER_USERNAME }}/anambra-telemed-backend:latest
             docker pull ${{ secrets.DOCKER_USERNAME }}/doctor-app:latest
@@ -63,7 +63,7 @@ jobs:
             docker run -d --name personnel-app --network telemed-network ${{ secrets.DOCKER_USERNAME }}/personnel-app:latest
             docker run -d --name anambra-backend --network telemed-network -p 8000:8000 ${{ secrets.DOCKER_USERNAME }}/anambra-backend:latest
             
-            # Set up the Nginx reverse proxy container
+            # Set up the Nginx reverse proxy container with a temporary HTTP configuration
             mkdir -p ~/nginx-reverse-proxy
             cat <<EOT > ~/nginx-reverse-proxy/nginx.conf
             http {
@@ -109,4 +109,81 @@ jobs:
             -v ~/nginx-reverse-proxy/nginx.conf:/etc/nginx/nginx.conf:ro \
             -p 80:80 \
             nginx
+
+            # Install Certbot and request certificates
+            sudo apt-get update
+            sudo apt-get install -y certbot python3-certbot-nginx
+            
+            sudo certbot certonly --nginx --non-interactive --agree-tos --email your-email@example.com \
+              -d telemedapp.anambrastate.gov.ng \
+              -d telemed.anambrastate.gov.ng \
+              -d telemedadmin.anambrastate.gov.ng
+            
+            # Update Nginx configuration to use SSL certificates
+            cat <<EOT > ~/nginx-reverse-proxy/nginx.conf
+            server {
+                listen 80;
+                server_name telemedapp.anambrastate.gov.ng;
+                return 301 https://\$host\$request_uri;
+            }
+            server {
+                listen 443 ssl;
+                server_name telemedapp.anambrastate.gov.ng;
+
+                ssl_certificate /etc/letsencrypt/live/telemedapp.anambrastate.gov.ng/fullchain.pem;
+                ssl_certificate_key /etc/letsencrypt/live/telemedapp.anambrastate.gov.ng/privkey.pem;
+
+                location / {
+                    proxy_pass http://doctor-app:80;
+                    proxy_set_header Host \$host;
+                    proxy_set_header X-Real-IP \$remote_addr;
+                    proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+                    proxy_set_header X-Forwarded-Proto \$scheme;
+                }
+            }
+
+            server {
+                listen 80;
+                server_name telemed.anambrastate.gov.ng;
+                return 301 https://\$host\$request_uri;
+            }
+            server {
+                listen 443 ssl;
+                server_name telemed.anambrastate.gov.ng;
+
+                ssl_certificate /etc/letsencrypt/live/telemed.anambrastate.gov.ng/fullchain.pem;
+                ssl_certificate_key /etc/letsencrypt/live/telemed.anambrastate.gov.ng/privkey.pem;
+
+                location / {
+                    proxy_pass http://personnel-app:80;
+                    proxy_set_header Host \$host;
+                    proxy_set_header X-Real-IP \$remote_addr;
+                    proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+                    proxy_set_header X-Forwarded-Proto \$scheme;
+                }
+            }
+
+            server {
+                listen 80;
+                server_name telemedadmin.anambrastate.gov.ng;
+                return 301 https://\$host\$request_uri;
+            }
+            server {
+                listen 443 ssl;
+                server_name telemedadmin.anambrastate.gov.ng;
+
+                ssl_certificate /etc/letsencrypt/live/telemedadmin.anambrastate.gov.ng/fullchain.pem;
+                ssl_certificate_key /etc/letsencrypt/live/telemedadmin.anambrastate.gov.ng/privkey.pem;
+
+                location / {
+                    proxy_pass http://anambra-backend:8000;
+                    proxy_set_header Host \$host;
+                    proxy_set_header X-Real-IP \$remote_addr;
+                    proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+                    proxy_set_header X-Forwarded-Proto \$scheme;
+                }
+            }
+            EOT
+
+            docker exec nginx-reverse-proxy nginx -s reload
           EOF
