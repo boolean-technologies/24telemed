@@ -75,7 +75,7 @@ jobs:
       - name: Enable Nginx configuration, test, and restart Nginx
         run: |
           ssh -o StrictHostKeyChecking=no ${{ vars.SERVER_ADDRESS }} << 'EOF'
-            sudo ln -sf /etc/nginx/sites-available/telemed /etc/nginx/sites-enabled/
+            sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
             sudo nginx -t
-            sudo systemctl restart nginx
+            sudo systemctl reload nginx || sudo systemctl start nginx
           EOF
