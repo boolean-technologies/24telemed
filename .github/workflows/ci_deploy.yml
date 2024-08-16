@@ -34,10 +34,8 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no ${{ vars.SERVER_ADDRESS }} << 'EOF'
             # Install Nginx if it's not already installed
-            if ! [ -x "$(command -v nginx)" ]; then
-              sudo apt-get update
-              sudo apt-get install -y nginx
-            fi
+            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S apt-get update
+            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S apt-get install -y nginx
             
             # Pull the latest Docker images
             docker pull ${{ secrets.DOCKER_USERNAME }}/anambra-telemed-backend:latest
@@ -53,10 +51,9 @@ jobs:
             docker rm personnel-app || true
             
             # Run the application containers
-            docker run -d --name anambra-backend -p 8000:8000 ${{ secrets.DOCKER_USERNAME }}/anambra-telemed-backend:latest
-            docker run -d --name doctor-app -p 8001:80 ${{ secrets.DOCKER_USERNAME }}/doctor-app:latest
-            docker run -d --name personnel-app -p 8002:80 ${{ secrets.DOCKER_USERNAME }}/personnel-app:latest
-
+            docker run -d --name anambra-backend --network host ${{ secrets.DOCKER_USERNAME }}/anambra-telemed-backend:latest
+            docker run -d --name doctor-app --network host ${{ secrets.DOCKER_USERNAME }}/doctor-app:latest
+            docker run -d --name personnel-app --network host ${{ secrets.DOCKER_USERNAME }}/personnel-app:latest
 
             # Create Nginx configuration for reverse proxy
             sudo tee /etc/nginx/sites-available/telemed <<EOL
