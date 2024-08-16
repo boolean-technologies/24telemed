@@ -33,7 +33,7 @@ jobs:
       - name: Write Nginx configuration to server
         run: |
           ssh -o StrictHostKeyChecking=no ${{ vars.SERVER_ADDRESS }} << 'EOF'
-            sudo tee /etc/nginx/sites-available/telemed <<EOL
+            sudo tee /etc/nginx/sites-available/default <<EOL
             server {
               listen 80;
               server_name telemedadmin.anambrastate.gov.ng;
@@ -69,8 +69,6 @@ jobs:
                   proxy_set_header X-Forwarded-Proto \$scheme;
               }
             }
-            EOL
-            EOF
 
       - name: Enable Nginx configuration, test, and restart Nginx
         run: |
