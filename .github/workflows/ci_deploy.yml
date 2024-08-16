@@ -32,7 +32,7 @@ jobs:
 
       - name: Write Nginx configuration to server
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_ADDRESS }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no ${{ vars.SERVER_ADDRESS }} << 'EOF'
             sudo tee /etc/nginx/sites-available/telemed <<EOL
             server {
               listen 80;
@@ -74,7 +74,7 @@ jobs:
 
       - name: Enable Nginx configuration, test, and restart Nginx
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_ADDRESS }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no ${{ vars.SERVER_ADDRESS }} << 'EOF'
             sudo ln -sf /etc/nginx/sites-available/telemed /etc/nginx/sites-enabled/
             sudo nginx -t
             sudo systemctl restart nginx
