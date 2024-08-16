@@ -135,6 +135,34 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+      - name: Install Nginx if it's not already installed
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ vars.SERVER_ADDRESS }} << 'EOF'
+            sudo apt-get update
+            sudo apt-get install -y nginx
+          EOF
+
+      - name: Pull & Run latest images
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ vars.SERVER_ADDRESS }} << 'EOF'
+            docker pull ${{ secrets.DOCKER_USERNAME }}/anambra-telemed-backend:latest
+            docker pull ${{ secrets.DOCKER_USERNAME }}/doctor-app:latest
+            docker pull ${{ secrets.DOCKER_USERNAME }}/personnel-app:latest
+
+            # Stop and remove existing containers
+            docker stop anambra-backend || true
+            docker rm anambra-backend || true
+            docker stop doctor-app || true
+            docker rm doctor-app || true
+            docker stop personnel-app || true
+            docker rm personnel-app || true
+            
+            # Run the application containers with port mappings
+            docker run -d --name anambra-backend -p 8000:8000 ${{ secrets.DOCKER_USERNAME }}/anambra-telemed-backend:latest
+            docker run -d --name doctor-app -p 8001:80 ${{ secrets.DOCKER_USERNAME }}/doctor-app:latest
+            docker run -d --name personnel-app -p 8002:80 ${{ secrets.DOCKER_USERNAME }}/personnel-app:latest
+          EOF
+
       - name: Write Nginx configuration to server
         run: |
           ssh -o StrictHostKeyChecking=no ${{ vars.SERVER_ADDRESS }} << 'EOF'
