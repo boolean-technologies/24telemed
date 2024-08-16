@@ -56,7 +56,7 @@ jobs:
             docker run -d --name personnel-app -p 8002:80 ${{ secrets.DOCKER_USERNAME }}/personnel-app:latest
       
             # Create Nginx configuration for reverse proxy
-            sudo tee /etc/nginx/sites-available/telemed > /dev/null <<EOL
+            sudo tee /etc/nginx/sites-available/default > /dev/null <<EOL
 server {
   listen 80;
   server_name telemedadmin.anambrastate.gov.ng;
