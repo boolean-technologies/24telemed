@@ -161,6 +161,9 @@ jobs:
             docker run -d --name anambra-backend -p 8000:8000 ${{ secrets.DOCKER_USERNAME }}/anambra-telemed-backend:latest
             docker run -d --name doctor-app -p 8001:80 ${{ secrets.DOCKER_USERNAME }}/doctor-app:latest
             docker run -d --name personnel-app -p 8002:80 ${{ secrets.DOCKER_USERNAME }}/personnel-app:latest
+
+            # Run Django migrations inside the anambra-backend container
+            docker exec anambra-backend python manage.py migrate
           EOF
 
       - name: Write Nginx configuration to server
