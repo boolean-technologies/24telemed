@@ -4,11 +4,11 @@ on:
   push:
     branches:
       - main
-      - Setup-CI-pipeline-for-docker-github-actions
     tags:
       - '!*'
-    # paths:
-    #   - "backend/**"
+    paths:
+      - "backend/**"
+      - "frontend/**"
 
 jobs:
   build-backend-image:
