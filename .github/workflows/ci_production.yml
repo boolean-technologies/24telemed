@@ -172,6 +172,23 @@ jobs:
               listen 80;
               server_name telemedadmin.anambrastate.gov.ng;
               location / {
+                  # Add CORS headers
+                  add_header 'Access-Control-Allow-Origin' '*' always;
+                  add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE, PATCH' always;
+                  add_header 'Access-Control-Allow-Headers' 'Origin, Content-Type, Accept, Authorization' always;
+                  add_header 'Access-Control-Allow-Credentials' 'true' always;
+
+                  # Handle preflight requests (OPTIONS)
+                  if ($request_method = OPTIONS ) {
+                      add_header 'Access-Control-Allow-Origin' '*';
+                      add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE, PATCH';
+                      add_header 'Access-Control-Allow-Headers' 'Origin, Content-Type, Accept, Authorization';
+                      add_header 'Access-Control-Allow-Credentials' 'true';
+                      add_header Content-Length 0;
+                      add_header Content-Type text/plain;
+                      return 204;
+                  }
+
                   proxy_pass http://localhost:8000;
                   proxy_set_header Host \$host;
                   proxy_set_header X-Real-IP \$remote_addr;
