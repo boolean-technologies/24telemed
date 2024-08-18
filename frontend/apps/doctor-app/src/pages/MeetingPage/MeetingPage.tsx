@@ -6,23 +6,23 @@ import { useParams } from 'react-router-dom';
 
 export function MeetingPage() {
   const { meetingId: internalMeetingId } = useParams();
-  const { data } = useCurrentUser();
+  const { data: userData } = useCurrentUser();
   const { data: callLog } = useGetCallLog(internalMeetingId);
 
-  const fullName = [data?.first_name, data?.last_name]
+  const fullName = [userData?.first_name, userData?.last_name]
     .filter(Boolean)
-    .join(' ');
+    .join(' ') || 'Unknown';
 
-  if (!data || !callLog) {
+  if (!userData || !callLog || !callLog.meeting_id || !callLog.patient) {
     return <PageLoading />;
   }
 
   return (
     <VideoCall
       participantName={fullName}
-      meetingId={callLog?.meeting_id!}
-      userId={data?.id!}
-      patientId={callLog?.patient!}
+      meetingId={callLog.meeting_id}
+      userId={userData.id as string}
+      patientId={callLog.patient}
       userType="doctor"
     />
   );
