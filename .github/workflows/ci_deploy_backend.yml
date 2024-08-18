@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build-and-deploy-backend:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -33,17 +33,17 @@ jobs:
 
       - name: Prepare backend for deployment
         run: |
-          mkdir deploy-backend
-          cp -R backend/server/* deploy-backend/
-          cp backend/captain-definition deploy-backend/captain-definition
+          mkdir deploy
+          cp -R backend/server/* deploy/
+          cp backend/captain-definition deploy/captain-definition
 
       - uses: a7ul/tar-action@v1.1.0
         with:
           command: c
-          cwd: "./deploy-backend"
+          cwd: "./deploy"
           files: |
             ./
-          outPath: deploy-backend.tar
+          outPath: deploy.tar
 
       - name: Deploy Backend App to CapRover
         uses: caprover/deploy-from-github@v1.0.1
@@ -51,4 +51,4 @@ jobs:
           server: '${{ secrets.CAPROVER_SERVER }}'
           app: '${{ secrets.CAPROVER_BACKEND_APP_NAME }}'
           token: '${{ secrets.CAPROVER_BACKEND_APP_TOKEN }}'
-          path: deploy-backend.tar
+          path: deploy.tar
