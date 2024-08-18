@@ -1,4 +1,4 @@
-name: Deploy Nx App to CapRover
+name: Deploy doctor app
 
 on:
   push:

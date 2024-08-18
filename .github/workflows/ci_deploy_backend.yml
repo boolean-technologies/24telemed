@@ -1,4 +1,4 @@
-name: Deploy Backend to CapRover
+name: Deploy backend app
 
 on:
   push:
