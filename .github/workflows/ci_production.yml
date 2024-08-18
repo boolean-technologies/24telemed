@@ -3,7 +3,7 @@ name: Build & Deploy Images
 on:
   push:
     branches:
-      - main
+      - mainss
     tags:
       - '!*'
     paths:
