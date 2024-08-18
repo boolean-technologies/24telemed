@@ -1,4 +1,4 @@
-name: Deploy Nx App and Django Backend to CapRover
+name: Deploy Backend to CapRover
 
 on:
   push:
@@ -50,5 +50,5 @@ jobs:
         with:
           server: '${{ secrets.CAPROVER_SERVER }}'
           app: '${{ secrets.CAPROVER_BACKEND_APP_NAME }}'
-          token: '${{ secrets.CAPROVER_APP_TOKEN }}'
+          token: '${{ secrets.CAPROVER_BACKEND_APP_TOKEN }}'
           path: deploy-backend.tar
