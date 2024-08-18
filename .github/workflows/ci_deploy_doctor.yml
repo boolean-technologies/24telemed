@@ -24,6 +24,10 @@ jobs:
 
       - name: Build Nx app
         working-directory: ./frontend
+        env:
+          VITE_VIDEO_SDK_TOKEN: ${{ secrets.VITE_VIDEO_SDK_TOKEN }}
+          VITE_API_BASE: ${{ vars.VITE_API_BASE }}
+          VITE_WEBSOCKET_BASE: ${{ vars.VITE_WEBSOCKET_BASE }}
         run: |
           yarn nx build doctor-app --prod
 
@@ -31,7 +35,6 @@ jobs:
         run: |
           mkdir deploy
           cp -R frontend/dist/apps/doctor-app/* deploy/
-          cp frontend/entrypoint.sh deploy/entrypoint.sh
           cp frontend/captain-definition deploy/captain-definition
 
       - uses: a7ul/tar-action@v1.1.0
