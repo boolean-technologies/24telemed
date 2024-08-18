@@ -3,6 +3,7 @@
   "dockerfileLines": [
     "FROM socialengine/nginx-spa:latest", 
     "COPY ./ /app", 
+    "RUN chmod -R 777 /app",
     "COPY ./entrypoint.sh /entrypoint.sh",
     "RUN chmod +x /entrypoint.sh",
     "CMD [\"/entrypoint.sh\"]"
