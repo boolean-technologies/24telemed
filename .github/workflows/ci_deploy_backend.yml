@@ -1,0 +1,54 @@
+name: Deploy Nx App and Django Backend to CapRover
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy-backend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.9'  # Adjust to your project's Python version
+
+      - name: Install dependencies
+        working-directory: ./backend/server
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install -r requirements.txt
+
+      - name: Collect static files
+        working-directory: ./backend/server
+        run: |
+          source venv/bin/activate
+          python manage.py collectstatic --noinput
+
+      - name: Prepare backend for deployment
+        run: |
+          mkdir deploy-backend
+          cp -R backend/server/* deploy-backend/
+          cp backend/captain-definition deploy-backend/captain-definition
+
+      - uses: a7ul/tar-action@v1.1.0
+        with:
+          command: c
+          cwd: "./deploy-backend"
+          files: |
+            ./
+          outPath: deploy-backend.tar
+
+      - name: Deploy Backend App to CapRover
+        uses: caprover/deploy-from-github@v1.0.1
+        with:
+          server: '${{ secrets.CAPROVER_SERVER }}'
+          app: '${{ secrets.CAPROVER_BACKEND_APP_NAME }}'
+          token: '${{ secrets.CAPROVER_APP_TOKEN }}'
+          path: deploy-backend.tar
