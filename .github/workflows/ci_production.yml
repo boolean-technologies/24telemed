@@ -146,6 +146,8 @@ jobs:
       - name: Pull & Run latest images
         run: |
           ssh -o StrictHostKeyChecking=no ${{ vars.SERVER_ADDRESS }} << 'EOF'
+            docker network create telemed-network || true
+
             docker pull ${{ secrets.DOCKER_USERNAME }}/anambra-telemed-backend:latest
             docker pull ${{ secrets.DOCKER_USERNAME }}/doctor-app:latest
             docker pull ${{ secrets.DOCKER_USERNAME }}/personnel-app:latest
@@ -157,11 +159,15 @@ jobs:
             docker rm doctor-app || true
             docker stop personnel-app || true
             docker rm personnel-app || true
+            docker stop redis-server || true
+            docker rm redis-server || true
+
+            docker run -d --name redis-server --network telemed-network redis:latest
             
             # Run the application containers with port mappings
-            docker run -d --name anambra-backend -p 8000:8000 ${{ secrets.DOCKER_USERNAME }}/anambra-telemed-backend:latest
-            docker run -d --name doctor-app -p 8001:80 ${{ secrets.DOCKER_USERNAME }}/doctor-app:latest
-            docker run -d --name personnel-app -p 8002:80 ${{ secrets.DOCKER_USERNAME }}/personnel-app:latest
+            docker run -d --name anambra-backend --network telemed-network -p 8000:8000 -e REDIS_URL=redis://redis-server:6379 ${{ secrets.DOCKER_USERNAME }}/anambra-telemed-backend:latest
+            docker run -d --name doctor-app --network telemed-network -p 8001:80 ${{ secrets.DOCKER_USERNAME }}/doctor-app:latest
+            docker run -d --name personnel-app --network telemed-network -p 8002:80 ${{ secrets.DOCKER_USERNAME }}/personnel-app:latest
           EOF
 
       - name: Write Nginx configuration to server
@@ -172,23 +178,6 @@ jobs:
               listen 80;
               server_name telemedadmin.anambrastate.gov.ng;
               location / {
-                  # Add CORS headers
-                  add_header 'Access-Control-Allow-Origin' '*' always;
-                  add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE, PATCH' always;
-                  add_header 'Access-Control-Allow-Headers' 'Origin, Content-Type, Accept, Authorization' always;
-                  add_header 'Access-Control-Allow-Credentials' 'true' always;
-
-                  # Handle preflight requests (OPTIONS)
-                  if ($request_method = OPTIONS ) {
-                      add_header 'Access-Control-Allow-Origin' '*';
-                      add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE, PATCH';
-                      add_header 'Access-Control-Allow-Headers' 'Origin, Content-Type, Accept, Authorization';
-                      add_header 'Access-Control-Allow-Credentials' 'true';
-                      add_header Content-Length 0;
-                      add_header Content-Type text/plain;
-                      return 204;
-                  }
-
                   proxy_pass http://localhost:8000;
                   proxy_set_header Host \$host;
                   proxy_set_header X-Real-IP \$remote_addr;
