@@ -1,0 +1,49 @@
+name: Deploy Nx App to CapRover
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        working-directory: ./frontend
+        run: yarn install
+
+      - name: Build Nx app
+        working-directory: ./frontend
+        run: |
+          yarn nx build personnel-app --prod
+
+      - name: Prepare for deployment
+        run: |
+          mkdir deploy
+          cp -R frontend/dist/apps/personnel-app/* deploy/
+          cp frontend/captain-definition deploy/captain-definition
+
+      - uses: a7ul/tar-action@v1.1.0
+        with:
+          command: c
+          cwd: "./deploy"
+          files: |
+            ./
+          outPath: deploy.tar
+
+      - name: Deploy App to CapRover
+        uses: caprover/deploy-from-github@v1.0.1
+        with:
+          server: '${{ secrets.CAPROVER_SERVER }}'
+          app: '${{ secrets.CAPROVER_PERSONNEL_APP_NAME }}'
+          token: '${{ secrets.CAPROVER_PERSONNEL_APP_TOKEN }}'
