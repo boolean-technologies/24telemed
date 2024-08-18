@@ -3,11 +3,8 @@
   "dockerfileLines": [
     "FROM socialengine/nginx-spa:latest", 
     "COPY ./ /app", 
-    "RUN chmod -R 777 /app"
-  ],
-  "envVars": {
-    "VITE_API_BASE": "https://telemed-backend.caprover-root.theboolean.tech",
-    "VITE_WEBSOCKET_BASE": "wss://telemed-backend.caprover-root.theboolean.tech/video_call/",
-    "VITE_VIDEO_SDK_TOKEN": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlrZXkiOiI1MDU3OWU1NS1lYTI4LTRiZTItOGQ0Yi1hYzRmOTkxMGFhNTIiLCJwZXJtaXNzaW9ucyI6WyJhbGxvd19qb2luIl0sImlhdCI6MTcxMDUxNTQ3NywiZXhwIjoxNzQyMDUxNDc3fQ.Gq6KPM9PPGdpeViNALOGNxPa84VBuqB1Emw7uhSN68U"
-  }
+    "COPY ./entrypoint.sh /entrypoint.sh",
+    "RUN chmod +x /entrypoint.sh",
+    "CMD [\"/entrypoint.sh\"]"
+  ]
 }
