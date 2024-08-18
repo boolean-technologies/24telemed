@@ -31,6 +31,7 @@ jobs:
         run: |
           mkdir deploy
           cp -R frontend/dist/apps/doctor-app/* deploy/
+          cp frontend/entrypoint.sh deploy/entrypoint.sh
           cp frontend/captain-definition deploy/captain-definition
 
       - uses: a7ul/tar-action@v1.1.0
