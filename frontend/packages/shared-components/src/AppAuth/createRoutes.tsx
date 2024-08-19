@@ -1,6 +1,7 @@
 import { type RouteObject } from 'react-router-dom';
 import { Path } from './paths';
 import { AuthLayout } from './AuthLayout';
+import { ErrorPage } from '../ErrorPage';
 
 export const creatRoutes = (
   routes: RouteObject[],
@@ -11,6 +12,8 @@ export const creatRoutes = (
     {
       path: '/',
       element: <AuthLayout />,
+      errorElement: <ErrorPage />,
+
       children: [
         {
           index: true,
@@ -24,5 +27,5 @@ export const creatRoutes = (
         ...routes,
       ],
     },
-  ];
+  ] as RouteObject[];
 };
