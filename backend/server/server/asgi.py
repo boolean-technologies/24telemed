@@ -24,7 +24,7 @@ from call_log.consumer import CallLogWebSocketConsumer
 from .jwt_auth_middleware import JWTAuthMiddlewareStack
 
 asgi_application = get_asgi_application()
-print(ast.literal_eval(os.environ.get('ALLOWED_ORIGINS', '[]')))
+
 application = ProtocolTypeRouter({
     "http": asgi_application,
 
