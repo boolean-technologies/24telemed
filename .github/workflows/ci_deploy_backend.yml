@@ -27,6 +27,8 @@ jobs:
 
       - name: Collect static files
         working-directory: ./backend/server
+        env:
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
         run: |
           source venv/bin/activate
           python manage.py collectstatic --noinput
