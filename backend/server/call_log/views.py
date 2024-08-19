@@ -54,8 +54,9 @@ class DoctorCallLogViewSet(viewsets.ReadOnlyModelViewSet):
     def call_stats(self, request):
         filtered_calls = self.filter_queryset(self.get_queryset())
 
-        total_call_time = filtered_calls.aggregate(total_call_time=Sum('duration'))['total_call_time']
-        total_completed = filtered_calls.filter(status=CallStatus.COMPLETED).count()
+        completed_calls = filtered_calls.filter(status=CallStatus.COMPLETED)
+        total_call_time = completed_calls.aggregate(total_call_time=Sum('duration'))['total_call_time'] or 0
+        total_completed = completed_calls.count()
         total_busy = filtered_calls.filter(status=CallStatus.DECLINED).count()
         total_failed = filtered_calls.filter(status=CallStatus.FAILED).count()
 
