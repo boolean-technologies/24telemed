@@ -20,3 +20,4 @@ export * from "./PatientProfile";
 export * from "./TextEditor";
 export * from "./MessageResult";
 export * from './FormWrapper'
+export * from './ErrorPage'
