@@ -5,15 +5,15 @@ import { useGetCallLog } from '../../api/callLogs';
 import { useParams } from 'react-router-dom';
 
 export function MeetingPage() {
-  const { meetingId: internalMeetingId } = useParams();
+  const { meetingId } = useParams();
   const { data: userData } = useCurrentUser();
-  const { data: callLog } = useGetCallLog(internalMeetingId);
+  const { data: callLog } = useGetCallLog(meetingId);
 
   const fullName = [userData?.first_name, userData?.last_name]
     .filter(Boolean)
     .join(' ') || 'Unknown';
 
-  if (!userData || !callLog || !callLog.meeting_id || !callLog.patient) {
+  if (!userData || !callLog?.meeting_id || !callLog?.patient) {
     return <PageLoading />;
   }
 
