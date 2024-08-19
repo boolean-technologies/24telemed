@@ -51,10 +51,10 @@ export function CallContextProvider({
 
   const remoteParticipant = useMemo(() => {
     for (const [key, value] of participants) {
-      if (key !== localParticipant.id && !value.local) return value;
+      if (key !== localParticipant?.id && !value.local) return value;
     }
     return undefined;
-  }, [participants, localParticipant.id]);
+  }, [participants, localParticipant?.id]);
 
   return (
     <AppContext.Provider

@@ -32,7 +32,7 @@ export function useMedicalNoteSections(type: NoteType): SectionsType {
 
   const { messages = [] } = usePubSub('MEDICALNOTES', {
     onMessageReceived: (incomingMessage) => {
-      if (incomingMessage.senderId !== localParticipant.id) {
+      if (incomingMessage?.senderId !== localParticipant?.id) {
         playNotificationSound();
         message.info('Patient medical note has been updated', 10);
         switch ((incomingMessage.payload as { type: string }).type) {

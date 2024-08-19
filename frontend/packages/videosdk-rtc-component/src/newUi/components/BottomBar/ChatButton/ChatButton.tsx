@@ -19,7 +19,7 @@ export function ChatButton({ onClick, active, hideLabel }: ChatButtonProps) {
 
   usePubSub('CHAT', {
     onMessageReceived: (incomingMessage) => {
-      if (incomingMessage.senderId !== localParticipant.id && !active) {
+      if (incomingMessage?.senderId !== localParticipant?.id && !active) {
         setCount((prev) => prev + 1);
         playNotificationSound()
       }
