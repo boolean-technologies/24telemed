@@ -27,7 +27,7 @@ export function RemoteStream({ onLayoutToggle }: RemoteStreamProps) {
 
   if (!remoteParticipant) return null;
   return (
-    <StreamPlayer onLayoutToggle={onLayoutToggle} showBorder participantId={remoteParticipant.id}>
+    <StreamPlayer onLayoutToggle={onLayoutToggle} showBorder participantId={remoteParticipant?.id}>
       <StyledRemoteVideo
         url={videoStream}
         playsInline

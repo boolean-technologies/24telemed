@@ -7,7 +7,7 @@ export function RaiseHandButton() {
 
   const { publish } = usePubSub('RAISEHAND', {
     onMessageReceived: (incomingMessage) => {
-      if (incomingMessage.senderId !== localParticipant.id) {
+      if (incomingMessage?.senderId !== localParticipant?.id) {
         message.info(incomingMessage.message, 10);
         playNotificationSound();
       }
@@ -19,7 +19,7 @@ export function RaiseHandButton() {
     <IconButton
       icon="hand-right"
       onClick={() =>
-        publish(localParticipant.displayName + ' has raised a hand', {
+        publish(localParticipant?.displayName + ' has raised a hand', {
           persist: false,
         })
       }
