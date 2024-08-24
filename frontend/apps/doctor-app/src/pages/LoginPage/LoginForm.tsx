@@ -12,8 +12,8 @@ type FormFieldType = {
   username: string;
   password: string;
 };
-const admin_email = import.meta.env. VITE_ADMIN_CONTACT_EMAIL;
-const admin_phone = import.meta.env. VITE_ADMIN_CONTACT_PHONE;
+const admin_email = import.meta.env. VITE_ADMIN_CONTACT_EMAIL || "info@24telemed.org"
+const admin_phone = import.meta.env. VITE_ADMIN_CONTACT_PHONE ||  "+2349112992719"
 export function LoginForm() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const login = useDoctorLogin();
