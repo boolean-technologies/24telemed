@@ -12,8 +12,8 @@ type FormFieldType = {
   username: string;
   password: string;
 };
-const admin_email = import.meta.env. VITE_ADMIN_CONTACT_EMAIL;
-const admin_phone = import.meta.env. VITE_ADMIN_CONTACT_PHONE;
+const admin_email = import.meta.env. VITE_ADMIN_CONTACT_EMAIL || "info@24telemed.org"
+const admin_phone = import.meta.env. VITE_ADMIN_CONTACT_PHONE ||  "+2349112992719"
 export function LoginForm() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const login = useDoctorLogin();
@@ -104,37 +104,38 @@ export function LoginForm() {
       </Flex>
 
       <Modal
-        title="Admin Contact Information"
-        
-        onOk={handleOk}
-        onCancel={handleCancel}
-        open={isModalOpen}
-        centered
-      >
-        <Flex direction="column" gap="md">
+  title="Need an Account?"
+  onOk={handleOk}
+  onCancel={handleCancel}
+  open={isModalOpen}
+  centered
+>
+  <Flex direction="column" gap="md">
+    <Typography>
+      To set up your account, please contact the system administrator using the information below:
+    </Typography>
 
-          <Flex direction="column" gap="none">
-            <Typography weight="bold">Email</Typography>
-            <Link to={`mailto:${admin_email}`}>
-              <Typography>
-                {admin_email}
-              
-              </Typography>
-            </Link>
+    <Flex direction="column" gap="sm">
+      <Flex direction="column" gap="none">
+        <Typography >Email</Typography>
+        <Link to={`mailto:${admin_email}`}>
+          <Typography link>{admin_email}</Typography>
+        </Link>
+      </Flex>
 
-            
-              
-          <Flex direction="column" gap="none">
-            <Typography weight="bold">Phone</Typography>
-            <Link to={`tel:${admin_phone}`}>
-              <Typography>
-                {admin_phone}
-              </Typography>
-            </Link>
-          </Flex>
-          </Flex>
-        </Flex>
-      </Modal>
+      <Flex direction="column" gap="none">
+        <Typography >Phone</Typography>
+        <Link to={`tel:${admin_phone}`}>
+          <Typography link>{admin_phone}</Typography>
+        </Link>
+      </Flex>
+    </Flex>
+
+    <Typography>
+      The administrator will assist you in creating your account and providing necessary access.
+    </Typography>
+  </Flex>
+</Modal>
     </Form>
   );
 }
