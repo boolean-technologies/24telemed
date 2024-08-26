@@ -7024,7 +7024,7 @@
   resolved "https://registry.yarnpkg.com/@videosdk.live/js-sdk/-/js-sdk-0.0.94.tgz#35a184af5c69fc8c198d840fdddc3e4274e9bc20"
   integrity sha512-xRNXdQ2DBEdoei7W2CXEQfpZdPz0JAhkqPPmnWSeEkABPNBDZfDT5WFrpkjYqu1KhjeGmz6m5myDUoMwVLvx7A==
 
-"@videosdk.live/react-sdk@^0.1.83":
+"@videosdk.live/react-sdk@^0.1.98":
   version "0.1.98"
   resolved "https://registry.yarnpkg.com/@videosdk.live/react-sdk/-/react-sdk-0.1.98.tgz#386ace5a7390eeb5ab64baeed9d76f5bf8e865d9"
   integrity sha512-9sb3OXz8O3FxgsiXS+DgIRqoxCrweJM0cvh6WEOhG0rJrBsUCtWB5j1MIZE88avjyONvyUM6RXQkJAcinSx59w==
