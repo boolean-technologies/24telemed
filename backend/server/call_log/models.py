@@ -3,6 +3,7 @@ from django.utils.dateparse import parse_datetime
 from django.db import models
 from users.models import User
 from patient.models import Patient
+import math
 
 class CallStatus(models.TextChoices):
     INITIATED = 'Initiated'
@@ -43,7 +44,8 @@ class CallLog(models.Model):
 
     def save(self, *args, **kwargs):
         if self.end_time:
-            self.duration = (self.end_time - self.start_time).seconds // 60
+            duration = (self.end_time - self.start_time).total_seconds()
+            self.duration = int(math.ceil(duration / 60))
         super().save(*args, **kwargs)
 
     def setToBusy(self):
