@@ -10,17 +10,24 @@ class WalletSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     patient_id = serializers.SerializerMethodField()
-    wallet = WalletSerializer(read_only=True)
-
     class Meta:
         model = User
-        fields = ['id', 'user_id', 'patient_id', 'first_name', 'last_name', 'email', 'phone_number', 'bvn', 'wallet']
+        fields = ['id', 'user_id', 'patient_id', 'first_name', 'last_name', 'email', 'phone_number', 'bvn']
         
     def get_patient_id(self, obj):
         try:
             return str(obj.patient_profile.first().id) if (obj.patient_profile) else None
         except:
             return None
+
+
+class CurrentUserSerializer(UserSerializer):
+    wallet = WalletSerializer(read_only=True)
+    
+    class Meta:
+        model = User
+        fields = ['id', 'user_id', 'patient_id', 'first_name', 'last_name', 'email', 'phone_number', 'bvn', 'wallet']
+    
 
 class UserSearchSerializer(serializers.ModelSerializer):
     class Meta:

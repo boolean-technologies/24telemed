@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from drf_yasg.utils import swagger_auto_schema
 from .models import User
-from .serializers import UserSerializer, UserSearchSerializer, DoctorSerializer, DoctorTokenObtainPairSerializer, PersonnelTokenObtainPairSerializer
+from .serializers import UserSerializer, CurrentUserSerializer, UserSearchSerializer, DoctorSerializer, DoctorTokenObtainPairSerializer, PersonnelTokenObtainPairSerializer
 from utils.permission import DoctorPermission, PersonnelPermission
 from drf_yasg import openapi
 from django.contrib.auth.hashers import check_password
@@ -25,11 +25,11 @@ class UserViewSet(viewsets.ModelViewSet):
     @swagger_auto_schema(
         method='get',
         operation_description="Retrieve the current logged-in user's information",
-        responses={200: UserSerializer}
+        responses={200: CurrentUserSerializer}
     )
     @action(detail=False, methods=['get'])
     def current_user(self, request):
-        serializer = self.get_serializer(request.user)
+        serializer = CurrentUserSerializer(request.user)
         return Response(serializer.data)   
 
     @swagger_auto_schema(
