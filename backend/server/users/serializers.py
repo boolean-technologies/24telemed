@@ -1,19 +1,26 @@
 from rest_framework import serializers
-from .models import User
+from .models import User, Wallet
 from  rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
+
+class WalletSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Wallet
+        fields = ['account_number', 'bank_name', 'flw_ref', 'order_ref', 'amount', 'created_at']
 
 class UserSerializer(serializers.ModelSerializer):
     patient_id = serializers.SerializerMethodField()
+    wallet = WalletSerializer(read_only=True)
+
     class Meta:
         model = User
-        fields = '__all__'
+        fields = ['id', 'user_id', 'patient_id', 'first_name', 'last_name', 'email', 'phone_number', 'bvn', 'wallet']
         
     def get_patient_id(self, obj):
         try:
             return str(obj.patient_profile.first().id) if (obj.patient_profile) else None
         except:
             return None
-
 
 class UserSearchSerializer(serializers.ModelSerializer):
     class Meta:
