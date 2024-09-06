@@ -66,3 +66,17 @@ class PersonnelTokenObtainPairSerializer(TokenObtainPairSerializer):
         data['access'] = str(refresh.access_token)
 
         return data
+
+
+class WalletAccountSerializer(serializers.Serializer):
+    response_code = serializers.CharField(max_length=10)
+    response_message = serializers.CharField(max_length=255)
+    flw_ref = serializers.CharField(max_length=100)
+    order_ref = serializers.CharField(max_length=100)
+    account_number = serializers.CharField(max_length=20)
+    frequency = serializers.CharField(max_length=10)
+    bank_name = serializers.CharField(max_length=100)
+    created_at = serializers.DateTimeField()
+    expiry_date = serializers.DateTimeField()
+    note = serializers.CharField(max_length=255)
+    amount = serializers.FloatField()

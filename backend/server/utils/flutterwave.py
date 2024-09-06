@@ -36,7 +36,7 @@ class FlutterwaveAPI:
         url = f'{FlutterwaveAPI.base_url}/{account_number}'
         response = requests.get(url, headers=FlutterwaveAPI.headers)
         if response.status_code == 200:
-            return response.json()
+            return response.json()["data"]
         else:
             raise Exception(f"Failed to retrieve virtual account: {response.text}")
 
