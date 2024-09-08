@@ -85,9 +85,8 @@ class PaystackWebhookView(APIView):
             payload = json.loads(request.body)
             event = payload.get('event')
 
-            # Verify the event signature
-            # if not self.verify_signature(request):
-            #     return JsonResponse({'status': 'error', 'message': 'Invalid signature'}, status=403)
+            if not self.verify_signature(request):
+                return JsonResponse({'status': 'error', 'message': 'Invalid signature'}, status=403)
 
             if event == 'charge.success':
                 reference = payload['data']['reference']
