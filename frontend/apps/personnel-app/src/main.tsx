@@ -17,7 +17,7 @@ import './style.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-OpenAPI.BASE = "http://localhost:8000";//import.meta.env.VITE_API_BASE
+OpenAPI.BASE = import.meta.env.VITE_API_BASE
 OpenAPI.TOKEN = tokenManager.getToken();
 
 const theme = createTheme();
