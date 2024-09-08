@@ -1,5 +1,6 @@
 export enum Path {
     home = "/home",
+    wallet = "/wallet",
     login = "/login",
     meeting = "/meeting",
     history = "/history",

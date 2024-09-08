@@ -1,8 +1,10 @@
 import { useCurrentUser } from '@local/api-generated';
-import { PageLoading } from '@local/shared-components';
+import { MessageResult, PageLoading } from '@local/shared-components';
 import { VideoCall } from '@local/videosdk-rtc-component';
 import { useGetCallLog } from '../../api/callLogs';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { Button, Flex } from 'antd';
+import { Path } from '../../constants';
 
 export function MeetingPage() {
   const { meetingId } = useParams();
@@ -13,9 +15,32 @@ export function MeetingPage() {
     .filter(Boolean)
     .join(' ');
 
-    if (!userData || !callLog?.meeting_id || !callLog?.patient) {
-      return <PageLoading />;
-    }
+  if (!userData || !callLog?.meeting_id || !callLog?.patient) {
+    return <PageLoading />;
+  }
+
+  if (
+    userData.user_type === 'customer' &&
+    (userData.wallet?.call_session ?? 0) === 0
+  ) {
+    return (
+      <Flex style={{ height: '100vh' }}>
+        <MessageResult
+          icon="videocam-off"
+          title="Insufficient Balance"
+          subTitle="You don’t have enough balance to start a call. Please top up your wallet to proceed."
+          extra={[
+            <Link key="cancel" to={Path.home}>
+              <Button danger>Cancel call</Button>
+            </Link>,
+            <Link to={Path.wallet+"/fund"} key="fund">
+              <Button type="primary">Fund wallet</Button>
+            </Link>,
+          ]}
+        />
+      </Flex>
+    );
+  }
 
   return (
     <VideoCall

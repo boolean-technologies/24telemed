@@ -16,6 +16,7 @@ import { PatientProfilePage } from './pages/PatientProfilePage';
 import { EditPatientPage } from './pages/EditPatientInformation';
 import { ForgotPaswordPage } from './pages/ResetPasword';
 import { HomePage } from './pages/HomePage';
+import { FundWalletModal, WalletPage } from './pages/WalletPage';
 
 
 
@@ -35,6 +36,16 @@ const routes: RouteObject[] = [
           {
             path: Path.home,
             element: <HomePage />,
+          },
+          {
+            path: Path.wallet,
+            element: <WalletPage />,
+            children: [
+              {
+                path: "fund",
+                element: <FundWalletModal />
+              }
+            ]
           },
           {
             path: Path.history,

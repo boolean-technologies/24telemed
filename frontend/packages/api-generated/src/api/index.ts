@@ -9,6 +9,7 @@ export type { OpenAPIConfig } from './core/OpenAPI';
 
 export { CallLog } from './models/CallLog';
 export type { CallStats } from './models/CallStats';
+export { CurrentUser } from './models/CurrentUser';
 export type { Doctor } from './models/Doctor';
 export type { DoctorTokenObtainPair } from './models/DoctorTokenObtainPair';
 export type { Drug } from './models/Drug';
@@ -20,8 +21,10 @@ export { PatientSearch } from './models/PatientSearch';
 export type { PersonnelTokenObtainPair } from './models/PersonnelTokenObtainPair';
 export type { PrescribedDrug } from './models/PrescribedDrug';
 export type { TokenRefresh } from './models/TokenRefresh';
+export { Transaction } from './models/Transaction';
 export { User } from './models/User';
 export type { UserSearch } from './models/UserSearch';
+export { Wallet } from './models/Wallet';
 
 export { AuthService } from './services/AuthService';
 export { CallLogsService } from './services/CallLogsService';
@@ -30,3 +33,4 @@ export { PatientAccessLogsService } from './services/PatientAccessLogsService';
 export { PatientsService } from './services/PatientsService';
 export { PersonnelService } from './services/PersonnelService';
 export { UsersService } from './services/UsersService';
+export { WalletService } from './services/WalletService';

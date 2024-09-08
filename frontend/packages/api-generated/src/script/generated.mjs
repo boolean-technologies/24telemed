@@ -7,7 +7,7 @@ import path from 'path';
 
 const cwd = process.cwd();
 
-const OPEN_API_URL = 'https://telemedbackend-cc0b49c871e2.herokuapp.com/?format=openapi';
+const OPEN_API_URL = 'http://localhost:8000/?format=openapi';
 
 const OPEN_API_FILE_PATH = path.resolve(
   cwd,

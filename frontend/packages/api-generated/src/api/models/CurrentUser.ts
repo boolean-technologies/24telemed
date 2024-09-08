@@ -2,9 +2,11 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type User = {
+import type { Wallet } from './Wallet';
+export type CurrentUser = {
   readonly id?: string;
   readonly patient_id?: string;
+  wallet?: Wallet;
   password: string;
   last_login?: string | null;
   /**
@@ -31,7 +33,7 @@ export type User = {
   phone_number?: string | null;
   date_of_birth?: string | null;
   description?: string | null;
-  user_type?: User.user_type;
+  user_type?: CurrentUser.user_type;
   readonly photo?: string | null;
   specialty?: string | null;
   location?: string | null;
@@ -45,7 +47,7 @@ export type User = {
    */
   user_permissions?: Array<number>;
 };
-export namespace User {
+export namespace CurrentUser {
   export enum user_type {
     PERSONNEL = 'personnel',
     DOCTOR = 'doctor',

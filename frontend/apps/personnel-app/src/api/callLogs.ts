@@ -7,6 +7,7 @@ import {
   CallLog,
   PersonnelService
 } from '@local/api-generated';
+import { getQueryParam } from '../utils/getQueryParam';
 
 type SearchType = {
   status?:
@@ -43,7 +44,7 @@ useInfiniteQuery<SearchResultType<FullCallLog>, ApiError>({
       pageParam as number,
       params.size
     ),
-    getNextPageParam: (lastPage) => lastPage.next ? Number(new URLSearchParams(lastPage.next).get("page")) : undefined,
+    getNextPageParam: (lastPage) => lastPage.next ? Number(getQueryParam(lastPage.next, "page")) : undefined,
   });
 
 

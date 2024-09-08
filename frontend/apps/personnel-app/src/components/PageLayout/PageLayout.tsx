@@ -18,35 +18,45 @@ export function PageLayout() {
   const theme = useTheme() as Theme;
 
   const tabs = [
-    user?.user_type === 'personnel'
-      ? {
-          path: Path.home,
-          title: 'Search',
-          iconName: 'search',
-        }
-      : {
-          path: Path.home,
-          title: 'Home',
-          iconName: 'home',
-        },
+    {
+      path: Path.home,
+      title: 'Search',
+      iconName: 'search',
+      visible: user?.user_type === 'personnel',
+    },
+    {
+      path: Path.home,
+      title: 'Home',
+      iconName: 'home',
+      visible: user?.user_type === 'customer',
+    },
     {
       path: Path.history,
       title: 'History',
       iconName: 'call',
+      visible: true,
+    },
+    {
+      path: Path.wallet,
+      title: 'Wallet',
+      iconName: 'card',
+      visible: user?.user_type === 'customer',
     },
     {
       path: Path.profile,
       title: 'Profile',
       iconName: 'person',
+      visible: true,
     },
     {
       path: Path.logout,
       title: 'Logout',
       iconName: 'log-out',
+      visible: true,
     },
   ];
 
-  const currentTab = tabs.find((tab) => tab.path === pathname);
+  const currentTab = tabs.find((tab) => pathname.startsWith(tab.path));
 
   const onLogout = () => {
     Dialog.confirm({
@@ -74,26 +84,28 @@ export function PageLayout() {
             else navigate(value);
           }}
         >
-          {tabs.map((item) => {
-            const isActive = currentTab?.path === item.path;
-            return (
-              <TabBar.Item
-                key={item.path}
-                icon={<IonIcon name={item.iconName} outlined={!isActive} />}
-                title={item.title}
-                style={{
-                  ...(isActive
-                    ? {
-                        fontWeight: 'bold',
-                        color: theme.palette.common.black,
-                      }
-                    : {}),
-                  height: 65,
-                  fontSize: 16,
-                }}
-              />
-            );
-          })}
+          {tabs
+            .filter((tab) => tab.visible)
+            .map((item) => {
+              const isActive = currentTab?.path === item.path;
+              return (
+                <TabBar.Item
+                  key={item.path}
+                  icon={<IonIcon name={item.iconName} outlined={!isActive} />}
+                  title={item.title}
+                  style={{
+                    ...(isActive
+                      ? {
+                          fontWeight: 'bold',
+                          color: theme.palette.common.black,
+                        }
+                      : {}),
+                    height: 65,
+                    fontSize: 16,
+                  }}
+                />
+              );
+            })}
         </TabBar>
       </StyledBottom>
     </StyledRoot>

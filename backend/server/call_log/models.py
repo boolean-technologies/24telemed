@@ -100,5 +100,5 @@ class CallLog(models.Model):
                     wallet=wallet,
                     transaction_type='withdrawal',
                     amount=wallet.get_call_unit_cost(),
-                    description=f'Call session with {self.doctor.first_name} ({self.doctor.user_id})'
+                    description=f'Call session with Dr. {self.doctor.first_name} ({self.doctor.user_id})'
                 )

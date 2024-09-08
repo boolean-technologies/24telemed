@@ -5,6 +5,9 @@ import { useGetDoctor } from '../../api/doctor';
 import { Avatar, Form, Input, Select, Skeleton } from 'antd';
 import { usePersonnelCommunication } from '@local/websocket';
 import { useState } from 'react';
+import { useCurrentUser } from '@local/api-generated';
+import { Link } from 'react-router-dom';
+import { Path } from '../../constants';
 
 type DoctorInfoComponentProps = {
   id: string;
@@ -12,11 +15,18 @@ type DoctorInfoComponentProps = {
 };
 
 const DoctorInfoComponent = ({ id, patientId }: DoctorInfoComponentProps) => {
+  const { data: user } = useCurrentUser();
   const { callDoctor } = usePersonnelCommunication();
   const { data, isPending } = useGetDoctor(id);
   const [shoCallModal, setShowCallModal] = useState(false);
 
-  const handleCallDoctor = ({ note = "", priority = 1 }: { note: string; priority: number }) => {
+  const handleCallDoctor = ({
+    note = '',
+    priority = 1,
+  }: {
+    note: string;
+    priority: number;
+  }) => {
     callDoctor({ note, priority, doctorId: id, patientId });
     setShowCallModal(false);
   };
@@ -28,7 +38,11 @@ const DoctorInfoComponent = ({ id, patientId }: DoctorInfoComponentProps) => {
     <>
       <DoctorInfo direction="row" justify="space-between">
         <Flex>
-          <Avatar src={data?.photo} size={60} icon={<IonIcon name="person" outlined />} />
+          <Avatar
+            src={data?.photo}
+            size={60}
+            icon={<IonIcon name="person" outlined />}
+          />
           <Flex direction="column" gap="none">
             <Typography variant="bodyMd">
               {' '}
@@ -38,9 +52,16 @@ const DoctorInfoComponent = ({ id, patientId }: DoctorInfoComponentProps) => {
           </Flex>
         </Flex>
         <Flex direction="row" gap="sm">
-          <Button color="primary" onClick={() => setShowCallModal(true)}>
-            Call Doctor
-          </Button>
+          {user?.user_type === 'customer' &&
+          (user?.wallet?.call_session ?? 0) === 0 ? (
+            <Link to={Path.wallet+"/fund"}>
+              <Button color="warning">Insufficient Balance – Top Up</Button>
+            </Link>
+          ) : (
+            <Button color="primary" onClick={() => setShowCallModal(true)}>
+              Call Doctor
+            </Button>
+          )}
         </Flex>
       </DoctorInfo>
       <Modal
