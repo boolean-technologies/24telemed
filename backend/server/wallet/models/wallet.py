@@ -43,3 +43,14 @@ class Wallet(models.Model):
     def is_active(self):
         """Checks if the wallet is active."""
         return self.status == 'active'
+    
+    def get_call_unit_cost(self):
+        return getattr(settings, 'CALL_SESSION_UNIT_PRICE', 0)
+
+    def get_call_session(self):
+        unit_cost = self.get_call_unit_cost()
+        
+        if unit_cost <= 0:
+            return 0
+        
+        return self.balance // unit_cost

@@ -4,9 +4,18 @@ from  rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from wallet.models import Wallet
 
 class WalletSerializer(serializers.ModelSerializer):
+    call_session = serializers.SerializerMethodField()
+    call_unit_cost = serializers.SerializerMethodField()
+
     class Meta:
         model = Wallet
         fields = '__all__'
+
+    def get_call_session(self, obj: Wallet) -> int:
+        return obj.get_call_session()
+
+    def get_call_unit_cost(self, obj: Wallet) -> float:
+        return obj.get_call_unit_cost()
 
 class UserSerializer(serializers.ModelSerializer):
     patient_id = serializers.SerializerMethodField()

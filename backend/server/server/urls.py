@@ -64,6 +64,7 @@ urlpatterns = [
     re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('call-logs/', include('call_log.urls.main')),
     path('users/', include('users.urls')),
+    path('wallet/', include('wallet.urls')),
     
     path('patients/', include('patient.urls.patient')),
     path('doctors/medical-encounters/', include('medication.urls')),
