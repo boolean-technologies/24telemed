@@ -4,7 +4,7 @@ from django.db import models
 from users.models import User
 from patient.models import Patient
 import math
-
+from wallet.models import Wallet, Transaction
 class CallStatus(models.TextChoices):
     INITIATED = 'Initiated'
     IN_PROGRESS = 'In Progress'
@@ -92,3 +92,13 @@ class CallLog(models.Model):
             self.end_time = endTime
             self.status = "Completed"
             self.save()
+            
+            user = self.patient.user
+            if user and user.user_type == 'customer':
+                wallet = Wallet.objects.get(user__email=self.health_care_assistant.email)
+                Transaction.objects.create(
+                    wallet=wallet,
+                    transaction_type='withdrawal',
+                    amount=wallet.get_call_unit_cost(),
+                    description=f'Call session with {self.doctor.first_name} ({self.doctor.user_id})'
+                )
