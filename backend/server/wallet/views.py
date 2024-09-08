@@ -78,6 +78,7 @@ class FlutterwaveWebhookView(APIView):
 
 @method_decorator(csrf_exempt, name='dispatch')
 class PaystackWebhookView(APIView):
+    permission_classes = [AllowAny]
     
     def post(self, request, *args, **kwargs):
         try:
