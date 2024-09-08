@@ -12,7 +12,7 @@ class UserSerializer(serializers.ModelSerializer):
     patient_id = serializers.SerializerMethodField()
     class Meta:
         model = User
-        fields = ['id', 'user_id', 'patient_id', 'first_name', 'last_name', 'email', 'phone_number', 'bvn']
+        fields = '__all__'
         
     def get_patient_id(self, obj):
         try:
@@ -26,7 +26,7 @@ class CurrentUserSerializer(UserSerializer):
     
     class Meta:
         model = User
-        fields = ['id', 'user_id', 'patient_id', 'first_name', 'last_name', 'email', 'phone_number', 'bvn', 'wallet']
+        fields = '__all__'
     
 
 class UserSearchSerializer(serializers.ModelSerializer):

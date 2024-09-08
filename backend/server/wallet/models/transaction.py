@@ -28,7 +28,7 @@ class Transaction(models.Model):
     payment_source = models.CharField(max_length=20, choices=PAYMENT_SOURCES, blank=True, null=True)  # Flutterwave, Paystack
     payment_method = models.CharField(max_length=20, choices=PAYMENT_METHODS, blank=True, null=True)  # Card, Bank Transfer, USSD, etc.
     payment_reference = models.CharField(max_length=100, null=True, blank=True)  # Reference ID from payment gateway
-    amount = models.FloatField()
+    amount = models.FloatField(default=0, null=True)
     description = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(default=timezone.now)
 
