@@ -27,7 +27,6 @@ class FlutterwaveAPI:
         response = requests.post(url, headers=FlutterwaveAPI.headers, data=json.dumps(data))
         if response.status_code == 200:
             return response.json()
-            print(response.json())
         else:
             raise Exception(f"Failed to create wallet: {response.text}")
 

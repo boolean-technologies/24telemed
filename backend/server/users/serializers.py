@@ -1,12 +1,12 @@
 from rest_framework import serializers
-from .models import User, Wallet
+from .models import User
 from  rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-
+from wallet.models import Wallet
 
 class WalletSerializer(serializers.ModelSerializer):
     class Meta:
         model = Wallet
-        fields = ['account_number', 'bank_name', 'flw_ref', 'order_ref', 'amount', 'created_at']
+        fields = '__all__'
 
 class UserSerializer(serializers.ModelSerializer):
     patient_id = serializers.SerializerMethodField()
@@ -66,17 +66,3 @@ class PersonnelTokenObtainPairSerializer(TokenObtainPairSerializer):
         data['access'] = str(refresh.access_token)
 
         return data
-
-
-class WalletAccountSerializer(serializers.Serializer):
-    response_code = serializers.CharField(max_length=10)
-    response_message = serializers.CharField(max_length=255)
-    flw_ref = serializers.CharField(max_length=100)
-    order_ref = serializers.CharField(max_length=100)
-    account_number = serializers.CharField(max_length=20)
-    frequency = serializers.CharField(max_length=10)
-    bank_name = serializers.CharField(max_length=100)
-    created_at = serializers.DateTimeField()
-    expiry_date = serializers.DateTimeField()
-    note = serializers.CharField(max_length=255)
-    amount = serializers.FloatField()

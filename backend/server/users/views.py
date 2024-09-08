@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from drf_yasg.utils import swagger_auto_schema
 from .models import User
-from .serializers import UserSerializer, CurrentUserSerializer, WalletAccountSerializer, UserSearchSerializer, DoctorSerializer, DoctorTokenObtainPairSerializer, PersonnelTokenObtainPairSerializer
+from .serializers import UserSerializer, CurrentUserSerializer, UserSearchSerializer, DoctorSerializer, DoctorTokenObtainPairSerializer, PersonnelTokenObtainPairSerializer
 from utils.permission import DoctorPermission, PersonnelPermission
 from drf_yasg import openapi
 from django.contrib.auth.hashers import check_password
@@ -16,7 +16,6 @@ from datetime import datetime, timedelta
 from utils.notification import Notification
 from django.db.models import Q
 from rest_framework_simplejwt.views import TokenObtainPairView
-from utils.flutterwave import FlutterwaveAPI
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -32,18 +31,6 @@ class UserViewSet(viewsets.ModelViewSet):
     def current_user(self, request):
         serializer = CurrentUserSerializer(request.user)
         return Response(serializer.data)   
-
-    @swagger_auto_schema(
-        method='get',
-        operation_description="Retrieve the current logged-in user's wallet",
-        responses={200: WalletAccountSerializer}
-    )
-    @action(detail=False, methods=['get'])
-    def current_user_wallet(self, request):
-        user: User = request.user
-        # TODO: Check if user have account and if not throw error
-        wallet = FlutterwaveAPI.get_virtual_account(user.wallet.account_number)
-        return Response(wallet)
 
     @swagger_auto_schema(
         method='put',

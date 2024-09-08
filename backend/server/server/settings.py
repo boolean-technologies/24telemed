@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     "medication",
     'django_filters',
     'baton.autodiscover',
+    'wallet',
 ]
 
 MIDDLEWARE = [
