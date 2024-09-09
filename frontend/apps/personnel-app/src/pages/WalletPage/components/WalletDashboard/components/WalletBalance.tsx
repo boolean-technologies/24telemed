@@ -1,6 +1,6 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { useCurrentUser } from '@local/api-generated';
-import { Button, Card, Flex, Statistic, Tag, Typography } from 'antd';
+import { Button, Card, Flex, Statistic, Tag, Tooltip, Typography } from 'antd';
 import { DateTime } from 'luxon';
 import { formatToNaira } from '../../../../../utils/formatToNaira';
 import styled from 'styled-components';
@@ -42,7 +42,9 @@ export function WalletBalance() {
           </Tag>
         </Flex>
         <Link to="fund">
-          <Button icon={<PlusOutlined />} shape="circle" />
+          <Tooltip title="Top Up">
+            <Button icon={<PlusOutlined />} shape="circle" />
+          </Tooltip>
         </Link>
       </Flex>
     </StyledRoot>
