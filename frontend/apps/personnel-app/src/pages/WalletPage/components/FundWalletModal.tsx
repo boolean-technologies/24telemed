@@ -6,7 +6,7 @@ import { useCurrentUser } from '@local/api-generated';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
-const PUBLICKEY = "pk_test_c92dec784d8548ece123ebd0573354e01ce738bc" //import.meta.env.VITE_PAYSTACK_PUBLIC_KEY;
+const PUBLICKEY = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY;
 
 const { Text } = Typography;
 
@@ -60,7 +60,6 @@ export function FundWalletModal() {
         layout="vertical"
         initialValues={{ call_sessions: 1 }}
       >
-        {/* Info to help user understand call session */}
         <Text
           type="secondary"
           style={{ marginBottom: '10px', display: 'block' }}
