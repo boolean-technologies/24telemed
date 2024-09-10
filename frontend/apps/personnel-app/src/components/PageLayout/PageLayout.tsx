@@ -40,7 +40,7 @@ export function PageLayout() {
       path: Path.wallet,
       title: 'Wallet',
       iconName: 'card',
-      visible: user?.user_type === 'customer',
+      visible: user?.user_type === 'customer' && !user?.covered_by_insurance,
     },
     {
       path: Path.profile,

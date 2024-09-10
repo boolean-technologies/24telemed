@@ -5,7 +5,7 @@
 export type User = {
   readonly id?: string;
   readonly patient_id?: string;
-  password: string;
+  readonly covered_by_insurance?: boolean;
   last_login?: string | null;
   /**
    * Designates that this user has all permissions without explicitly assigning them.
@@ -32,6 +32,7 @@ export type User = {
   date_of_birth?: string | null;
   description?: string | null;
   user_type?: User.user_type;
+  insurance_coverage?: User.insurance_coverage | null;
   readonly photo?: string | null;
   specialty?: string | null;
   location?: string | null;
@@ -50,5 +51,8 @@ export namespace User {
     PERSONNEL = 'personnel',
     DOCTOR = 'doctor',
     CUSTOMER = 'customer',
+  }
+  export enum insurance_coverage {
+    HEALTH_SPRING = 'health_spring',
   }
 }

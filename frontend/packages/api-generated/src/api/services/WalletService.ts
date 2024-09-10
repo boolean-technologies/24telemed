@@ -41,4 +41,14 @@ export class WalletService {
       url: '/wallet/webhook/flutterwave/',
     });
   }
+  /**
+   * @returns any
+   * @throws ApiError
+   */
+  public static walletWebhookPaystackCreate(): CancelablePromise<any> {
+    return __request(OpenAPI, {
+      method: 'POST',
+      url: '/wallet/webhook/paystack/',
+    });
+  }
 }

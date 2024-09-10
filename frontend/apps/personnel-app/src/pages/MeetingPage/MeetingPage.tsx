@@ -5,6 +5,7 @@ import { useGetCallLog } from '../../api/callLogs';
 import { Link, useParams } from 'react-router-dom';
 import { Button, Flex } from 'antd';
 import { Path } from '../../constants';
+import { getIsPaymentRequired } from '../../utils/getIsPaymentRequired';
 
 export function MeetingPage() {
   const { meetingId } = useParams();
@@ -19,10 +20,7 @@ export function MeetingPage() {
     return <PageLoading />;
   }
 
-  if (
-    userData.user_type === 'customer' &&
-    (userData.wallet?.call_session ?? 0) === 0
-  ) {
+  if (getIsPaymentRequired(userData)) {
     return (
       <Flex style={{ height: '100vh' }}>
         <MessageResult

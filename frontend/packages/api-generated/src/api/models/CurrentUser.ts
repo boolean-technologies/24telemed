@@ -6,8 +6,8 @@ import type { Wallet } from './Wallet';
 export type CurrentUser = {
   readonly id?: string;
   readonly patient_id?: string;
+  readonly covered_by_insurance?: boolean;
   wallet?: Wallet;
-  password: string;
   last_login?: string | null;
   /**
    * Designates that this user has all permissions without explicitly assigning them.
@@ -34,6 +34,7 @@ export type CurrentUser = {
   date_of_birth?: string | null;
   description?: string | null;
   user_type?: CurrentUser.user_type;
+  insurance_coverage?: CurrentUser.insurance_coverage | null;
   readonly photo?: string | null;
   specialty?: string | null;
   location?: string | null;
@@ -52,5 +53,8 @@ export namespace CurrentUser {
     PERSONNEL = 'personnel',
     DOCTOR = 'doctor',
     CUSTOMER = 'customer',
+  }
+  export enum insurance_coverage {
+    HEALTH_SPRING = 'health_spring',
   }
 }

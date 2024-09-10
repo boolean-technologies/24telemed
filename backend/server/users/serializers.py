@@ -19,23 +19,28 @@ class WalletSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     patient_id = serializers.SerializerMethodField()
+    covered_by_insurance = serializers.SerializerMethodField()
+    
     class Meta:
         model = User
-        fields = '__all__'
+        exclude = ['password']
         
-    def get_patient_id(self, obj):
+    def get_patient_id(self, obj: User):
         try:
             return str(obj.patient_profile.first().id) if (obj.patient_profile) else None
         except:
             return None
-
+    
+    def get_covered_by_insurance(self, obj: User) -> bool:
+        return obj.insurance_coverage != None
+    
 
 class CurrentUserSerializer(UserSerializer):
     wallet = WalletSerializer(read_only=True)
     
     class Meta:
         model = User
-        fields = '__all__'
+        exclude = ['password']
     
 
 class UserSearchSerializer(serializers.ModelSerializer):

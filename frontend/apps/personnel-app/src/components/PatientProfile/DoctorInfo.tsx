@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { useCurrentUser } from '@local/api-generated';
 import { Link } from 'react-router-dom';
 import { Path } from '../../constants';
+import { getIsPaymentRequired } from '../../utils/getIsPaymentRequired';
 
 type DoctorInfoComponentProps = {
   id: string;
@@ -31,6 +32,7 @@ const DoctorInfoComponent = ({ id, patientId }: DoctorInfoComponentProps) => {
     setShowCallModal(false);
   };
 
+
   if (isPending) {
     return <Skeleton avatar paragraph={{ rows: 1 }} />;
   }
@@ -52,8 +54,7 @@ const DoctorInfoComponent = ({ id, patientId }: DoctorInfoComponentProps) => {
           </Flex>
         </Flex>
         <Flex direction="row" gap="sm">
-          {user?.user_type === 'customer' &&
-          (user?.wallet?.call_session ?? 0) === 0 ? (
+          {getIsPaymentRequired(user) ? (
             <Link to={Path.wallet+"/fund"}>
               <Button color="warning">Insufficient Balance – Top Up</Button>
             </Link>
@@ -119,13 +120,4 @@ export default DoctorInfoComponent;
 
 const DoctorInfo = styled(Flex)`
   background-color: ${({ theme }) => theme.palette.common.white};
-`;
-
-const StyledIconWrapper = styled(Flex)`
-  width: 60px;
-  height: 60px;
-  border-radius: 100%;
-  border: ${({ theme }) => theme.border.primary.main};
-  background: ${({ theme }) => theme.palette.primary1.main};
-  overflow: hidden;
 `;

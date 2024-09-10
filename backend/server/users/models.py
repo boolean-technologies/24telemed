@@ -8,6 +8,10 @@ class UserType(models.TextChoices):
     PERSONNEL = 'personnel'
     DOCTOR = 'doctor'
     CUSTOMER = 'customer'
+
+
+class InsuranceCoverage(models.TextChoices):
+    HEALTHSPRING = 'health_spring'
     
 class User(AbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -16,6 +20,7 @@ class User(AbstractUser):
     date_of_birth = models.DateField(null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     user_type = models.CharField(max_length=20, choices=UserType.choices, default=UserType.PERSONNEL)
+    insurance_coverage = models.CharField(max_length=20, choices=InsuranceCoverage.choices, blank=True, null=True)
     photo = models.ImageField(upload_to='profile_photos/', blank=True, null=True)
     specialty = models.CharField(max_length=255, blank=True, null=True)
     location = models.CharField(max_length=255, blank=True, null=True)
