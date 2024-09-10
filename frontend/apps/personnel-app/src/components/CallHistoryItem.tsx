@@ -148,6 +148,6 @@ export function CallHistoryItem({ callLog }: CallHistoryItemProps) {
 const StyledRoot = styled(Flex)`
   cursor: pointer;
   :hover ion-icon {
-    color: #fd0;
+    color: ${({ theme }) => theme.palette.primary2.main};
   }
 `;
