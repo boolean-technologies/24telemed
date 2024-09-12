@@ -4,7 +4,7 @@ from django.contrib.auth.hashers import make_password
 
 class UserAdmin(admin.ModelAdmin):
     list_display = ('username', 'user_id', 'get_user_name', 'user_type', 'phone_number')
-    fields = ('user_type', 'username', 'password', 'first_name', 'last_name', 'email', 'phone_number', 'bvn', 'specialty', 'location', 'description', 'date_of_birth')
+    fields = ('user_type', 'username', 'password', 'first_name', 'last_name', 'email', 'phone_number', 'insurance_coverage', 'specialty', 'location', 'description', 'date_of_birth')
 
     def get_user_name(self, obj):
         return f'{obj.first_name} {obj.last_name}'
