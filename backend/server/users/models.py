@@ -24,7 +24,6 @@ class User(AbstractUser):
     photo = models.ImageField(upload_to='profile_photos/', blank=True, null=True)
     specialty = models.CharField(max_length=255, blank=True, null=True)
     location = models.CharField(max_length=255, blank=True, null=True)
-    bvn = models.CharField(max_length=11, unique=True, null=True, blank=True)
 
     def save(self, *args, **kwargs):
         if not self.user_id:
