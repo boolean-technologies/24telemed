@@ -36,7 +36,6 @@ export type User = {
   readonly photo?: string | null;
   specialty?: string | null;
   location?: string | null;
-  bvn?: string | null;
   /**
    * The groups this user belongs to. A user will get all permissions granted to each of their groups.
    */
