@@ -15,7 +15,7 @@ export function MeetingPage() {
     return <PageLoading />;
   }
   const fullName =
-    [patientData?.first_name, userData?.last_name].filter(Boolean).join(' ') ||
+    [patientData?.first_name, patientData?.last_name].filter(Boolean).join(' ') ||
     'Unknown';
 
   return (

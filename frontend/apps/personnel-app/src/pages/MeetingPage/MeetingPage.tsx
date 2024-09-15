@@ -17,7 +17,7 @@ export function MeetingPage() {
   if (!userData || !callLog?.patient || !callLog?.meeting_id) {
     return <PageLoading />;
   }
-  const fullName = [doctorData?.first_name, userData?.last_name]
+  const fullName = [doctorData?.first_name, doctorData?.last_name]
     .filter(Boolean)
     .join(' ');
 
