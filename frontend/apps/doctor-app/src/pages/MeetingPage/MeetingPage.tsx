@@ -9,14 +9,13 @@ export function MeetingPage() {
   const { data: userData } = useCurrentUser();
   const { data: callLog } = useGetCallLog(meetingId);
 
-  const fullName = [userData?.first_name, userData?.last_name]
-    .filter(Boolean)
-    .join(' ') || 'Unknown';
-
   if (!userData || !callLog?.meeting_id || !callLog?.patient) {
     return <PageLoading />;
   }
 
+  const fullName =
+    [userData?.first_name, userData?.last_name].filter(Boolean).join(' ') ||
+    'Unknown';
   return (
     <VideoCall
       participantName={fullName}

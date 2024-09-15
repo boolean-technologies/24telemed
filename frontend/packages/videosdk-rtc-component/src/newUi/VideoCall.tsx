@@ -65,6 +65,7 @@ export function VideoCall({
             micEnabled={micEnabled}
             setMicEnabled={setMicEnabled}
             onJoinNow={() => setScreen('call')}
+            participantName={participantName}
           />
         ) : null}
         {screen === 'call' ? (
