@@ -21,7 +21,7 @@ export function MeetingPage() {
   return (
     <VideoCall
       participantName={fullName}
-      meetingId={'rs8d-oped-25iw'}
+      meetingId={callLog.meeting_id}
       userId={userData.id as string}
       patientId={callLog.patient}
       userType="doctor"
