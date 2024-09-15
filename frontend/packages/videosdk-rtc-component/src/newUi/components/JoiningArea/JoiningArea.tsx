@@ -25,8 +25,12 @@ export function JoiningArea({
   participantName,
 }: JoiningAreaProps) {
   const { join, leave } = useMeeting();
-  const displayName = participantName;
-  const Initials = displayName ? displayName.split(' ').map((n) => n[0]).join('') : '';
+  const initials = participantName
+    ? participantName
+        .split(' ')
+        .map((n) => n[0])
+        .join('')
+    : '';
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const handleJoinNow = () => {
@@ -92,9 +96,9 @@ export function JoiningArea({
               <VideoOffOverlay justify="center">
                 <Avatar
                   size={65}
-                  icon={displayName ? undefined : <UserOutlined />}
+                  icon={participantName ? undefined : <UserOutlined />}
                 >
-                  {displayName ? (
+                  {participantName ? (
                     <Typography
                       weight="bold"
                       color="common.white"
@@ -106,7 +110,7 @@ export function JoiningArea({
                           color="common.white"
                           variant="bodyXl"
                         >
-                          {Initials}
+                          {initials}
                         </Typography>
                       }
                     </Typography>
@@ -126,7 +130,7 @@ export function JoiningArea({
             Ready to join?
           </Typography>
           <Typography variant="bodyMd" color="common.white" align="center">
-            {displayName} is waiting for you to join the call
+            {participantName} is waiting for you to join the call
           </Typography>
           <Flex>
             <Link to="/">
