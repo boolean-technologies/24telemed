@@ -13,6 +13,7 @@ type JoiningAreaProps = {
   micEnabled: boolean;
   setMicEnabled: React.Dispatch<React.SetStateAction<boolean>>;
   onJoinNow: () => void;
+  participantName: string;
 };
 
 export function JoiningArea({
@@ -21,15 +22,17 @@ export function JoiningArea({
   micEnabled,
   setMicEnabled,
   onJoinNow,
+  participantName,
 }: JoiningAreaProps) {
-  const { join, leave, localParticipant } = useMeeting();
-  const displayName = localParticipant?.displayName || " ";
+  const { join, leave } = useMeeting();
+  const displayName = participantName;
+  const Initials = displayName ? displayName.split(' ').map((n) => n[0]).join('') : '';
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const handleJoinNow = () => {
     join();
     onJoinNow();
-  }
+  };
 
   useEffect(() => {
     const getMediaStream = async () => {
@@ -48,14 +51,14 @@ export function JoiningArea({
     };
 
     if (webcamEnabled) {
-        getMediaStream();
-      } else {
-        if (videoRef.current && videoRef.current.srcObject) {
-          const tracks = (videoRef.current.srcObject as MediaStream).getTracks();
-          tracks.forEach(track => track.stop());
-          videoRef.current.srcObject = null;
-        }
+      getMediaStream();
+    } else {
+      if (videoRef.current && videoRef.current.srcObject) {
+        const tracks = (videoRef.current.srcObject as MediaStream).getTracks();
+        tracks.forEach((track) => track.stop());
+        videoRef.current.srcObject = null;
       }
+    }
 
     return () => {
       if (videoRef.current && videoRef.current.srcObject) {
@@ -103,7 +106,7 @@ export function JoiningArea({
                           color="common.white"
                           variant="bodyXl"
                         >
-                          {displayName.charAt(0)}
+                          {Initials}
                         </Typography>
                       }
                     </Typography>
@@ -122,18 +125,21 @@ export function JoiningArea({
           >
             Ready to join?
           </Typography>
+          <Typography variant="bodyMd" color="common.white" align="center">
+            {displayName} is waiting for you to join the call
+          </Typography>
           <Flex>
             <Link to="/">
-            <Button
-              type="primary"
-              danger
-              shape="round"
-              size="middle"
-              style={{ fontWeight: 'bold' }}
-              onClick={leave}
-            >
-              Cancel
-            </Button>
+              <Button
+                type="primary"
+                danger
+                shape="round"
+                size="middle"
+                style={{ fontWeight: 'bold' }}
+                onClick={leave}
+              >
+                Cancel
+              </Button>
             </Link>
             <Button
               shape="round"
