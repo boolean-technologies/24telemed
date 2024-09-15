@@ -6,19 +6,20 @@ import { Link, useParams } from 'react-router-dom';
 import { Button, Flex } from 'antd';
 import { Path } from '../../constants';
 import { getIsPaymentRequired } from '../../utils/getIsPaymentRequired';
+import { useGetDoctor } from '../../api/doctor';
 
 export function MeetingPage() {
   const { meetingId } = useParams();
   const { data: userData } = useCurrentUser();
   const { data: callLog } = useGetCallLog(meetingId);
+  const { data: doctorData } = useGetDoctor(callLog?.doctor as string);
 
-  const fullName = [userData?.first_name, userData?.last_name]
-    .filter(Boolean)
-    .join(' ');
-
-  if (!userData || !callLog?.meeting_id || !callLog?.patient) {
+  if (!userData || !callLog?.patient || !callLog?.meeting_id) {
     return <PageLoading />;
   }
+  const fullName = [doctorData?.first_name, userData?.last_name]
+    .filter(Boolean)
+    .join(' ');
 
   if (getIsPaymentRequired(userData)) {
     return (
@@ -31,7 +32,7 @@ export function MeetingPage() {
             <Link key="cancel" to={Path.home}>
               <Button danger>Cancel call</Button>
             </Link>,
-            <Link to={Path.wallet+"/fund"} key="fund">
+            <Link to={Path.wallet + '/fund'} key="fund">
               <Button type="primary">Fund wallet</Button>
             </Link>,
           ]}
