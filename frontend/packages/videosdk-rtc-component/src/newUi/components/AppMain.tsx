@@ -11,7 +11,7 @@ import {
 import { StreamArea, StreamAreaProps } from './StreamArea';
 import { NoteType } from './StreamArea/MedicalNote/types';
 import { useMedicalNoteSections } from './StreamArea/MedicalNote/useMedicalNoteSections';
-import { useMeeting } from '@videosdk.live/react-sdk';
+
 
 type AppMainProps = {
   meetingTitle: string;
