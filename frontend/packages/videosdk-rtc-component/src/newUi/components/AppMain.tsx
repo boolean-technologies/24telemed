@@ -1,17 +1,13 @@
-import { Layout, Statistic, CountdownProps} from 'antd';
+import { Layout } from 'antd';
 import { Popup } from 'antd-mobile';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { BottomBar, BottomBarMobile, TopCallTools } from './BottomBar';
-import {
-  Flex,
-  addAlpha,
-  useBreakpoints,
-} from '@local/shared-components';
+import { Flex, addAlpha, useBreakpoints } from '@local/shared-components';
 import { StreamArea, StreamAreaProps } from './StreamArea';
 import { NoteType } from './StreamArea/MedicalNote/types';
 import { useMedicalNoteSections } from './StreamArea/MedicalNote/useMedicalNoteSections';
-
+import { CallCountDown } from './CountDown';
 
 type AppMainProps = {
   meetingTitle: string;
@@ -33,15 +29,6 @@ export function AppMain({ meetingTitle, defaultSideView }: AppMainProps) {
     medicalNoteSections.find((e) => e.hasNotication)
   );
 
-  const callTime = useRef(Date.now() + 1000 * 60 * 30);
-  const formatter: CountdownProps['formatter'] = (value) => {
-    // @ts-ignore
-    const minutes = Math.floor(value / 1000 / 60);
-    // @ts-ignore
-    const seconds = Math.floor((value / 1000) % 60);
-    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-  };
-
   return (
     <StyledRoot>
       <Flex
@@ -53,7 +40,6 @@ export function AppMain({ meetingTitle, defaultSideView }: AppMainProps) {
         fullWidth
       >
         <Flex flex={1}>
-          
           <StreamArea
             sideView={sideView}
             onClose={() => setSideView(undefined)}
@@ -62,32 +48,22 @@ export function AppMain({ meetingTitle, defaultSideView }: AppMainProps) {
             medicalNoteSections={medicalNoteSections}
           />
         </Flex>
-         <Statistic.Countdown
-        value={callTime.current}
-        formatter={formatter}
-        valueStyle={
-          {
-            color: 'white',
-            fontWeight: 'bold'
-          }
-        }
-      />
+        <CallCountDown />
+
         {isMobile ? (
           <>
-
             <StyledPopup
               visible
               bodyStyle={{ overflow: 'scroll' }}
               mask={false}
             >
-
               <BottomBarMobile
                 currentView={sideView}
                 meetingTitle={meetingTitle}
                 onChatClick={() => onBottomButtonClick('chats')}
               />
             </StyledPopup>
-            
+
             <TopCallTools
               currentView={sideView}
               hasNoteNotification={hasBottomNotification}
@@ -100,7 +76,6 @@ export function AppMain({ meetingTitle, defaultSideView }: AppMainProps) {
                 onBottomButtonClick('patientProfile')
               }
             />
-            
           </>
         ) : (
           <BottomBar
@@ -116,7 +91,6 @@ export function AppMain({ meetingTitle, defaultSideView }: AppMainProps) {
           />
         )}
       </Flex>
-      
     </StyledRoot>
   );
 }
