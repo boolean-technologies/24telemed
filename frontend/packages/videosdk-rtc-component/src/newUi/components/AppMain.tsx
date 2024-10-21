@@ -3,14 +3,11 @@ import { Popup } from 'antd-mobile';
 import { useState } from 'react';
 import styled from 'styled-components';
 import { BottomBar, BottomBarMobile, TopCallTools } from './BottomBar';
-import {
-  Flex,
-  addAlpha,
-  useBreakpoints,
-} from '@local/shared-components';
+import { Flex, addAlpha, useBreakpoints } from '@local/shared-components';
 import { StreamArea, StreamAreaProps } from './StreamArea';
 import { NoteType } from './StreamArea/MedicalNote/types';
 import { useMedicalNoteSections } from './StreamArea/MedicalNote/useMedicalNoteSections';
+import { CallCountDown } from './CountDown';
 
 type AppMainProps = {
   meetingTitle: string;
@@ -51,6 +48,7 @@ export function AppMain({ meetingTitle, defaultSideView }: AppMainProps) {
             medicalNoteSections={medicalNoteSections}
           />
         </Flex>
+        <CallCountDown />
 
         {isMobile ? (
           <>
@@ -65,6 +63,7 @@ export function AppMain({ meetingTitle, defaultSideView }: AppMainProps) {
                 onChatClick={() => onBottomButtonClick('chats')}
               />
             </StyledPopup>
+
             <TopCallTools
               currentView={sideView}
               hasNoteNotification={hasBottomNotification}
