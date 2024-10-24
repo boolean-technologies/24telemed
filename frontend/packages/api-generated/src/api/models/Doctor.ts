@@ -11,6 +11,6 @@ export type Doctor = {
    * Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.
    */
   username: string;
-  readonly photo?: string | null;
+  photo?: string | null;
   specialty?: string | null;
 };

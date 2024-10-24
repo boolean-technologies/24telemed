@@ -4,6 +4,7 @@
 /* eslint-disable */
 export type User = {
   readonly id?: string;
+  readonly photo?: string;
   readonly patient_id?: string;
   readonly covered_by_insurance?: boolean;
   last_login?: string | null;
@@ -33,7 +34,6 @@ export type User = {
   description?: string | null;
   user_type?: User.user_type;
   insurance_coverage?: User.insurance_coverage | null;
-  readonly photo?: string | null;
   specialty?: string | null;
   location?: string | null;
   /**
