@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import User
 from  rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from wallet.models import Wallet
+from file.models import File
 
 class WalletSerializer(serializers.ModelSerializer):
     call_session = serializers.SerializerMethodField()
@@ -18,13 +19,32 @@ class WalletSerializer(serializers.ModelSerializer):
         return obj.get_call_unit_cost()
 
 class UserSerializer(serializers.ModelSerializer):
-    photo = serializers.StringRelatedField()
+    photo = serializers.PrimaryKeyRelatedField(queryset=File.objects.all(), required=False)
     patient_id = serializers.SerializerMethodField()
     covered_by_insurance = serializers.SerializerMethodField()
     
     class Meta:
         model = User
         exclude = ['password']
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+
+        if instance.photo:
+            representation['photo'] = instance.photo.file.url
+        else:
+            representation['photo'] = None
+        
+        return representation
+
+    def update(self, instance, validated_data):
+        if 'photo' in validated_data:
+            photo_data = validated_data.pop('photo')
+            if isinstance(photo_data, File):
+                instance.photo = photo_data
+            else:
+                instance.photo = None
+        return super().update(instance, validated_data)
 
     def get_patient_id(self, obj: User):
         try:
