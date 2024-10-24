@@ -2,7 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 import uuid
 import random
-
+from file.models import File
 
 class UserType(models.TextChoices):
     PERSONNEL = 'personnel'
@@ -21,7 +21,7 @@ class User(AbstractUser):
     description = models.TextField(null=True, blank=True)
     user_type = models.CharField(max_length=20, choices=UserType.choices, default=UserType.PERSONNEL)
     insurance_coverage = models.CharField(max_length=20, choices=InsuranceCoverage.choices, blank=True, null=True)
-    photo = models.ImageField(upload_to='profile_photos/', blank=True, null=True)
+    photo = models.ForeignKey(File, blank=True, null=True, on_delete=models.SET_NULL)
     specialty = models.CharField(max_length=255, blank=True, null=True)
     location = models.CharField(max_length=255, blank=True, null=True)
 

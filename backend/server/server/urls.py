@@ -67,6 +67,7 @@ urlpatterns = [
     path('wallet/', include('wallet.urls')),
     
     path('patients/', include('patient.urls.patient')),
+    path('file/', include('file.urls')),
     path('doctors/medical-encounters/', include('medication.urls')),
     path('doctors/call-logs/', include('call_log.urls.doctors')),
     path('personnel/call-logs/', include('call_log.urls.personnel')),

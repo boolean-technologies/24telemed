@@ -18,13 +18,14 @@ class WalletSerializer(serializers.ModelSerializer):
         return obj.get_call_unit_cost()
 
 class UserSerializer(serializers.ModelSerializer):
+    photo = serializers.StringRelatedField()
     patient_id = serializers.SerializerMethodField()
     covered_by_insurance = serializers.SerializerMethodField()
     
     class Meta:
         model = User
         exclude = ['password']
-        
+
     def get_patient_id(self, obj: User):
         try:
             return str(obj.patient_profile.first().id) if (obj.patient_profile) else None
