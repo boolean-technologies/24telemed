@@ -16,4 +16,4 @@ class File(models.Model):
     def __str__(self):
         if self.file:
             return self.file.url
-        return "No file available"
+        return None
