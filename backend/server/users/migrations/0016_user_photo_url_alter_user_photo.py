@@ -3,6 +3,9 @@
 from django.db import migrations, models
 import django.db.models.deletion
 
+def set_photo_null(apps, schema_editor):
+    User = apps.get_model('users', 'User')
+    User.objects.filter(photo__isnull=False).update(photo=None)
 
 class Migration(migrations.Migration):
 
@@ -12,6 +15,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        migrations.RunPython(set_photo_null),
         migrations.AddField(
             model_name='user',
             name='photo_url',
