@@ -12,3 +12,8 @@ class File(models.Model):
     file = models.FileField(upload_to=generate_uuid_filename, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        if self.file:
+            return self.file.url
+        return "No file available"

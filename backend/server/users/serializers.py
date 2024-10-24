@@ -24,7 +24,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         exclude = ['password']
-        
+
     def get_patient_id(self, obj: User):
         try:
             return str(obj.patient_profile.first().id) if (obj.patient_profile) else None

@@ -22,13 +22,8 @@ class User(AbstractUser):
     user_type = models.CharField(max_length=20, choices=UserType.choices, default=UserType.PERSONNEL)
     insurance_coverage = models.CharField(max_length=20, choices=InsuranceCoverage.choices, blank=True, null=True)
     photo = models.ForeignKey(File, blank=True, null=True, on_delete=models.SET_NULL)
-    photo_url = models.URLField(blank=True)
     specialty = models.CharField(max_length=255, blank=True, null=True)
     location = models.CharField(max_length=255, blank=True, null=True)
-
-    @property
-    def photoURL(self) -> str:
-        return str(self.photo.url) if self.photo else None
 
     def save(self, *args, **kwargs):
         if not self.user_id:
