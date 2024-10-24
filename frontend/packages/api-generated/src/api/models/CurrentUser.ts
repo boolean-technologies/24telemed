@@ -5,6 +5,7 @@
 import type { Wallet } from './Wallet';
 export type CurrentUser = {
   readonly id?: string;
+  readonly photo?: string;
   readonly patient_id?: string;
   readonly covered_by_insurance?: boolean;
   wallet?: Wallet;
@@ -35,7 +36,6 @@ export type CurrentUser = {
   description?: string | null;
   user_type?: CurrentUser.user_type;
   insurance_coverage?: CurrentUser.insurance_coverage | null;
-  readonly photo?: string | null;
   specialty?: string | null;
   location?: string | null;
   /**

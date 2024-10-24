@@ -1,5 +1,5 @@
 import { Card, Flex } from '@local/shared-components';
-import { Image, Divider, List, Drawer, Avatar } from 'antd';
+import { Image, Divider, List, Drawer, Avatar, message, Upload } from 'antd';
 import {
   UserOutlined,
   MailOutlined,
@@ -7,18 +7,24 @@ import {
   KeyOutlined,
   BookOutlined,
   CheckCircleOutlined,
+  CameraOutlined,
 } from '@ant-design/icons';
-import userAvatar from '../../assets/avatar.png';
 import { useState } from 'react';
 import { NameForm } from './Forms/NameForm';
 import { UserNameForm } from './Forms/UserNameForm';
 import { EmailForm } from './Forms/EmailForm';
 import { PasswordForm } from './Forms/PasswordForm';
 import { LocationForm } from './Forms/LocationForm';
-import { SpecialtyForm } from './Forms/SpecialtyForm';
 import styled from 'styled-components';
-import { useCurrentUser } from '@local/api-generated';
+import {
+  useCurrentUser,
+  useUpdateUser,
+  useUploadFile,
+  File,
+} from '@local/api-generated';
 import { DescriptionForm } from './Forms/DescriptionForm';
+import type { RcFile } from 'antd/es/upload/interface';
+
 type DrawerFormType =
   | 'email'
   | 'username'
@@ -29,6 +35,9 @@ type DrawerFormType =
 
 export function ProfilePage() {
   const { data: user, refetch } = useCurrentUser();
+  const { mutateAsync: uploadFile, isPending: uploading } = useUploadFile();
+  const { mutateAsync: updateUser } = useUpdateUser();
+
   const name = `${user?.first_name} ${user?.last_name}`;
   const [drawerForm, setDrawerForm] = useState<DrawerFormType>();
   const data = [
@@ -65,13 +74,44 @@ export function ProfilePage() {
     },
     {
       name: 'Descriptipn',
-      
+
       value: user?.description || 'Not set',
       icon: <BookOutlined />,
       onClick: () => setDrawerForm('description'),
     },
   ];
 
+  const handleImageUpload = async (file: RcFile) => {
+    try {
+      if (!file.type.startsWith('image/')) {
+        message.error('You can only upload image files!');
+        return false;
+      }
+
+      if (file.size / 1024 / 1024 > 5) {
+        message.error('Image must be smaller than 5MB!');
+        return false;
+      }
+
+      const formData = new FormData();
+      formData.append('file', file);
+      const uploadResponse = await uploadFile(formData as File);
+      if (uploadResponse?.id && user?.id) {
+        await updateUser({
+          id: user.id,
+          data: {
+            ...user,
+            photo: uploadResponse.id || undefined,
+          },
+        });
+
+        message.success('Profile photo updated successfully');
+        refetch();
+      }
+    } catch (error: any) {
+      message.error('Failed to upload image');
+    }
+  };
   return (
     <StyledRoot
       direction="column"
@@ -83,7 +123,24 @@ export function ProfilePage() {
       <Card title="Profile" subtitle="Update your profile information">
         <Divider />
         <Flex direction="column" fullWidth align="center">
-        <Avatar src={user?.photo} icon={<UserOutlined />} size={150} />
+          <StyledAvatarContainer>
+            <Avatar src={user?.photo} icon={<UserOutlined />} size={150} />
+            <StyledUploadButton>
+              <Upload
+                name="file"
+                showUploadList={false}
+                beforeUpload={(file) => {
+                  handleImageUpload(file);
+                  return false;
+                }}
+                disabled={uploading}
+                accept="image/*"
+              >
+                <StyledCameraIcon spin={uploading} />
+                {uploading && <span className="ml-2">Uploading...</span>}
+              </Upload>
+            </StyledUploadButton>
+          </StyledAvatarContainer>
           <Divider />
           <List
             style={{ width: '100%' }}
@@ -133,17 +190,16 @@ export function ProfilePage() {
             refetch={refetch}
             initialLocation={user?.location || ''}
             onClose={() => setDrawerForm(undefined)}
-            
           />
         )}
-        {drawerForm === 'password' && <PasswordForm
-        onClose={() => setDrawerForm(undefined)}
-         />}
+        {drawerForm === 'password' && (
+          <PasswordForm onClose={() => setDrawerForm(undefined)} />
+        )}
         {drawerForm === 'description' && (
           <DescriptionForm
             userId={user?.id || ''}
             refetch={refetch}
-            initialDescription= {user?.description || ''}
+            initialDescription={user?.description || ''}
             onClose={() => setDrawerForm(undefined)}
           />
         )}
@@ -155,4 +211,30 @@ export function ProfilePage() {
 const StyledRoot = styled(Flex)`
   max-width: 860px;
   margin: 0 auto;
+`;
+const StyledAvatarContainer = styled.div`
+  position: relative;
+  display: inline-block;
+`;
+
+const StyledUploadButton = styled.div`
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: white;
+  border-radius: 50%;
+  padding: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    background: #f0f0f0;
+  }
+`;
+
+const StyledCameraIcon = styled(CameraOutlined)`
+  font-size: 20px;
+  color: #1890ff;
 `;
