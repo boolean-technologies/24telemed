@@ -147,19 +147,17 @@ class UserViewSet(viewsets.ModelViewSet):
         request_body=openapi.Schema(
             type=openapi.TYPE_OBJECT,
             properties={
-                'email': openapi.Schema(type=openapi.TYPE_STRING, description="Email of user"),
                 'new_password': openapi.Schema(type=openapi.TYPE_STRING, description="New password"),
             },
-            required=['email', 'new_password']
+            required=['new_password']
         ),
     )
     @action(detail=False, methods=['put'], serializer_class=None, permission_classes=[])
     def password_reset_change(self, request):
-        email = request.data.get('email')
         new_password = request.data.get('new_password')
 
         try:
-            user = User.objects.get(email=email)
+            user = request.user
             user.set_password(new_password)
             user.save()
 
