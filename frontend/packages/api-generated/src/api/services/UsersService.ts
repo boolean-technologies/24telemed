@@ -144,6 +144,7 @@ export class UsersService {
       method: 'POST',
       url: '/users/forget_password/',
       body: data,
+      
     });
   }
   /**
