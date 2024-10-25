@@ -39,10 +39,10 @@ CSRF_TRUSTED_ORIGINS = CORS_ALLOWED_ORIGINS
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ORIGIN_ALLOW_ALL = True
-SESSION_COOKIE_SAMESITE = 'None'  # Required for cross-site
-CSRF_COOKIE_SAMESITE = 'None'     # Required for cross-site
-SESSION_COOKIE_SECURE = True      # Required when SameSite is 'None'
-CSRF_COOKIE_SECURE = True        # Required when SameSite is 'None'
+SESSION_COOKIE_SAMESITE = 'None'  
+CSRF_COOKIE_SAMESITE = 'None'     
+SESSION_COOKIE_SECURE = True      
+CSRF_COOKIE_SECURE = True        
 
 
 
