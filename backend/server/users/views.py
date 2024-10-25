@@ -152,7 +152,7 @@ class UserViewSet(viewsets.ModelViewSet):
             required=['new_password']
         ),
     )
-    @action(detail=False, methods=['put'], serializer_class=None, permission_classes=[IsAuthenticated])
+    @action(detail=False, methods=['put'], serializer_class=None, permission_classes=[])
     def password_reset_change(self, request):
         new_password = request.data.get('new_password')
 
