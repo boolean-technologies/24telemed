@@ -16,7 +16,7 @@ export function ForgotPasswordPage() {
   return (
     <AuthLayout>
       {forgotPassword.isSuccess ? (
-        <OTPView />
+        <OTPView identifier={forgotPassword.data.identifier as string} />
       ) : (
         <Form
           name="forgot-password"

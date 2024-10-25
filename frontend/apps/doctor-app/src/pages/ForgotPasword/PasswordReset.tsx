@@ -12,7 +12,10 @@ type FormFieldType = {
   confirmPassword: string;
 };
 
-export function PasswordReset() {
+type PasswordResetProps = {
+  identifier: string;
+};
+export function PasswordReset({ identifier }: PasswordResetProps) {
   const resetPassword = useResetPassword();
   if (resetPassword.isSuccess) {
     return (
@@ -38,7 +41,7 @@ export function PasswordReset() {
         autoComplete="off"
         style={{ width: '100%', height: '100%' }}
         onFinish={(values: FormFieldType) => {
-          resetPassword.mutate(values.password);
+          resetPassword.mutate({new_password: values.password, email: identifier});
         }}
       >
         <Typography weight="bold" variant="h3" marginBottom="md">

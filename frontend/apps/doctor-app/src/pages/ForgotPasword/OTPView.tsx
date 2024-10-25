@@ -11,10 +11,14 @@ type FormFieldType = {
   otp: string;
 };
 
-export function OTPView() {
+type OTPViewProps = {
+  identifier: string;
+};
+
+export function OTPView({ identifier }: OTPViewProps) {
   const otpValidation = useOTPValidation();
   if (otpValidation.isSuccess) {
-    return <PasswordReset />;
+    return <PasswordReset identifier={identifier} />;
   }
   return (
     <Flex

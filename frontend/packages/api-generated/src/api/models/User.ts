@@ -4,7 +4,7 @@
 /* eslint-disable */
 export type User = {
   readonly id?: string;
-  readonly photo?: string;
+  photo?: string;
   readonly patient_id?: string;
   readonly covered_by_insurance?: boolean;
   last_login?: string | null;

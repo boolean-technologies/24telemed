@@ -46,8 +46,8 @@ export const useOTPValidation = () => {
 }
 export const useResetPassword = () => {
   const resetPassword = useMutation({
-    mutationFn: (new_password: string) =>
-      UsersService.usersPasswordResetChange({ new_password }),
+    mutationFn: ({ new_password, email }: { new_password: string; email: string }) =>
+      UsersService.usersPasswordResetChange({ new_password, email }),
   });
   return resetPassword;
 };

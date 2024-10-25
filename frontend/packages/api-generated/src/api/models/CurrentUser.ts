@@ -5,7 +5,7 @@
 import type { Wallet } from './Wallet';
 export type CurrentUser = {
   readonly id?: string;
-  readonly photo?: string;
+  photo?: string;
   readonly patient_id?: string;
   readonly covered_by_insurance?: boolean;
   wallet?: Wallet;
