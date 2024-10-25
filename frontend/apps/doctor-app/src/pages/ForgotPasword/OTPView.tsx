@@ -1,5 +1,5 @@
 import { useOTPValidation } from '@local/api-generated';
-import { Flex, Typography } from '@local/shared-components';
+import { Flex, tokenManager, Typography } from '@local/shared-components';
 import { Alert, Form, Input, Button, Result } from 'antd';
 
 
@@ -32,7 +32,13 @@ export function OTPView() {
       <Typography variant="bodyXl">Enter OTP</Typography>
       <Typography>Enter the OTP sent to your email</Typography>
 
-      <Form onFinish={(values: FormFieldType) => otpValidation.mutate(values)}>
+      <Form onFinish={(values: FormFieldType) => {otpValidation.mutate(values,{
+        onSuccess: (data) => {
+          // @ts-ignore
+          tokenManager.setToken(data.access);
+        },
+      })}
+    }>
         
         <Form.Item
           name="otp"
