@@ -1,5 +1,5 @@
 import { useOTPValidation } from '@local/api-generated';
-import { Flex, Typography } from '@local/shared-components';
+import { Flex, tokenManager, Typography } from '@local/shared-components';
 import { Alert, Form, Input, Button, Result } from 'antd';
 
 
@@ -11,14 +11,10 @@ type FormFieldType = {
   otp: string;
 };
 
-type OTPViewProps = {
-  identifier: string;
-};
-
-export function OTPView({ identifier }: OTPViewProps) {
+export function OTPView() {
   const otpValidation = useOTPValidation();
   if (otpValidation.isSuccess) {
-    return <PasswordReset identifier={identifier} />;
+    return <PasswordReset />;
   }
   return (
     <Flex
@@ -36,7 +32,13 @@ export function OTPView({ identifier }: OTPViewProps) {
       <Typography variant="bodyXl">Enter OTP</Typography>
       <Typography>Enter the OTP sent to your email</Typography>
 
-      <Form onFinish={(values: FormFieldType) => otpValidation.mutate(values)}>
+      <Form onFinish={(values: FormFieldType) => {otpValidation.mutate(values,{
+        onSuccess: (data) => {
+          // @ts-ignore
+          tokenManager.setToken(data.access);
+        },
+      })}
+    }>
         
         <Form.Item
           name="otp"

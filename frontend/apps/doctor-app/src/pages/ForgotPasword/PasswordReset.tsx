@@ -1,4 +1,4 @@
-import { Flex, Typography } from "@local/shared-components";
+import { Flex, TokenManager, Typography } from "@local/shared-components";
 import { AuthLayout } from "../../components/AuthLayout";
 
 import { Form, Input, Button, Checkbox, Alert, Result } from 'antd';
@@ -12,10 +12,7 @@ type FormFieldType = {
   confirmPassword: string;
 };
 
-type PasswordResetProps = {
-  identifier: string;
-};
-export function PasswordReset({ identifier }: PasswordResetProps) {
+export function PasswordReset() {
   const resetPassword = useResetPassword();
   if (resetPassword.isSuccess) {
     return (
@@ -41,7 +38,7 @@ export function PasswordReset({ identifier }: PasswordResetProps) {
         autoComplete="off"
         style={{ width: '100%', height: '100%' }}
         onFinish={(values: FormFieldType) => {
-          resetPassword.mutate({new_password: values.password, email: identifier});
+          resetPassword.mutate(values.password);
         }}
       >
         <Typography weight="bold" variant="h3" marginBottom="md">

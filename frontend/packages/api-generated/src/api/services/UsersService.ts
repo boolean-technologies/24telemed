@@ -177,18 +177,10 @@ export class UsersService {
    */
   public static usersPasswordResetChange(data: {
     /**
-     * Email of user
-     */
-    email: string;
-    /**
      * New password
      */
     new_password: string;
   }): CancelablePromise<{
-    /**
-     * Email of user
-     */
-    email: string;
     /**
      * New password
      */
