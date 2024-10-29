@@ -70,6 +70,8 @@ class UserSearchSerializer(serializers.ModelSerializer):
         fields = ['id', 'user_id', 'first_name', 'last_name', 'username', 'photo']
 
 class DoctorSerializer(serializers.ModelSerializer):
+    photo = serializers.StringRelatedField()
+
     class Meta:
         model = User
         fields = ['id', 'user_id', 'first_name', 'last_name', 'username', 'photo', 'specialty']
