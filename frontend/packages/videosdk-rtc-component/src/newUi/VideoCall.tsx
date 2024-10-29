@@ -22,7 +22,7 @@ export function VideoCall({
   meetingId,
   userId,
   patientId,
-  participantPhoto
+  participantPhoto,
 }: VideoCallProps) {
   usePermissions();
   const { isMobile } = useBreakpoints();
@@ -52,6 +52,9 @@ export function VideoCall({
         name: participantName,
         participantId: userId,
         debugMode: false,
+        metaData: {
+          profilePhoto: participantPhoto,
+        },
       }}
       token={import.meta.env.VITE_VIDEO_SDK_TOKEN}
 
@@ -69,7 +72,6 @@ export function VideoCall({
             setMicEnabled={setMicEnabled}
             onJoinNow={() => setScreen('call')}
             participantName={participantName}
-            participantPhoto={participantPhoto}
           />
         ) : null}
         {screen === 'call' ? (

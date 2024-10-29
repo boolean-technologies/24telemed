@@ -21,7 +21,6 @@ export function MeetingPage() {
     .filter(Boolean)
     .join(' ');
     const doctorPhoto = doctorData?.photo;
-
   if (getIsPaymentRequired(userData)) {
     return (
       <Flex style={{ height: '100vh' }}>
@@ -44,12 +43,12 @@ export function MeetingPage() {
 
   return (
     <VideoCall
-      participantName={fullName || 'Unknown'}
-      meetingId={callLog.meeting_id}
-      userId={userData.id as string}
-      patientId={callLog.patient}
-      userType="personnel"
-      participantPhoto={doctorPhoto as string}
+    participantName={fullName || 'Unknown'}
+    meetingId={callLog.meeting_id}
+    userId={userData.id as string}
+    patientId={callLog.patient}
+    userType="personnel"
+    participantPhoto={doctorPhoto as string}
     />
   );
 }
