@@ -12,8 +12,9 @@ import { CallCountDown } from './CountDown';
 type AppMainProps = {
   meetingTitle: string;
   defaultSideView?: StreamAreaProps['sideView'];
+  participantPhoto?: string;
 };
-export function AppMain({ meetingTitle, defaultSideView }: AppMainProps) {
+export function AppMain({ meetingTitle, defaultSideView, participantPhoto }: AppMainProps) {
   const { isMobile } = useBreakpoints();
   const [sideView, setSideView] =
     useState<StreamAreaProps['sideView']>(defaultSideView);
@@ -46,6 +47,7 @@ export function AppMain({ meetingTitle, defaultSideView }: AppMainProps) {
             activeNoteSection={activeNoteSection}
             setActiveNoteSection={setActiveNoteSection}
             medicalNoteSections={medicalNoteSections}
+            participantPhoto={participantPhoto}
           />
         </Flex>
         <CallCountDown />

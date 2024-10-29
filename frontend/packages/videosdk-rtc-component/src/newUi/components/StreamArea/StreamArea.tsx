@@ -16,6 +16,7 @@ export type StreamAreaProps = {
   activeNoteSection: NoteType;
   medicalNoteSections: SectionsType;
   setActiveNoteSection: React.Dispatch<React.SetStateAction<NoteType>>;
+  participantPhoto?: string;
 };
 
 export function StreamArea({
@@ -24,6 +25,7 @@ export function StreamArea({
   activeNoteSection,
   medicalNoteSections,
   setActiveNoteSection,
+  participantPhoto,
 }: StreamAreaProps) {
   const titles = {
     chats: 'Messages',
@@ -68,7 +70,7 @@ export function StreamArea({
             direction="column"
             style={isMobile ? { height: '100vh' } : undefined}
           >
-            <StreamLayout />
+            <StreamLayout participantPhoto={participantPhoto} />
           </Flex>
         </Layout>
         {isMobile ? (

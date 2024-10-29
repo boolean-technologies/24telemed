@@ -14,6 +14,8 @@ type JoiningAreaProps = {
   setMicEnabled: React.Dispatch<React.SetStateAction<boolean>>;
   onJoinNow: () => void;
   participantName: string;
+  participantPhoto?: string;
+  
 };
 
 export function JoiningArea({
@@ -23,6 +25,7 @@ export function JoiningArea({
   setMicEnabled,
   onJoinNow,
   participantName,
+  participantPhoto,
 }: JoiningAreaProps) {
   const { join, leave } = useMeeting();
   const initials = participantName
@@ -97,6 +100,8 @@ export function JoiningArea({
                 <Avatar
                   size={65}
                   icon={participantName ? undefined : <UserOutlined />}
+                  src= {participantPhoto}
+                  
                 >
                   {participantName ? (
                     <Typography

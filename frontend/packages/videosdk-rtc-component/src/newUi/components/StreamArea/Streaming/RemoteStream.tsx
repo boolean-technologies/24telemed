@@ -8,9 +8,10 @@ import ReactPlayer from 'react-player';
 
 type RemoteStreamProps = {
   onLayoutToggle?: () => void;
+  participantPhoto?: string;
 }
 
-export function RemoteStream({ onLayoutToggle }: RemoteStreamProps) {
+export function RemoteStream({ onLayoutToggle,participantPhoto }: RemoteStreamProps) {
   const { remoteParticipant } = useCallContext();
 
   const { webcamStream, webcamOn } = useParticipant(
@@ -27,7 +28,7 @@ export function RemoteStream({ onLayoutToggle }: RemoteStreamProps) {
 
   if (!remoteParticipant) return null;
   return (
-    <StreamPlayer onLayoutToggle={onLayoutToggle} showBorder participantId={remoteParticipant?.id}>
+    <StreamPlayer onLayoutToggle={onLayoutToggle} showBorder participantId={remoteParticipant?.id} participantPhoto={participantPhoto}>
       <StyledRemoteVideo
         url={videoStream}
         playsInline

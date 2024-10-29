@@ -20,6 +20,7 @@ export function MeetingPage() {
   const fullName = [doctorData?.first_name, doctorData?.last_name]
     .filter(Boolean)
     .join(' ');
+    const doctorPhoto = doctorData?.photo;
 
   if (getIsPaymentRequired(userData)) {
     return (
@@ -48,6 +49,7 @@ export function MeetingPage() {
       userId={userData.id as string}
       patientId={callLog.patient}
       userType="personnel"
+      participantPhoto={doctorPhoto as string}
     />
   );
 }
