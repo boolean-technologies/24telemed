@@ -5,10 +5,8 @@ import { RemoteStream } from './RemoteStream';
 import { useCallContext } from '../../../context/AppContext';
 import { useState } from 'react';
 
-interface StreamLayoutProps {
-  participantPhoto?: string;
-}
-export function StreamLayout({ participantPhoto }: StreamLayoutProps) {
+
+export function StreamLayout() {
   
   const { remoteParticipant, localParticipant } = useCallContext();
   const [bigStream, setBigStream] = useState<'remote' | 'local'>('remote');
@@ -22,14 +20,14 @@ export function StreamLayout({ participantPhoto }: StreamLayoutProps) {
       <StyledRoot flex={1} fullWidth fullHeight>
         <StyledRemoteStreamWrapper fullWidth fullHeight>
           {localParticipant ? (
-            <LocalStream onLayoutToggle={onLayoutToggle} participantPhoto={participantPhoto} />
+            <LocalStream onLayoutToggle={onLayoutToggle}  />
           ) : remoteParticipant ? (
-            <RemoteStream onLayoutToggle={onLayoutToggle} participantPhoto={participantPhoto} />
+            <RemoteStream onLayoutToggle={onLayoutToggle} />
           ) : null}
         </StyledRemoteStreamWrapper>
         <StyledLocaStreamWrapper>
           {localParticipant && remoteParticipant ? (
-            <RemoteStream onLayoutToggle={onLayoutToggle} participantPhoto={participantPhoto} />
+            <RemoteStream onLayoutToggle={onLayoutToggle} />
           ) : null}
         </StyledLocaStreamWrapper>
       </StyledRoot>
@@ -40,14 +38,14 @@ export function StreamLayout({ participantPhoto }: StreamLayoutProps) {
     <StyledRoot flex={1} fullWidth fullHeight>
       <StyledRemoteStreamWrapper fullWidth fullHeight>
         {remoteParticipant ? (
-          <RemoteStream onLayoutToggle={onLayoutToggle} participantPhoto={participantPhoto} />
+          <RemoteStream onLayoutToggle={onLayoutToggle}  />
         ) : localParticipant ? (
-          <LocalStream onLayoutToggle={onLayoutToggle} participantPhoto={participantPhoto} />
+          <LocalStream onLayoutToggle={onLayoutToggle}  />
         ) : null}
       </StyledRemoteStreamWrapper>
       <StyledLocaStreamWrapper>
         {localParticipant && remoteParticipant ? (
-          <LocalStream onLayoutToggle={onLayoutToggle} participantPhoto={participantPhoto} />
+          <LocalStream onLayoutToggle={onLayoutToggle}  />
         ) : null}
       </StyledLocaStreamWrapper>
     </StyledRoot>

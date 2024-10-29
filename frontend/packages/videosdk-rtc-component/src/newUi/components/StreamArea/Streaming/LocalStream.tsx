@@ -6,18 +6,17 @@ import { useVideoStreamTrack } from './useVideoStreamTrack';
 
 type LocalStreamProps = {
   onLayoutToggle?: () => void;
-  participantPhoto?: string;
 }
 
 
-export function LocalStream({ onLayoutToggle, participantPhoto }: LocalStreamProps) {
+export function LocalStream({ onLayoutToggle}: LocalStreamProps) {
 
   const { localParticipant } = useCallContext();
   const { webcamStream, webcamOn } = useParticipant(localParticipant?.id);
   const videoRef = useVideoStreamTrack(webcamOn, webcamStream?.track);
 
   return (
-    <StreamPlayer onLayoutToggle={onLayoutToggle} showBorder participantId={localParticipant.id} participantPhoto={participantPhoto}>
+    <StreamPlayer onLayoutToggle={onLayoutToggle} showBorder participantId={localParticipant.id} >
       <StyledVideo ref={videoRef} autoPlay playsInline controls={false} />
     </StreamPlayer>
   );
