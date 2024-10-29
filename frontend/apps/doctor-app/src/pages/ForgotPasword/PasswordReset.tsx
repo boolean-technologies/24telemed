@@ -1,8 +1,8 @@
-import { Flex, TokenManager, Typography } from "@local/shared-components";
+import { Flex, Typography } from "@local/shared-components";
 import { AuthLayout } from "../../components/AuthLayout";
 
-import { Form, Input, Button, Checkbox, Alert, Result } from 'antd';
-import { parseApiError, useResetPassword } from '@local/api-generated';
+import { Form, Input, Button, Alert, Result } from 'antd';
+import { useResetPassword } from '@local/api-generated';
 import { Link } from 'react-router-dom';
 import { Path } from "../../constants";
 

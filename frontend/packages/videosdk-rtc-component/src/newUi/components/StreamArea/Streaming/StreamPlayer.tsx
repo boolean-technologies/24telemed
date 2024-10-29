@@ -16,6 +16,10 @@ type StreamPlayerProps = {
   onLayoutToggle?: () => void;
 };
 
+interface ParticipantWithMetaData extends ReturnType<typeof useParticipant> {
+  metaData?: any;
+}
+
 export function StreamPlayer({
   participantId,
   showBorder,
@@ -24,7 +28,7 @@ export function StreamPlayer({
 }: StreamPlayerProps) {
   const { micStream, webcamOn, micOn, displayName, isLocal, metaData } =
 
-    useParticipant(participantId);
+    useParticipant(participantId) as  ParticipantWithMetaData;
   const audioRef = useAudioStreamTrack(micOn, micStream?.track);
 
   return (
@@ -132,7 +136,7 @@ const StyledVideoWrap = styled(Flex)`
 
 const StyledName = styled(Flex)`
   position: absolute;
-  padding: ${({ theme }) => theme.spacing.xxs}
+  padding: ${({ theme }) => theme.spacing.xxs};
     ${({ theme }) => theme.spacing.xs};
   border-radius: ${({ theme }) => theme.spacing.xs};
   top: ${({ theme }) => theme.spacing.sm};

@@ -25,7 +25,6 @@ export function StreamArea({
   activeNoteSection,
   medicalNoteSections,
   setActiveNoteSection,
-  participantPhoto,
 }: StreamAreaProps) {
   const titles = {
     chats: 'Messages',
