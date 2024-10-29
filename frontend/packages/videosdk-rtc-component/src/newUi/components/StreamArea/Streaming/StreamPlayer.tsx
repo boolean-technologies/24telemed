@@ -132,7 +132,7 @@ const StyledVideoWrap = styled(Flex)`
 
 const StyledName = styled(Flex)`
   position: absolute;
-  padding: ${({ theme }) => theme.spacing.xxs}
+  padding: ${({ theme }) => theme.spacing.xxs};
     ${({ theme }) => theme.spacing.xs};
   border-radius: ${({ theme }) => theme.spacing.xs};
   top: ${({ theme }) => theme.spacing.sm};
