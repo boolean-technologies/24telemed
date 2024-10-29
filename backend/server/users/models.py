@@ -12,6 +12,12 @@ class UserType(models.TextChoices):
 
 class InsuranceCoverage(models.TextChoices):
     HEALTHSPRING = 'health_spring'
+    INNOSON_VEHICLE_MANUFACTURING = 'innoson_vehicle_manufacturing'
+    CHELSEA_GROUP = 'chelsea_group'
+    NEWPORT = 'newport'
+    ANGELES_HOTEL = 'angeles_hotel'
+
+
     
 class User(AbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -20,7 +26,7 @@ class User(AbstractUser):
     date_of_birth = models.DateField(null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     user_type = models.CharField(max_length=20, choices=UserType.choices, default=UserType.PERSONNEL)
-    insurance_coverage = models.CharField(max_length=20, choices=InsuranceCoverage.choices, blank=True, null=True)
+    insurance_coverage = models.CharField(max_length=50, choices=InsuranceCoverage.choices, blank=True, null=True)
     photo = models.ForeignKey(File, blank=True, null=True, on_delete=models.SET_NULL)
     specialty = models.CharField(max_length=255, blank=True, null=True)
     location = models.CharField(max_length=255, blank=True, null=True)

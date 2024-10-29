@@ -169,12 +169,12 @@ class UserViewSet(viewsets.ModelViewSet):
 class DoctorUserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = User.objects.all()
     serializer_class = DoctorSerializer
-    permission_classes = [PersonnelPermission]
+    permission_classes = [DoctorPermission]
 
 class PersonnelUserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSearchSerializer
-    permission_classes = [DoctorPermission]
+    permission_classes = [PersonnelPermission]
 
 class DoctorTokenObtainPairView(TokenObtainPairView):
     serializer_class = DoctorTokenObtainPairSerializer
