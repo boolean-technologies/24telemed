@@ -21,7 +21,7 @@ export enum MessageType {
 
 export type UserType = "doctor" | "health-care-assistant";
 
-const WEBSOCKET_URL = 'http://127.0.0.1:8000/video_call/'
+const WEBSOCKET_URL = import.meta.env.VITE_WEBSOCKET_BASE;
 
 export function useCallSocket<EventType = undefined>(
   handleMessageReceived: (message: WebSocketMessage<EventType>) => void,
