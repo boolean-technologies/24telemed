@@ -16,6 +16,9 @@ type StreamPlayerProps = {
   onLayoutToggle?: () => void;
 };
 
+interface ParticipantWithMetaData extends ReturnType<typeof useParticipant> {
+  metaData?: any;
+}
 
 export function StreamPlayer({
   participantId,
@@ -23,9 +26,9 @@ export function StreamPlayer({
   children,
   onLayoutToggle,
 }: StreamPlayerProps) {
-  const { micStream, webcamOn, micOn, displayName, isLocal, metadata } =
+  const { micStream, webcamOn, micOn, displayName, isLocal, metaData } =
 
-    useParticipant(participantId);
+    useParticipant(participantId) as  ParticipantWithMetaData;
   const audioRef = useAudioStreamTrack(micOn, micStream?.track);
 
   return (
@@ -51,7 +54,7 @@ export function StreamPlayer({
               size={100}
               icon={displayName ? undefined : <UserOutlined />}
               style={{ background: 'rgba(255,255,255,0.15)' }}
-              src={metadata?.profilePhoto }
+              src={metaData?.profilePhoto }
               
             >
               {displayName ? (
