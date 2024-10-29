@@ -1,13 +1,13 @@
 import { useOTPValidation } from '@local/api-generated';
-import { Flex, Typography } from '@local/shared-components';
+import { Flex, tokenManager, Typography } from '@local/shared-components';
 import { Alert, Form, Input } from 'antd';
 import { Button } from 'antd-mobile';
-import { ResetSuccesss } from './ResultSucess';
+import { PasswordSetingsPage } from './PasswordSetingsPage';
 
 export function OTPView() {
   const otpValidation = useOTPValidation();
   if (otpValidation.isSuccess) {
-    return <ResetSuccesss />;
+    return <PasswordSetingsPage />;
   }
   return (
     <Flex
@@ -25,7 +25,12 @@ export function OTPView() {
       <Typography variant="bodyXl">Enter OTP</Typography>
       <Typography>Enter the OTP sent to your email</Typography>
 
-      <Form onFinish={(values) => otpValidation.mutate(values)}>
+      <Form onFinish={(values) => otpValidation.mutate(values, {
+        onSuccess: (data) => {
+          // @ts-ignore
+          tokenManager.setToken(data.access);
+        },
+      })}>
         <Form.Item
           name="otp"
           rules={[
