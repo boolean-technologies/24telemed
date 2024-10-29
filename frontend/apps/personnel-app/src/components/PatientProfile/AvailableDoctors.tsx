@@ -10,7 +10,9 @@ type AvailableDoctorsProps = {
 
 const AvailableDoctors = ({ patientId }: AvailableDoctorsProps) => {
   const { availableDoctors = [] } = usePersonnelCommunication();
-
+  const fakeAvailableDoctors = [ 
+    "72485e15-a00b-4b56-a9ec-50b9fcbfae22"
+  ];
   return (
     <Flex direction="column" fullWidth fullHeight>
       <Flex direction="row" justify="space-between" gap="none">
@@ -24,9 +26,9 @@ const AvailableDoctors = ({ patientId }: AvailableDoctorsProps) => {
         align="center"
         justify="center"
       >
-        {availableDoctors.length ? (
+        {fakeAvailableDoctors.length ? (
           <List style={{ width: '100%' }}>
-            {availableDoctors.map((doctorId) => (
+            {fakeAvailableDoctors.map((doctorId) => (
               <List.Item key={doctorId}>
                 <DoctorInfoComponent
                   key={doctorId}

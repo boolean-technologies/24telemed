@@ -11,7 +11,7 @@ export function MeetingPage() {
   const { data: callLog } = useGetCallLog(meetingId);
   const { data: patientData } = useGetPatient(callLog?.patient as string);
 
-  if (!userData || !callLog?.patient || !callLog?.meeting_id) {
+  if (!userData || !callLog?.patient) {
     return <PageLoading />;
   }
   const fullName =
@@ -21,7 +21,7 @@ export function MeetingPage() {
   return (
     <VideoCall
       participantName={fullName}
-      meetingId={callLog.meeting_id}
+      meetingId={"rs8d-oped-25iw"}
       userId={userData.id as string}
       patientId={callLog.patient}
       userType="doctor"

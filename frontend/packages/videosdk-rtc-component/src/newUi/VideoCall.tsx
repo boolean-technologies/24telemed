@@ -13,6 +13,7 @@ type VideoCallProps = {
   userId: string;
   patientId: string;
   userType: AppContextType['userType'];
+  participantPhoto?: string;
 };
 
 export function VideoCall({
@@ -21,6 +22,7 @@ export function VideoCall({
   meetingId,
   userId,
   patientId,
+  participantPhoto
 }: VideoCallProps) {
   usePermissions();
   const { isMobile } = useBreakpoints();
@@ -52,6 +54,7 @@ export function VideoCall({
         debugMode: false,
       }}
       token={import.meta.env.VITE_VIDEO_SDK_TOKEN}
+
     >
       <CallContextProvider
         userId={userId}
@@ -66,12 +69,14 @@ export function VideoCall({
             setMicEnabled={setMicEnabled}
             onJoinNow={() => setScreen('call')}
             participantName={participantName}
+            participantPhoto={participantPhoto}
           />
         ) : null}
         {screen === 'call' ? (
           <AppMain
             meetingTitle="Medical consultation"
             defaultSideView={isMobile ? undefined : 'patientProfile'}
+            participantPhoto={participantPhoto}
           />
         ) : null}
       </CallContextProvider>
