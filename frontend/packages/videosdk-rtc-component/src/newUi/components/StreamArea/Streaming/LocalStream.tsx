@@ -11,7 +11,7 @@ type LocalStreamProps = {
 
 
 export function LocalStream({ onLayoutToggle, participantPhoto }: LocalStreamProps) {
-  console.log("participantPhoto", participantPhoto);
+
   const { localParticipant } = useCallContext();
   const { webcamStream, webcamOn } = useParticipant(localParticipant?.id);
   const videoRef = useVideoStreamTrack(webcamOn, webcamStream?.track);
