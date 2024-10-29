@@ -70,7 +70,7 @@ export function StreamArea({
             direction="column"
             style={isMobile ? { height: '100vh' } : undefined}
           >
-            <StreamLayout participantPhoto={participantPhoto} />
+            <StreamLayout  />
           </Flex>
         </Layout>
         {isMobile ? (
