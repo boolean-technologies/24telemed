@@ -9,7 +9,6 @@ import styled from 'styled-components';
 import { Alert } from 'antd';
 import { ResetSuccesss } from './ResultSucess';
 
-
 type FormFieldType = {
   newPassword: string;
   confirmPassword: string;
@@ -22,12 +21,7 @@ export function PasswordSetingsPage() {
     resetPassword.mutate(values.newPassword);
 
   return (
-    <PersonnelAuthLayout
-      name={resetPassword.isSuccess ? null : 'Change Password'}
-      description={
-        resetPassword.isSuccess ? null : 'Please enter your new password'
-      }
-    >
+    <PersonnelAuthLayout>
       {resetPassword.isError && (
         <Flex padding="sm" fullWidth>
           <Alert

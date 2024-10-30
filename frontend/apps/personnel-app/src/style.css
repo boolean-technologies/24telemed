@@ -17,4 +17,10 @@
     --adm-font-size-main: var(--adm-font-size-5);
   
     --adm-font-family: "Uniform Rounded","Helvetica","Arial",sans-serif;
+    
+  }
+
+  .login-form {
+    --border-top:none;
+    --border-bottom:none;
   }
