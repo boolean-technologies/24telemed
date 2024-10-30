@@ -31,8 +31,7 @@ export function LoginPage() {
 
   return (
     <PersonnelAuthLayout
-      name="Secure Login"
-      description="Enter your username & password to login to your account."
+      sideImage
     >
     <Form
       name="login"
@@ -40,6 +39,9 @@ export function LoginPage() {
       onFinish={onFinish}
       style={{ width: '100%' }}
     >
+      <Typography weight="bold" variant="h3" marginBottom="md">
+        Secure login
+      </Typography>
       <Flex direction="column">
         {errorMessage && (
           <Flex padding="sm" fullWidth>
