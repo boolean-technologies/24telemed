@@ -43,11 +43,14 @@ export function PersonnelAuthLayout({ children, sideImage }: AuthLayoutProps) {
                 {children}
               </Flex>
             </Flex>
+            
           </StyledCard>
+          
         </StyledLoginBox>
         <StyledBackgrounImage />
         <StyledBackgroundGradient />
       </Flex>
+      
     </StyledRoot>
   );
 }
