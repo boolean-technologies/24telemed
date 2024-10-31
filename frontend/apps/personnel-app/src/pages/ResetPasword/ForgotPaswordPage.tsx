@@ -6,25 +6,22 @@ import { parseApiError, useForgotPassword } from '@local/api-generated';
 import { Alert, Result } from 'antd';
 import { Link } from 'react-router-dom';
 import { Path } from '../../constants';
-import { PersonnelAuthLayout } from '../../components/PageLayout';
+
 import { OTPView } from './OTPView';
+import { Layout } from './Layout';
 
 type FormFieldType = {
   identifier: string;
 };
 export function ForgotPaswordPage() {
   const forgotPassword = useForgotPassword();
-  const isPhone = (value: string) => {
-    const phoneRegex = /^\d{11}$/;
-    return phoneRegex.test(value);
-  };
 
   const onFinish = (values: FormFieldType) =>
     forgotPassword.mutate(values.identifier);
-console.log(isPhone("09068874821"))
+
 
   return (
-    <PersonnelAuthLayout
+    <Layout
       name={forgotPassword.isSuccess ? null : 'Forgot Password'}
       description={
         forgotPassword.isSuccess
@@ -88,6 +85,6 @@ console.log(isPhone("09068874821"))
           </Flex>{' '}
         </>
       )}
-    </PersonnelAuthLayout>
+    </Layout>
   );
 }

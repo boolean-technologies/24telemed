@@ -31,15 +31,18 @@ export function LoginPage() {
 
   return (
     <PersonnelAuthLayout
-      name="Secure Login"
-      description="Enter your username & password to login to your account."
+      sideImage
     >
     <Form
       name="login"
       initialValues={{ remember: true }}
       onFinish={onFinish}
       style={{ width: '100%' }}
+      className='login-form'
     >
+      <Typography weight="bold" variant="h3" marginBottom="md">
+        Secure login
+      </Typography>
       <Flex direction="column">
         {errorMessage && (
           <Flex padding="sm" fullWidth>
@@ -95,11 +98,18 @@ export function LoginPage() {
           </Link>
         </Flex>
         <Space />
-        <Flex padding="sm">
-          <Button block type="submit" loading={login.isPending} color="primary">
+        <Flex padding="sm"  >
+          <Button block type="submit" loading={login.isPending} color="primary"
+          
+          >
             Log in
           </Button>
         </Flex>
+      </Flex>
+      <Flex   justify="center">
+        <Typography variant="bodySm">
+          24Telemed @{new Date().getFullYear()}
+        </Typography>
       </Flex>
     </Form>
     </PersonnelAuthLayout>
