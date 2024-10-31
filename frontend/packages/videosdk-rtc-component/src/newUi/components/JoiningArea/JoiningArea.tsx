@@ -5,7 +5,7 @@ import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { IconButton } from '../IconButton';
 import { Link } from 'react-router-dom';
-import { useMeeting, useParticipant } from '@videosdk.live/react-sdk';
+import { useMeeting } from '@videosdk.live/react-sdk';
 
 type JoiningAreaProps = {
   webcamEnabled: boolean;
@@ -14,6 +14,7 @@ type JoiningAreaProps = {
   setMicEnabled: React.Dispatch<React.SetStateAction<boolean>>;
   onJoinNow: () => void;
   participantName: string;
+  participantPhoto?: string;
 };
 
 export function JoiningArea({
@@ -23,6 +24,7 @@ export function JoiningArea({
   setMicEnabled,
   onJoinNow,
   participantName,
+  participantPhoto,
 }: JoiningAreaProps) {
   const { join, leave } = useMeeting();
   const initials = participantName
@@ -97,6 +99,7 @@ export function JoiningArea({
                 <Avatar
                   size={65}
                   icon={participantName ? undefined : <UserOutlined />}
+                  src={participantPhoto}
                 >
                   {participantName ? (
                     <Typography
