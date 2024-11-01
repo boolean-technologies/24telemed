@@ -15,7 +15,6 @@ type JoiningAreaProps = {
   onJoinNow: () => void;
   participantName: string;
   participantPhoto?: string;
-  declineCall?: () => void;
 };
 
 export function JoiningArea({
@@ -26,7 +25,6 @@ export function JoiningArea({
   onJoinNow,
   participantName,
   participantPhoto,
-  declineCall,
 }: JoiningAreaProps) {
   const { join, leave } = useMeeting();
   const initials = participantName
@@ -145,11 +143,7 @@ export function JoiningArea({
                 shape="round"
                 size="middle"
                 style={{ fontWeight: 'bold' }}
-                onClick={ () => {
-                  leave();
-                  declineCall && declineCall();
-                }
-                }
+                onClick={leave}
               >
                 Cancel
               </Button>
