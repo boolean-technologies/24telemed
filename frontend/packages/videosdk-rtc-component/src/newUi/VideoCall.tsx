@@ -14,6 +14,7 @@ type VideoCallProps = {
   patientId: string;
   userType: AppContextType['userType'];
   participantPhoto?: string;
+  declineCall?: () => void;
 };
 
 export function VideoCall({
@@ -23,6 +24,7 @@ export function VideoCall({
   userId,
   patientId,
   participantPhoto,
+  declineCall,
 }: VideoCallProps) {
   usePermissions();
   const { isMobile } = useBreakpoints();
@@ -73,6 +75,7 @@ export function VideoCall({
             onJoinNow={() => setScreen('call')}
             participantName={participantName}
             participantPhoto={participantPhoto}
+            declineCall={declineCall}
           />
         ) : null}
         {screen === 'call' ? (
