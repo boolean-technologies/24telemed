@@ -48,7 +48,6 @@ export function MeetingPage() {
     userId={userData.id as string}
     patientId={callLog.patient}
     userType="personnel"
-    participantPhoto={doctorPhoto as string}
     />
   );
 }

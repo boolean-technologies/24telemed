@@ -68,7 +68,7 @@ export function StreamPlayer({
                       color="common.white"
                       variant="h1"
                     >
-                      {isLocal ? 'You' : displayName.charAt(0).toUpperCase()}
+                      {displayName.charAt(0).toUpperCase()}
                     </Typography>
                   }
                 </Typography>
