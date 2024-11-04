@@ -55,9 +55,9 @@ export function StreamPlayer({
           <StyledMicOffWrapper justify="center">
             <Avatar
               size={100}
-              icon={<UserOutlined /> }
+              icon={displayName ? undefined : <UserOutlined />}
               style={{ background: 'rgba(255,255,255,0.15)' }}
-              src={metaData?.profilePicture}
+              src={metaData?.profilePhoto}
               
             >
               {displayName ? (
