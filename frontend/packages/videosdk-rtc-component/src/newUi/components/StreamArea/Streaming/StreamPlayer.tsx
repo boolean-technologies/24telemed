@@ -5,6 +5,8 @@ import { ReactNode } from 'react';
 import styled from 'styled-components';
 import { useParticipant } from '@videosdk.live/react-sdk';
 import { useAudioStreamTrack } from './useAudioStreamTrack';
+import { useCallContext } from '../../../context/AppContext';
+
 
 type StreamPlayerProps = {
   showBorder?: boolean;
@@ -26,6 +28,7 @@ export function StreamPlayer({
   children,
   onLayoutToggle,
 }: StreamPlayerProps) {
+  const { localParticipant } = useCallContext();
   const { micStream, webcamOn, micOn, displayName, isLocal, metaData, } =
 
     useParticipant(participantId) as  ParticipantWithMetaData;
@@ -52,9 +55,9 @@ export function StreamPlayer({
           <StyledMicOffWrapper justify="center">
             <Avatar
               size={100}
-              icon={isLocal ? <UserOutlined /> : null}
+              icon={<UserOutlined /> }
               style={{ background: 'rgba(255,255,255,0.15)' }}
-              src={isLocal ? undefined : metaData?.profilePicture}
+              src={metaData?.profilePicture}
               
             >
               {displayName ? (
@@ -89,7 +92,7 @@ export function StreamPlayer({
               noWrap
               style={{ maxWidth: 150 }}
             >
-              {isLocal ? 'You' : displayName}
+              {isLocal ? "You" : localParticipant?.displayName}
             </Typography>
           ) : null}
         </StyledName>
