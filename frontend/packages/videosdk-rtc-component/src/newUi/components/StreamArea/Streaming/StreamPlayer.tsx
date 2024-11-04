@@ -26,7 +26,7 @@ export function StreamPlayer({
   children,
   onLayoutToggle,
 }: StreamPlayerProps) {
-  const { micStream, webcamOn, micOn, displayName, isLocal, metaData } =
+  const { micStream, webcamOn, micOn, displayName, isLocal, metaData, } =
 
     useParticipant(participantId) as  ParticipantWithMetaData;
   const audioRef = useAudioStreamTrack(micOn, micStream?.track);
@@ -52,9 +52,9 @@ export function StreamPlayer({
           <StyledMicOffWrapper justify="center">
             <Avatar
               size={100}
-              icon={displayName ? undefined : <UserOutlined />}
+              icon={isLocal ? <UserOutlined /> : null}
               style={{ background: 'rgba(255,255,255,0.15)' }}
-              src={metaData?.profilePhoto }
+              src={isLocal ? undefined : metaData?.profilePicture}
               
             >
               {displayName ? (
@@ -65,7 +65,7 @@ export function StreamPlayer({
                       color="common.white"
                       variant="h1"
                     >
-                      {displayName.charAt(0)}
+                      {isLocal ? 'You' : displayName.charAt(0).toUpperCase()}
                     </Typography>
                   }
                 </Typography>
@@ -89,7 +89,7 @@ export function StreamPlayer({
               noWrap
               style={{ maxWidth: 150 }}
             >
-              {displayName}
+              {isLocal ? 'You' : displayName}
             </Typography>
           ) : null}
         </StyledName>
