@@ -15,43 +15,44 @@ export function PersonnelAuthLayout({ children, sideImage }: AuthLayoutProps) {
       <Flex fullHeight fullWidth align="center" justify="center">
         <StyledLoginBox>
           <StyledCard>
-            <Flex direction="column" fullHeight>
-              <Flex gap="none" fullHeight align="stretch" style={{ flex: 1 }}>
-                {sideImage && (
-                  <StyledImageSection>
-                    <StyledSideImage />
-                    <StyledImageContent>
-                      <Typography variant='h5' color="common.white">
-                        We Care
-                      </Typography>
-                      <Typography color="common.white" marginBottom="md">
-                        Delivering quality healthcare with compassion and excellence.
-                      </Typography>
-                      <AntButton
-                        href="https://24telemedcharity.org/"
-                        block
-                        target='_blank'
-                      >
-                        Support Us
-                      </AntButton>
-                    </StyledImageContent>
-                  </StyledImageSection>
-                )}
-                <Flex fullHeight fullWidth padding="md">
-                  {children}
-                </Flex>
+            <Flex gap="none" fullHeight align="stretch">
+              {sideImage && (
+                <StyledImageSection>
+                  <StyledSideImage />
+                  <StyledImageContent>
+                    <Typography variant="h5" color="common.white">
+                      We Care
+                    </Typography>
+                    <Typography color="common.white" marginBottom="md">
+                      Delivering quality healthcare with compassion and
+                      excellence.
+                    </Typography>
+                    <AntButton
+                      href="https://24telemedcharity.org/"
+                      block
+                      target="_blank"
+                    >
+                      Support Us
+                    </AntButton>
+                  </StyledImageContent>
+                </StyledImageSection>
+              )}
+              <Flex fullHeight fullWidth padding="md">
+                {children}
               </Flex>
-              <StyledFooter justify="center" padding="sm">
-                <Typography variant="bodySm">
-                  24Telemed @{new Date().getFullYear()}
-                </Typography>
-              </StyledFooter>
             </Flex>
           </StyledCard>
         </StyledLoginBox>
         <StyledBackgrounImage />
         <StyledBackgroundGradient />
       </Flex>
+      <StyledCopyright>
+        <Flex justify="center">
+          <Typography variant="bodySm">
+            24Telemed @{new Date().getFullYear()}
+          </Typography>
+        </Flex>
+      </StyledCopyright>
     </StyledRoot>
   );
 }
@@ -59,6 +60,16 @@ export function PersonnelAuthLayout({ children, sideImage }: AuthLayoutProps) {
 const StyledRoot = styled(Layout)`
   width: 100vw;
   height: 100vh;
+  position: relative;
+`;
+
+const StyledCopyright = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  color: ${({ theme }) => theme.palette.common.white};
 `;
 
 const StyledLoginBox = styled(Flex)`
@@ -66,14 +77,11 @@ const StyledLoginBox = styled(Flex)`
   max-width: 1000px;
   position: relative;
   z-index: 1;
-  
 `;
 
 const StyledCard = styled(Card)`
   padding: 0;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
 `;
 
 const StyledImageSection = styled.div`
@@ -98,7 +106,7 @@ const StyledImageContent = styled.div`
   padding: 2rem;
   background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
   text-align: center;
-  
+
   &:hover {
     background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
   }
@@ -119,8 +127,4 @@ const StyledBackgroundGradient = styled(StyledBackgrounImage)`
     transparent,
     ${({ theme }) => theme.palette.primary2.main}
   );
-`;
-
-const StyledFooter = styled(Flex)`
-  
 `;
