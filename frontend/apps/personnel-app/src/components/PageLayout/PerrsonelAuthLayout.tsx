@@ -1,4 +1,4 @@
-import { Layout, Button as AntButton } from 'antd';
+import { Layout } from 'antd';
 import { Card, Flex, Typography } from '@local/shared-components';
 import styled from 'styled-components';
 import { Button } from 'antd-mobile';
