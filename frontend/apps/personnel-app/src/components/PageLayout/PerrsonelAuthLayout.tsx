@@ -2,9 +2,7 @@ import { Layout, Button as AntButton } from 'antd';
 import { Card, Flex, Typography } from '@local/shared-components';
 import styled from 'styled-components';
 import { Button } from 'antd-mobile';
-import {  PatientImage } from '../../assets';
-
-
+import { PatientImage } from '../../assets';
 
 interface AuthLayoutProps {
   children: React.ReactNode;
@@ -17,40 +15,43 @@ export function PersonnelAuthLayout({ children, sideImage }: AuthLayoutProps) {
       <Flex fullHeight fullWidth align="center" justify="center">
         <StyledLoginBox>
           <StyledCard>
-            <Flex gap="none" fullHeight align="stretch">
-              {sideImage && (
-                <StyledImageSection>
-                  <StyledSideImage />
-                  <StyledImageContent>
-                    <Typography variant='h5' color="common.white">
-                    We Care
-                    </Typography>
-                    <Typography color="common.white" marginBottom="md">
-                    Delivering quality healthcare with compassion and excellence.
-                    </Typography>
-                    <AntButton
-                     href="https://24telemedcharity.org/"
-                      block
-                      target='_blank'
-                      
-                    >
-                      Support Us
-                    </AntButton>
-                  </StyledImageContent>
-                </StyledImageSection>
-              )}
-              <Flex fullHeight fullWidth padding="md">
-                {children}
+            <Flex direction="column" fullHeight>
+              <Flex gap="none" fullHeight align="stretch" style={{ flex: 1 }}>
+                {sideImage && (
+                  <StyledImageSection>
+                    <StyledSideImage />
+                    <StyledImageContent>
+                      <Typography variant='h5' color="common.white">
+                        We Care
+                      </Typography>
+                      <Typography color="common.white" marginBottom="md">
+                        Delivering quality healthcare with compassion and excellence.
+                      </Typography>
+                      <AntButton
+                        href="https://24telemedcharity.org/"
+                        block
+                        target='_blank'
+                      >
+                        Support Us
+                      </AntButton>
+                    </StyledImageContent>
+                  </StyledImageSection>
+                )}
+                <Flex fullHeight fullWidth padding="md">
+                  {children}
+                </Flex>
               </Flex>
+              <StyledFooter justify="center" padding="sm">
+                <Typography variant="bodySm">
+                  24Telemed @{new Date().getFullYear()}
+                </Typography>
+              </StyledFooter>
             </Flex>
-            
           </StyledCard>
-          
         </StyledLoginBox>
         <StyledBackgrounImage />
         <StyledBackgroundGradient />
       </Flex>
-      
     </StyledRoot>
   );
 }
@@ -65,11 +66,14 @@ const StyledLoginBox = styled(Flex)`
   max-width: 1000px;
   position: relative;
   z-index: 1;
+  
 `;
 
 const StyledCard = styled(Card)`
   padding: 0;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 `;
 
 const StyledImageSection = styled.div`
@@ -94,7 +98,6 @@ const StyledImageContent = styled.div`
   padding: 2rem;
   background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
   text-align: center;
-
   
   &:hover {
     background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
@@ -116,4 +119,8 @@ const StyledBackgroundGradient = styled(StyledBackgrounImage)`
     transparent,
     ${({ theme }) => theme.palette.primary2.main}
   );
+`;
+
+const StyledFooter = styled(Flex)`
+  
 `;
