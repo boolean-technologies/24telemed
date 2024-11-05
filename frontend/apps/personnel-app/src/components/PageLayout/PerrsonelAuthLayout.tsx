@@ -3,6 +3,7 @@ import { Card, Flex, Typography } from '@local/shared-components';
 import styled from 'styled-components';
 import { Button } from 'antd-mobile';
 import { PatientImage } from '../../assets';
+import { MouseEvent } from 'react';
 
 interface AuthLayoutProps {
   children: React.ReactNode;
@@ -10,7 +11,7 @@ interface AuthLayoutProps {
 }
 
 export function PersonnelAuthLayout({ children, sideImage }: AuthLayoutProps) {
-  const handleSupportClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSupportClick = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     window.open('https://24telemedcharity.org/', '_blank');
   };
