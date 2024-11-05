@@ -1,4 +1,4 @@
-import { Layout, Button as AntButton } from 'antd';
+import { Layout } from 'antd';
 import { Card, Flex, Typography } from '@local/shared-components';
 import styled from 'styled-components';
 import { Button } from 'antd-mobile';
@@ -10,6 +10,10 @@ interface AuthLayoutProps {
 }
 
 export function PersonnelAuthLayout({ children, sideImage }: AuthLayoutProps) {
+  const handleSupportClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    window.open('https://24telemedcharity.org/', '_blank');
+  };
   return (
     <StyledRoot>
       <Flex fullHeight fullWidth align="center" justify="center">
@@ -27,13 +31,9 @@ export function PersonnelAuthLayout({ children, sideImage }: AuthLayoutProps) {
                       Delivering quality healthcare with compassion and
                       excellence.
                     </Typography>
-                    <AntButton
-                      href="https://24telemedcharity.org/"
-                      block
-                      target="_blank"
-                    >
+                    <Button onClick={handleSupportClick} block>
                       Support Us
-                    </AntButton>
+                    </Button>
                   </StyledImageContent>
                 </StyledImageSection>
               )}
