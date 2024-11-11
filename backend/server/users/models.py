@@ -16,6 +16,8 @@ class InsuranceCoverage(models.TextChoices):
     CHELSEA_GROUP = 'chelsea_group'
     NEWPORT = 'newport'
     ANGELES_HOTEL = 'angeles_hotel'
+    TELEMED_24 = '24Telemed'
+    SIMS_NIGERIA = 'Sims_Nigeria'
 
 
     
