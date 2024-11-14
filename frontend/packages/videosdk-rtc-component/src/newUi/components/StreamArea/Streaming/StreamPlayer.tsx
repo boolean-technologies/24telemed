@@ -7,7 +7,6 @@ import { useParticipant } from '@videosdk.live/react-sdk';
 import { useAudioStreamTrack } from './useAudioStreamTrack';
 import { useCallContext } from '../../../context/AppContext';
 
-
 type StreamPlayerProps = {
   showBorder?: boolean;
   webcamOn?: boolean;
@@ -28,10 +27,9 @@ export function StreamPlayer({
   children,
   onLayoutToggle,
 }: StreamPlayerProps) {
-  const { localParticipant } = useCallContext();
-  const { micStream, webcamOn, micOn, displayName, isLocal, metaData, } =
-
-    useParticipant(participantId) as  ParticipantWithMetaData;
+  const { localParticipant, remoteParticipant } = useCallContext();
+  const { micStream, webcamOn, micOn, displayName, isLocal, metaData } =
+    useParticipant(participantId) as ParticipantWithMetaData;
   const audioRef = useAudioStreamTrack(micOn, micStream?.track);
 
   return (
@@ -58,17 +56,16 @@ export function StreamPlayer({
               icon={displayName ? undefined : <UserOutlined />}
               style={{ background: 'rgba(255,255,255,0.15)' }}
               src={metaData?.profilePhoto}
-              
             >
               {displayName ? (
                 <Typography weight="bold" color="common.white" variant="bodyXl">
                   {
-                    <Typography
-                      weight="bold"
-                      color="common.white"
-                      variant="h1"
-                    >
-                      {displayName.charAt(0).toUpperCase()}
+                    <Typography weight="bold" color="common.white" variant="h1">
+                      {!isLocal
+                        ? localParticipant?.displayName.charAt(0).toUpperCase()
+                        : remoteParticipant?.displayName
+                            .charAt(0)
+                            .toUpperCase()}
                     </Typography>
                   }
                 </Typography>
@@ -92,7 +89,7 @@ export function StreamPlayer({
               noWrap
               style={{ maxWidth: 150 }}
             >
-              {isLocal ? "You" : localParticipant?.displayName}
+              {isLocal ? 'You' : localParticipant?.displayName}
             </Typography>
           ) : null}
         </StyledName>
@@ -140,7 +137,7 @@ const StyledVideoWrap = styled(Flex)`
 const StyledName = styled(Flex)`
   position: absolute;
   padding: ${({ theme }) => theme.spacing.xxs};
-    ${({ theme }) => theme.spacing.xs};
+  ${({ theme }) => theme.spacing.xs};
   border-radius: ${({ theme }) => theme.spacing.xs};
   top: ${({ theme }) => theme.spacing.sm};
   left: ${({ theme }) => theme.spacing.sm};
