@@ -6,6 +6,9 @@ import styled from 'styled-components';
 import { IconButton } from '../IconButton';
 import { Link } from 'react-router-dom';
 import { useMeeting } from '@videosdk.live/react-sdk';
+import { useCurrentUser } from '@local/api-generated';
+import { useCallContext } from '../../context/AppContext';
+import { useGetPatient } from '../../hooks/patients';
 
 type JoiningAreaProps = {
   webcamEnabled: boolean;
@@ -26,13 +29,17 @@ export function JoiningArea({
   participantName,
   participantPhoto,
 }: JoiningAreaProps) {
+  const { userType, patientId } = useCallContext();
+  const { data: userData } = useCurrentUser();
+  const { data: patientData } = useGetPatient(patientId);
+
   const { join, leave } = useMeeting();
-  const initials = participantName
-    ? participantName
-        .split(' ')
-        .map((n) => n[0])
-        .join('')
-    : '';
+  const initials =
+    userType === 'doctor'
+      ? `${userData?.first_name?.charAt(0)}${userData?.last_name?.charAt(0)}`
+      : `${patientData?.first_name?.charAt(0)}${patientData?.last_name?.charAt(
+          0
+        )}`;
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const handleJoinNow = () => {
