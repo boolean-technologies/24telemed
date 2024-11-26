@@ -12,8 +12,9 @@ import {
   Logo,
   Theme,
   Typography,
+  useBreakpoints,
 } from '@local/shared-components';
-import { UserAvatar } from './UserAvatar';
+
 import { IncomingCall } from '../IncomingCall';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { Path } from '../../constants';
@@ -23,7 +24,8 @@ import { useCurrentUser } from '@local/api-generated';
 const { Header, Sider, Footer } = Layout;
 
 export function PageLayout() {
-  const [collapsed, setCollapsed] = useState(false);
+  const { isXs } = useBreakpoints();
+  const [collapsed, setCollapsed] = useState<boolean>(!isXs);
   const theme = useTheme() as Theme;
   const { data: user } = useCurrentUser();
 
