@@ -1,5 +1,5 @@
 import { Layout } from 'antd';
-import { Card, Flex } from '@local/shared-components';
+import { Card, Flex, useBreakpoints } from '@local/shared-components';
 import styled from 'styled-components';
 import doctorImage from '../assets/doctor.png';
 import doctorsImage from '../assets/doctors.png';
@@ -9,13 +9,14 @@ interface AuthLayourops {
   sideImage?: boolean;
 }
 export function AuthLayout({ children, sideImage }: AuthLayourops) {
+  const { isXs } = useBreakpoints();
   return (
     <StyledRoot>
       <Flex fullHeight fullWidth align="center" justify="center">
         <StyledLoginBox>
           <StyledCard>
             <Flex gap="none" fullHeight align="stretch">
-                {sideImage && <StyledSideImage />}
+                {(sideImage && !isXs )&& <StyledSideImage />}
               <Flex fullHeight fullWidth padding="md">
                 {children}
               </Flex>
