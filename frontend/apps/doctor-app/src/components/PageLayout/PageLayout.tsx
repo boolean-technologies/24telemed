@@ -5,7 +5,7 @@ import {
   HomeFilled,
   UserOutlined,
 } from '@ant-design/icons';
-import { Layout, Menu, Button,Avatar } from 'antd';
+import { Layout, Menu, Button, Avatar } from 'antd';
 import styled, { useTheme } from 'styled-components';
 import {
   Flex,
@@ -77,33 +77,33 @@ export function PageLayout() {
               }}
             />
           </Flex>
-            {collapsed ? (
-              <Link to={Path.profile} style={{ cursor: 'pointer' }}>
-                <Avatar src={user?.photo} icon={<UserOutlined />} size={50} />
-              </Link>
-            ) : (
-              <StyledAccountUser
-                padding="sm"
-                gap="xs"
-                fullWidth
-                justify="space-between"
-              >
+          {collapsed ? (
+            <Link to={Path.profile} style={{ cursor: 'pointer' }}>
+              <Avatar src={user?.photo} icon={<UserOutlined />} size={50} />
+            </Link>
+          ) : (
+            <StyledAccountUser
+              padding="sm"
+              gap="xs"
+              fullWidth
+              justify="space-between"
+            >
               <Link to={Path.profile} style={{ cursor: 'pointer' }}>
                 <Flex>
-                <Avatar src={user?.photo} icon={<UserOutlined />} size={50} />
-                <Flex direction="column" gap="none">
-                  <Typography weight="bold" color="common.white">
-                    {user?.first_name} {user?.last_name}
-                  </Typography>
-                  <Typography variant="bodyXs" color="common.white" noWrap>
-                    ID: {user?.user_id}
-                  </Typography>
+                  <Avatar src={user?.photo} icon={<UserOutlined />} size={50} />
+                  <Flex direction="column" gap="none">
+                    <Typography weight="bold" color="common.white">
+                      {user?.first_name} {user?.last_name}
+                    </Typography>
+                    <Typography variant="bodyXs" color="common.white" noWrap>
+                      ID: {user?.user_id}
+                    </Typography>
+                  </Flex>
+                  <LogoutButton />
                 </Flex>
-                <LogoutButton />
-                </Flex>
-                </Link>
-              </StyledAccountUser>
-            )}
+              </Link>
+            </StyledAccountUser>
+          )}
         </Flex>
       </Sider>
       <Layout
@@ -112,6 +112,9 @@ export function PageLayout() {
           width: `calc(100% - ${collapsed ? 80 : 300}px)`,
           left: collapsed ? 80 : 300,
           overflowY: 'scroll',
+          ...(isXs && {
+            width: '100%',
+          }),
         }}
       >
         <Header
@@ -139,10 +142,12 @@ export function PageLayout() {
         >
           <StyledContainer fullHeight fullWidth padding="md" direction="column">
             <Flex fullHeight fullWidth align="flex-start" direction="column">
-              <div style={{ width: "100%" }}>
+              <div style={{ width: '100%' }}>
                 <Outlet />
               </div>
-              <Footer style={{ textAlign: 'center', width: '100%', marginTop: 16 }}>
+              <Footer
+                style={{ textAlign: 'center', width: '100%', marginTop: 16 }}
+              >
                 <Typography align="center" variant="bodySm">
                   <strong>24Telemed Doctor Connect</strong> ©
                   {new Date().getFullYear()} Created by The Boolean Tech
@@ -175,6 +180,6 @@ const StyledContainer = styled(Flex)`
 const StyledInnerContainer = styled(Flex)`
   width: 100%;
   height: calc(100vh - 64px);
-  
+
   margin: auto;
 `;
