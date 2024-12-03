@@ -66,4 +66,5 @@ export function CallHistoryTable({ tableData, searchParams, onPageChange }: Call
 const StyledRoot = styled(Card)`
   min-height: 100%;
   flex: 1;
+  overflow: auto;
 `;
