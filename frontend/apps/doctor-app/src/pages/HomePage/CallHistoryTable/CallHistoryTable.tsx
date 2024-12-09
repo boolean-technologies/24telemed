@@ -2,8 +2,9 @@ import { DateTime } from 'luxon';
 import { Table, type TableColumnsType } from 'antd';
 import { FullCallLog, SearchPageParams, SearchResultType, timeDiffInMins } from '@local/api-generated';
 import { PatientName } from './PatientName';
-import { Card, CallStatus } from '@local/shared-components';
+import { Card, CallStatus, useBreakpoints } from '@local/shared-components';
 import styled from 'styled-components';
+
 
 type CallHistoryTableProps = {
   tableData?: SearchResultType<FullCallLog>;
@@ -12,6 +13,7 @@ type CallHistoryTableProps = {
 };
 
 export function CallHistoryTable({ tableData, searchParams, onPageChange }: CallHistoryTableProps) {
+  const { isXs } = useBreakpoints();
   const columns: TableColumnsType<FullCallLog> = [
     {
       title: 'Name',
@@ -57,7 +59,9 @@ export function CallHistoryTable({ tableData, searchParams, onPageChange }: Call
           onChange: onPageChange,
           pageSizeOptions: [5, 10, 15, 25, 50],
         }}
-        style={{ minHeight: 500 }}
+        style={{ minHeight: 500,
+          
+         }}
       />
     </StyledRoot>
   );
@@ -66,5 +70,5 @@ export function CallHistoryTable({ tableData, searchParams, onPageChange }: Call
 const StyledRoot = styled(Card)`
   min-height: 100%;
   flex: 1;
-  overflow: auto;
+  
 `;
