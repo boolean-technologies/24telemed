@@ -7,7 +7,7 @@ class UserAdmin(admin.ModelAdmin):
     fields = ('user_type', 'username', 'password', 'first_name', 'last_name', 'email', 'phone_number', 'insurance_coverage', 'specialty', 'location', 'description', 'date_of_birth')
     search_fields = ('username', 'first_name', 'last_name', 'email')
     list_filter = ('user_type', 'location', 'specialty')
-    ordering = ('-created_at',)
+    ordering = ('-username',)
 
     def get_user_name(self, obj):
         return f'{obj.first_name} {obj.last_name}'
