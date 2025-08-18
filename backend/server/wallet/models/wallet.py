@@ -45,7 +45,17 @@ class Wallet(models.Model):
         return self.status == 'active'
     
     def get_call_unit_cost(self):
-        return getattr(settings, 'CALL_SESSION_UNIT_PRICE', 0)
+        default_price = getattr(settings, 'CALL_SESSION_UNIT_PRICE', 0)
+
+        user = self.user
+        discounted_states = ["enugu", "kaduna", "plateau", "ghana"]
+
+        if user.user_type == 'customer' and user.username:
+            first_word = user.username.split()[0].lower()
+            if first_word in discounted_states:
+                return 500
+
+        return default_price
 
     def get_call_session(self):
         unit_cost = self.get_call_unit_cost()
