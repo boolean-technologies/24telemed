@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 import uuid
+from users.models import User
 
 class Wallet(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -47,11 +48,11 @@ class Wallet(models.Model):
     def get_call_unit_cost(self):
         default_price = getattr(settings, 'CALL_SESSION_UNIT_PRICE', 0)
 
-        user = self.user
+        user: User = self.user
         discounted_states = ["enugu", "kaduna", "plateau", "ghana"]
 
         if user.user_type == 'customer' and user.username:
-            first_word = user.username.split()[0].lower()
+            first_word = user.username.split("_")[0].lower()
             if first_word in discounted_states:
                 return 500
 
