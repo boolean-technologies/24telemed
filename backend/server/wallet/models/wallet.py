@@ -51,10 +51,19 @@ class Wallet(models.Model):
         user: User = self.user
         discounted_states = ["enugu", "kaduna", "plateau", "ghana"]
 
-        if user.user_type == 'customer' and user.username:
-            first_word = user.username.split("_")[0].lower()
-            if first_word in discounted_states:
-                return 500
+        username_first_word = None
+        if user.username:
+            username_first_word = user.username.split("_")[0].strip().lower()
+
+        user_location = None
+        if user.location:
+            user_location = user.location.strip().lower()
+
+        if user.user_type == 'customer' and (
+            (username_first_word in discounted_states) or 
+            (user_location in discounted_states)
+        ):
+            return 500
 
         return default_price
 
