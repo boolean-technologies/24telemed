@@ -22,7 +22,7 @@ export function PageLayout() {
       path: Path.home,
       title: 'Search',
       iconName: 'search',
-      visible: user?.user_type === 'personnel' || user?.user_type === 'customer',
+      visible: user?.user_type === 'personnel',
     },
     {
       path: Path.home,
