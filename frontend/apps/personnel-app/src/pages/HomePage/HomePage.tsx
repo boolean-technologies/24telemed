@@ -10,5 +10,5 @@ export function HomePage() {
     return <HomePagePersonnel />;
   }
 
-  return <HomePageCustomer user={user} />;
+  // return <HomePageCustomer user={user} />;
 }
