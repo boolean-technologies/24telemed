@@ -26,8 +26,8 @@ export function PageLayout() {
     },
     {
       path: Path.home,
-      title: 'Home',
-      iconName: 'home',
+      title: 'Search',
+      iconName: 'search',
       visible: user?.user_type === 'customer',
     },
     {

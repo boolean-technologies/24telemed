@@ -5,6 +5,10 @@ import { HomePageCustomer } from './HomePageCustomer';
 export function HomePage() {
   const { data: user } = useCurrentUser();
   if (!user) return null;
-  if (user.user_type === 'personnel') return <HomePagePersonnel />;
+
+  if (user.user_type === 'personnel' || user.user_type === 'customer') {
+    return <HomePagePersonnel />;
+  }
+
   return <HomePageCustomer user={user} />;
 }
