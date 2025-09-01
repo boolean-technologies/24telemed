@@ -44,7 +44,7 @@ export function ContactDataPage() {
       <Form.Item
         label="Email address"
         name="email"
-        rules={[{ required: true, message: 'Email address is required' }]}
+        rules={[{ required: false }]}
       >
         <Controller
           control={control}
