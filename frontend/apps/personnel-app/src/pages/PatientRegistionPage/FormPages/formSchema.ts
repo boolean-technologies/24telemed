@@ -7,7 +7,7 @@ enum gender {
 
 export const ContactDataSchema = yup.object().shape({
   phone_number: yup.string().required('Phone number is required'),
-  email: yup.string().email().required('Email address is required'),
+  // email: yup.string().email().required('Email address is required'),
   address: yup.string().required('Residential address is required'),
   city: yup.string().required('City is required'),
 });
