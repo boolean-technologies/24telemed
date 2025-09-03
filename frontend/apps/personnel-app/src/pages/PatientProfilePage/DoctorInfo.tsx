@@ -100,6 +100,7 @@ const DoctorInfo = styled(Flex)`
   background-color: ${({ theme }) => theme.palette.common.white};
 `;
 
+
 const StyledIconWrapper = styled(Flex)`
   width: 60px;
   height: 60px;
