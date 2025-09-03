@@ -109,7 +109,7 @@ export function PreviewPage() {
         <Divider />
         <Flex gap="sm" fullWidth direction="row" justify="space-between">
           <InfoText title="Phone Number" value={phone_number} />
-          <InfoText title="Email" value={email} />
+          <InfoText title="Email" value={email || 'N/A'} />
         </Flex>
         <Flex gap="sm" fullWidth direction="row" justify="space-between">
           <InfoText title="Address" value={address} />
