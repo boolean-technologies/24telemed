@@ -43,7 +43,7 @@ class CallLog(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     decline_note = models.TextField(null=True, blank=True)
-    medical_note = models.ForeignKey(MedicalEncounter, on_delete=models.SET_NULL, null=True, blank=True)
+    medical_encounter = models.ForeignKey(MedicalEncounter, on_delete=models.SET_NULL, null=True, blank=True)
 
     def save(self, *args, **kwargs):
         if self.end_time:
