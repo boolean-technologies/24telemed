@@ -20,9 +20,9 @@ class Drug(models.Model):
     
 class MedicalEncounter(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    doctor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='prescriptions_given')
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='prescriptions_received')
-    reason_for_visit = models.CharField(max_length=1024)
+    doctor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='doctor_medical_encounters')
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='patient_medical_encounters')
+    reason_for_visit = models.CharField(max_length=1024, blank=True, null=True)
     assessment_and_diagnosis = models.TextField(blank=True, null=True)
     treatment_and_interventions = models.TextField(blank=True, null=True)
     follow_up_plans = models.TextField(blank=True, null=True)

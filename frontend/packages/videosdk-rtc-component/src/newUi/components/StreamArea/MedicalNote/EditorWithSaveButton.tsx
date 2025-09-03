@@ -1,10 +1,5 @@
-import {
-  Flex,
-  MessageResult,
-  TextEditor,
-  Typography,
-} from '@local/shared-components';
-import { Button } from 'antd';
+import { Flex, MessageResult, Typography } from '@local/shared-components';
+import { Button, Input } from 'antd';
 import { useState } from 'react';
 import styled from 'styled-components';
 
@@ -48,7 +43,11 @@ export function EditorWithSaveButton({
           >
             {readOnly ? (
               value ? (
-                <StyledContent dangerouslySetInnerHTML={{ __html: value }} />
+                <StyledContent
+                  dangerouslySetInnerHTML={{
+                    __html: value.replace(/\n/g, '<br/>'),
+                  }}
+                />
               ) : (
                 <MessageResult
                   icon="chatbubbles"
@@ -57,14 +56,13 @@ export function EditorWithSaveButton({
                 />
               )
             ) : (
-              <TextEditor
-                value={value}
-                onChange={(e) => setNote(e === '<p><br></p>' ? undefined : e)}
-                placeholder={placeholder}
-              />
-            )}
-            {readOnly ? null : (
-              <Flex justify="flex-end" fullWidth padding="sm">
+              <>
+                <StyledInputTextArea
+                  defaultValue={value}
+                  onChange={(e) => setNote(e.target.value)}
+                  placeholder={placeholder}
+                />
+                <Flex justify="flex-end" fullWidth padding="none">
                 <Button
                   disabled={!note}
                   type="primary"
@@ -74,6 +72,7 @@ export function EditorWithSaveButton({
                   {saveText}
                 </Button>
               </Flex>
+              </>
             )}
           </StyledInnerContentArea>
         </StyledContentArea>
@@ -104,4 +103,20 @@ const StyledContentArea = styled(Flex)`
 const StyledInnerContentArea = styled(Flex)`
   position: absolute;
   overflow: scroll;
+`;
+
+const StyledInputTextArea = styled(Input.TextArea)`
+  background: ${({ theme }) => theme.palette.primary1.lighter};
+  color: ${({ theme }) => theme.palette.primary1.main};
+  font-family: ${({ theme }) => theme.typography.bodyMd.fontFamily};
+  font-size: ${({ theme }) => theme.typography.bodyMd.fontSize};
+  border: none;
+  border-radius: ${({ theme }) => theme.spacing.xs};
+  padding: ${({ theme }) => theme.spacing.sm};
+  resize: none;
+  &:focus {
+    border: none;
+    box-shadow: none;
+  }
+  flex: 1;
 `;

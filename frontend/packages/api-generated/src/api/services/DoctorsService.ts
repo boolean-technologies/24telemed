@@ -120,12 +120,16 @@ export class DoctorsService {
     });
   }
   /**
+   * @param patient patient
+   * @param ordering Which field to use when ordering the results.
    * @param page A page number within the paginated result set.
    * @param size Number of results to return per page.
    * @returns any
    * @throws ApiError
    */
   public static doctorsMedicalEncountersDoctorMedicalEncountersList(
+    patient?: string,
+    ordering?: string,
     page?: number,
     size?: number
   ): CancelablePromise<{
@@ -138,6 +142,8 @@ export class DoctorsService {
       method: 'GET',
       url: '/doctors/medical-encounters/doctor-medical-encounters/',
       query: {
+        patient: patient,
+        ordering: ordering,
         page: page,
         size: size,
       },
@@ -376,12 +382,16 @@ export class DoctorsService {
     });
   }
   /**
+   * @param patient patient
+   * @param ordering Which field to use when ordering the results.
    * @param page A page number within the paginated result set.
    * @param size Number of results to return per page.
    * @returns any
    * @throws ApiError
    */
   public static doctorsMedicalEncountersPersonnelMedicalEncountersList(
+    patient?: string,
+    ordering?: string,
     page?: number,
     size?: number
   ): CancelablePromise<{
@@ -394,6 +404,8 @@ export class DoctorsService {
       method: 'GET',
       url: '/doctors/medical-encounters/personnel-medical-encounters/',
       query: {
+        patient: patient,
+        ordering: ordering,
         page: page,
         size: size,
       },

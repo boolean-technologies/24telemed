@@ -5,6 +5,8 @@ from users.models import User
 from patient.models import Patient
 import math
 from wallet.models import Wallet, Transaction
+from medication.models import MedicalEncounter
+
 class CallStatus(models.TextChoices):
     INITIATED = 'Initiated'
     IN_PROGRESS = 'In Progress'
@@ -41,12 +43,24 @@ class CallLog(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     decline_note = models.TextField(null=True, blank=True)
+    medical_note = models.ForeignKey(MedicalEncounter, on_delete=models.SET_NULL, null=True, blank=True)
 
     def save(self, *args, **kwargs):
         if self.end_time:
             duration = (self.end_time - self.start_time).total_seconds()
             self.duration = int(math.ceil(duration / 60))
         super().save(*args, **kwargs)
+
+    def setUpEncounter(self):
+        if self.medical_encounter:
+            return
+        medical_encounter = MedicalEncounter.objects.create(
+            doctor=self.doctor,
+            patient=self.patient,
+            reason_for_visit=self.notes,
+        )
+        self.medical_encounter = medical_encounter
+        self.save()
 
     def setToBusy(self):
         self.status = CallStatus.BUSY

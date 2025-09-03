@@ -6,7 +6,8 @@ import type { PrescribedDrug } from './PrescribedDrug';
 export type MedicalEncounter = {
   readonly id?: string;
   prescribed_drugs: Array<PrescribedDrug>;
-  reason_for_visit: string;
+  readonly doctor_name?: string;
+  reason_for_visit: string | null;
   assessment_and_diagnosis?: string | null;
   treatment_and_interventions?: string | null;
   follow_up_plans?: string | null;

@@ -1,5 +1,6 @@
 import {
   Flex,
+  MedicalEncounterHistory,
   MedicalHistory,
   PatientProfileHeader,
   addAlpha,
@@ -7,11 +8,20 @@ import {
 import styled from 'styled-components';
 import { useGetPatient } from '../../../hooks/patients';
 import { useCallContext } from '../../../context/AppContext';
+import { Tabs } from 'antd';
+import { useGetUserMedicalEncounters } from '../../../api/encounter';
+import { useState } from 'react';
 
 
 export function PatientProfile() {
   const { patientId } = useCallContext();
   const { data: patient } = useGetPatient(patientId);
+  const [pagination, setPagination] = useState({ page: 1, size: 5 });
+  const { data: medicalEncounter, isLoading } = useGetUserMedicalEncounters({
+    patient: patientId,
+    page: pagination.page,
+    size: pagination.size,
+  });
 
   if (!patient) return null;
   return (
@@ -27,7 +37,35 @@ export function PatientProfile() {
           flex={1}
           direction="column"
         >
-          <MedicalHistory patient={patient} />
+          <Tabs
+            tabPosition="top"
+            items={[
+              {
+                key: '1',
+                label: 'Overview',
+                children: <MedicalHistory patient={patient} />,
+              },
+              ...(medicalEncounter?.count
+                ? [
+                    {
+                      key: '2',
+                      label: 'Medical Encounters',
+                      children: (
+                        <MedicalEncounterHistory
+                          total={medicalEncounter?.count}
+                          encounters={medicalEncounter?.results ?? []}
+                          pageSize={pagination.size}
+                          onPaginationChange={(page, size) =>
+                            setPagination({ page, size })
+                          }
+                          isLoading={isLoading}
+                        />
+                      ),
+                    },
+                  ]
+                : []),
+            ]}
+          />
         </TabContainer>
       </StyledContainer>
     </StyledRoot>

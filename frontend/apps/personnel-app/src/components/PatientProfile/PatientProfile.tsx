@@ -11,6 +11,7 @@ import styled from 'styled-components';
 import { Badge, Segmented, Tabs } from 'antd';
 import AvailableDoctors from './AvailableDoctors';
 import { usePersonnelCommunication } from '@local/websocket';
+import { MedicalEncounters } from './MedicalEncounters';
 
 type PatientProfileProps = {
   patientId: string;
@@ -20,7 +21,7 @@ export function PatientProfile({ patientId }: PatientProfileProps) {
   const { data: patient, isPending } = useGetPatient(patientId);
   const navigate = useNavigate();
   const { availableDoctors } = usePersonnelCommunication();
-  const [value, setValue] = useState<string>('medicalHistory');
+  const [value, setValue] = useState<string>('overview');
 
   if (isPending) return <PageLoading />;
 
@@ -45,7 +46,7 @@ export function PatientProfile({ patientId }: PatientProfileProps) {
           direction="column"
         >
           <Tabs
-            defaultActiveKey="medicalHistory"
+            defaultActiveKey="overview"
             type="card"
             style={{ width: '100%' }}
             tabBarGutter={8}
@@ -55,10 +56,18 @@ export function PatientProfile({ patientId }: PatientProfileProps) {
                 style={{ padding: 4, marginBottom: 12 }}
                 options={[
                   {
-                    value: 'medicalHistory',
+                    value: 'overview',
                     label: (
                       <StyledTabButton>
-                        Medical History
+                        Overview
+                      </StyledTabButton>
+                    ),
+                  },
+                  {
+                    value: 'medicalEncounters',
+                    label: (
+                      <StyledTabButton>
+                        Medical Encounters
                       </StyledTabButton>
                     ),
                   },
@@ -83,9 +92,14 @@ export function PatientProfile({ patientId }: PatientProfileProps) {
             activeKey={value}
             items={[
               {
-                key: 'medicalHistory',
-                label: 'Medical History',
+                key: 'overview',
+                label: 'Overview',
                 children: <MedicalHistory patient={patient} />,
+              },
+              {
+                key: 'medicalEncounters',
+                label: 'Medical Encounters',
+                children: <MedicalEncounters patientId={patient.id!} />,
               },
               {
                 key: 'availableDoctors',

@@ -5,11 +5,11 @@
 export type PatientSearch = {
   readonly id?: string;
   readonly patient_id?: string;
-  phone_number: string;
+  phone_number?: string | null;
   readonly photo?: string | null;
   first_name: string;
   last_name: string;
-  gender: PatientSearch.gender;
+  gender?: PatientSearch.gender | null;
   address?: string | null;
 };
 export namespace PatientSearch {

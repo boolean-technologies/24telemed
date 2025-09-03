@@ -15,7 +15,13 @@ class PrescribedDrugSerializer(serializers.ModelSerializer):
 
 class MedicalEncounterSerializer(serializers.ModelSerializer):
     prescribed_drugs = PrescribedDrugSerializer(many=True)
+    doctor_name = serializers.SerializerMethodField()
     class Meta:
         model = MedicalEncounter
         fields = '__all__'
         read_only_fields = ['id', 'created_at', 'updated_at']
+
+    def get_doctor_name(self, obj: MedicalEncounter) -> str:
+        if obj.doctor:
+            return obj.doctor.get_full_name()
+        return ''

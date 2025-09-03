@@ -130,7 +130,7 @@ export function JoiningArea({
             )}
           </StyledVideoWrapper>
         </Flex>
-        <Flex direction="column" justify="center">
+        <Flex direction="column" justify="center" align="center">
           <Typography
             variant="bodyLg"
             color="common.white"
@@ -140,7 +140,7 @@ export function JoiningArea({
             Ready to join?
           </Typography>
           <Typography variant="bodyMd" color="common.white" align="center">
-            {participantName} is waiting for you to join the call
+            {participantName === "Unknown" ? "Waiting..." : `${participantName} is waiting for you to join the call`}
           </Typography>
           <Flex>
             <Link to="/">

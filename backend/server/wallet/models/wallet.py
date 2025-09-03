@@ -49,7 +49,7 @@ class Wallet(models.Model):
         default_price = getattr(settings, 'CALL_SESSION_UNIT_PRICE', 0)
 
         user: User = self.user
-        discounted_states = ["enugu", "kaduna", "plateau", "ghana"]
+        discounted_states = ["enugu", "kaduna", "plateau", "ghana", "abuja"]
 
         username_first_word = None
         if user.username:

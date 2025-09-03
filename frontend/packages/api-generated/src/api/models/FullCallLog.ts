@@ -6,6 +6,7 @@ import type { PatientSearch } from './PatientSearch';
 import type { UserSearch } from './UserSearch';
 export type FullCallLog = {
   readonly id?: string;
+  readonly duration_limit?: number;
   health_care_assistant: UserSearch;
   doctor: UserSearch;
   patient: PatientSearch;
@@ -21,6 +22,7 @@ export type FullCallLog = {
   readonly created_at?: string;
   readonly updated_at?: string;
   decline_note?: string | null;
+  medical_encounter?: string | null;
 };
 export namespace FullCallLog {
   export enum status {

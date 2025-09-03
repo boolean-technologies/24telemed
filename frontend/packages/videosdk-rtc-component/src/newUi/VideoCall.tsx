@@ -2,10 +2,11 @@ import { MeetingProvider } from '@videosdk.live/react-sdk';
 import { AppMain } from './components/AppMain';
 import { AppContextType, CallContextProvider } from './context/AppContext';
 import { usePermissions } from './hooks/usePermissions';
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { JoiningArea } from './components/JoiningArea';
-import { Theme, useBreakpoints } from '@local/shared-components';
-import { useTheme } from 'styled-components';
+import { useBreakpoints } from '@local/shared-components';
+import { CallEnded } from './components/CallEnded';
+import { CallLog, MedicalEncounter } from '@local/api-generated';
 
 type VideoCallProps = {
   participantName: string;
@@ -14,6 +15,8 @@ type VideoCallProps = {
   patientId: string;
   userType: AppContextType['userType'];
   participantPhoto?: string;
+  onMedicalEncounterUpdate?: (data: MedicalEncounter) => void;
+  callLog: CallLog;
 };
 
 export function VideoCall({
@@ -22,6 +25,7 @@ export function VideoCall({
   meetingId,
   userId,
   patientId,
+  callLog,
   participantPhoto,
 }: VideoCallProps) {
   usePermissions();
@@ -30,18 +34,18 @@ export function VideoCall({
   const [micEnabled, setMicEnabled] = useState<boolean>(false);
   const [webcamEnabled, setWebcamEnabled] = useState<boolean>(false);
 
-  const theme = useTheme() as Theme;
 
-  useEffect(() => {
-    const metaTag = document.createElement('meta');
-    metaTag.name = 'theme-color';
-    metaTag.content = theme.palette.common.black;
-
-    document.head.appendChild(metaTag);
-    return () => {
-      document.head.removeChild(metaTag);
-    };
-  }, [theme.palette.common.black]);
+  const startTime = new Date(callLog.start_time as string)
+  const callDurationLimit = callLog.duration_limit ?? 0;
+  
+  const isFinnished = useMemo(() => {
+    const currentTime = new Date();
+    const duration = Math.abs(currentTime.getTime() - startTime.getTime()) / 1000 / 60; 
+    if (duration > callDurationLimit) {
+      return true;
+    }
+    return false;
+  }, [startTime, callDurationLimit]);
 
   return (
     <MeetingProvider
@@ -63,15 +67,20 @@ export function VideoCall({
         userId={userId}
         patientId={patientId}
         userType={userType}
+        callLog={callLog}
       >
+              {isFinnished ? (
+          <CallEnded />
+        ) : (
+          <>
         {screen === 'joining' ? (
           <JoiningArea
             setWebcamEnabled={setWebcamEnabled}
-            webcamEnabled={webcamEnabled}
-            micEnabled={micEnabled}
             setMicEnabled={setMicEnabled}
             onJoinNow={() => setScreen('call')}
             participantName={participantName}
+            webcamEnabled={webcamEnabled}
+            micEnabled={micEnabled}
             participantPhoto={participantPhoto}
           />
         ) : null}
@@ -80,8 +89,12 @@ export function VideoCall({
             meetingTitle="Medical consultation"
             defaultSideView={isMobile ? undefined : 'patientProfile'}
             participantPhoto={participantPhoto}
+            callDurationLimit={callDurationLimit}
+            startTime={startTime}
           />
         ) : null}
+          </>
+        )}
       </CallContextProvider>
     </MeetingProvider>
   );

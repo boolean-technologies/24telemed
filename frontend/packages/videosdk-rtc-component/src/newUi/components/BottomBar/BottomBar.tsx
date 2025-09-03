@@ -8,6 +8,7 @@ import { EndCallButton } from './EndCallButton';
 import { StreamAreaProps } from '../StreamArea';
 import { ClockDisplay } from './ClockDisplay';
 import styled from 'styled-components';
+import { CallCountDown } from '../CountDown';
 
 type BottomBarProps = {
   meetingTitle: string;
@@ -17,6 +18,8 @@ type BottomBarProps = {
   onMedicalNoteButtonClick: () => void;
   onPatientProfileButtonClick: () => void;
   hasNoteNotification: boolean;
+  callTime: Date;
+  callDurationLimit: number;
 };
 
 export function BottomBar({
@@ -27,6 +30,8 @@ export function BottomBar({
   onMedicationButtonClick,
   onMedicalNoteButtonClick,
   onPatientProfileButtonClick,
+  callTime,
+  callDurationLimit,
 }: BottomBarProps) {
   return (
     <Flex smDirection="column">
@@ -38,6 +43,13 @@ export function BottomBar({
         <Typography color="common.white" weight="bold">
           {meetingTitle}
         </Typography>
+        <Typography color="common.white" weight="bold">
+          |
+        </Typography>
+        <CallCountDown
+          callTime={callTime}
+          callDurationLimit={callDurationLimit}
+        />
       </Flex>
       <Flex fullWidth justify="center" flex={1}>
         <VideoButton />
@@ -54,11 +66,6 @@ export function BottomBar({
           onClick={onMedicalNoteButtonClick}
           hasNotification={hasNoteNotification}
         />
-        {/* TODO: Bring back the meds button when medication feature is been added */}
-        {/* <MedicationButton
-          active={currentView === 'medication'}
-          onClick={onMedicationButtonClick}
-        /> */}
         <ChatButton active={currentView === 'chats'} onClick={onChatClick} />
       </Flex>
     </Flex>
@@ -72,7 +79,7 @@ export function TopCallTools({
   onMedicationButtonClick,
   onMedicalNoteButtonClick,
   onPatientProfileButtonClick,
-}: Omit<BottomBarProps, 'meetingTitle'>) {
+}: Omit<BottomBarProps, 'meetingTitle' | 'callTime' | 'callDurationLimit'>) {
   return (
     <StyledCallTools>
       <Flex direction="column" justify="flex-end" padding="sm">
@@ -100,7 +107,16 @@ export function BottomBarMobile({
   currentView,
   onChatClick,
   meetingTitle = '',
-}: Pick<BottomBarProps, 'meetingTitle' | 'currentView' | 'onChatClick'>) {
+  callTime,
+  callDurationLimit,
+}: Pick<
+  BottomBarProps,
+  | 'meetingTitle'
+  | 'currentView'
+  | 'onChatClick'
+  | 'callTime'
+  | 'callDurationLimit'
+>) {
   return (
     <Flex direction="column">
       <Flex gap="xs">
@@ -111,13 +127,24 @@ export function BottomBarMobile({
         <Typography color="common.white" weight="bold">
           {meetingTitle}
         </Typography>
+        <Typography color="common.white" weight="bold">
+          |
+        </Typography>
+        <CallCountDown
+          callTime={callTime}
+          callDurationLimit={callDurationLimit}
+        />
       </Flex>
       <StyledBottomBarMobileInnerRoot>
         <Flex fullWidth flex={1}>
           <Flex flex={1}>
             <VideoButton />
             <MicButton />
-            <ChatButton hideLabel active={currentView === 'chats'} onClick={onChatClick} />
+            <ChatButton
+              hideLabel
+              active={currentView === 'chats'}
+              onClick={onChatClick}
+            />
           </Flex>
           <EndCallButton />
         </Flex>

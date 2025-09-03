@@ -1,6 +1,13 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
-
-import { PatientsService, Patient } from '@local/api-generated';
+import { keepPreviousData, useMutation, useQuery } from '@tanstack/react-query';
+import {
+  PatientsService,
+  Patient,
+  UseQueryOptions,
+  SearchResultType,
+  MedicalEncounter,
+  ApiError,
+  DoctorsService,
+} from '@local/api-generated';
 type SearchQueries = {
   phoneNumber?: string;
   patientId?: string;
@@ -8,14 +15,17 @@ type SearchQueries = {
 export const useSearchPatients = () =>
   useMutation({
     mutationFn: (searchQuery: SearchQueries) =>
-      PatientsService.patientsSearch(searchQuery.phoneNumber, searchQuery.patientId),
+      PatientsService.patientsSearch(
+        searchQuery.phoneNumber,
+        searchQuery.patientId
+      ),
   });
 
   export const useGetPatient = (id?: string) =>
   useQuery<Patient>({
     queryKey: ['patients', id],
     queryFn: () => PatientsService.patientsRead(id as string),
-    enabled: !!id
+    enabled: !!id,
   });
 
   export const useCreatePatient = () =>
@@ -29,6 +39,26 @@ export const useSearchPatients = () =>
       PatientsService.patientsPartialUpdate(id, data),
   });
 
+export const useGetPatientMedicalEncounters = (
+  params: {
+    patient: string;
+    page?: number;
+    size?: number;
+  },
+  options?: UseQueryOptions<SearchResultType<MedicalEncounter>>
+) =>
+  useQuery<SearchResultType<MedicalEncounter>, ApiError>({
+    queryKey: ['medicalEncounters', params],
+    queryFn: () =>
+      DoctorsService.doctorsMedicalEncountersPersonnelMedicalEncountersList(
+        params.patient,
+        undefined,
+        params.page,
+        params.size
+      ),
+    placeholderData: keepPreviousData,
+    ...options,
+  });
 
   
 

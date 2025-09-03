@@ -15,8 +15,9 @@ export function MeetingPage() {
     return <PageLoading />;
   }
   const fullName =
-    [patientData?.first_name, patientData?.last_name].filter(Boolean).join(' ') ||
-    'Unknown';
+    [patientData?.first_name, patientData?.last_name]
+      .filter(Boolean)
+      .join(' ') || 'Unknown';
 
   return (
     <VideoCall
@@ -25,6 +26,7 @@ export function MeetingPage() {
       userId={userData.id as string}
       patientId={callLog.patient}
       userType="doctor"
+      callLog={callLog}
       participantPhoto={userData.photo as string}
     />
   );

@@ -4,6 +4,7 @@
 /* eslint-disable */
 export type CallLog = {
   readonly id?: string;
+  readonly duration_limit?: number;
   readonly start_time?: string;
   end_time?: string | null;
   status?: CallLog.status;
@@ -19,6 +20,7 @@ export type CallLog = {
   health_care_assistant: string;
   doctor: string;
   patient?: string | null;
+  medical_encounter?: string | null;
 };
 export namespace CallLog {
   export enum status {

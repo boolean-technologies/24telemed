@@ -1,26 +1,25 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useMeeting } from '@videosdk.live/react-sdk';
 import { Participant } from '@videosdk.live/react-sdk/dist/types/participant';
-import {
-  ReactNode,
-  createContext,
-  useContext,
-  useMemo,
-} from 'react';
+import { ReactNode, createContext, useContext, useMemo } from 'react';
+import { CallLog } from '@local/api-generated';
+
 
 export interface AppContextType {
   localParticipant: Participant;
   remoteParticipant?: Participant;
   patientId: string;
   userId: string;
-  userType: 'doctor' | 'personnel';
+  userType: 'doctor' | 'personnel' | 'customer';
+  callLog: CallLog;
 }
 
 const AppContext = createContext<AppContextType>({
   localParticipant: {} as Participant,
   patientId: '',
   userId: '',
-  userType: 'personnel',
+  userType: 'customer',
+  callLog: {} as CallLog,
 });
 
 export const useCallContext = () => useContext(AppContext);
@@ -30,6 +29,7 @@ interface DoctorWebSocketProviderProps {
   patientId: string;
   userId: string;
   userType: AppContextType['userType'];
+  callLog: CallLog;
 }
 
 export function CallContextProvider({
@@ -37,6 +37,7 @@ export function CallContextProvider({
   patientId,
   userType,
   userId,
+  callLog,
 }: DoctorWebSocketProviderProps) {
   const queryClient = useQueryClient();
 
@@ -64,6 +65,7 @@ export function CallContextProvider({
         patientId,
         userType,
         userId,
+        callLog,
       }}
     >
       {children}

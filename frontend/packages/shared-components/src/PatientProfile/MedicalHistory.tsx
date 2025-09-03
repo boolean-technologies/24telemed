@@ -76,10 +76,10 @@ export const MedicalHistory = ({ patient }: MedicalHistoryProps) => {
             />
           </Flex>
         </Space>
-        <Divider style={{ marginBottom: 0 }} />
-        <Collapse
+        <Divider style={{ marginBottom: 0, borderBottomWidth: 0, borderBlockStartWidth: 1 }} />
+        <StyledCollapse
           items={items}
-          style={{ marginTop: 24, background: 'transparent' }}
+          style={{ marginTop: 0, background: 'transparent' }}
           size="large"
           bordered={false}
         />
@@ -99,3 +99,13 @@ const PatientValue = ({ label, value }: PatientValueProps) => (
     <Typography>{value || '-'}</Typography>
   </Flex>
 );
+
+const StyledCollapse = styled(Collapse)`
+  .ant-collapse-header {
+    padding: 0 !important;
+
+    .ant-collapse-expand-icon {
+      margin-left: 0 !important;
+    }
+  }
+`;

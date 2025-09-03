@@ -7,14 +7,21 @@ import { Flex, addAlpha, useBreakpoints } from '@local/shared-components';
 import { StreamArea, StreamAreaProps } from './StreamArea';
 import { NoteType } from './StreamArea/MedicalNote/types';
 import { useMedicalNoteSections } from './StreamArea/MedicalNote/useMedicalNoteSections';
-import { CallCountDown } from './CountDown';
 
 type AppMainProps = {
   meetingTitle: string;
   defaultSideView?: StreamAreaProps['sideView'];
   participantPhoto?: string;
+  startTime: Date;
+  callDurationLimit: number;
 };
-export function AppMain({ meetingTitle, defaultSideView, participantPhoto }: AppMainProps) {
+export function AppMain({
+  meetingTitle,
+  defaultSideView,
+  startTime,
+  callDurationLimit,
+  participantPhoto,
+}: AppMainProps) {
   const { isMobile } = useBreakpoints();
   const [sideView, setSideView] =
     useState<StreamAreaProps['sideView']>(defaultSideView);
@@ -50,7 +57,6 @@ export function AppMain({ meetingTitle, defaultSideView, participantPhoto }: App
             participantPhoto={participantPhoto}
           />
         </Flex>
-        <CallCountDown />
 
         {isMobile ? (
           <>
@@ -63,6 +69,8 @@ export function AppMain({ meetingTitle, defaultSideView, participantPhoto }: App
                 currentView={sideView}
                 meetingTitle={meetingTitle}
                 onChatClick={() => onBottomButtonClick('chats')}
+                callTime={startTime}
+                callDurationLimit={callDurationLimit}
               />
             </StyledPopup>
 
@@ -90,6 +98,8 @@ export function AppMain({ meetingTitle, defaultSideView, participantPhoto }: App
             onPatientProfileButtonClick={() =>
               onBottomButtonClick('patientProfile')
             }
+            callTime={startTime}
+            callDurationLimit={callDurationLimit}
           />
         )}
       </Flex>
