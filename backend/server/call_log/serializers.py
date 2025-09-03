@@ -11,7 +11,7 @@ class CallLogSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def get_duration_limit(self, obj) -> int:
-        return int(os.getenv('VIDEO_SDK_CALL_DURATION_LIMIT'))
+        return int(os.getenv('VIDEO_CALL_DURATION_LIMIT'))
 
 class CallStatsSerializer(serializers.Serializer):
     total_call_time = serializers.IntegerField()
