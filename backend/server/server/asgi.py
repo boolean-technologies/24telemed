@@ -25,9 +25,6 @@ from .jwt_auth_middleware import JWTAuthMiddlewareStack
 
 asgi_application = get_asgi_application()
 
-allowed_origins = os.environ.get('ALLOWED_ORIGINS', '')
-allowed_origins_list = [origin.strip() for origin in allowed_origins.split(",") if origin.strip()]
-
 application = ProtocolTypeRouter({
     "http": asgi_application,
 
@@ -37,6 +34,6 @@ application = ProtocolTypeRouter({
                 path("video_call/", CallLogWebSocketConsumer.as_asgi()),
             ])
         ),
-        allowed_origins_list
+        ast.literal_eval(os.environ.get('ALLOWED_ORIGINS', '[]'))
     ),
 })

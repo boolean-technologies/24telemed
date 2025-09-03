@@ -34,11 +34,7 @@ DEBUG = os.getenv('DEBUG')
 
 
 ALLOWED_HOSTS = ast.literal_eval(os.environ.get('ALLOWED_HOSTS', '[]'))
-CORS_ALLOWED_ORIGINS = os.environ.get("ALLOWED_ORIGINS", "")
-if CORS_ALLOWED_ORIGINS:
-    CORS_ALLOWED_ORIGINS = [origin.strip() for origin in CORS_ALLOWED_ORIGINS.split(",")]
-else:
-    CORS_ALLOWED_ORIGINS = []
+CORS_ALLOWED_ORIGINS = ast.literal_eval(os.environ.get('ALLOWED_ORIGINS', '[]'))
 CSRF_TRUSTED_ORIGINS = CORS_ALLOWED_ORIGINS
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True
