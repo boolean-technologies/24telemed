@@ -10,7 +10,7 @@ export interface AppContextType {
   remoteParticipant?: Participant;
   patientId: string;
   userId: string;
-  userType: 'doctor' | 'personnel' | 'customer';
+  userType: 'doctor' | 'personnel';
   callLog: CallLog;
 }
 
@@ -18,7 +18,7 @@ const AppContext = createContext<AppContextType>({
   localParticipant: {} as Participant,
   patientId: '',
   userId: '',
-  userType: 'customer',
+  userType: 'personnel',
   callLog: {} as CallLog,
 });
 
