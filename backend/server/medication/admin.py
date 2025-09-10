@@ -13,7 +13,8 @@ class MedicalEncounterAdmin(admin.ModelAdmin):
 
     def has_delete_permission(self, request, obj=None):
         return False
-    list_display = ('doctor', 'patient', 'reason_for_visit')
+    list_display = ('doctor', 'patient', 'reason_for_visit', 'created_at')
+    ordering = ['-created_at']
 
 class PrescribedDrugAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):

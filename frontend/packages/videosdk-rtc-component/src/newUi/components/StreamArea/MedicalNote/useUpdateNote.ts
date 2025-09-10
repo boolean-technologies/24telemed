@@ -14,6 +14,8 @@ export function useUpdateNote(type: NoteType) {
 
   const saveNotes = useCallback(
     (note: string) => {
+      if (!medicalEncounter) return;
+      
       updateMedicalEncounter.mutate(
         {
           id: medicalEncounter as string,
@@ -35,6 +37,7 @@ export function useUpdateNote(type: NoteType) {
   const send = useCallback(
     (note: string) => {
       publish(note, { persist: true }, { type });
+      saveNotes(note);
     },
     [publish, saveNotes, type]
   );
