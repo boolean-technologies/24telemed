@@ -107,8 +107,9 @@ class CallLog(models.Model):
             self.status = "Completed"
             self.save()
             
-            if self.health_care_assistant and self.health_care_assistant.user_type == 'customer':
-                wallet = Wallet.objects.get(user=self.health_care_assistant)
+            user = self.patient.user
+            if user and user.user_type == 'customer':
+                wallet = Wallet.objects.get(user__email=self.health_care_assistant.email)
                 Transaction.objects.create(
                     wallet=wallet,
                     transaction_type='withdrawal',
