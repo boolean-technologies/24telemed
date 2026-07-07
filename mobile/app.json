@@ -1,0 +1,79 @@
+{
+  "expo": {
+    "name": "24Telemed",
+    "slug": "24telemed-mobile",
+    "version": "0.0.1",
+    "orientation": "portrait",
+    "scheme": "telemed",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "icon": "./assets/app-icon.png",
+    "splash": {
+      "image": "./assets/logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#2BAEA4"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "ng.telemed.mobile",
+      "infoPlist": {
+        "NSCameraUsageDescription": "24Telemed uses your camera for video consultations.",
+        "NSMicrophoneUsageDescription": "24Telemed uses your microphone for video consultations.",
+        "ITSAppUsesNonExemptEncryption": false
+      },
+      "bitcode": false
+    },
+    "android": {
+      "package": "ng.telemed.mobile",
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS",
+        "android.permission.BLUETOOTH",
+        "android.permission.INTERNET",
+        "android.permission.ACCESS_NETWORK_STATE",
+        "android.permission.SYSTEM_ALERT_WINDOW",
+        "android.permission.WAKE_LOCK"
+      ]
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "single"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      "expo-asset",
+      "expo-font",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#2BAEA4",
+          "image": "./assets/logo.png",
+          "imageWidth": 220,
+          "resizeMode": "contain"
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "24Telemed uses your photos so you can choose a profile picture.",
+          "microphonePermission": false
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "color": "#2BAEA4",
+          "defaultChannel": "appointments"
+        }
+      ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "dd98b212-0fc0-42ee-8b44-36fbaa1028d5"
+      }
+    }
+  }
+}

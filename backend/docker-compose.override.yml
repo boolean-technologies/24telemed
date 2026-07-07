@@ -1,0 +1,62 @@
+# Local development overrides — auto-merged by `docker compose up`.
+#
+# Spins up an isolated Postgres + Redis and points the backend at them, so
+# mobile development never touches the production database or the CapRover Redis.
+# To run the production-style config instead, use:  docker compose -f docker-compose.yml up
+services:
+  backend:
+    # These override the values loaded from server/.env (environment > env_file).
+    environment:
+      DATABASE_URL: postgres://telemed:telemed@db:5432/telemed
+      REDIS_URL: redis://redis:6379/1
+      DEBUG: "True"
+      ALLOWED_HOSTS: "['*']"
+      # 'http://localhost' is what the mobile app sends as the WebSocket Origin
+      # (EXPO_PUBLIC_WS_ORIGIN). :4200/:4300 are the nx web apps (doctor/personnel)
+      # — needed so their browser WebSocket passes the Channels OriginValidator.
+      ALLOWED_ORIGINS: "['http://localhost','http://localhost:8000','http://localhost:8081','http://localhost:19006','http://localhost:4200','http://localhost:4300','http://192.168.100.10:4200','http://192.168.100.10:4300']"
+    # Bind-mount the source so code edits apply without rebuilding the image,
+    # and run Django's autoreloading dev server (serves ASGI/WebSockets because
+    # 'daphne' is in INSTALLED_APPS). Replaces the image's daphne entrypoint.
+    volumes:
+      - ./server:/app
+    entrypoint:
+      ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: telemed
+      POSTGRES_USER: telemed
+      POSTGRES_PASSWORD: telemed
+      # The backend image's bundled libpq is too old for SCRAM (Postgres 15's
+      # default). 'trust' skips password auth entirely — fine for a local,
+      # isolated dev DB and avoids the "SCRAM requires libpq >= 10" error.
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "5432:5432"
+    volumes:
+      - telemed_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U telemed"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  telemed_pgdata:

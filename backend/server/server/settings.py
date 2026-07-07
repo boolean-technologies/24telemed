@@ -33,8 +33,10 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG')
 
 
-ALLOWED_HOSTS = ast.literal_eval(os.environ.get('ALLOWED_HOSTS', '[]'))
-CORS_ALLOWED_ORIGINS = ast.literal_eval(os.environ.get('ALLOWED_ORIGINS', '[]'))
+# `or '[]'` guards against the var being present but empty (e.g. an empty ENV
+# baked into the Docker image), which would make ast.literal_eval raise.
+ALLOWED_HOSTS = ast.literal_eval(os.environ.get('ALLOWED_HOSTS') or '[]')
+CORS_ALLOWED_ORIGINS = ast.literal_eval(os.environ.get('ALLOWED_ORIGINS') or '[]')
 CSRF_TRUSTED_ORIGINS = CORS_ALLOWED_ORIGINS
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True
@@ -71,7 +73,9 @@ INSTALLED_APPS = [
     'baton.autodiscover',
     'wallet',
     'file',
-    'storages'
+    'storages',
+    'booking',
+    'chat',
 ]
 
 MIDDLEWARE = [
@@ -233,6 +237,7 @@ BATON = {
 EMAIL_FROM = os.getenv('EMAIL_FROM')
 SENDGRID_API_KEY=os.getenv('SENDGRID_API_KEY')
 SENDGRID_TEMPLATE_ID_PASSWORD_RESET_OTP=os.getenv('SENDGRID_TEMPLATE_ID_PASSWORD_RESET_OTP')
+EXPO_PUSH_ACCESS_TOKEN = os.getenv('EXPO_PUSH_ACCESS_TOKEN', '')
 
 # VIDEO SDK
 VIDEO_SDK_TOKEN = os.getenv('VIDEO_SDK_TOKEN')

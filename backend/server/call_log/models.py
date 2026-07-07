@@ -24,7 +24,13 @@ class CallPriority(models.TextChoices):
     HIGH = 3
     MEDIUM = 2
     LOW = 1
-    
+
+
+class ConsultationType(models.TextChoices):
+    E_CONSULTATION = 'e_consultation', 'E-consultation'
+    SECOND_OPINION = 'second_opinion', 'Second Medical Opinion'
+    NURSING_VISIT = 'nursing_visit', 'Virtual Nursing Home Visit'
+
 
 class CallLog(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -40,6 +46,10 @@ class CallLog(models.Model):
     duration = models.IntegerField(null=True, blank=True)
     call_data = models.JSONField(null=True, blank=True)
     priority = models.IntegerField(choices=CallPriority.choices, default=CallPriority.MEDIUM)
+    consultation_type = models.CharField(
+        max_length=20, choices=ConsultationType.choices,
+        default=ConsultationType.E_CONSULTATION
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     decline_note = models.TextField(null=True, blank=True)
@@ -77,6 +87,7 @@ class CallLog(models.Model):
     def setToCompleted(self):
         self.status = CallStatus.COMPLETED
         self.save()
+        self._complete_booking()
 
     def setToDeclined(self, note = None):
         self.status = CallStatus.DECLINED
@@ -106,6 +117,7 @@ class CallLog(models.Model):
             self.end_time = endTime
             self.status = "Completed"
             self.save()
+            self._complete_booking()
             
             if self.health_care_assistant and self.health_care_assistant.user_type == 'customer':
                 wallet = Wallet.objects.get(user=self.health_care_assistant)
@@ -115,3 +127,11 @@ class CallLog(models.Model):
                     amount=wallet.get_call_unit_cost(),
                     description=f'Call session with Dr. {self.doctor.first_name} ({self.doctor.user_id})'
                 )
+
+    def _complete_booking(self):
+        # Local import avoids a circular model import.
+        from booking.models import Booking, BookingStatus
+
+        Booking.objects.filter(call_log=self).exclude(
+            status=BookingStatus.CANCELLED
+        ).update(status=BookingStatus.COMPLETED)

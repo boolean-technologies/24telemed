@@ -37,11 +37,19 @@ class PatientViewSet(
         serializer = PatientSearchSerializer(queryset, many=True)
         return Response(serializer.data)
 
+    def perform_create(self, serializer):
+        user = self.request.user
+        # A self-service patient (customer) owns their own patient profile.
+        if user.is_authenticated and getattr(user, 'user_type', None) == 'customer':
+            serializer.save(user=user)
+        else:
+            serializer.save()
+
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
-        
+
         PatientAccessLog.objects.create(user=request.user, patient=instance)
-        
+
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
     

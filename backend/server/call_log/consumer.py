@@ -4,6 +4,8 @@ from urllib.parse import parse_qsl
 from typing import Literal, TypedDict, List, Optional, Union, Dict, Callable, Any
 from channels.generic.websocket import AsyncWebsocketConsumer
 from .call_log_manager import CallLogManager, CallLogDataType, OutMessageType
+from users.models import PushDevice
+from utils.push_notifications import send_push_to_user
 
 class ConnectedChannel(TypedDict):
     user_id: str
@@ -86,9 +88,30 @@ class CallLogWebSocketConsumer(AsyncWebsocketConsumer):
         except KeyError:
             pass
 
-    def getAvailableDoctorsMessage(self):
+    async def getAvailableDoctorsMessage(self):
         connection_list = list(self.connected_clients.values())
-        doctor_ids = [client['user_id'] for client in connection_list if client['type'] == 'doctor']
+        connected_doctor_ids = {
+            client['user_id']
+            for client in connection_list
+            if client['type'] == 'doctor'
+        }
+
+        def get_push_reachable_doctors():
+            return list(
+                PushDevice.objects.filter(
+                    active=True,
+                    user__user_type='doctor',
+                    user__is_verified=True,
+                )
+                .values_list('user_id', flat=True)
+                .distinct()
+            )
+
+        push_doctor_ids = {
+            str(user_id)
+            for user_id in await sync_to_async(get_push_reachable_doctors)()
+        }
+        doctor_ids = list(connected_doctor_ids | push_doctor_ids)
         message: OutMessageType = {
             'type': "AVAILABLE_DOCTORS",
             'data': doctor_ids,
@@ -96,11 +119,11 @@ class CallLogWebSocketConsumer(AsyncWebsocketConsumer):
         return (message, connection_list)
 
     async def sendConnectedClientsToCurrent(self):
-        message, _ = self.getAvailableDoctorsMessage()
+        message, _ = await self.getAvailableDoctorsMessage()
         await self.sendNotification(self.channel_name, message)
 
     async def sendConnectedClientsToPersonnels(self):
-        message, connection_list = self.getAvailableDoctorsMessage()
+        message, connection_list = await self.getAvailableDoctorsMessage()
         personnel_connections = [client['channel_name'] for client in connection_list if client['type'] == "health-care-assistant"]
         for channel_name in personnel_connections:
             await self.sendNotification(channel_name, message)
@@ -113,8 +136,7 @@ class CallLogWebSocketConsumer(AsyncWebsocketConsumer):
             print("Error: ", str(e))
     
     def getConnectionByUserId(self, user_id: str) -> Optional[ConnectedChannel]:
-        connection = self.connected_clients[user_id]
-        return connection if connection else None
+        return self.connected_clients.get(user_id)
     
     async def handleCallDoctor(self, message: InMessageType):
         # Process CallADoctorType data
@@ -124,8 +146,32 @@ class CallLogWebSocketConsumer(AsyncWebsocketConsumer):
             call_log_manager = CallLogManager()
             await call_log_manager.createCallLog(data, healthCareAssistantConnection["user_id"])
             message = call_log_manager.composeMessage("NOTIFY_DOCTOR_CLIENT_INCOMING_CALL")
+            call_log = call_log_manager.call_log
+
+            def push_incoming_call():
+                patient_name = (
+                    f'{call_log.patient.first_name} {call_log.patient.last_name}'.strip()
+                    if call_log.patient
+                    else 'A patient'
+                )
+                return send_push_to_user(
+                    call_log.doctor,
+                    title='Incoming consultation',
+                    body=f'{patient_name} is calling you.',
+                    data={
+                        'type': 'incoming_call',
+                        'call_log_id': str(call_log.id),
+                        'route': '/(doctor)',
+                    },
+                    channel_id='incoming-calls',
+                    priority='high',
+                    ttl=60,
+                )
+
+            await sync_to_async(push_incoming_call)()
             doctorConnection = self.getConnectionByUserId(data["doctorId"])
-            await self.sendNotification(doctorConnection["channel_name"], message)
+            if doctorConnection:
+                await self.sendNotification(doctorConnection["channel_name"], message)
 
         except Exception as e:
             # if call_log_manager:

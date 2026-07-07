@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   backend:
     build:
@@ -7,15 +5,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
-    environment:
-       - DEBUG
-       - VIDEO_SDK_TOKEN
-       - VIDEO_SDK_CALL_WEBHOOK
-       - REDIS_URL
-       - VIDEO_SDK_CALL_DURATION_LIMIT
-       - VIDEO_SDK_PUBLIC_KEY
-       - EMAIL_FROM
-       - SENDGRID_API_KEY
-       - SENDGRID_TEMPLATE_ID_PASSWORD_RESET_OTP
-       - ALLOWED_HOSTS
-       - CORS_ALLOWED_ORIGINS
+    # Load the real config at runtime. Runtime env overrides the (empty) values
+    # baked into the image by the Dockerfile's ENV lines. This is what makes the
+    # backend boot locally; in production CapRover injects these instead.
+    env_file:
+      - ./server/.env

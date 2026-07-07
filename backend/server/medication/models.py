@@ -38,6 +38,8 @@ class PrescribedDrug(models.Model):
     drug = models.ForeignKey(Drug, on_delete=models.CASCADE)
     dosage = models.CharField(max_length=250)
     frequency = models.CharField(max_length=250)
+    duration = models.CharField(max_length=100, blank=True)
+    instructions = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

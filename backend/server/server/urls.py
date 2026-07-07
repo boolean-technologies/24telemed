@@ -20,7 +20,7 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import routers, permissions
 from rest_framework_simplejwt.views import TokenRefreshView
-from users.views import DoctorTokenObtainPairView, PersonnelTokenObtainPairView
+from users.views import DoctorTokenObtainPairView, PersonnelTokenObtainPairView, RegisterView
 from baton.autodiscover import admin
 
 
@@ -55,6 +55,7 @@ This documentation is structured to provide a clear and user-friendly guide to o
 router = routers.DefaultRouter()
 
 urlpatterns = [
+    path('auth/register/', RegisterView.as_view(), name='register'),
     path('auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('auth/token/doctor/', DoctorTokenObtainPairView.as_view(), name='token_obtain_pair_doctor'),
     path('auth/token/personnel/', PersonnelTokenObtainPairView.as_view(), name='token_obtain_pair_personnel'),
@@ -65,6 +66,8 @@ urlpatterns = [
     path('call-logs/', include('call_log.urls.main')),
     path('users/', include('users.urls')),
     path('wallet/', include('wallet.urls')),
+    path('bookings/', include('booking.urls')),
+    path('chat/', include('chat.urls')),
     
     path('patients/', include('patient.urls.patient')),
     path('file/', include('file.urls')),

@@ -43,10 +43,12 @@ class Notification:
         email_functions[self.emailType](*args, **kwargs)
 
         # After setting the subject and message, call the private __send method to send the email.
-        if (self.__send()):
+        sent = self.__send()
+        if sent:
             print("Notification sent!")
         else:
             print("Notification NOT sent!")
+        return sent
 
         
     def __send(self):

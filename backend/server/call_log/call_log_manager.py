@@ -1,12 +1,13 @@
 import requests
 from asgiref.sync import sync_to_async
 from typing import Literal, TypedDict, Optional, Union, Dict, Any
-from .models import CallLog, CallStatus, CallPriority
+from .models import CallLog, CallStatus, CallPriority, ConsultationType
 from .serializers import CallLogSerializer
 from uuid import UUID
 import json
 import os
 from django.conf import settings
+from chat.services import ensure_conversation
 
 class CallLogDataType(TypedDict):
     id: str
@@ -87,8 +88,10 @@ class CallLogManager():
                 health_care_assistant_id = health_care_assistant_id,
                 notes = data["note"] if (data["note"]) else None,
                 priority = data["priority"] if data["priority"] else CallPriority.MEDIUM,
+                consultation_type = data.get("consultationType") or ConsultationType.E_CONSULTATION,
             )
             call_log.setUpEncounter()
+            ensure_conversation(call_log.doctor, call_log.health_care_assistant)
             return call_log
         result = await sync_to_async(createCallLog)()
         self.call_log = result

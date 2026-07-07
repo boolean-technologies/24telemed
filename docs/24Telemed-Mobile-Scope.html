@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>24Telemed Mobile — Architecture &amp; Scope</title>
+<style>
+  :root {
+    --teal: #2BAEA4;
+    --teal-dark: #1F8E86;
+    --ink: #101820;
+    --muted: #5c6b64;
+    --line: #e2e8e6;
+    --bg-soft: #f4f7f6;
+    --red: #e5484d;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--ink);
+    font-size: 12px;
+    line-height: 1.55;
+  }
+  h1, h2, h3 { line-height: 1.2; }
+  h2 {
+    font-size: 17px;
+    margin: 26px 0 8px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--teal);
+    color: var(--teal-dark);
+  }
+  h3 { font-size: 13.5px; margin: 16px 0 4px; color: var(--ink); }
+  p { margin: 6px 0; }
+  ul { margin: 6px 0 10px; padding-left: 18px; }
+  li { margin: 3px 0; }
+  small { color: var(--muted); }
+  .muted { color: var(--muted); }
+  a { color: var(--teal-dark); text-decoration: none; }
+
+  /* Cover */
+  .cover {
+    height: 9.6in;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    page-break-after: always;
+  }
+  .cover img { width: 230px; margin: 0 auto 26px; }
+  .cover h1 { font-size: 34px; margin: 0; letter-spacing: -0.5px; }
+  .cover .sub { font-size: 16px; color: var(--muted); margin-top: 10px; }
+  .cover .pill {
+    display: inline-block; margin-top: 26px; padding: 8px 18px;
+    background: var(--teal); color: #fff; border-radius: 999px; font-weight: 700; font-size: 13px;
+  }
+  .cover .meta { margin-top: 40px; font-size: 12px; color: var(--muted); }
+
+  .lead {
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--teal);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 10px 0 4px;
+  }
+
+  table { width: 100%; border-collapse: collapse; margin: 8px 0 14px; font-size: 11px; }
+  th, td { text-align: left; padding: 7px 9px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { background: var(--bg-soft); color: var(--teal-dark); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.4px; }
+  td.role { width: 90px; font-weight: 700; }
+
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 10px; font-weight: 700; }
+  .tag.built { background: #e7f8ec; color: #1e9e4a; }
+  .tag.partial { background: #fff4e0; color: #c47f17; }
+  .tag.future { background: #eef1ff; color: #4258d0; }
+
+  .cols { display: flex; gap: 16px; }
+  .col { flex: 1; }
+  .card {
+    border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; margin: 8px 0;
+    background: #fff;
+  }
+  .card h3 { margin-top: 0; }
+  .flow {
+    background: #0f1c1a; color: #d7efeb; border-radius: 8px; padding: 14px 16px;
+    font-family: "SF Mono", Menlo, monospace; font-size: 10.5px; line-height: 1.7; white-space: pre-wrap;
+  }
+  .section { page-break-inside: avoid; }
+  .pbreak { page-break-before: always; }
+  footer { margin-top: 30px; padding-top: 10px; border-top: 1px solid var(--line); color: var(--muted); font-size: 10px; }
+  @page { size: A4; margin: 14mm 14mm 16mm; }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <img src="logo.png" alt="24Telemed" />
+  <h1>Mobile App</h1>
+  <div class="sub">Architecture &amp; Scope of Work</div>
+  <div class="pill">Patient &amp; Doctor · iOS &amp; Android</div>
+  <div class="meta">
+    Secure telemedicine platform for specialists and patients<br/>
+    Prepared for: 24Telemed &nbsp;·&nbsp; Document version 1.0
+  </div>
+</div>
+
+<!-- 1. EXECUTIVE SUMMARY -->
+<h2>1. Executive Summary</h2>
+<div class="lead">
+  A single cross-platform mobile app (iOS &amp; Android) that lets <strong>patients sign up and consult
+  doctors over secure video calls</strong>, and lets <strong>doctors receive and manage those consultations</strong>.
+  It reuses the existing 24Telemed Django backend — no rebuild — and adds the mobile experience on top.
+</div>
+<p>
+  The app ships <strong>both roles in one binary</strong>, selected at login/sign-up: <strong>Patient</strong>
+  (self-service) and <strong>Doctor</strong>. Patients register themselves, complete their medical records, and
+  either <strong>call an available doctor instantly</strong> or <strong>book an appointment</strong> for later.
+  Doctors register, are <strong>approved by an admin</strong>, then receive incoming calls and scheduled
+  consultations with live video.
+</p>
+
+<h2>2. Goals &amp; Principles</h2>
+<ul>
+  <li><strong>Reuse the existing backend</strong> — same database, authentication, video provider and call logic as the web apps.</li>
+  <li><strong>Self-service</strong> — patients and doctors onboard themselves; admins only approve doctors.</li>
+  <li><strong>Native experience</strong> — real device camera/microphone for high-quality video, not an embedded web page.</li>
+  <li><strong>Secure by default</strong> — encrypted token storage, doctor verification, role-based access.</li>
+  <li><strong>No disruption to web</strong> — all backend changes are additive and backward-compatible; the existing web apps are untouched.</li>
+</ul>
+
+<!-- 3. ROLES -->
+<h2>3. User Roles</h2>
+<table>
+  <tr><th>Role</th><th>Who</th><th>Onboarding</th><th>Can do</th></tr>
+  <tr>
+    <td class="role">Patient</td>
+    <td>Members of the public seeking care</td>
+    <td>Self sign-up, instant access</td>
+    <td>Manage medical records, call a doctor, book appointments, view history</td>
+  </tr>
+  <tr>
+    <td class="role">Doctor</td>
+    <td>Licensed practitioners / specialists</td>
+    <td>Self sign-up → <strong>admin approval required</strong></td>
+    <td>Receive &amp; answer calls, run video consultations, manage bookings, edit profile</td>
+  </tr>
+  <tr>
+    <td class="role">Admin</td>
+    <td>24Telemed staff</td>
+    <td>Existing Django admin (web)</td>
+    <td>Approve/verify doctors, manage users &amp; data</td>
+  </tr>
+</table>
+<p class="muted"><small>Note: the previous “Health Personnel/Assistant” role is replaced by self-service Patients in the mobile app, per the updated requirement. The backend assistant role still exists and is unaffected.</small></p>
+
+<!-- 4. FEATURE SCOPE -->
+<h2 class="pbreak">4. Feature Scope</h2>
+
+<h3>4.1 Onboarding &amp; Account (both roles)</h3>
+<ul>
+  <li><strong>Sign up</strong> as Patient or Doctor — name, contact, password, and (doctors) specialty.</li>
+  <li><strong>Terms of Use &amp; Privacy Policy</strong> — must be accepted at sign-up; readable in-app.</li>
+  <li><strong>Login</strong> with a Patient/Doctor toggle; sessions persist securely between launches.</li>
+  <li><strong>Change password</strong> in-app; <strong>forgot password</strong> via email OTP (backend supported).</li>
+  <li><strong>Animated branded splash</strong> and consistent visual identity.</li>
+</ul>
+
+<h3>4.2 Patient Experience</h3>
+<ul>
+  <li><strong>Home dashboard</strong> — greeting, live “doctors available now”, quick actions, upcoming appointment, available-doctor carousel, recent consultations, health tips.</li>
+  <li><strong>Medical records</strong> — create &amp; edit a full personal health record: personal details, vitals (blood type, weight, height), allergies, current medications, chronic conditions, past &amp; family medical history, immunisation record.</li>
+  <li><strong>Call a doctor</strong> — pick an online doctor, set priority &amp; reason, and start an instant video consultation.</li>
+  <li><strong>Book an appointment</strong> — choose a doctor, day, time slot, priority and reason for a scheduled consultation.</li>
+  <li><strong>My bookings</strong> — view status (pending / confirmed / declined), cancel, and start when it’s time.</li>
+  <li><strong>Consultation history</strong> — past calls with the doctor, status and timing.</li>
+  <li><strong>Account</strong> — edit records, change password, view legal docs, sign out.</li>
+</ul>
+
+<h3>4.3 Doctor Experience</h3>
+<ul>
+  <li><strong>Dashboard</strong> — availability status and call statistics (total call time, completed, busy, failed) plus recent consultations.</li>
+  <li><strong>Incoming call</strong> — full-screen ringing with patient context; <strong>Answer</strong> or <strong>Decline</strong>.</li>
+  <li><strong>Video consultation</strong> — native call with camera/mic controls and end-call.</li>
+  <li><strong>Bookings</strong> — review requests, <strong>confirm</strong> or <strong>decline</strong>, and <strong>start</strong> at the scheduled time.</li>
+  <li><strong>Profile</strong> — edit name, contact, specialty, location and bio; change password.</li>
+  <li><strong>Approval gate</strong> — until an admin verifies the account, the doctor sees an “awaiting approval” notice and is hidden from patients.</li>
+</ul>
+
+<h3>4.4 Live Video Consultation (shared)</h3>
+<ul>
+  <li><strong>Real-time signalling</strong> — calls ring instantly using a persistent connection; presence shows who is online.</li>
+  <li><strong>Native video</strong> — built on the same VideoSDK video provider the web uses; both sides join the same secure room.</li>
+  <li><strong>In-call controls</strong> — mute/unmute, camera on/off, end call; automatic close when the other side hangs up.</li>
+  <li><strong>Lifecycle</strong> — call status flows from ringing → in-progress → completed and is recorded in history.</li>
+</ul>
+
+<!-- 5. ARCHITECTURE -->
+<h2 class="pbreak">5. Technical Architecture</h2>
+
+<div class="cols">
+  <div class="col">
+    <div class="card">
+      <h3>Mobile app</h3>
+      <ul>
+        <li>Expo SDK 54 / React Native (iOS &amp; Android, one codebase)</li>
+        <li>TypeScript, file-based navigation (Expo Router)</li>
+        <li>React Query for data fetching &amp; caching</li>
+        <li>Encrypted token storage (Secure Store)</li>
+        <li>Native WebRTC video (VideoSDK)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card">
+      <h3>Backend (reused)</h3>
+      <ul>
+        <li>Django REST API + JWT authentication</li>
+        <li>WebSockets (Django Channels + Redis) for call signalling</li>
+        <li>VideoSDK rooms for the actual video</li>
+        <li>Existing data: Users, Patients, Call Logs, Wallet</li>
+        <li>Shared OpenAPI contract — same as the web apps</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<h3>5.1 How a call works (end to end)</h3>
+<div class="flow">Patient                         Backend                          Doctor
+  │  online (WebSocket)            │            online (WebSocket)  │
+  │ ──── call doctor ───────────▶ │ ── ring incoming call ──────▶  │
+  │                               │ ◀──────── answer ───────────── │
+  │ ◀── room created + joined ─── │ ─── room created + joined ───▶ │
+  │  ══════════ live native video (VideoSDK room) ══════════════   │
+  │ ──── end ───────────────────▶ │ ── status: completed ───────▶  │
+                         (recorded in consultation history)</div>
+
+<h3>5.2 Security &amp; access control</h3>
+<ul>
+  <li>JWT access/refresh tokens stored in the device secure enclave; auto-restored on launch.</li>
+  <li>Role-gated areas (patient vs doctor) enforced in-app and by the API.</li>
+  <li><strong>Doctors are hidden and uncallable until an admin verifies them.</strong></li>
+  <li>Camera &amp; microphone used only during an active consultation, with OS permission prompts.</li>
+</ul>
+
+<!-- 6. BACKEND ADDITIONS -->
+<h2>6. Backend Additions (for mobile — additive &amp; web-safe)</h2>
+<table>
+  <tr><th>Addition</th><th>Why</th><th>Impact on web</th></tr>
+  <tr><td>Public <strong>self-registration</strong> endpoint</td><td>Patients &amp; doctors sign themselves up</td><td>None (web never calls it)</td></tr>
+  <tr><td>Doctor <strong>verification flag</strong> + admin approval</td><td>Gate doctors until approved</td><td>None (existing users default to verified)</td></tr>
+  <tr><td><strong>Appointments / booking</strong> module</td><td>Schedule consultations for later</td><td>New, isolated module</td></tr>
+  <tr><td>Patient profile auto-linked to its account</td><td>Patients own their record</td><td>None (only affects self-service patients)</td></tr>
+</table>
+
+<!-- 7. DELIVERY -->
+<h2>7. Build, Environments &amp; Delivery</h2>
+<ul>
+  <li><strong>Development builds</strong> for testing on real devices (required for native video).</li>
+  <li><strong>Store releases</strong> — Apple App Store &amp; Google Play submission-ready builds via Expo EAS.</li>
+  <li><strong>Environments</strong> — switchable API targets (local / staging / production) via configuration.</li>
+  <li><strong>Branding</strong> — app icon, splash and theme aligned to the 24Telemed identity.</li>
+</ul>
+
+<!-- 8. FEATURE STATUS -->
+<h2 class="pbreak">8. Feature Status &amp; Options</h2>
+<p class="muted"><small>Use this list to confirm scope — tick to keep, strike to remove, or request additions.</small></p>
+<table>
+  <tr><th style="width:42%">Capability</th><th>Status</th><th>Notes</th></tr>
+  <tr><td>Patient self sign-up + login</td><td><span class="tag built">Built</span></td><td>With Terms/Privacy acceptance</td></tr>
+  <tr><td>Doctor self sign-up + admin approval</td><td><span class="tag built">Built</span></td><td>Verification gate in admin</td></tr>
+  <tr><td>Patient medical records (full)</td><td><span class="tag built">Built</span></td><td>All backend health fields</td></tr>
+  <tr><td>Call a doctor (instant, native video)</td><td><span class="tag built">Built</span></td><td>Real-time ring + VideoSDK</td></tr>
+  <tr><td>Book &amp; manage appointments</td><td><span class="tag built">Built</span></td><td>Confirm / decline / start</td></tr>
+  <tr><td>Doctor dashboard, incoming calls, profile</td><td><span class="tag built">Built</span></td><td>Stats + ring/answer</td></tr>
+  <tr><td>Consultation history</td><td><span class="tag built">Built</span></td><td>Both roles</td></tr>
+  <tr><td>Change password</td><td><span class="tag built">Built</span></td><td>In-app</td></tr>
+  <tr><td>Terms of Use &amp; Privacy Policy screens</td><td><span class="tag partial">Placeholder</span></td><td>Awaiting final legal text from client</td></tr>
+  <tr><td>Forgot-password (email OTP)</td><td><span class="tag partial">Backend ready</span></td><td>Mobile screen can be added</td></tr>
+  <tr><td>Wallet top-up &amp; payments (Paystack)</td><td><span class="tag future">Optional</span></td><td>Backend exists; needs public key + UI</td></tr>
+  <tr><td>Push notifications for incoming calls (app closed)</td><td><span class="tag future">Optional</span></td><td>Recommended for reliability</td></tr>
+  <tr><td>Prescriptions / medical encounter notes</td><td><span class="tag future">Optional</span></td><td>Backend supports; UI to be built</td></tr>
+  <tr><td>Profile &amp; record photo upload</td><td><span class="tag future">Optional</span></td><td>Image upload to storage</td></tr>
+  <tr><td>Doctor ratings &amp; reviews</td><td><span class="tag future">Optional</span></td><td>New feature</td></tr>
+  <tr><td>In-app chat / messaging</td><td><span class="tag future">Optional</span></td><td>New feature</td></tr>
+  <tr><td>Appointment reminders</td><td><span class="tag future">Optional</span></td><td>Push/email reminders</td></tr>
+  <tr><td>Genotype &amp; extended record fields</td><td><span class="tag future">Optional</span></td><td>Small backend field additions</td></tr>
+  <tr><td>Multi-language support</td><td><span class="tag future">Optional</span></td><td>Localisation</td></tr>
+</table>
+
+<h2>9. Assumptions &amp; Dependencies</h2>
+<ul>
+  <li>The existing Django backend, VideoSDK account, and Redis remain available and reachable.</li>
+  <li>Final <strong>Terms of Use</strong> and <strong>Privacy Policy</strong> text to be provided by the client.</li>
+  <li>Apple Developer &amp; Google Play accounts required for store distribution.</li>
+  <li>Native video requires a development/production build (not the generic Expo Go sandbox).</li>
+  <li>Doctor licensing/credential checks are an operational (admin) process, supported by the verification gate.</li>
+</ul>
+
+<footer>
+  24Telemed — Mobile App Architecture &amp; Scope · v1.0 · Confidential.
+  This document describes the agreed mobile scope; items marked “Optional” are available as additions on request.
+</footer>
+
+</body>
+</html>

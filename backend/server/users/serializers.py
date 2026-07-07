@@ -65,16 +65,64 @@ class CurrentUserSerializer(UserSerializer):
     
 
 class UserSearchSerializer(serializers.ModelSerializer):
+    photo = serializers.SerializerMethodField()
+
     class Meta:
         model = User
         fields = ['id', 'user_id', 'first_name', 'last_name', 'username', 'photo']
+
+    def get_photo(self, obj):
+        if not obj.photo or not obj.photo.file:
+            return None
+        return obj.photo.file.url
 
 class DoctorSerializer(serializers.ModelSerializer):
     photo = serializers.StringRelatedField()
 
     class Meta:
         model = User
-        fields = ['id', 'user_id', 'first_name', 'last_name', 'username', 'photo', 'specialty']
+        fields = ['id', 'user_id', 'first_name', 'last_name', 'username', 'photo', 'specialty', 'provider_role']
+
+class RegistrationSerializer(serializers.ModelSerializer):
+    """Public self-sign-up for patients (customer) and doctors."""
+
+    password = serializers.CharField(write_only=True, min_length=6)
+    user_type = serializers.ChoiceField(choices=['customer', 'doctor'])
+    # Provider accounts (doctor user_type) may register as a doctor or a nurse.
+    provider_role = serializers.ChoiceField(
+        choices=['doctor', 'nurse'], required=False, default='doctor'
+    )
+
+    class Meta:
+        model = User
+        fields = [
+            'id',
+            'user_type',
+            'provider_role',
+            'username',
+            'password',
+            'first_name',
+            'last_name',
+            'email',
+            'phone_number',
+            'specialty',
+        ]
+        read_only_fields = ['id']
+
+    def validate_username(self, value):
+        if User.objects.filter(username__iexact=value).exists():
+            raise serializers.ValidationError('That username is already taken.')
+        return value
+
+    def create(self, validated_data):
+        password = validated_data.pop('password')
+        user = User(**validated_data)
+        user.set_password(password)
+        # Doctors must be approved by an admin before they can be used.
+        user.is_verified = user.user_type != 'doctor'
+        user.save()
+        return user
+
 
 class DoctorTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
@@ -87,6 +135,7 @@ class DoctorTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         data['refresh'] = str(refresh)
         data['access'] = str(refresh.access_token)
+        data['is_verified'] = self.user.is_verified
 
         return data
 
