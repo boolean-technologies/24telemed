@@ -11,6 +11,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import {
   MeetingProvider,
+  useMediaDevice,
   useMeeting,
   useParticipant,
   usePubSub,
@@ -134,6 +135,7 @@ function MeetingView({
     leave,
     toggleMic,
     toggleWebcam,
+    changeWebcam,
     participants,
     localParticipant,
     localMicOn,
@@ -141,6 +143,27 @@ function MeetingView({
   } = useMeeting({
     onMeetingLeft: () => onLeave(),
   });
+  const { getCameras } = useMediaDevice();
+  const [cameras, setCameras] = useState<
+    { deviceId: string; facingMode?: string }[]
+  >([]);
+  const [facing, setFacing] = useState<'front' | 'back'>('back');
+
+  useEffect(() => {
+    getCameras()
+      .then((devices) => setCameras(devices ?? []))
+      .catch(() => {});
+    // Fetch the device list once; it doesn't change during a call.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  function flipCamera() {
+    const nextFacing = facing === 'back' ? 'front' : 'back';
+    const nextCamera = cameras.find((c) => c.facingMode === nextFacing);
+    if (!nextCamera) return;
+    changeWebcam(nextCamera.deviceId);
+    setFacing(nextFacing);
+  }
 
   const [noteBanner, setNoteBanner] = useState<string | null>(null);
   usePubSub('MEDICALNOTES', {
@@ -201,6 +224,13 @@ function MeetingView({
           active={localWebcamOn}
           onPress={() => toggleWebcam()}
         />
+        {localWebcamOn && cameras.length > 1 ? (
+          <ControlButton
+            icon="camera-reverse"
+            active
+            onPress={flipCamera}
+          />
+        ) : null}
       </View>
     </View>
   );

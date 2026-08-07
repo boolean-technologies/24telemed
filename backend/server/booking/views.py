@@ -77,6 +77,19 @@ class PersonnelBookingViewSet(viewsets.ModelViewSet):
         """Materialise the CallLog + VideoSDK room and return the call log id."""
         booking = self.get_object()
         call_log = booking.start()
+        send_push_to_user(
+            booking.doctor,
+            title='Appointment call started',
+            body='The patient started your scheduled appointment call.',
+            data={
+                'type': 'booking_call_started',
+                'booking_id': str(booking.id),
+                'call_log_id': str(call_log.id),
+                'route': f'/(doctor)/meeting/{call_log.id}',
+            },
+            channel_id='incoming-calls',
+            ttl=60,
+        )
         return Response(
             {
                 'booking': BookingSerializer(booking).data,
@@ -136,6 +149,19 @@ class DoctorBookingViewSet(viewsets.ReadOnlyModelViewSet):
     def start(self, request, pk=None):
         booking = self.get_object()
         call_log = booking.start()
+        send_push_to_user(
+            booking.health_care_assistant,
+            title='Appointment call started',
+            body=f'Dr. {booking.doctor.first_name or booking.doctor.username} started your appointment call.',
+            data={
+                'type': 'booking_call_started',
+                'booking_id': str(booking.id),
+                'call_log_id': str(call_log.id),
+                'route': f'/(patient)/meeting/{call_log.id}',
+            },
+            channel_id='incoming-calls',
+            ttl=60,
+        )
         return Response(
             {
                 'booking': BookingSerializer(booking).data,
