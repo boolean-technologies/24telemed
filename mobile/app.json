@@ -67,7 +67,8 @@
           "color": "#2BAEA4",
           "defaultChannel": "appointments"
         }
-      ]
+      ],
+      "expo-audio"
     ],
     "extra": {
       "router": {},

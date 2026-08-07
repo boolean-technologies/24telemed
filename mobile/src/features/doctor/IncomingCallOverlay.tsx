@@ -1,12 +1,16 @@
 import { useEffect } from 'react';
-import { Modal, StyleSheet, Text, View } from 'react-native';
+import { Modal, StyleSheet, Text, Vibration, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { setAudioModeAsync, useAudioPlayer } from 'expo-audio';
 import { useRouter } from 'expo-router';
 import { usePatient } from '@/hooks';
 import { useDoctorCall } from '@/realtime';
 import { DoctorCallEventType } from '@/realtime/messages';
 import { Avatar, Button } from '@/components/ui';
 import { colors, radius, spacing } from '@/theme';
+
+// Reused from the doctor web app so mobile rings with the same tone.
+const RINGTONE = require('../../../assets/incoming-call-ring.mp3');
 
 const PRIORITY_LABEL: Record<number, string> = {
   1: 'Low',
@@ -23,6 +27,7 @@ export function IncomingCallOverlay() {
   const router = useRouter();
   const { callStatus, incomingCall, answerCall, declineCall, resetCall } =
     useDoctorCall();
+  const ringtone = useAudioPlayer(RINGTONE);
 
   const visible = callStatus === DoctorCallEventType.INCOMING && !!incomingCall;
   const { data: patient } = usePatient(
@@ -34,6 +39,21 @@ export function IncomingCallOverlay() {
     if (callStatus === DoctorCallEventType.ENDED) resetCall();
   }, [callStatus, resetCall]);
 
+  // Ring (looping tone + vibration) while the call is incoming.
+  useEffect(() => {
+    if (!visible) return;
+    Vibration.vibrate([0, 700, 900], true);
+    // Play even when the phone is on silent, and loop until answered/declined.
+    setAudioModeAsync({ playsInSilentMode: true }).catch(() => {});
+    ringtone.loop = true;
+    ringtone.seekTo(0);
+    ringtone.play();
+    return () => {
+      Vibration.cancel();
+      ringtone.pause();
+    };
+  }, [visible, ringtone]);
+
   if (!visible || !incomingCall) return null;
 
   const patientName = patient
@@ -41,6 +61,8 @@ export function IncomingCallOverlay() {
     : 'Patient';
 
   function answer() {
+    Vibration.cancel();
+    ringtone.pause();
     answerCall();
     router.push(`/(doctor)/meeting/${incomingCall?.id}`);
   }
@@ -68,7 +90,11 @@ export function IncomingCallOverlay() {
             <Button
               title="Decline"
               variant="danger"
-              onPress={() => declineCall()}
+              onPress={() => {
+                Vibration.cancel();
+                ringtone.pause();
+                declineCall();
+              }}
               style={styles.actionBtn}
             />
           </View>

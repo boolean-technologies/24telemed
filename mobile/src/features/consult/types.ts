@@ -34,7 +34,7 @@ export const CONSULT_OPTIONS: ConsultOption[] = [
   {
     key: 'second_opinion',
     label: 'Second Medical Opinion',
-    short: '2nd opinion',
+    short: '2nd Medical Opinion',
     description: 'Get another expert view on your case',
     icon: 'people',
     providerRole: 'doctor',
@@ -43,7 +43,7 @@ export const CONSULT_OPTIONS: ConsultOption[] = [
   {
     key: 'nursing_visit',
     label: 'Virtual Nursing Home Visit',
-    short: 'Nursing visit',
+    short: 'Virtual Nursing Home',
     description: 'A virtual visit with a nurse',
     icon: 'medkit',
     providerRole: 'nurse',

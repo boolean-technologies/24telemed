@@ -11,7 +11,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
@@ -21,12 +21,13 @@ import { getErrorMessage } from '@/api/errors';
 import { Button } from '@/components/ui';
 import { colors, radius, spacing } from '@/theme';
 import logo from '../../assets/logo.png';
-// Telehealth hero photo (Unsplash, free license).
-import heroImage from '../../assets/login-hero.jpg';
+// Stethoscope-and-clock hero supplied by the client (24/7 medical care).
+import heroImage from '../../assets/hero.jpg';
 
 export default function LoginScreen() {
   const { signIn } = useAuth();
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const [role, setRole] = useState<Role>('patient');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -68,13 +69,30 @@ export default function LoginScreen() {
           <ImageBackground
             source={heroImage}
             resizeMode="cover"
-            style={styles.hero}
+            style={[styles.hero, { paddingTop: insets.top + spacing.lg }]}
             imageStyle={styles.heroImage}
           >
+            {/* Darken top (status bar) and bottom (text/logo) for legibility,
+                with a teal tint tying the photo to the brand. */}
             <LinearGradient
-              colors={['rgba(16,24,32,0.10)', 'rgba(31,142,134,0.78)']}
+              colors={[
+                'rgba(9,32,29,0.74)',
+                'rgba(11,40,37,0.30)',
+                'rgba(9,32,29,0.90)',
+              ]}
+              locations={[0, 0.5, 1]}
               style={StyleSheet.absoluteFill}
             />
+            <View style={styles.heroContent}>
+              <View style={styles.heroPill}>
+                <Ionicons name="time-outline" size={14} color={colors.white} />
+                <Text style={styles.heroPillText}>Available 24/7</Text>
+              </View>
+              <Text style={styles.heroBig}>Care, any time of day</Text>
+              <Text style={styles.heroTag}>
+                Talk to a doctor whenever you need one.
+              </Text>
+            </View>
           </ImageBackground>
 
           <View style={styles.logoCard}>
@@ -170,15 +188,48 @@ const styles = StyleSheet.create({
   flex: { flex: 1 },
   scroll: { flexGrow: 1, paddingBottom: spacing.xl },
   hero: {
-    height: 240,
-    justifyContent: 'flex-end',
+    minHeight: 270,
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    paddingHorizontal: spacing.lg,
+    // Reserve an empty band at the bottom that the floating logo card overlaps
+    // into, so it never covers the text (on any screen size).
+    paddingBottom: spacing.xl * 2,
     overflow: 'hidden',
     borderBottomLeftRadius: 28,
     borderBottomRightRadius: 28,
   },
-  heroImage: {
-    borderBottomLeftRadius: 28,
-    borderBottomRightRadius: 28,
+  heroImage: { borderBottomLeftRadius: 28, borderBottomRightRadius: 28 },
+  heroContent: { alignItems: 'flex-start' },
+  heroPill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: 'rgba(255,255,255,0.22)',
+    paddingHorizontal: spacing.md,
+    paddingVertical: 6,
+    borderRadius: 999,
+  },
+  heroPillText: { color: colors.white, fontWeight: '700', fontSize: 12, letterSpacing: 0.3 },
+  heroBig: {
+    color: colors.white,
+    fontSize: 27,
+    fontWeight: '900',
+    marginTop: spacing.md,
+    maxWidth: 260,
+    lineHeight: 32,
+    textShadowColor: 'rgba(0,0,0,0.45)',
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 8,
+  },
+  heroTag: {
+    color: colors.white,
+    fontSize: 14,
+    marginTop: spacing.xs,
+    maxWidth: 260,
+    textShadowColor: 'rgba(0,0,0,0.4)',
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 6,
   },
   logoCard: {
     alignSelf: 'center',

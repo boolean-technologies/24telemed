@@ -16,6 +16,7 @@ import { useAuth } from '@/auth/AuthContext';
 import { useProviders } from '@/hooks';
 import { Avatar, Button, Calendar, DONE_ACCESSORY_ID, KeyboardDoneBar } from '@/components/ui';
 import { useCreateBooking } from '@/features/booking/hooks';
+import { ProviderPickerModal } from '@/features/booking/ProviderPickerModal';
 import { getErrorMessage } from '@/api/errors';
 import {
   CONSULT_OPTIONS,
@@ -86,11 +87,14 @@ export default function NewPatientBooking() {
   const { data: providers = [] } = useProviders(option.providerRole);
 
   const [doctorId, setDoctorId] = useState<string | null>(null);
+  const [pickerOpen, setPickerOpen] = useState(false);
   const [day, setDay] = useState<Date>(days[0]);
   const [slot, setSlot] = useState('09:00');
   const [priority, setPriority] = useState(2);
   const [reason, setReason] = useState('');
   const [error, setError] = useState<string | null>(null);
+
+  const selectedProvider = providers.find((d) => d.id === doctorId) ?? null;
 
   const patientId = user?.patient_id;
 
@@ -181,23 +185,36 @@ export default function NewPatientBooking() {
           {providers.length === 0 ? (
             <Text style={styles.emptyText}>No {noun}s available yet.</Text>
           ) : (
-            providers.map((d) => {
-              const active = doctorId === d.id;
-              return (
-                <Pressable
-                  key={d.id}
-                  onPress={() => setDoctorId(d.id as string)}
-                  style={[styles.doctorRow, active && styles.activeRow]}
-                >
-                  <Avatar name={`${d.first_name} ${d.last_name}`} uri={d.photo} size={40} />
+            <Pressable style={styles.selector} onPress={() => setPickerOpen(true)}>
+              {selectedProvider ? (
+                <>
+                  <Avatar
+                    name={`${selectedProvider.first_name} ${selectedProvider.last_name}`}
+                    uri={selectedProvider.photo}
+                    size={40}
+                  />
                   <View style={{ flex: 1 }}>
-                    <Text style={styles.doctorName}>{prefix} {d.first_name} {d.last_name}</Text>
-                    <Text style={styles.doctorSpec}>{d.specialty || 'General'}</Text>
+                    <Text style={styles.doctorName}>
+                      {prefix} {selectedProvider.first_name} {selectedProvider.last_name}
+                    </Text>
+                    <Text style={styles.doctorSpec}>
+                      {selectedProvider.specialty || 'General'}
+                    </Text>
                   </View>
-                  {active ? <Ionicons name="checkmark-circle" size={22} color={colors.primary} /> : null}
-                </Pressable>
-              );
-            })
+                  <Ionicons name="swap-horizontal" size={20} color={colors.primary} />
+                </>
+              ) : (
+                <>
+                  <View style={styles.selectorIcon}>
+                    <Ionicons name="person-add-outline" size={20} color={colors.primary} />
+                  </View>
+                  <Text style={styles.selectorPlaceholder}>
+                    Tap to select a {noun}
+                  </Text>
+                  <Ionicons name="chevron-forward" size={20} color={colors.textMuted} />
+                </>
+              )}
+            </Pressable>
           )}
 
           <Text style={styles.label}>Day</Text>
@@ -262,6 +279,15 @@ export default function NewPatientBooking() {
         </ScrollView>
       </KeyboardAvoidingView>
       <KeyboardDoneBar />
+      <ProviderPickerModal
+        visible={pickerOpen}
+        onClose={() => setPickerOpen(false)}
+        onConfirm={(id) => setDoctorId(id)}
+        providers={providers}
+        selectedId={doctorId}
+        prefix={prefix}
+        noun={noun}
+      />
     </SafeAreaView>
   );
 }
@@ -306,6 +332,25 @@ const makeStyles = (colors: Palette) => StyleSheet.create({
     backgroundColor: colors.surface,
   },
   activeRow: { borderColor: colors.primary, backgroundColor: colors.tint },
+  selector: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.md,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: radius.md,
+    padding: spacing.md,
+    backgroundColor: colors.surface,
+  },
+  selectorIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.tint,
+  },
+  selectorPlaceholder: { flex: 1, fontSize: 15, fontWeight: '600', color: colors.textMuted },
   doctorName: { fontSize: 15, fontWeight: '700', color: colors.text },
   doctorSpec: { fontSize: 13, color: colors.textMuted, marginTop: 2 },
   chipRow: { flexDirection: 'row', gap: spacing.sm, flexWrap: 'wrap' },

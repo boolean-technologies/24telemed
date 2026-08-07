@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { colors } from '@/theme';
 
@@ -17,14 +18,9 @@ export function Avatar({
   size?: number;
 }) {
   const radius = size / 2;
-  if (uri) {
-    return (
-      <Image
-        source={{ uri }}
-        style={{ width: size, height: size, borderRadius: radius }}
-      />
-    );
-  }
+  const [failed, setFailed] = useState(false);
+  const showImage = Boolean(uri) && !failed;
+
   return (
     <View
       style={[
@@ -32,9 +28,19 @@ export function Avatar({
         { width: size, height: size, borderRadius: radius },
       ]}
     >
+      {/* Initials render immediately and act as a placeholder until the photo
+          loads (or if it fails). */}
       <Text style={[styles.initials, { fontSize: size * 0.36 }]}>
         {initials(name).toUpperCase()}
       </Text>
+      {showImage ? (
+        <Image
+          source={{ uri: uri as string, cache: 'force-cache' }}
+          style={[StyleSheet.absoluteFill, { borderRadius: radius }]}
+          resizeMode="cover"
+          onError={() => setFailed(true)}
+        />
+      ) : null}
     </View>
   );
 }
@@ -44,6 +50,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     alignItems: 'center',
     justifyContent: 'center',
+    overflow: 'hidden',
   },
   initials: { color: colors.white, fontWeight: '700' },
 });
