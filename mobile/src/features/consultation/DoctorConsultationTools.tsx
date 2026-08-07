@@ -11,7 +11,9 @@ import {
   TextInput,
   View,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { usePubSub } from '@videosdk.live/react-native-sdk';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui';
 import { getErrorMessage } from '@/api/errors';
@@ -39,7 +41,9 @@ export function DoctorConsultationTools({
 }) {
   const { colors } = useTheme();
   const styles = useThemedStyles(makeStyles);
+  const insets = useSafeAreaInsets();
   const queryClient = useQueryClient();
+  const { publish } = usePubSub('MEDICALNOTES');
   const [visible, setVisible] = useState(false);
   const [savingNotes, setSavingNotes] = useState(false);
   const [savingDrug, setSavingDrug] = useState(false);
@@ -67,6 +71,13 @@ export function DoctorConsultationTools({
     try {
       const updated = await ConsultationApi.updateNotes(encounterId, notes);
       queryClient.setQueryData(queryKey, updated);
+      // sendOnly/payload are typed as required by this SDK's .d.ts but are
+      // optional at runtime — omitting sendOnly broadcasts to all participants.
+      publish(
+        'Consultation notes updated',
+        { persist: false } as { persist: boolean; sendOnly: string[] },
+        {}
+      );
       Alert.alert('Saved', 'Consultation notes have been saved.');
     } catch (e) {
       Alert.alert(
@@ -133,7 +144,7 @@ export function DoctorConsultationTools({
           style={styles.flex}
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
-          <View style={styles.header}>
+          <View style={[styles.header, { paddingTop: insets.top + spacing.md }]}>
             <View>
               <Text style={styles.title}>Consultation record</Text>
               <Text style={styles.subtitle}>Saved to the patient’s history</Text>

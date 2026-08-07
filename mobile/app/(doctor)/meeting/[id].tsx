@@ -52,10 +52,11 @@ export default function DoctorMeeting() {
         participantId={user?.id}
         photo={user?.photo}
         onLeave={leave}
-      />
-      {callLog.medical_encounter ? (
-        <DoctorConsultationTools encounterId={callLog.medical_encounter} />
-      ) : null}
+      >
+        {callLog.medical_encounter ? (
+          <DoctorConsultationTools encounterId={callLog.medical_encounter} />
+        ) : null}
+      </MeetingHost>
     </View>
   );
 }

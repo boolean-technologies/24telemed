@@ -20,6 +20,7 @@ export type MeetingHostProps = {
   participantId?: string;
   photo?: string | null;
   onLeave: () => void;
+  children?: ReactNode;
 };
 
 // Lazy so VideoSDK/WebRTC is only loaded when a call actually opens — importing
@@ -32,11 +33,11 @@ const NativeMeeting = lazy(() =>
  * Hosts the native call screen, degrading gracefully when the WebRTC native
  * module isn't present (i.e. running in Expo Go instead of a dev build).
  */
-export function MeetingHost(props: MeetingHostProps) {
+export function MeetingHost({ children, ...props }: MeetingHostProps) {
   return (
     <ErrorBoundary onLeave={props.onLeave}>
       <Suspense fallback={<Connecting />}>
-        <NativeMeeting {...props} />
+        <NativeMeeting {...props}>{children}</NativeMeeting>
       </Suspense>
     </ErrorBoundary>
   );

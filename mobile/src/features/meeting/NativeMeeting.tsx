@@ -1,10 +1,19 @@
-import { useEffect } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { useEffect, useState, type ReactNode } from 'react';
+import {
+  Alert,
+  Platform,
+  PermissionsAndroid,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import {
   MeetingProvider,
   useMeeting,
   useParticipant,
+  usePubSub,
 } from '@videosdk.live/react-native-sdk';
 import {
   MediaStream,
@@ -22,7 +31,34 @@ type NativeMeetingProps = {
   participantId?: string;
   photo?: string | null;
   onLeave: () => void;
+  /** Rendered inside the same MeetingProvider, e.g. DoctorConsultationTools,
+   *  so it can share the meeting's pubsub channel. */
+  children?: ReactNode;
 };
+
+/**
+ * Android requires the mic/camera permission dialogs to be resolved before
+ * WebRTC captures a track, otherwise the SDK's own (serialized, one-at-a-time)
+ * internal request can race the join and leave the mic silently unusable.
+ * iOS prompts automatically off the Info.plist purpose strings, so this is a
+ * no-op there.
+ */
+async function ensureCallPermissions() {
+  if (Platform.OS !== 'android') return;
+  const granted = await PermissionsAndroid.requestMultiple([
+    PermissionsAndroid.PERMISSIONS.CAMERA,
+    PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+  ]);
+  const micGranted =
+    granted[PermissionsAndroid.PERMISSIONS.RECORD_AUDIO] ===
+    PermissionsAndroid.RESULTS.GRANTED;
+  if (!micGranted) {
+    Alert.alert(
+      'Microphone access needed',
+      'Enable microphone access for 24Telemed in your phone Settings so the other participant can hear you.'
+    );
+  }
+}
 
 /**
  * Native in-call screen powered by the VideoSDK RN SDK (WebRTC). Joins the same
@@ -35,6 +71,7 @@ export function NativeMeeting({
   participantId,
   photo,
   onLeave,
+  children,
 }: NativeMeetingProps) {
   return (
     <MeetingProvider
@@ -49,7 +86,10 @@ export function NativeMeeting({
       }}
       token={env.videoSdkToken}
     >
-      <MeetingView displayName={displayName} photo={photo} onLeave={onLeave} />
+      <View style={styles.host}>
+        <MeetingView displayName={displayName} photo={photo} onLeave={onLeave} />
+        {children}
+      </View>
     </MeetingProvider>
   );
 }
@@ -76,8 +116,17 @@ function MeetingView({
     onMeetingLeft: () => onLeave(),
   });
 
+  const [noteBanner, setNoteBanner] = useState<string | null>(null);
+  usePubSub('MEDICALNOTES', {
+    onMessageReceived: (message) => {
+      if (message?.senderId === localParticipant?.id) return;
+      setNoteBanner('The doctor updated your consultation notes.');
+      setTimeout(() => setNoteBanner(null), 4000);
+    },
+  });
+
   useEffect(() => {
-    join();
+    ensureCallPermissions().finally(join);
     // Join once on mount.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -96,6 +145,13 @@ function MeetingView({
           <Text style={styles.waitingText}>Waiting for the other participant…</Text>
         </View>
       )}
+
+      {noteBanner ? (
+        <View style={styles.noteBanner}>
+          <Ionicons name="document-text" size={16} color={colors.white} />
+          <Text style={styles.noteBannerText}>{noteBanner}</Text>
+        </View>
+      ) : null}
 
       {/* Local self-view, picture-in-picture. */}
       {localParticipant ? (
@@ -176,8 +232,24 @@ function ControlButton({
 }
 
 const styles = StyleSheet.create({
+  host: { flex: 1 },
   container: { flex: 1, backgroundColor: '#0c0c0c' },
   remote: { ...StyleSheet.absoluteFillObject },
+  noteBanner: {
+    position: 'absolute',
+    top: spacing.xl,
+    left: spacing.lg,
+    right: spacing.lg,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+    backgroundColor: colors.primaryDark,
+    paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.md,
+    borderRadius: radius.md,
+    zIndex: 30,
+  },
+  noteBannerText: { color: colors.white, fontSize: 13, flexShrink: 1 },
   waiting: {
     alignItems: 'center',
     justifyContent: 'center',
