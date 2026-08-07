@@ -22,6 +22,7 @@ import {
 import { Avatar } from '@/components/ui';
 import { env } from '@/config/env';
 import { colors, radius, spacing } from '@/theme';
+import { NotesChannelProvider } from './notesChannel';
 
 type NativeMeetingProps = {
   /** VideoSDK room id (CallLog.meeting_id). */
@@ -32,7 +33,9 @@ type NativeMeetingProps = {
   photo?: string | null;
   onLeave: () => void;
   /** Rendered inside the same MeetingProvider, e.g. DoctorConsultationTools,
-   *  so it can share the meeting's pubsub channel. */
+   *  wired to the shared notes pubsub channel via NotesChannelBridge below.
+   *  Must not itself import @videosdk.live/* at module scope — it's also used
+   *  outside the call flow (consultation history), which is loaded eagerly. */
   children?: ReactNode;
 };
 
@@ -88,9 +91,32 @@ export function NativeMeeting({
     >
       <View style={styles.host}>
         <MeetingView displayName={displayName} photo={photo} onLeave={onLeave} />
-        {children}
+        <NotesChannelBridge>{children}</NotesChannelBridge>
       </View>
     </MeetingProvider>
+  );
+}
+
+/** Gives DoctorConsultationTools a way to publish note updates without ever
+ *  importing @videosdk.live/* itself (see NativeMeetingProps.children). */
+function NotesChannelBridge({ children }: { children?: ReactNode }) {
+  const { publish } = usePubSub('MEDICALNOTES');
+  return (
+    <NotesChannelProvider
+      value={{
+        notifyNoteUpdate: () => {
+          // sendOnly/payload are typed as required by this SDK's .d.ts but are
+          // optional at runtime — omitting sendOnly broadcasts to all participants.
+          publish(
+            'Consultation notes updated',
+            { persist: false } as { persist: boolean; sendOnly: string[] },
+            {}
+          );
+        },
+      }}
+    >
+      {children}
+    </NotesChannelProvider>
   );
 }
 

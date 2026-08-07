@@ -13,10 +13,10 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { usePubSub } from '@videosdk.live/react-native-sdk';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui';
 import { getErrorMessage } from '@/api/errors';
+import { useNotesChannel } from '@/features/meeting/notesChannel';
 import {
   ConsultationApi,
   type ConsultationEncounter,
@@ -43,7 +43,7 @@ export function DoctorConsultationTools({
   const styles = useThemedStyles(makeStyles);
   const insets = useSafeAreaInsets();
   const queryClient = useQueryClient();
-  const { publish } = usePubSub('MEDICALNOTES');
+  const { notifyNoteUpdate } = useNotesChannel();
   const [visible, setVisible] = useState(false);
   const [savingNotes, setSavingNotes] = useState(false);
   const [savingDrug, setSavingDrug] = useState(false);
@@ -71,13 +71,7 @@ export function DoctorConsultationTools({
     try {
       const updated = await ConsultationApi.updateNotes(encounterId, notes);
       queryClient.setQueryData(queryKey, updated);
-      // sendOnly/payload are typed as required by this SDK's .d.ts but are
-      // optional at runtime — omitting sendOnly broadcasts to all participants.
-      publish(
-        'Consultation notes updated',
-        { persist: false } as { persist: boolean; sendOnly: string[] },
-        {}
-      );
+      notifyNoteUpdate();
       Alert.alert('Saved', 'Consultation notes have been saved.');
     } catch (e) {
       Alert.alert(
