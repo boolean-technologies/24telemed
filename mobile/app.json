@@ -58,7 +58,7 @@
         "expo-image-picker",
         {
           "photosPermission": "24Telemed uses your photos so you can choose a profile picture.",
-          "microphonePermission": false
+          "microphonePermission": "24Telemed uses your microphone for video consultations."
         }
       ],
       [
