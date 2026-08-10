@@ -49,9 +49,9 @@ export const env = {
   videoSdkToken: process.env.EXPO_PUBLIC_VIDEO_SDK_TOKEN ?? '',
 
   /**
-   * Deployed web apps. The in-call screen loads the existing responsive web
-   * meeting page (`/meeting/:callLogId`) inside a WebView, reusing all the web
-   * video logic. One per role since they're separate deployments.
+   * Deployed web apps, used for support/deep-link URLs elsewhere in the app.
+   * The in-call screen itself uses the native VideoSDK call UI (NativeMeeting),
+   * not these web apps.
    */
   personnelWebUrl:
     process.env.EXPO_PUBLIC_PERSONNEL_WEB_URL ??

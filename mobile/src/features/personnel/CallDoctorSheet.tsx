@@ -12,10 +12,13 @@ import {
   View,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import { useOnlineDoctors } from '@/hooks';
 import type { Doctor } from '@/api';
+import { useAuth } from '@/auth/AuthContext';
 import { usePersonnelCall } from '@/realtime';
 import { Avatar, Button } from '@/components/ui';
+import { ensureWalletFunded } from '@/features/wallet/gating';
 import type { ConsultationTypeKey, ProviderRole } from '@/features/consult/types';
 import { radius, spacing, type Palette } from '@/theme';
 import { useTheme, useThemedStyles } from '@/theme/ThemeContext';
@@ -51,6 +54,8 @@ export function CallDoctorSheet({
 }) {
   const { colors } = useTheme();
   const styles = useThemedStyles(makeStyles);
+  const router = useRouter();
+  const { user } = useAuth();
   const { availableDoctors, callDoctor } = usePersonnelCall();
   const { data: onlineDoctors = [] } = useOnlineDoctors(availableDoctors);
   const [selected, setSelected] = useState<string | null>(null);
@@ -65,6 +70,10 @@ export function CallDoctorSheet({
 
   function placeCall() {
     if (!selected) return;
+    if (!ensureWalletFunded(user, router)) {
+      onClose();
+      return;
+    }
     Keyboard.dismiss();
     callDoctor({ doctorId: selected, patientId, note, priority, consultationType });
     onClose();

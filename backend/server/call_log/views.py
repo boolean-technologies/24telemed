@@ -88,7 +88,10 @@ class WebhookAPIView(APIView):
     def verify_webhook(data, signature):
         try:
             public_key = rsa.PublicKey.load_pkcs1(os.getenv('VIDEO_SDK_PUBLIC_KEY').encode('utf-8'))
-            rsa.verify(data.encode('utf-8'), signature, public_key)
+            # Must byte-match VideoSDK's own JSON.stringify(body) (no spaces
+            # after ':'/','), or every legitimate signature fails to verify.
+            payload = json.dumps(data, separators=(',', ':'))
+            rsa.verify(payload.encode('utf-8'), signature, public_key)
             return True
         except rsa.VerificationError as e:
             logger.error("Verification failed: %s", e)
@@ -110,11 +113,10 @@ class WebhookAPIView(APIView):
         except (TypeError, ValueError):
             return Response({'error': 'Invalid signature format'}, status=status.HTTP_400_BAD_REQUEST)
 
-        #   TODO: Fix signature verification later
-        # verified = self.verify_webhook(json.dumps(data), signature_bytes)
+        verified = self.verify_webhook(data, signature_bytes)
 
-        # if not verified:
-        #     return Response({'error': 'Invalid signature'}, status=status.HTTP_401_UNAUTHORIZED)
+        if not verified:
+            return Response({'error': 'Invalid signature'}, status=status.HTTP_401_UNAUTHORIZED)
 
         hook_type = data.get("webhookType")
         meeting_data = data.get("data")

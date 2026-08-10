@@ -36,6 +36,17 @@ class PersonnelBookingViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         write = self.get_serializer(data=request.data)
         write.is_valid(raise_exception=True)
+        user = request.user
+        wallet = getattr(user, 'wallet', None)
+        if (
+            user.user_type == 'customer'
+            and not user.insurance_coverage
+            and (wallet is None or wallet.get_call_session() == 0)
+        ):
+            return Response(
+                {'detail': 'Fund your wallet before booking an appointment.'},
+                status=status.HTTP_402_PAYMENT_REQUIRED,
+            )
         booking = write.save(health_care_assistant=request.user)
         ensure_conversation(booking.doctor, request.user)
         patient_name = (

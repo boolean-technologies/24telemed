@@ -1,5 +1,12 @@
-import { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useCallback, useState } from 'react';
+import {
+  Pressable,
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
@@ -9,6 +16,7 @@ import { usePersonnelBookings } from '@/features/booking/hooks';
 import { bookingTiming } from '@/features/booking/timing';
 import { usePersonnelCall } from '@/realtime';
 import { CallDoctorSheet } from '@/features/personnel/CallDoctorSheet';
+import { ensureWalletFunded } from '@/features/wallet/gating';
 import { Avatar, StatusBadge } from '@/components/ui';
 import {
   CONSULT_OPTIONS,
@@ -26,14 +34,33 @@ export default function PatientHome() {
   const router = useRouter();
   const { availableDoctors, isOpen } = usePersonnelCall();
   const { data: onlineDoctors = [] } = useOnlineDoctors(availableDoctors);
-  const { data: logs } = usePersonnelCallLogs(1, 4);
-  const { data: bookings } = usePersonnelBookings();
+  const {
+    data: logs,
+    refetch: refetchLogs,
+    isRefetching: refetchingLogs,
+  } = usePersonnelCallLogs(1, 4);
+  const {
+    data: bookings,
+    refetch: refetchBookings,
+    isRefetching: refetchingBookings,
+  } = usePersonnelBookings();
   const [sheetOpen, setSheetOpen] = useState(false);
   const [activeConsult, setActiveConsult] = useState<ConsultOption>(CONSULT_OPTIONS[0]);
 
+  const onRefresh = useCallback(() => {
+    refetchLogs();
+    refetchBookings();
+  }, [refetchLogs, refetchBookings]);
+
   function startConsult(option: ConsultOption) {
+    if (!ensureWalletFunded(user, router)) return;
     setActiveConsult(option);
     setSheetOpen(true);
+  }
+
+  function bookForLater() {
+    if (!ensureWalletFunded(user, router)) return;
+    router.push('/(patient)/bookings/new');
   }
 
   const name = user?.first_name || user?.username || 'there';
@@ -54,6 +81,13 @@ export default function PatientHome() {
         style={styles.page}
         contentContainerStyle={styles.scroll}
         showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={refetchingLogs || refetchingBookings}
+            onRefresh={onRefresh}
+            tintColor={colors.primary}
+          />
+        }
       >
         <View style={styles.header}>
           <View style={styles.headerTop}>
@@ -106,7 +140,7 @@ export default function PatientHome() {
               </View>
 
               {/* Book for later */}
-              <Pressable style={styles.bookRow} onPress={() => router.push('/(patient)/bookings/new')}>
+              <Pressable style={styles.bookRow} onPress={bookForLater}>
                 <Ionicons name="calendar-outline" size={20} color={colors.primary} />
                 <Text style={styles.bookText}>Book an appointment for later</Text>
                 <Ionicons name="chevron-forward" size={18} color={colors.textMuted} />

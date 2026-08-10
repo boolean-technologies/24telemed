@@ -39,6 +39,11 @@ export default function PatientLayout() {
           name="bookings/new"
           options={{ headerShown: true, title: 'Book appointment' }}
         />
+        <Stack.Screen name="wallet/index" />
+        <Stack.Screen
+          name="wallet/fund"
+          options={{ presentation: 'modal' }}
+        />
         <Stack.Screen
           name="meeting/[id]"
           options={{ presentation: 'fullScreenModal' }}

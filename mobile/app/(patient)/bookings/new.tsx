@@ -17,6 +17,7 @@ import { useProviders } from '@/hooks';
 import { Avatar, Button, Calendar, DONE_ACCESSORY_ID, KeyboardDoneBar } from '@/components/ui';
 import { useCreateBooking } from '@/features/booking/hooks';
 import { ProviderPickerModal } from '@/features/booking/ProviderPickerModal';
+import { ensureWalletFunded } from '@/features/wallet/gating';
 import { getErrorMessage } from '@/api/errors';
 import {
   CONSULT_OPTIONS,
@@ -120,6 +121,7 @@ export default function NewPatientBooking() {
   async function submit() {
     setError(null);
     if (!doctorId) return setError(`Select a ${noun}.`);
+    if (!ensureWalletFunded(user, router)) return;
     const [h, m] = slot.split(':').map(Number);
     const when = new Date(day);
     when.setHours(h, m, 0, 0);

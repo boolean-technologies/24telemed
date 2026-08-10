@@ -7,6 +7,7 @@ import { useAuth } from '@/auth/AuthContext';
 import { Avatar, ScreenHeader } from '@/components/ui';
 import { getErrorMessage } from '@/api/errors';
 import { uploadProfilePhoto } from '@/account/profileApi';
+import { formatNaira } from '@/features/wallet/format';
 import { radius, spacing, type Palette } from '@/theme';
 import {
   useTheme,
@@ -22,9 +23,12 @@ import {
 export function AccountScreen({
   editHref,
   editLabel,
+  walletHref,
 }: {
   editHref?: Href;
   editLabel?: string;
+  /** Shown only for roles that use the wallet (patients). */
+  walletHref?: Href;
 }) {
   const { user, signOut, refreshUser } = useAuth();
   const { colors } = useTheme();
@@ -110,6 +114,14 @@ export function AccountScreen({
               onPress={() => router.push(editHref)}
             />
           ) : null}
+          {walletHref ? (
+            <ActionRow
+              icon="wallet-outline"
+              label="Wallet"
+              sublabel={user?.wallet ? formatNaira(user.wallet.balance) : undefined}
+              onPress={() => router.push(walletHref)}
+            />
+          ) : null}
           <ActionRow
             icon="key-outline"
             label="Change password"
@@ -181,12 +193,14 @@ function ThemeToggle() {
 function ActionRow({
   icon,
   label,
+  sublabel,
   onPress,
   last,
   danger,
 }: {
   icon: keyof typeof Ionicons.glyphMap;
   label: string;
+  sublabel?: string;
   onPress: () => void;
   last?: boolean;
   danger?: boolean;
@@ -196,7 +210,10 @@ function ActionRow({
   return (
     <Pressable style={[styles.row, last && styles.rowLast]} onPress={onPress}>
       <Ionicons name={icon} size={22} color={danger ? colors.danger : colors.text} />
-      <Text style={[styles.rowLabel, danger && { color: colors.danger }]}>{label}</Text>
+      <View style={{ flex: 1 }}>
+        <Text style={[styles.rowLabel, danger && { color: colors.danger }]}>{label}</Text>
+        {sublabel ? <Text style={styles.rowSublabel}>{sublabel}</Text> : null}
+      </View>
       {!danger ? (
         <Ionicons name="chevron-forward" size={18} color={colors.textMuted} />
       ) : null}
@@ -272,5 +289,6 @@ const makeStyles = (colors: Palette) =>
       borderBottomColor: colors.border,
     },
     rowLast: { borderBottomWidth: 0 },
-    rowLabel: { flex: 1, color: colors.text, fontSize: 16 },
+    rowLabel: { color: colors.text, fontSize: 16 },
+    rowSublabel: { color: colors.textMuted, fontSize: 12, marginTop: 1 },
   });
