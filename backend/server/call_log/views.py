@@ -88,7 +88,11 @@ class WebhookAPIView(APIView):
     @staticmethod
     def verify_webhook(data, signature):
         try:
-            public_key = rsa.PublicKey.load_pkcs1(os.getenv('VIDEO_SDK_PUBLIC_KEY').encode('utf-8'))
+            # Stored as base64 because CapRover's env var field truncates any
+            # value at its first line break, so the raw multi-line PEM can't
+            # be saved there directly.
+            pem_bytes = base64.b64decode(os.getenv('VIDEO_SDK_PUBLIC_KEY') or '')
+            public_key = rsa.PublicKey.load_pkcs1(pem_bytes)
             # Must byte-match VideoSDK's own JSON.stringify(body) (no spaces
             # after ':'/','), or every legitimate signature fails to verify.
             payload = json.dumps(data, separators=(',', ':'))
