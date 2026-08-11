@@ -48,7 +48,10 @@ class FlutterwaveWebhookView(APIView):
                             wallet=wallet,
                             transaction_type='deposit',
                             amount=amount,
-                            description=f'Flutterwave payment - {flw_ref}'
+                            description=f'Flutterwave payment - {flw_ref}',
+                            payment_source='flutterwave',
+                            flw_ref=flw_ref,
+                            status='successful',
                         )
 
                         return JsonResponse({'status': 'success', 'message': 'Wallet updated successfully'}, status=200)
@@ -102,7 +105,10 @@ class PaystackWebhookView(APIView):
                             wallet=wallet,
                             transaction_type='deposit',
                             amount=amount,
-                            description=f'Wallet top-up: {reference}'
+                            description=f'Wallet top-up: {reference}',
+                            payment_source='paystack',
+                            payment_reference=reference,
+                            status='successful',
                         )
                         return JsonResponse({'status': 'success', 'message': 'Wallet updated successfully'}, status=200)
 

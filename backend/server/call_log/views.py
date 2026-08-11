@@ -13,6 +13,7 @@ from .filters import CallLogFilter
 
 from rest_framework.views import APIView
 from rest_framework import status
+from django.db import transaction
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 import base64
@@ -128,15 +129,24 @@ class WebhookAPIView(APIView):
         if not meeting_id:
             return Response({'error': 'Missing meeting ID'}, status=status.HTTP_400_BAD_REQUEST)
 
-        try:
-            call_log = CallLog.objects.get(meeting_id=meeting_id)
-        except CallLog.DoesNotExist:
-            return Response({'error': 'Meeting not found'}, status=status.HTTP_404_NOT_FOUND)
-
         if hook_type == "session-started":
+            try:
+                call_log = CallLog.objects.get(meeting_id=meeting_id)
+            except CallLog.DoesNotExist:
+                return Response({'error': 'Meeting not found'}, status=status.HTTP_404_NOT_FOUND)
             call_log.sessionStarted(meeting_data.get("start"))
 
         elif hook_type == "session-ended":
-            call_log.sessionEnded(meeting_data.get("start"), meeting_data.get("end"))
+            # Lock the row for the duration of the check-and-bill sequence so
+            # two near-simultaneous webhook deliveries for the same session
+            # can't both pass the "not already Completed" check before either
+            # commits — the second request blocks here until the first's
+            # transaction (and its billing) has landed.
+            with transaction.atomic():
+                try:
+                    call_log = CallLog.objects.select_for_update().get(meeting_id=meeting_id)
+                except CallLog.DoesNotExist:
+                    return Response({'error': 'Meeting not found'}, status=status.HTTP_404_NOT_FOUND)
+                call_log.sessionEnded(meeting_data.get("start"), meeting_data.get("end"))
 
         return Response({'status': 'success'}, status=status.HTTP_200_OK)

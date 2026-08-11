@@ -107,6 +107,12 @@ class CallLog(models.Model):
             self.save()
     
     def sessionEnded(self, startTime, endTime):
+        # Webhook delivery isn't exactly-once — VideoSDK can (and does) retry
+        # or redeliver a session-ended event. Without this guard, every
+        # redelivery would bill the wallet again for the same call.
+        if self.status == CallStatus.COMPLETED:
+            return
+
         if isinstance(startTime, str):
             startTime = parse_datetime(startTime)
         if isinstance(endTime, str):
@@ -118,14 +124,15 @@ class CallLog(models.Model):
             self.status = "Completed"
             self.save()
             self._complete_booking()
-            
+
             if self.health_care_assistant and self.health_care_assistant.user_type == 'customer':
                 wallet = Wallet.objects.get(user=self.health_care_assistant)
                 Transaction.objects.create(
                     wallet=wallet,
                     transaction_type='withdrawal',
                     amount=wallet.get_call_unit_cost(),
-                    description=f'Call session with Dr. {self.doctor.first_name} ({self.doctor.user_id})'
+                    description=f'Call session with Dr. {self.doctor.first_name} ({self.doctor.user_id})',
+                    status='successful',
                 )
 
     def _complete_booking(self):
