@@ -20,6 +20,7 @@ export type MeetingHostProps = {
   participantId?: string;
   photo?: string | null;
   onLeave: () => void;
+  remoteEnded?: boolean;
   children?: ReactNode;
 };
 

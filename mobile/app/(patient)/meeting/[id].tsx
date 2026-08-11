@@ -14,23 +14,31 @@ export default function PatientMeeting() {
   const { user } = useAuth();
   const { callStatus, endCall, resetCall } = usePersonnelCall();
   const { data: callLog, isLoading } = useCallLog(id);
-
-  useEffect(() => {
-    if (
-      callStatus === PersonnelCallEventType.ENDED ||
-      callStatus === PersonnelCallEventType.DECLINED ||
-      callStatus === PersonnelCallEventType.FAILED
-    ) {
-      resetCall();
-      router.back();
-    }
-  }, [callStatus, resetCall, router]);
+  const remoteEnded =
+    callStatus === PersonnelCallEventType.ENDED ||
+    callStatus === PersonnelCallEventType.DECLINED ||
+    callStatus === PersonnelCallEventType.FAILED;
 
   function leave() {
-    endCall(true);
+    // Only notify the backend if we're the one initiating the hangup — if
+    // the call already ended remotely, the backend already knows, and the
+    // other side already triggered this same cleanup on their end.
+    if (!remoteEnded) {
+      endCall(true);
+    }
     resetCall();
     router.back();
   }
+
+  // If the call ends remotely before the meeting screen even finishes
+  // loading (never mounts NativeMeeting), there's nothing for the
+  // remoteEnded prop below to catch — leave directly in that case.
+  useEffect(() => {
+    if (remoteEnded && (isLoading || !callLog?.meeting_id)) {
+      leave();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [remoteEnded, isLoading, callLog?.meeting_id]);
 
   if (isLoading || !callLog?.meeting_id) {
     return (
@@ -53,6 +61,7 @@ export default function PatientMeeting() {
       participantId={user?.id}
       photo={user?.photo}
       onLeave={leave}
+      remoteEnded={remoteEnded}
     />
   );
 }

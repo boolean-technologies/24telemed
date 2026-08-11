@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import {
   Alert,
   Platform,
@@ -33,6 +33,10 @@ type NativeMeetingProps = {
   participantId?: string;
   photo?: string | null;
   onLeave: () => void;
+  /** The other party has already ended the call (received over the app's
+   *  websocket signaling) — tells this side to actually leave the VideoSDK
+   *  room too, instead of just navigating away with the connection dangling. */
+  remoteEnded?: boolean;
   /** Rendered inside the same MeetingProvider, e.g. DoctorConsultationTools,
    *  wired to the shared notes pubsub channel via NotesChannelBridge below.
    *  Must not itself import @videosdk.live/* at module scope — it's also used
@@ -75,6 +79,7 @@ export function NativeMeeting({
   participantId,
   photo,
   onLeave,
+  remoteEnded,
   children,
 }: NativeMeetingProps) {
   return (
@@ -91,7 +96,12 @@ export function NativeMeeting({
       token={env.videoSdkToken}
     >
       <View style={styles.host}>
-        <MeetingView displayName={displayName} photo={photo} onLeave={onLeave} />
+        <MeetingView
+          displayName={displayName}
+          photo={photo}
+          onLeave={onLeave}
+          remoteEnded={remoteEnded}
+        />
         <NotesChannelBridge>{children}</NotesChannelBridge>
       </View>
     </MeetingProvider>
@@ -125,10 +135,12 @@ function MeetingView({
   displayName,
   photo,
   onLeave,
+  remoteEnded,
 }: {
   displayName: string;
   photo?: string | null;
   onLeave: () => void;
+  remoteEnded?: boolean;
 }) {
   const {
     join,
@@ -179,6 +191,14 @@ function MeetingView({
     // Join once on mount.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const leftRemotelyRef = useRef(false);
+  useEffect(() => {
+    if (remoteEnded && !leftRemotelyRef.current) {
+      leftRemotelyRef.current = true;
+      leave();
+    }
+  }, [remoteEnded, leave]);
 
   const ids = [...participants.keys()];
   const remoteIds = ids.filter((id) => id !== localParticipant?.id);
