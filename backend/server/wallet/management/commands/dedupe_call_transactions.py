@@ -31,9 +31,14 @@ class Command(BaseCommand):
             action='store_true',
             help='Actually delete duplicates and refund wallets. Omit for a dry-run report only.',
         )
+        parser.add_argument(
+            '--username',
+            help='Only process the wallet belonging to this username, leave every other wallet untouched.',
+        )
 
     def handle(self, *args, **options):
         apply_changes = options['apply']
+        username = options.get('username')
         total_deleted = 0
         total_refund = 0.0
 
@@ -45,6 +50,8 @@ class Command(BaseCommand):
             .select_related('wallet', 'wallet__user')
             .order_by('wallet_id', 'created_at')
         )
+        if username:
+            withdrawals = withdrawals.filter(wallet__user__username=username)
 
         groups = {}
         for txn in withdrawals:
