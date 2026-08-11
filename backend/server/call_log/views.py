@@ -90,8 +90,13 @@ class WebhookAPIView(APIView):
         try:
             # Stored as base64 because CapRover's env var field truncates any
             # value at its first line break, so the raw multi-line PEM can't
-            # be saved there directly.
-            pem_bytes = base64.b64decode(os.getenv('VIDEO_SDK_PUBLIC_KEY') or '')
+            # be saved there directly. Defensively strip surrounding quotes
+            # and any literal/real newline artifacts CapRover's storage has
+            # been observed to tack on — none of those are valid base64.
+            raw_key = (os.getenv('VIDEO_SDK_PUBLIC_KEY') or '').strip()
+            raw_key = raw_key.strip('"').strip("'")
+            raw_key = raw_key.replace('\\n', '').replace('\n', '').strip()
+            pem_bytes = base64.b64decode(raw_key)
             public_key = rsa.PublicKey.load_pkcs1(pem_bytes)
             # Must byte-match VideoSDK's own JSON.stringify(body) (no spaces
             # after ':'/','), or every legitimate signature fails to verify.
