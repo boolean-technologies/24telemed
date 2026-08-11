@@ -110,7 +110,13 @@ class CallLog(models.Model):
         # Webhook delivery isn't exactly-once — VideoSDK can (and does) retry
         # or redeliver a session-ended event. Without this guard, every
         # redelivery would bill the wallet again for the same call.
-        if self.status == CallStatus.COMPLETED:
+        #
+        # Deliberately checks end_time, not status: the app's own in-call
+        # "hang up" sends a websocket message (handleEndCall -> setToCompleted)
+        # that also sets status to Completed, but never bills and never
+        # touches end_time — that path racing ahead of this webhook must not
+        # cause the real, billable session-ended event to be skipped.
+        if self.end_time is not None:
             return
 
         if isinstance(startTime, str):
