@@ -1,6 +1,7 @@
 import json
 import hmac
 import hashlib
+import logging
 from django.conf import settings
 from django.http import JsonResponse
 from rest_framework.permissions import AllowAny
@@ -12,6 +13,8 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from .models import Wallet, Transaction
 from .serializers import TransactionSerializer
+
+logger = logging.getLogger(__name__)
 
 
 class TransactionListView(generics.ListAPIView):
@@ -58,9 +61,19 @@ class FlutterwaveWebhookView(APIView):
                     
                     except Wallet.DoesNotExist:
                         return JsonResponse({'status': 'error', 'message': 'Wallet not found'}, status=404)
+                    except Wallet.MultipleObjectsReturned:
+                        logger.error(
+                            'Flutterwave webhook: multiple wallets/users found for email %s (flw_ref=%s); '
+                            'deposit NOT credited, likely duplicate-email accounts.',
+                            user_email, flw_ref,
+                        )
+                        return JsonResponse(
+                            {'status': 'error', 'message': 'Multiple accounts found for this email'},
+                            status=409,
+                        )
                 else:
                     return JsonResponse({'status': 'error', 'message': 'Payment not successful'}, status=400)
-            
+
             return JsonResponse({'status': 'error', 'message': 'Invalid event type'}, status=400)
 
         except json.JSONDecodeError:
@@ -114,6 +127,16 @@ class PaystackWebhookView(APIView):
 
                     except Wallet.DoesNotExist:
                         return JsonResponse({'status': 'error', 'message': 'Wallet not found'}, status=404)
+                    except Wallet.MultipleObjectsReturned:
+                        logger.error(
+                            'Paystack webhook: multiple wallets/users found for email %s (reference=%s); '
+                            'deposit NOT credited, likely duplicate-email accounts.',
+                            user_email, reference,
+                        )
+                        return JsonResponse(
+                            {'status': 'error', 'message': 'Multiple accounts found for this email'},
+                            status=409,
+                        )
                 else:
                     return JsonResponse({'status': 'error', 'message': 'Payment not successful'}, status=400)
 

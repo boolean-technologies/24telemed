@@ -114,6 +114,11 @@ class RegistrationSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('That username is already taken.')
         return value
 
+    def validate_email(self, value):
+        if User.objects.filter(email__iexact=value).exists():
+            raise serializers.ValidationError('An account with this email already exists.')
+        return value
+
     def create(self, validated_data):
         password = validated_data.pop('password')
         user = User(**validated_data)
