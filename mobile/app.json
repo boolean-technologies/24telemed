@@ -14,7 +14,7 @@
       "backgroundColor": "#2BAEA4"
     },
     "ios": {
-      "supportsTablet": true,
+      "supportsTablet": false,
       "bundleIdentifier": "ng.telemed.mobile",
       "infoPlist": {
         "NSCameraUsageDescription": "24Telemed uses your camera for video consultations.",
