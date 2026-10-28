@@ -3,7 +3,7 @@ from django.contrib import admin
 from .models import Booking
 
 
-@admin.register(Booking)
+@admin.register(Booking, site=admin.site)
 class BookingAdmin(admin.ModelAdmin):
     list_display = (
         'id',

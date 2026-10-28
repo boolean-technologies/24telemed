@@ -12,7 +12,7 @@ class PartnerServiceInline(admin.StackedInline):
     fields = ('name', 'description', 'fee', 'currency', 'doctors', 'paystack_subaccount_code', 'is_active', 'sort_order')
 
 
-@admin.register(Partner)
+@admin.register(Partner, site=admin.site)
 class PartnerAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug', 'commission_percent', 'paystack_subaccount_code', 'is_active')
     list_editable = ('commission_percent', 'is_active')
@@ -46,7 +46,7 @@ class PartnerAdmin(admin.ModelAdmin):
                 )
 
 
-@admin.register(PartnerMembership)
+@admin.register(PartnerMembership, site=admin.site)
 class PartnerMembershipAdmin(admin.ModelAdmin):
     list_display = ('user', 'partner', 'created_at')
     list_filter = ('partner',)
@@ -54,7 +54,7 @@ class PartnerMembershipAdmin(admin.ModelAdmin):
     raw_id_fields = ('user',)
 
 
-@admin.register(PartnerConsultation)
+@admin.register(PartnerConsultation, site=admin.site)
 class PartnerConsultationAdmin(admin.ModelAdmin):
     list_display = ('created_at', 'user', 'service', 'amount', 'commission_amount', 'status', 'reference')
     list_filter = ('status', 'partner', 'service')

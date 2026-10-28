@@ -48,7 +48,7 @@ list and the doctor browse list, and they can't be booked or called with a walle
    `python manage.py seed_uriel_partner`. The seed creates the partner and its three services.
 2. **Backend env:**
    - `PAYSTACK_SECRET_KEY`: already used by the wallet.
-   - `PARTNER_PORTAL_URL`: the portal's public URL, `https://telemed-24-partners.caprover-root.thebooleantech.com.ng`.
+   - `PARTNER_PORTAL_URL`: the portal's public URL, `https://telemed-24-partners.thebooleantech.com.ng`.
      Paystack sends patients back here after payment.
    - Add the portal URL to `ALLOWED_ORIGINS`. Without it, the call WebSocket rejects the
      portal and doctors never appear as online.
