@@ -13,6 +13,7 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from .models import Wallet, Transaction
 from .serializers import TransactionSerializer
+from partners import services as partner_services
 
 logger = logging.getLogger(__name__)
 
@@ -103,6 +104,15 @@ class PaystackWebhookView(APIView):
 
             if not self.verify_signature(request):
                 return JsonResponse({'status': 'error', 'message': 'Invalid signature'}, status=403)
+
+            # Partner consultation payments are split to the partner's
+            # subaccount; they settle a consultation, never the wallet.
+            if event == 'charge.success' and partner_services.is_partner_charge(payload.get('data')):
+                consultation = partner_services.apply_successful_charge(payload['data'])
+                return JsonResponse(
+                    {'status': 'success' if consultation else 'ignored', 'message': 'Partner consultation processed'},
+                    status=200,
+                )
 
             if event == 'charge.success':
                 reference = payload['data']['reference']

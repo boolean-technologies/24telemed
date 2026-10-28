@@ -5,11 +5,13 @@
   "scripts": {
     "start:doctor": "nx serve doctor-app",
     "start:personnel": "nx serve personnel-app",
+    "start:partner": "nx serve partner-portal",
     "start:storybook": "nx run shared-components:storybook",
     "start:test": "nx run shared-components:test",
     "generate": "node ./packages/api-generated/src/script/generated.mjs",
     "build:doctor": "nx build doctor-app",
-    "build:personnel": "nx build personnel-app"
+    "build:personnel": "nx build personnel-app",
+    "build:partner": "nx build partner-portal"
   },
   "private": true,
   "dependencies": {

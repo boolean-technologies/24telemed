@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from partners.services import exclusive_doctor_ids
 from patient.serializers import PatientSearchSerializer
 from users.serializers import UserSearchSerializer
 from .models import Booking
@@ -63,6 +64,13 @@ class BookingCreateSerializer(serializers.ModelSerializer):
             'priority',
             'consultation_type',
         ]
+
+    def validate_doctor(self, doctor):
+        # Wallet-billed bookings can't target doctors that only take paid
+        # partner consultations.
+        if str(doctor.id) in exclusive_doctor_ids():
+            raise serializers.ValidationError('This doctor only takes consultations booked through their clinic.')
+        return doctor
 
 
 class DeclineSerializer(serializers.Serializer):

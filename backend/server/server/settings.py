@@ -76,6 +76,7 @@ INSTALLED_APPS = [
     'storages',
     'booking',
     'chat',
+    'partners',
 ]
 
 MIDDLEWARE = [
@@ -248,6 +249,8 @@ VIDEO_SDK_PUBLIC_KEY = os.getenv('VIDEO_SDK_PUBLIC_KEY')
 CALL_SESSION_UNIT_PRICE = int(os.getenv('CALL_SESSION_UNIT_PRICE', '1500'))
 
 PAYSTACK_SECRET_KEY = os.getenv('PAYSTACK_SECRET_KEY')
+# Public URL of the partner patient portal (Paystack redirects back here).
+PARTNER_PORTAL_URL = os.getenv('PARTNER_PORTAL_URL', '')
 
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 

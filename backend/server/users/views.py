@@ -8,6 +8,7 @@ from drf_yasg.utils import swagger_auto_schema
 from .models import User, PasswordResetRequest, PushDevice
 from .serializers import UserSerializer, CurrentUserSerializer, UserSearchSerializer, DoctorSerializer, DoctorTokenObtainPairSerializer, PersonnelTokenObtainPairSerializer, RegistrationSerializer
 from utils.permission import DoctorPermission, PersonnelPermission
+from partners.services import hidden_doctor_ids_for
 from drf_yasg import openapi
 from django.contrib.auth.hashers import check_password, make_password
 from django.contrib.auth.password_validation import validate_password, ValidationError
@@ -344,6 +345,10 @@ class DoctorUserViewSet(viewsets.ReadOnlyModelViewSet):
         role = self.request.query_params.get('provider_role')
         if role in ('doctor', 'nurse'):
             qs = qs.filter(provider_role=role)
+        # Hide partner-exclusive doctors from the browse list (retrieve stays
+        # open so past calls/bookings with them still resolve).
+        if self.action == 'list':
+            qs = qs.exclude(id__in=hidden_doctor_ids_for(self.request.user))
         return qs
 
 class PersonnelUserViewSet(viewsets.ReadOnlyModelViewSet):

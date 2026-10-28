@@ -8,6 +8,7 @@ import json
 import os
 from django.conf import settings
 from chat.services import ensure_conversation
+from partners.services import check_call_allowed
 
 class CallLogDataType(TypedDict):
     id: str
@@ -65,7 +66,10 @@ class CallLogManager():
 
         if isinstance(data["medical_encounter"], UUID):
             data["medical_encounter"] = str(data["medical_encounter"])
-        
+
+        if isinstance(data["partner_consultation"], UUID):
+            data["partner_consultation"] = str(data["partner_consultation"])
+
         return data
     
     def composeMessage(self, name: OutMessageNameType) -> OutMessageType:
@@ -82,13 +86,22 @@ class CallLogManager():
     
     async def createCallLog(self, data, health_care_assistant_id):
         def createCallLog():
+            # Raises PartnerCallError for unpaid partner consultations or
+            # partner-exclusive doctors called outside one.
+            consultation = check_call_allowed(
+                health_care_assistant_id, data["doctorId"], data.get("partnerConsultationId")
+            )
+            notes = data.get("note") or None
+            if consultation:
+                notes = f'[{consultation.service.name}] {notes or consultation.reason or ""}'.strip()
             call_log = CallLog.objects.create(
                 doctor_id = data["doctorId"],
                 patient_id = data["patientId"],
                 health_care_assistant_id = health_care_assistant_id,
-                notes = data["note"] if (data["note"]) else None,
+                notes = notes,
                 priority = data["priority"] if data["priority"] else CallPriority.MEDIUM,
                 consultation_type = data.get("consultationType") or ConsultationType.E_CONSULTATION,
+                partner_consultation = consultation,
             )
             call_log.setUpEncounter()
             ensure_conversation(call_log.doctor, call_log.health_care_assistant)

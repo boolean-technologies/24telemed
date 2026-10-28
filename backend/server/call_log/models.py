@@ -54,6 +54,11 @@ class CallLog(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     decline_note = models.TextField(null=True, blank=True)
     medical_encounter = models.ForeignKey(MedicalEncounter, on_delete=models.SET_NULL, null=True, blank=True)
+    # Set when the call is a prepaid partner consultation; such calls are
+    # never billed to the wallet.
+    partner_consultation = models.ForeignKey(
+        'partners.PartnerConsultation', on_delete=models.SET_NULL, null=True, blank=True, related_name='call_logs'
+    )
 
     def save(self, *args, **kwargs):
         if self.end_time:
@@ -131,7 +136,10 @@ class CallLog(models.Model):
             self.save()
             self._complete_booking()
 
-            if self.health_care_assistant and self.health_care_assistant.user_type == 'customer':
+            if self.partner_consultation_id:
+                from partners.services import complete_consultation
+                complete_consultation(self.partner_consultation_id)
+            elif self.health_care_assistant and self.health_care_assistant.user_type == 'customer':
                 wallet = Wallet.objects.get(user=self.health_care_assistant)
                 Transaction.objects.create(
                     wallet=wallet,

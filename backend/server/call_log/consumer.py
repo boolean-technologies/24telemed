@@ -6,6 +6,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from .call_log_manager import CallLogManager, CallLogDataType, OutMessageType
 from users.models import PushDevice
 from utils.push_notifications import send_push_to_user
+from partners.services import PartnerCallError, visible_doctors_by_caller
 
 class ConnectedChannel(TypedDict):
     user_id: str
@@ -120,13 +121,19 @@ class CallLogWebSocketConsumer(AsyncWebsocketConsumer):
 
     async def sendConnectedClientsToCurrent(self):
         message, _ = await self.getAvailableDoctorsMessage()
-        await self.sendNotification(self.channel_name, message)
+        visible = await sync_to_async(visible_doctors_by_caller)(message['data'], [self.userId])
+        await self.sendNotification(self.channel_name, {**message, 'data': visible[self.userId]})
 
     async def sendConnectedClientsToPersonnels(self):
         message, connection_list = await self.getAvailableDoctorsMessage()
-        personnel_connections = [client['channel_name'] for client in connection_list if client['type'] == "health-care-assistant"]
-        for channel_name in personnel_connections:
-            await self.sendNotification(channel_name, message)
+        personnel_connections = [client for client in connection_list if client['type'] == "health-care-assistant"]
+        # Each caller gets their own list: partner-exclusive doctors are hidden
+        # from everyone except that partner's patients.
+        visible = await sync_to_async(visible_doctors_by_caller)(
+            message['data'], [client['user_id'] for client in personnel_connections]
+        )
+        for client in personnel_connections:
+            await self.sendNotification(client['channel_name'], {**message, 'data': visible[client['user_id']]})
         
     
     async def sendNotification(self, channel_name: str, message: OutMessageType):
@@ -173,6 +180,8 @@ class CallLogWebSocketConsumer(AsyncWebsocketConsumer):
             if doctorConnection:
                 await self.sendNotification(doctorConnection["channel_name"], message)
 
+        except PartnerCallError as e:
+            await self.send(text_data=json.dumps({'type': 'failed', 'data': None, 'note': str(e)}))
         except Exception as e:
             # if call_log_manager:
             #     await call_log_manager.setToFailed()
